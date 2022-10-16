@@ -15,8 +15,10 @@ public class Collision : MonoBehaviour
     [SerializeField] private PhysicsMaterial2D plainMaterial;
     [SerializeField] private PhysicsMaterial2D stickyMaterial;
     
+    // Classes
     private new Collider2D collider;
 
+    // Variables
     private float collisionRadius = 0.25f;
 
     void Awake()
@@ -24,6 +26,12 @@ public class Collision : MonoBehaviour
         collider = GetComponent<Collider2D>();
     }
 
+    #region Friction/Physics Material
+
+    /// <summary>
+    /// Changes friction/physics material for wallslide possibility
+    /// </summary>
+    /// <param name="isPlain"></param>
     public void FrictionChange(bool isPlain)
     {
         PhysicsMaterial2D physicsMat = isPlain ? plainMaterial : stickyMaterial;
@@ -35,6 +43,8 @@ public class Collision : MonoBehaviour
         collider.sharedMaterial = physicsMat;
         collider.enabled = true;
     }
+
+    #endregion
 
     #region Bools
 
