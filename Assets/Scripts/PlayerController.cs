@@ -73,32 +73,7 @@ public class PlayerController : MonoBehaviour
         AirTime();
     }
 
-    #region Resetter / Counter
-
-    private void ResetterAndCounter()
-    {
-        if (Keyboard.current.spaceKey.wasReleasedThisFrame || )
-            isJumping = false;
-
-        if (coll.OnGround())
-        {
-            wallsliding = false;
-            wallJumped = false;
-            coyoteTimeCounter = coyoteTime;
-        }
-        else
-        {
-            // If the player is not on ground the timer decreases
-            coyoteTimeCounter -= Time.deltaTime;
-        }
-
-        // If the player is not jumping the timer decreases
-        jumpBufferCounter -= Time.deltaTime;
-    }
-
-    #endregion
-
-    #region InputAction
+    #region InputAction Interfaces
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -106,6 +81,27 @@ public class PlayerController : MonoBehaviour
     }
 
     public void OnJump(InputAction.CallbackContext context)
+    {
+        JumpHandler(context);
+    }
+
+    #endregion
+
+    #region Handler
+
+    private void Move()
+    {
+        if (!wallJumped)
+        {
+            rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+        }
+        else // In case of a wall jump the velocity is lerped to get a feeling of less control
+        {
+            rb.velocity = Vector2.Lerp(rb.velocity, (new Vector2(moveInput * moveSpeed, rb.velocity.y)), wallJumpLerp * Time.deltaTime);
+        }
+    }
+
+    private void JumpHandler(InputAction.CallbackContext context)
     {
         jumpBufferCounter = jumpBufferTime;
         if (context.started)
@@ -144,26 +140,6 @@ public class PlayerController : MonoBehaviour
             coyoteTimeCounter = 0f;
             jumpBufferCounter = 0f;
         }
-
-
-    }
-
-    
-
-    #endregion
-
-    #region Handler
-
-    private void Move()
-    {
-        if (!wallJumped)
-        {
-            rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
-        }
-        else // In case of a wall jump the velocity is lerped to get a feeling of less control
-        {
-            rb.velocity = Vector2.Lerp(rb.velocity, (new Vector2(moveInput * moveSpeed, rb.velocity.y)), wallJumpLerp * Time.deltaTime);
-        }
     }
 
     private void Jump()
@@ -201,9 +177,10 @@ public class PlayerController : MonoBehaviour
 
     private void AirTime()
     {
+        // Longer airtime when space is hold
         if (Keyboard.current.spaceKey.isPressed && isJumping)
         {
-            if (jumpTimeCounter > 0) // Longer airtime when space is hold
+            if (jumpTimeCounter > 0) 
             {
                 Jump(Vector2.up);
                 jumpTimeCounter -= Time.deltaTime;
@@ -213,7 +190,7 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
     }
 
-    private void InAir()
+    private void InAir() // More imersive jump experience
     {
         if (!coll.OnGround() && !coll.OnWall() && wallsliding == false)
         {
@@ -228,6 +205,31 @@ public class PlayerController : MonoBehaviour
                 rb.velocity += (lowJumpMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up;
             }
         }
+    }
+
+    #endregion
+
+    #region Resetter / Counter
+
+    private void ResetterAndCounter()
+    {
+        if (Keyboard.current.spaceKey.wasReleasedThisFrame)
+            isJumping = false;
+
+        if (coll.OnGround())
+        {
+            wallsliding = false;
+            wallJumped = false;
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            // If the player is not on ground the timer decreases
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        // If the player is not jumping the timer decreases
+        jumpBufferCounter -= Time.deltaTime;
     }
 
     #endregion

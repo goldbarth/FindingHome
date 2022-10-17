@@ -331,8 +331,8 @@ GameObject:
   - component: {fileID: 542423545}
   - component: {fileID: 542423544}
   - component: {fileID: 542423543}
-  - component: {fileID: 542423548}
   - component: {fileID: 542423549}
+  - component: {fileID: 542423548}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -581,7 +581,7 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &542423549
