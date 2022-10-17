@@ -5,8 +5,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    // TODO: WIP - Die Spielfigur kann durch das Gedrückthalten der Sprungtaste höher springen
-
     // Features to enable/disable in unity inspector
     [Header("Feature Modes")]
     [Tooltip("If the Checkbox is checked Multi-Jump is on. " +
@@ -24,17 +22,19 @@ public class PlayerController : MonoBehaviour
     [Tooltip("The movementspeed value to in/decrease the velocity")]
     [Range(0f, 10f)][SerializeField] private float moveSpeed;
     [Tooltip("The force value to to in/decrease the jumpheight.")]
-    [Range(0f, 15f)][SerializeField] private float jumpForce;
+    [Range(0f, 10f)][SerializeField] private float jumpForce;
     [Tooltip("The lerp value to in-/decrease the 'jumpfeeling' off a wall.")]
     [Range(0f, 4f)][SerializeField] private float wallJumpLerp;
     [Tooltip("The slidespeed value to in-/decrease the slide velocity at a wall.")]
     [Range(0f, 4f)][SerializeField] private float wallSlideSpeed;
     [Tooltip("The possible amount of time in air when jumping.")]
-    [Range(0f, 1f)][SerializeField] private float jumpTime;
+    [Range(0f, 0.5f)][SerializeField] private float jumpTime;
     [Tooltip("The possible amount of time to jump when leaving the platform.")]
-    [Range(0f, 0.5f)][SerializeField] private float coyoteTime;
+    [Range(0f, 0.4f)][SerializeField] private float coyoteTime;
     [Tooltip("The amount of extra jumps when in air (up to 3).")]
     [Range(1, 3)][SerializeField] private int extraJump;
+    [Tooltip("The max distance between player and ground to trigger an event.")]
+    [Range(0f, 1f)][SerializeField] private float distanceToGround;
 
     // Components and classes
     private Rigidbody2D rb;
@@ -43,8 +43,6 @@ public class PlayerController : MonoBehaviour
     // Variables
     private float moveInput; // x(-axis) component
     private float jumpTimeCounter;
-    
-    // Coyote-Jump
     private float coyoteTimeCounter;
     private float jumpBufferTime = 0.2f;
     private float jumpBufferCounter;
@@ -64,13 +62,22 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         coll.FrictionChange(wallSlide);
+        ResetterAndCounter();
+    }
 
-        #region Resetter / Counter
-        
-        // If the player is not jumping the timer decreases
-        jumpBufferCounter -= Time.deltaTime;
+    private void FixedUpdate()
+    {
+        Move();
+        InAir();
+        WallSlide();
+        AirTime();
+    }
 
-        if (Keyboard.current.spaceKey.wasReleasedThisFrame)
+    #region Resetter / Counter
+
+    private void ResetterAndCounter()
+    {
+        if (Keyboard.current.spaceKey.wasReleasedThisFrame || )
             isJumping = false;
 
         if (coll.OnGround())
@@ -85,15 +92,11 @@ public class PlayerController : MonoBehaviour
             coyoteTimeCounter -= Time.deltaTime;
         }
 
-        #endregion
+        // If the player is not jumping the timer decreases
+        jumpBufferCounter -= Time.deltaTime;
     }
 
-    private void FixedUpdate()
-    {
-        Move();
-        InAir();
-        WallSlide();
-    }
+    #endregion
 
     #region InputAction
 
@@ -104,9 +107,9 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        jumpBufferCounter = jumpBufferTime;
         if (context.started)
         {
-            jumpBufferCounter = jumpBufferTime;
             if (multiJump) // Muli Jump (can jump when in air)
             {
                 if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f)
@@ -134,25 +137,18 @@ public class PlayerController : MonoBehaviour
                 WallJump();
             }
         }
-        // TODO: only gets triggered if the go is near ground
-        if (context.started && !coll.OnGround()) // If pressing jump button in the air. The jump will release when on ground
+        if (context.started && coll.IsNearGround(distanceToGround)) // If pressing jump button in the air near ground. The jump will release when on ground
         {
-            StartCoroutine(nameof(WaitforGround));
+            StartCoroutine(nameof(WaitforNextJump));
+            jumpTimeCounter = jumpTime;
+            coyoteTimeCounter = 0f;
+            jumpBufferCounter = 0f;
         }
-        // Longer airtime when space is pressing
-        // TODO: doesn´t work as expected 
-        if (Keyboard.current.spaceKey.isPressed && isJumping)
-        {
-            if (jumpTimeCounter > 0)
-            {
-                Debug.Log("JumpHiger");
-                Jump(Vector2.up);
-                jumpTimeCounter -= Time.deltaTime; 
-            }
-        }
-        else
-            isJumping = false;
+
+
     }
+
+    
 
     #endregion
 
@@ -203,6 +199,20 @@ public class PlayerController : MonoBehaviour
             wallsliding = false;
     }
 
+    private void AirTime()
+    {
+        if (Keyboard.current.spaceKey.isPressed && isJumping)
+        {
+            if (jumpTimeCounter > 0) // Longer airtime when space is hold
+            {
+                Jump(Vector2.up);
+                jumpTimeCounter -= Time.deltaTime;
+            }
+        }
+        else
+            isJumping = false;
+    }
+
     private void InAir()
     {
         if (!coll.OnGround() && !coll.OnWall() && wallsliding == false)
@@ -222,13 +232,13 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    // Wait to jump till player is on the ground again
-    IEnumerator WaitforGround()
+    /// <summary>
+    /// Wait till gameobject is on the ground to do a jump.
+    /// </summary>
+    /// <returns>Returs the "Jump" Method</returns>
+    IEnumerator WaitforNextJump()
     {
-        while (!coll.OnGround())
-        {
-            yield return null;
-        }
+        while (!coll.OnGround()) yield return null;
         yield return StartCoroutine(nameof(Jump));
     }
 }

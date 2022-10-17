@@ -10,6 +10,8 @@ public class Collision : MonoBehaviour
     [SerializeField] private Vector2 bottomOffset;
     [SerializeField] private Vector2 leftOffset;
     [SerializeField] private Vector2 rightOffset;
+    [SerializeField] private Vector2 offsetDown;
+    [SerializeField] private Vector2 offsetUp;
 
     [Header("Physics Material")]
     [SerializeField] private PhysicsMaterial2D plainMaterial;
@@ -51,14 +53,12 @@ public class Collision : MonoBehaviour
     public bool OnGround()
     {
         return Physics2D.OverlapCircle((Vector2)transform.position + bottomOffset, collisionRadius, groundLayer);
-        //Physics2D.OverlapBox((Vector2)transform.position + bottomOffset, testSize, groundLayer);
     }
 
     public bool OnWall()
     {
         return Physics2D.OverlapCircle((Vector2)transform.position + leftOffset, collisionRadius, wallLayer) || 
             Physics2D.OverlapCircle((Vector2)transform.position + rightOffset, collisionRadius, wallLayer);
-        //Physics2D.OverlapBox((Vector2)transform.position + bottomOffset, testSize, groundLayer);
     }
 
     public bool OnRightWall()
@@ -71,6 +71,14 @@ public class Collision : MonoBehaviour
         return Physics2D.OverlapCircle((Vector2)transform.position + leftOffset, collisionRadius, wallLayer);
     }
 
+    public bool IsNearGround(float distance)
+    {
+        Vector2 position = (Vector2)transform.position + offsetDown;
+        Vector2 direction = Vector2.down;
+        RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
+        return hit.collider != null;
+    }
+
     #endregion
 
     private void OnDrawGizmos()
@@ -79,6 +87,5 @@ public class Collision : MonoBehaviour
         Gizmos.DrawWireSphere((Vector2)transform.position + bottomOffset, collisionRadius);
         Gizmos.DrawWireSphere((Vector2)transform.position + leftOffset, collisionRadius);
         Gizmos.DrawWireSphere((Vector2)transform.position + rightOffset, collisionRadius);
-        //Physics2D.OverlapBox((Vector2)transform.position + bottomOffset, testSize, groundLayer);
     }
 }
