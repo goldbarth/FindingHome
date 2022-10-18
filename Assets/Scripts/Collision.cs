@@ -1,37 +1,38 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider2D), typeof(BoxCollider2D))]
 public class Collision : MonoBehaviour
 {
     [Header("Layers")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
 
-    [Header("Offset Variables")]
-    [SerializeField] private Vector2 bottomOffset;
-    [SerializeField] private Vector2 leftOffset;
-    [SerializeField] private Vector2 rightOffset;
-    [SerializeField] private Vector2 offsetDown;
-    [SerializeField] private Vector2 offsetUp;
+    [Header("Offset & Angle")]
+    [SerializeField] private Vector2 offsetX = new Vector2(0.01f, 0f);// Vector for overlapbox offset -> wallcheck
+    [SerializeField] private Vector2 offsetY = new Vector2(0, -0.01f);// Vector for overlapbox offset -> groundcheck
+    [SerializeField] private float offsetMultiplier = 60f;
+    [SerializeField] private float angle;
 
     [Header("Physics Material")]
     [SerializeField] private PhysicsMaterial2D plainMaterial;
     [SerializeField] private PhysicsMaterial2D stickyMaterial;
+
+    
     
     // Classes
     private new Collider2D collider;
-
-    // Variables
-    private float collisionRadius = 0.25f;
-
-    void Awake()
+    [SerializeField] private BoxCollider2D box;
+    
+    private void Awake()
     {
         collider = GetComponent<Collider2D>();
+        box = GetComponent<BoxCollider2D>();
     }
 
     #region Friction/Physics Material
 
     /// <summary>
-    /// Changes friction/physics material for wallslide possibility
+    /// Changes friction/physics material on gameobject for wallslide possibility
     /// </summary>
     /// <param name="isPlain"></param>
     public void FrictionChange(bool isPlain)
@@ -52,40 +53,45 @@ public class Collision : MonoBehaviour
 
     public bool OnGround()
     {
-        return Physics2D.OverlapCircle((Vector2)transform.position + bottomOffset, collisionRadius, groundLayer);
+        return Physics2D.OverlapBox((Vector2)box.bounds.center + offsetY, box.bounds.size, angle, groundLayer);
+    }
+    
+    public bool IsNearGround()
+    {
+        return Physics2D.OverlapBox((Vector2)box.bounds.center + (offsetY * offsetMultiplier), box.bounds.size, angle, groundLayer);
     }
 
     public bool OnWall()
     {
-        return Physics2D.OverlapCircle((Vector2)transform.position + leftOffset, collisionRadius, wallLayer) || 
-            Physics2D.OverlapCircle((Vector2)transform.position + rightOffset, collisionRadius, wallLayer);
+        return Physics2D.OverlapBox((Vector2)box.bounds.center + offsetX, box.bounds.size, angle, wallLayer) || 
+               Physics2D.OverlapBox((Vector2)box.bounds.center + (-offsetX), box.bounds.size, angle, wallLayer);
     }
 
     public bool OnRightWall()
     {
-        return Physics2D.OverlapCircle((Vector2)transform.position + rightOffset, collisionRadius, wallLayer);
+        return Physics2D.OverlapBox((Vector2)box.bounds.center + offsetX, box.bounds.size, angle, wallLayer);
     }
 
     public bool OnLeftWall()
     {
-        return Physics2D.OverlapCircle((Vector2)transform.position + leftOffset, collisionRadius, wallLayer);
+        return Physics2D.OverlapBox((Vector2)box.bounds.center + (-offsetX), box.bounds.size, angle, wallLayer);
     }
-
-    public bool IsNearGround(float distance)
+    
+    private void OnDrawGizmos()
     {
-        Vector2 position = (Vector2)transform.position + offsetDown;
-        Vector2 direction = Vector2.down;
-        RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
-        return hit.collider != null;
+        // GroundCheck
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireCube((Vector2)box.bounds.center + offsetY, box.bounds.size);
+        // RightWallCheck
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube((Vector2)box.bounds.center + offsetX, box.bounds.size);
+        // LeftWallCheck
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube((Vector2)box.bounds.center + (-offsetX), box.bounds.size);
+        // Distance-GroundCheck
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube((Vector2)box.bounds.center + (offsetY * offsetMultiplier) , box.bounds.size);
     }
 
     #endregion
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere((Vector2)transform.position + bottomOffset, collisionRadius);
-        Gizmos.DrawWireSphere((Vector2)transform.position + leftOffset, collisionRadius);
-        Gizmos.DrawWireSphere((Vector2)transform.position + rightOffset, collisionRadius);
-    }
 }
