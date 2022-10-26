@@ -8,8 +8,8 @@ public class Collision : MonoBehaviour
     [SerializeField] private LayerMask wallLayer;
 
     [Header("Offset & Angle")]
-    [SerializeField] private Vector2 offsetX = new Vector2(0.01f, 0f);// Vector for overlapbox offset -> wallcheck
-    [SerializeField] private Vector2 offsetY = new Vector2(0, -0.01f);// Vector for overlapbox offset -> groundcheck
+    [SerializeField] private Vector2 offsetX = new Vector2(0.01f, 0f); // Vector for overlapbox offset -> wallcheck
+    [SerializeField] private Vector2 offsetY = new Vector2(0, -0.01f); // Vector for overlapbox offset -> groundcheck
     [SerializeField] private float offsetMultiplier = 57f; // Multiplier to tweak the second offset for "distance groundcheck" 
     [SerializeField] private float angle; // Don´t need angles rn, but it can be useful in the future
 
@@ -19,7 +19,7 @@ public class Collision : MonoBehaviour
     
     // Classes
     private new Collider2D collider;
-    [SerializeField] private BoxCollider2D box; // Inspector view only to assign instance for gizmos
+    [SerializeField] private BoxCollider2D box; // Inspector view only to assign instance for gizmos, can be deleted if visualization is needed anymore
     
     private void Awake()
     {
