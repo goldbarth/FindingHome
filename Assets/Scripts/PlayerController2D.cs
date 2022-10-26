@@ -6,13 +6,13 @@ using static Controls; // TODO: There has to be a shorter way
 // TODO: Dash, movement start/stop, *thoughts: separate the collision class from this class and remove the class init/declaration
 
 // Originally, this task comes from SAE Diploma (Games Programming) and is now being further developed.
-// The purpose is to develop this class as a 2D-Controller Prototype with different Features and Options to de-/select.
+// The purpose is to develop this class as a 2D-Controller Prototype with different Features and Options to de-/select and
+// use it as a base for new projects/prototypes
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController2D : MonoBehaviour, IGameplayActions
 {
     #region Feature Modes
-    
     // Features to enable/disable in unity inspector
     [Header("Feature Modes")]
     [Tooltip("If the Checkbox is checked Multi-Jump is on. " +
@@ -24,11 +24,9 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     [Tooltip("If the Checkbox is checked Wall Sliding is on. " +
              "If it�s unchecked it is not possible to slide down a wall.")]
     [SerializeField] private bool wallSlide = true;
-
     #endregion
 
     #region Stats
-    
     // Status variables to tweak around -> get a smooth play experience
     [Header("Stats")] [Tooltip("The movementspeed value to in/decrease the velocity")] 
     [Range(0f, 10f)] [SerializeField] private float moveSpeed;
@@ -44,11 +42,9 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     [Range(0f, 0.4f)] [SerializeField] private float coyoteTime;
     [Tooltip("The amount of jumps when in air and Multi-Jump is enabled (2 or 3).")] 
     [Range(2, 3)] [SerializeField] private int multiJumps;
-
     #endregion
 
-    #region Declaration
-
+    #region Other Fields
     // Components and classes
     private Controls controls;
     private Rigidbody2D rb;
@@ -66,11 +62,9 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     private bool isJumping;
     private bool wallJumped;
     private bool wallsliding;
-
     #endregion
     
     #region Event Functions
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -103,11 +97,9 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         WallSlide();
         AirTime();
     }
-
     #endregion
     
-    #region InputAction Interfaces
-
+    #region Gameplay Action
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>().x;
@@ -117,11 +109,9 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     {
         JumpHandler(context);
     }
-
     #endregion
 
     #region Handler
-
     /// <summary>
     /// Handles the movement input.
     /// </summary>
@@ -149,14 +139,14 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
             FollowJump();
         }
     }
-
+    // Jump(-Base) without parameters
     private void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.velocity += Vector2.up * jumpForce;
         isJumping = true;
     }
-
+    // Jump(-Base) with parameters
     private void Jump(Vector2 dir)
     {
         rb.velocity = new Vector2(rb.velocity.x, 0);
@@ -176,7 +166,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
             jumpBufferCounter = 0f;
         }
     }
-    
     /// <summary>
     /// It does multiple jumps(x) and counts down the possible jumps(x) till zero.
     /// </summary>
@@ -188,7 +177,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
             jumpCounter--;
         }
     }
- 
     /// <summary>
     /// If pressing the jump button in the air near the ground. The jump will release when go is on ground.
     /// </summary>
@@ -202,7 +190,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
             jumpBufferCounter = 0f;
         }
     }
-    
     /// <summary>
     /// It does a jump off a wall when this object has contact with a wall object and the move direction is pressed.
     /// </summary>
@@ -215,7 +202,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
             wallJumped = true;
         }
     }
-
     /// <summary>
     /// It does a down-slide at a wall when this object has contact with a wall object.
     /// </summary>
@@ -230,7 +216,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         else
             wallsliding = false;
     }
-
     /// <summary>
     /// It does a higher jump when pressing the jump button and counts down a timer till zero. At the latest then the jump button is released.
     /// </summary>
@@ -248,7 +233,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         else
             isJumping = false;
     }
-
     /// <summary>
     /// Handles the gravity in air for more immersive experience.
     /// </summary>
@@ -268,11 +252,9 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
             }
         }
     }
-
     #endregion
 
     #region Resetter / Counter
-
     /// <summary>
     /// Handles the variable values when certain events occur.
     /// </summary>
@@ -297,11 +279,9 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         // If the player is not jumping the timer decreases
         jumpBufferCounter -= Time.deltaTime;
     }
-
     #endregion
 
     #region Interfaces
-
     /// <summary>
     /// Wait till this gameobject is on the ground to execute a jump.
     /// </summary>
@@ -311,6 +291,5 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         while (!coll.OnGround()) yield return null;
         yield return StartCoroutine(nameof(Jump));
     }
-
-        #endregion
+    #endregion
 }

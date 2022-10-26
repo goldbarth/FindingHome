@@ -10,18 +10,16 @@ public class Collision : MonoBehaviour
     [Header("Offset & Angle")]
     [SerializeField] private Vector2 offsetX = new Vector2(0.01f, 0f);// Vector for overlapbox offset -> wallcheck
     [SerializeField] private Vector2 offsetY = new Vector2(0, -0.01f);// Vector for overlapbox offset -> groundcheck
-    [SerializeField] private float offsetMultiplier = 60f;
-    [SerializeField] private float angle;
+    [SerializeField] private float offsetMultiplier = 57f; // Multiplier to tweak the second offset for "distance groundcheck" 
+    [SerializeField] private float angle; // Don´t need angles rn, but it can be useful in the future
 
     [Header("Physics Material")]
     [SerializeField] private PhysicsMaterial2D plainMaterial;
     [SerializeField] private PhysicsMaterial2D stickyMaterial;
-
-    
     
     // Classes
     private new Collider2D collider;
-    [SerializeField] private BoxCollider2D box;
+    [SerializeField] private BoxCollider2D box; // Inspector view only to assign instance for gizmos
     
     private void Awake()
     {
@@ -29,10 +27,10 @@ public class Collision : MonoBehaviour
         box = GetComponent<BoxCollider2D>();
     }
 
-    #region Friction/Physics Material
+    #region Friction/Physics Material Swap
 
     /// <summary>
-    /// Changes friction/physics material on gameobject for wallslide possibility
+    /// Changes friction/physics material on gameobject for eg. wallslide possibility.
     /// </summary>
     /// <param name="isPlain"></param>
     public void FrictionChange(bool isPlain)
