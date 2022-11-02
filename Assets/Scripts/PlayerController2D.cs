@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -47,8 +48,11 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
 
     #endregion
 
-    #region Declaration
+    #region Other Fields
 
+    // Constants
+    private const float kEpsilon = 0.0001f;
+    
     // Components and classes
     private Controls controls;
     private Rigidbody2D rb;
@@ -106,7 +110,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
 
     #endregion
     
-    #region InputAction Interfaces
+    #region InputAction
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -150,6 +154,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         }
     }
 
+    // (Base-)Jump without parameters
     private void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, 0);
@@ -157,6 +162,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         isJumping = true;
     }
 
+    // (Base-)Jump with parameters
     private void Jump(Vector2 dir)
     {
         rb.velocity = new Vector2(rb.velocity.x, 0);
@@ -190,7 +196,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     }
  
     /// <summary>
-    /// If pressing the jump button in the air near the ground. The jump will release when go is on ground.
+    /// If pressing the jump button in the air near the ground. The jump will release when the gameobject is on ground.
     /// </summary>
     private void FollowJump()
     {
@@ -204,7 +210,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     }
     
     /// <summary>
-    /// It does a jump off a wall when this object has contact with a wall object and the move direction is pressed.
+    /// It does a jump off a wall when this object has contact with a wall layer object and the move direction is pressed against the wall.
     /// </summary>
     private void WallJump()
     {
