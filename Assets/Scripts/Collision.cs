@@ -8,8 +8,8 @@ public class Collision : MonoBehaviour
     [SerializeField] private LayerMask wallLayer;
 
     [Header("Offset & Angle")]
-    [SerializeField] private Vector2 offsetX = new Vector2(0.01f, 0f); // Vector for overlapbox offset -> wallcheck
-    [SerializeField] private Vector2 offsetY = new Vector2(0, -0.01f); // Vector for overlapbox offset -> groundcheck
+    [SerializeField] private Vector2 offsetX = new (0.01f, 0f); // Vector for overlapbox offset -> wallcheck
+    [SerializeField] private Vector2 offsetY = new (0f, -0.01f); // Vector for overlapbox offset -> groundcheck
     [SerializeField] private float offsetMultiplier = 57f; // Multiplier to tweak the second offset for "distance groundcheck" 
     [SerializeField] private float angle; // Don´t need angles rn, but it can be useful in the future
 
@@ -26,16 +26,18 @@ public class Collision : MonoBehaviour
         collider = GetComponent<Collider2D>();
         box = GetComponent<BoxCollider2D>();
     }
-
+    
     #region Friction/Physics Material Swap
 
     /// <summary>
     /// Changes friction/physics material on gameobject for eg. wallslide possibility.
     /// </summary>
-    /// <param name="isPlain"></param>
+    /// <param name="isPlain">bool</param>
     public void FrictionChange(bool isPlain)
     {
-        PhysicsMaterial2D physicsMat = isPlain ? plainMaterial : stickyMaterial;
+        var physicsMat = isPlain 
+            ? plainMaterial 
+            : stickyMaterial;
         ApplyPhysicsMaterial(physicsMat);
     }
 
@@ -48,7 +50,7 @@ public class Collision : MonoBehaviour
     #endregion
 
     #region Bools
-
+    
     public bool OnGround()
     {
         return Physics2D.OverlapBox((Vector2)box.bounds.center + offsetY, box.bounds.size, angle, groundLayer);

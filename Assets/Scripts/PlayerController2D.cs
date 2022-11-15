@@ -7,64 +7,75 @@ using static Controls; // TODO: There has to be a shorter way
 
 //-------------------------------------------------------------------------------------------------------------------------
 // Originally, this task comes from SAE Diploma (Games Programming) and is now being further developed.
-// The purpose is to develop this class as a 2D-Controller Prototype with different Features and Options to de-/select and
-// use it as a base for new projects/prototypes.
+// The purpose is to develop this class as a 2D-Controller Prototype with different Features and Options
+// to de-/select and use it as a base(-blueprint) for new projects/prototypes.
 //-------------------------------------------------------------------------------------------------------------------------
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController2D : MonoBehaviour, IGameplayActions
 {
     #region Feature Modes
+
     // Features to enable/disable in unity inspector
     [Header("Feature Modes")]
     [Tooltip("If the Checkbox is checked Multi-Jump is on. " +
-             "If it�s unchecked it is only possible to jump when the player is on the ground.")]
-    [SerializeField] private bool multiJump;
+             "And you can jump (x)times when in the air.")]
+    [SerializeField]
+    private bool multiJump;
 
     [Tooltip("If the Checkbox is checked Wall Jump is on. " +
              "If it�s unchecked it is not possible to jump off a wall.")]
-    [SerializeField] private bool wallJump = true;
+    [SerializeField]
+    private bool wallJump = true;
 
     [Tooltip("If the Checkbox is checked Wall Sliding is on. " +
              "If it�s unchecked it is not possible to slide down a wall.")]
-    [SerializeField] private bool wallSlide = true;
+    [SerializeField]
+    private bool wallSlide = true;
+
     #endregion
 
     #region Stats
-    // Status variables to tweak around -> get a smooth play experience
-    [Header("Stats")] [Tooltip("The movementspeed value to in/decrease the velocity")] 
-    [Range(0f, 10f)] [SerializeField] private float moveSpeed;
 
-    [Tooltip("The force value to to in/decrease the jumpheight.")] 
-    [Range(0f, 10f)] [SerializeField] private float jumpForce;
+    // Status variables to tweak around -> get a smooth gaming experience
+    [Header("Stats")] [Tooltip("The movementspeed value to in/decrease the velocity")] [Range(0f, 10f)] [SerializeField]
+    private float moveSpeed;
 
-    [Tooltip("The lerp value to in-/decrease the 'jumpfeeling' off a wall.")] 
-    [Range(0f, 4f)] [SerializeField] private float wallJumpLerp;
+    [Tooltip("The force value to to in/decrease the jumpheight.")] [Range(0f, 10f)] [SerializeField]
+    private float jumpForce;
 
-    [Tooltip("The slidespeed value to in-/decrease the slide velocity at a wall.")] 
-    [Range(0f, 4f)] [SerializeField] private float wallSlideSpeed;
+    [Tooltip("The lerp value to in-/decrease the 'jumpfeeling' off a wall.")] [Range(0f, 4f)] [SerializeField]
+    private float wallJumpLerp;
 
-    [Tooltip("The possible amount of time in air when jumping.")] 
-    [Range(0f, 0.5f)] [SerializeField] private float jumpTime;
+    [Tooltip("The slidespeed value to in-/decrease the slide velocity at a wall.")] [Range(0f, 4f)] [SerializeField]
+    private float wallSlideSpeed;
 
-    [Tooltip("The possible amount of time to jump when leaving the platform.")] 
-    [Range(0f, 0.4f)] [SerializeField] private float coyoteTime;
+    [Tooltip("The possible amount of time in air when jumping.")] [Range(0f, 0.5f)] [SerializeField]
+    private float jumpTime;
 
-    [Tooltip("The amount of jumps when in air and Multi-Jump is enabled (2 or 3).")] 
-    [Range(2, 3)] [SerializeField] private int multiJumps;
+    [Tooltip("The possible amount of time to jump when leaving the platform.")] [Range(0f, 0.4f)] [SerializeField]
+    private float coyoteTime;
+
+    [Tooltip("The amount of jumps when in air and Multi-Jump is enabled (2 or 3).")] [Range(2, 3)] [SerializeField]
+    private int multiJumps;
+
+    [Tooltip("The gravity multiplier when the char y-velocity is > 0.")] [Range(0f, 10f)] [SerializeField]
+    private float fallMultiplier = 2.5f;
+
+    [Tooltip("The gravity multiplier when the char y-velocity is < 0.")] [Range(0f, 10f)] [SerializeField]
+    private float lowJumpMultiplier = 2f;
 
     [Range(0f, 30f)] [SerializeField] private float maxDash;
     [Range(0f, 10f)] [SerializeField] private float dashForce;
+
     #endregion
 
     #region Other Fields
+
     // Components and classes
     private Controls controls;
     private Rigidbody2D rb;
     private Collision coll;
-
-    // Enums
-    private DashState dashState; //TODO: new
 
     // Variables
     private float moveInput; // x(-axis) component
@@ -72,17 +83,19 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     private float jumpBufferCounter;
     private float coyoteTimeCounter;
     private float jumpTimeCounter;
-    private Vector2 savedVelocity; //TODO: new
     private int jumpCounter;
 
     // Bools
     private bool isJumping;
     private bool wallJumped;
     private bool wallsliding;
+    private bool longJump;
     private bool canMove = true;
+
     #endregion
 
     #region Event Functions
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -103,19 +116,21 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
 
     private void Update()
     {
+        AirTime();
+        InAir();
         coll.FrictionChange(wallSlide);
         ResetterAndCounter();
         //Debug.Log();
-        Debug.Log(rb.velocity);
+        //Debug.Log(moveInput);
     }
 
     private void FixedUpdate()
     {
         Move();
-        InAir();
+
         WallSlide();
-        AirTime();
     }
+
     #endregion
 
     #region Gameplay Action
@@ -138,13 +153,23 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         }
     }
 
-    private IEnumerator Dash()
+    private IEnumerator Dash() // TODO: make dash function work
     {
-        Debug.Log("DASH");
-        rb.velocity += new Vector2(rb.velocity.x * dashForce, rb.velocity.y);
- 
-        yield return new WaitForSeconds(3f);
+        float dashTime = maxDash;
+        float dashSpeed = dashForce;
+        while (dashTime > 0)
+        {
+            dashTime -= Time.deltaTime;
+            rb.velocity = new Vector2(dashSpeed * moveInput, rb.velocity.y);
+        }
+
+        yield return null;
     }
+    //{
+    //    Debug.Log("DASH");
+    //    rb.velocity = new Vector2( rb.velocity.x * dashForce, rb.velocity.y);
+    //    yield return new WaitForSeconds(maxDash);
+    //}
 
     #endregion
 
@@ -161,7 +186,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         {
             rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
         }
-        else // In case of a wall jump the velocity is lerped to get a (immersive) feeling of less control
+        else // In case of a wall jump the velocity is lerped to get a (immersive) feeling of less control.
         {
             rb.velocity = Vector2.Lerp(rb.velocity, (new Vector2(moveInput * moveSpeed, rb.velocity.y)),
                 wallJumpLerp * Time.deltaTime);
@@ -176,47 +201,10 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
             MultiJump();
             SingleJump();
             WallJump();
-            FollowJump();
+            FallJump();
         }
-    }
 
-    private void DashHandler(InputAction.CallbackContext context)
-    {
-        //float dashTimer = 0;
-        switch (dashState)
-        {
-            case DashState.Ready:
-                if (context.started)
-                {
-                    Debug.Log("State 1");
-                    savedVelocity = rb.velocity;
-                    canMove = false;
-                    rb.velocity += new Vector2(rb.velocity.x * dashForce, rb.velocity.y);
-                    //rb.AddForce(new Vector2(rb.velocity.x * dashForce, rb.velocity.y));
-                    dashState = DashState.Dashing;
-                }
-                break;
-            case DashState.Dashing:
-                //dashTimer += Time.deltaTime * 3;
-                //if (maxDash <= dashTimer)
-                {
-                    Debug.Log("State 2");
-                    //dashTimer = maxDash;
-                    rb.velocity = savedVelocity;
-                    dashState = DashState.Cooldown;
-                }
-                break;
-            case DashState.Cooldown:
-                //dashTimer -= Time.deltaTime;
-                //if (dashTimer <= 0)
-                {
-                    canMove = true;
-                    Debug.Log("State 3");
-                    //dashTimer = 0;
-                    dashState = DashState.Ready;
-                }
-                break;
-        }
+        longJump = controls.Gameplay.Jump.WasReleasedThisFrame();
     }
 
     // Jump(-Base) without parameters
@@ -240,7 +228,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     /// </summary>
     private void SingleJump()
     {
-        if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f) // Simple Jump (can not jump when in air)
+        if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f) // Simple Jump (can not jump when in air).
         {
             Jump();
             jumpTimeCounter = jumpTime;
@@ -254,7 +242,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     /// </summary>
     private void MultiJump()
     {
-        if (multiJump && jumpCounter > 0) // Multi-Jump (can jump when in air)
+        if (multiJump && jumpCounter > 0) // Multi-Jump (can jump multiple times when in air).
         {
             Jump();
             jumpCounter--;
@@ -264,9 +252,9 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     /// <summary>
     /// If pressing the jump button in the air near the ground. The jump will release when go is on ground.
     /// </summary>
-    private void FollowJump()
+    private void FallJump()
     {
-        if (coll.IsNearGround()) // If pressing jump button in the air near ground. The jump will release when on ground
+        if (coll.IsNearGround()) // If pressing jump button in the air near ground. The jump will release when on ground.
         {
             StartCoroutine(nameof(WaitforNextJump));
             jumpTimeCounter = jumpTime;
@@ -282,7 +270,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     {
         if (coll.OnWall() && !coll.OnGround() && wallJump &&
             controls.Gameplay.Move
-                .IsPressed()) // Jump off the wall when contact is given and the move direction is pressed
+                .IsPressed()) // Jump off the wall when contact is given and the move direction is pressed.
         {
             var wallDirection =
                 coll.OnRightWall()
@@ -318,7 +306,8 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         {
             if (jumpTimeCounter > 0)
             {
-                Jump(Vector2.up);
+                Jump();
+                // rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse); // TODO: Walljump doesn't work with AddForce
                 jumpTimeCounter -= Time.deltaTime;
             }
         }
@@ -333,19 +322,19 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     {
         if (!(coll.OnGround() && coll.OnWall() && wallsliding))
         {
-            const float fallMultiplier = 2.5f;
-            const float lowJumpMultiplier = 2f;
-            if (rb.velocity.y < 0f) // Let the gameobject get more lightwheighted  at jumpstart
+            switch (rb.velocity.y)
             {
-                rb.velocity +=
-                    (fallMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime *
-                    Vector2.up; // Subtracting the multiplier let the gravity multiply by 1.5
-            }
-            else if (rb.velocity.y > 0f &&
-                     Keyboard.current.spaceKey
-                         .wasReleasedThisFrame) // Let the gameobject get more heavywheighted at the highest (jumping)point
-            {
-                rb.velocity += (lowJumpMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up;
+                // Let the gameobject get more lightwheighted  at jumpstart
+                case < 0f:
+                    rb.velocity +=
+                        (fallMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime *
+                        Vector2.up; // Subtracting the multiplier let the gravity multiply by 1.5
+                    break;
+                case > 0f when longJump:
+                    rb.velocity +=
+                        (lowJumpMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime *
+                        Vector2.up; // Let the gameobject get more heavywheighted at the highest (jumping)point
+                    break;
             }
         }
     }
@@ -391,17 +380,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     {
         while (!coll.OnGround()) yield return null;
         yield return StartCoroutine(nameof(Jump));
-    }
-
-    #endregion
-
-    #region Enums
-
-    private enum DashState
-    {
-        Ready,
-        Dashing,
-        Cooldown
     }
 
     #endregion
