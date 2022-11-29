@@ -1,9 +1,8 @@
+using UnityEngine.InputSystem;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static Controls; // TODO: There has to be a shorter way
-// TODO: Figure out why "rb.velocity" isn´t working in dash function
-// TODO: Movement start/stop, *thoughts: separate the collision class from this class and remove the class init/declaration
+using static Controls; // <- TODO: There has to be a shorter way to do this
+// TODO: thoughts: Movement start/stop physics
 
 //-------------------------------------------------------------------------------------------------------------------------
 // Originally, this task comes from SAE Diploma (Games Programming) and is now being further developed.
@@ -65,9 +64,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     [Tooltip("The gravity multiplier when the char y-velocity is < 0.")] [Range(0f, 10f)] [SerializeField]
     private float lowJumpMultiplier = 2f;
 
-    [Range(0f, 30f)] [SerializeField] private float maxDash;
-    [Range(0f, 10f)] [SerializeField] private float dashForce;
-
     #endregion
 
     #region Other Fields
@@ -116,18 +112,15 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
 
     private void Update()
     {
-        AirTime();
-        InAir();
         coll.FrictionChange(wallSlide);
         ResetterAndCounter();
-        //Debug.Log();
-        //Debug.Log(moveInput);
+        AirTime();
+        InAir();
     }
 
     private void FixedUpdate()
     {
         Move();
-
         WallSlide();
     }
 
@@ -144,32 +137,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     {
         JumpHandler(context);
     }
-
-    public void OnDash(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            StartCoroutine(Dash());
-        }
-    }
-
-    private IEnumerator Dash() // TODO: make dash function work
-    {
-        float dashTime = maxDash;
-        float dashSpeed = dashForce;
-        while (dashTime > 0)
-        {
-            dashTime -= Time.deltaTime;
-            rb.velocity = new Vector2(dashSpeed * moveInput, rb.velocity.y);
-        }
-
-        yield return null;
-    }
-    //{
-    //    Debug.Log("DASH");
-    //    rb.velocity = new Vector2( rb.velocity.x * dashForce, rb.velocity.y);
-    //    yield return new WaitForSeconds(maxDash);
-    //}
 
     #endregion
 
@@ -198,13 +165,12 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         jumpBufferCounter = jumpBufferTime;
         if (context.started)
         {
+            isJumping = true;
             MultiJump();
             SingleJump();
             WallJump();
             FallJump();
         }
-
-        longJump = controls.Gameplay.Jump.WasReleasedThisFrame();
     }
 
     // Jump(-Base) without parameters
@@ -212,7 +178,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     {
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.velocity += Vector2.up * jumpForce;
-        isJumping = true;
     }
 
     // Jump(-Base) with parameters
@@ -220,7 +185,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     {
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.velocity += dir * jumpForce;
-        isJumping = true;
     }
 
     /// <summary>
@@ -228,7 +192,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     /// </summary>
     private void SingleJump()
     {
-        if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f) // Simple Jump (can not jump when in air).
+        if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f && !multiJump) // Simple Jump (can not jump when in air).
         {
             Jump();
             jumpTimeCounter = jumpTime;
@@ -307,7 +271,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
             if (jumpTimeCounter > 0)
             {
                 Jump();
-                // rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse); // TODO: Walljump doesn't work with AddForce
                 jumpTimeCounter -= Time.deltaTime;
             }
         }
@@ -318,7 +281,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     /// <summary>
     /// Handles the gravity in air for more immersive experience.
     /// </summary>
-    private void InAir() // More immersive jump experience
+    private void InAir() // More immersive jump experience. Source: BetterJump
     {
         if (!(coll.OnGround() && coll.OnWall() && wallsliding))
         {
@@ -330,7 +293,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
                         (fallMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime *
                         Vector2.up; // Subtracting the multiplier let the gravity multiply by 1.5
                     break;
-                case > 0f when longJump:
+                case > 0f when controls.Gameplay.Jump.WasReleasedThisFrame():
                     rb.velocity +=
                         (lowJumpMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime *
                         Vector2.up; // Let the gameobject get more heavywheighted at the highest (jumping)point
@@ -348,8 +311,8 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     /// </summary>
     private void ResetterAndCounter()
     {
-        if (controls.Gameplay.Jump.WasReleasedThisFrame())
-            isJumping = false;
+        // if (controls.Gameplay.Jump.WasReleasedThisFrame())
+        //     isJumping = false;
 
         if (coll.OnGround())
         {
@@ -365,9 +328,11 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         }
 
         // If the player is not jumping the timer decreases
-        jumpBufferCounter -= Time.deltaTime;
+        if (!isJumping) 
+            jumpBufferCounter -= Time.deltaTime;
+        
     }
-
+    
     #endregion
 
     #region Interfaces
