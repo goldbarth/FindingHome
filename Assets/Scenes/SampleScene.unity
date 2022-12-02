@@ -311,7 +311,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1, y: 1}
+    m_SensorSize: {x: 1.7787498, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -700,8 +700,6 @@ MonoBehaviour:
   multiJumps: 2
   fallMultiplier: 2.5
   lowJumpMultiplier: 2
-  maxDash: 4
-  dashForce: 10
 --- !u!61 &542423544
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -873,22 +871,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 63ea666f-7317-4e67-9f90-6914a7997673
     m_ActionName: Player/Jump[/Keyboard/space]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 542423543}
-        m_TargetAssemblyTypeName: PlayerController2D, Assembly-CSharp
-        m_MethodName: OnDash
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 8a0730e8-4463-449f-bdf4-41b7ec5b996f
-    m_ActionName: Gameplay/Dash[/Keyboard/shift,/XInputControllerWindows/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -906,19 +888,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a205f07b9b0aba4fac819aa01e6b94e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  box: {fileID: 542423544}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   wallLayer:
     serializedVersion: 2
     m_Bits: 128
-  offsetX: {x: 0.01, y: 0}
-  offsetY: {x: 0, y: -0.01}
-  offsetMultiplier: 57
-  angle: 0
   plainMaterial: {fileID: 6200000, guid: 8483483e5e80adb4e85af77c4eeaaed7, type: 2}
   stickyMaterial: {fileID: 6200000, guid: acda409097624f640adc20d54e9a0188, type: 2}
-  box: {fileID: 542423544}
 --- !u!1 &614159239
 GameObject:
   m_ObjectHideFlags: 0

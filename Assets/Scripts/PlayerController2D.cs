@@ -78,14 +78,13 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     private float jumpBufferTime = 0.2f;
     private float jumpBufferCounter;
     private float coyoteTimeCounter;
-    private float jumpTimeCounter;
+    private float jumpLenghtCounter;
     private int jumpCounter;
 
     // Bools
     private bool isJumping;
     private bool wallJumped;
     private bool wallsliding;
-    private bool longJump;
     private bool canMove = true;
 
     #endregion
@@ -114,16 +113,13 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     {
         coll.FrictionChange(wallSlide);
         ResetterAndCounter();
-        AirTime();
-        InAir();
-    }
-
-    private void FixedUpdate()
-    {
-        Move();
         WallSlide();
+        LongJump();
+        InAirBehavior();
+        Move();
+        print(coyoteTimeCounter);
     }
-
+    
     #endregion
 
     #region Gameplay Action
@@ -153,7 +149,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         {
             rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
         }
-        else // In case of a wall jump the velocity is lerped to get a (immersive) feeling of less control.
+        else // In case of a wall jump the velocity is "lerped" to get a (immersive) feeling of less control.
         {
             rb.velocity = Vector2.Lerp(rb.velocity, (new Vector2(moveInput * moveSpeed, rb.velocity.y)),
                 wallJumpLerp * Time.deltaTime);
@@ -166,21 +162,21 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         if (context.started)
         {
             isJumping = true;
-            MultiJump();
             SingleJump();
+            MultiJump();
             WallJump();
             FallJump();
         }
     }
 
-    // Jump(-Base) without parameters
+    // (Base-)Jump without parameters
     private void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.velocity += Vector2.up * jumpForce;
     }
 
-    // Jump(-Base) with parameters
+    // (Base-)Jump with parameters
     private void Jump(Vector2 dir)
     {
         rb.velocity = new Vector2(rb.velocity.x, 0);
@@ -195,7 +191,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f && !multiJump) // Simple Jump (can not jump when in air).
         {
             Jump();
-            jumpTimeCounter = jumpTime;
+            jumpLenghtCounter = jumpTime;
             coyoteTimeCounter = 0f;
             jumpBufferCounter = 0f;
         }
@@ -210,20 +206,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         {
             Jump();
             jumpCounter--;
-        }
-    }
-
-    /// <summary>
-    /// If pressing the jump button in the air near the ground. The jump will release when go is on ground.
-    /// </summary>
-    private void FallJump()
-    {
-        if (coll.IsNearGround()) // If pressing jump button in the air near ground. The jump will release when on ground.
-        {
-            StartCoroutine(nameof(WaitforNextJump));
-            jumpTimeCounter = jumpTime;
-            coyoteTimeCounter = 0f;
-            jumpBufferCounter = 0f;
         }
     }
 
@@ -244,7 +226,60 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
             wallJumped = true;
         }
     }
+    
+    /// <summary>
+    /// If pressing the jump button in the air near the ground. The jump will release when go is on ground.
+    /// </summary>
+    private void FallJump()
+    {
+        if (coll.IsNearGround()) // If pressing jump button in the air near ground. The jump will release when on ground.
+        {
+            StartCoroutine(nameof(WaitforNextJump));
+            jumpLenghtCounter = jumpTime;
+            coyoteTimeCounter = 0f;
+            jumpBufferCounter = 0f;
+        }
+    }
 
+    /// <summary>
+    /// It does a higher jump when pressing the jump button and counts down a timer till zero. At the latest then the jump button is released.
+    /// </summary>
+    private void LongJump()
+    {
+        // Longer airtime when space is hold
+        if (controls.Gameplay.Jump.IsPressed() && coll.OnGround() && jumpLenghtCounter > 0f)
+        {
+            Jump();
+            jumpLenghtCounter -= Time.deltaTime;
+        }
+        else
+            isJumping = false;
+    }
+
+    /// <summary>
+    /// Handles the gravity in air for more immersive experience.
+    /// </summary>
+    private void InAirBehavior() // More immersive jump experience. Source: BetterJump (Youtube)
+    {
+        if (!(coll.OnGround() && coll.OnWall() && wallsliding))
+        {
+            switch (rb.velocity.y)
+            {
+                // Let the gameobject get more lightweight at jumpstart
+                case < 0f:
+                    rb.velocity +=
+                        (fallMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime *
+                        Vector2.up; // Subtracting the multiplier let the gravity multiply by 1.5
+                    break;
+                case > 0f when !controls.Gameplay.Jump.IsPressed():
+                    rb.velocity +=
+                        (lowJumpMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime *
+                        Vector2.up; // Let the gameobject get more heavyweight at the highest (jumping)point
+                    break;
+            }
+        }
+    }
+    
     /// <summary>
     /// It does a down-slide at a wall when this object has contact with a wall object.
     /// </summary>
@@ -260,47 +295,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
             wallsliding = false;
     }
 
-    /// <summary>
-    /// It does a higher jump when pressing the jump button and counts down a timer till zero. At the latest then the jump button is released.
-    /// </summary>
-    private void AirTime()
-    {
-        // Longer airtime when space is hold
-        if (controls.Gameplay.Jump.IsPressed() && isJumping)
-        {
-            if (jumpTimeCounter > 0)
-            {
-                Jump();
-                jumpTimeCounter -= Time.deltaTime;
-            }
-        }
-        else
-            isJumping = false;
-    }
-
-    /// <summary>
-    /// Handles the gravity in air for more immersive experience.
-    /// </summary>
-    private void InAir() // More immersive jump experience. Source: BetterJump
-    {
-        if (!(coll.OnGround() && coll.OnWall() && wallsliding))
-        {
-            switch (rb.velocity.y)
-            {
-                // Let the gameobject get more lightwheighted  at jumpstart
-                case < 0f:
-                    rb.velocity +=
-                        (fallMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime *
-                        Vector2.up; // Subtracting the multiplier let the gravity multiply by 1.5
-                    break;
-                case > 0f when controls.Gameplay.Jump.WasReleasedThisFrame():
-                    rb.velocity +=
-                        (lowJumpMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime *
-                        Vector2.up; // Let the gameobject get more heavywheighted at the highest (jumping)point
-                    break;
-            }
-        }
-    }
 
     #endregion
 
@@ -330,7 +324,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         // If the player is not jumping the timer decreases
         if (!isJumping) 
             jumpBufferCounter -= Time.deltaTime;
-        
     }
     
     #endregion
@@ -341,7 +334,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     /// Wait till this gameobject is on the ground to execute a jump.
     /// </summary>
     /// <returns>Returns the "Jump" Method</returns>
-    IEnumerator WaitforNextJump()
+    private IEnumerator WaitforNextJump()
     {
         while (!coll.OnGround()) yield return null;
         yield return StartCoroutine(nameof(Jump));

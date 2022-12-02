@@ -59,7 +59,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""AD"",
+                    ""name"": ""AD [Keyboard]"",
                     ""id"": ""00ca640b-d935-4593-8157-c05846ea39b3"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
@@ -71,7 +71,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Left"",
-                    ""id"": ""9aae7038-ef6a-444f-a49c-e2cbb9823c19"",
+                    ""id"": ""cf9c485c-95f8-48fd-8dc2-3c0ea4c46411"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -82,7 +82,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Right"",
-                    ""id"": ""b8866fcb-8a8f-4cab-b541-a09249130be2"",
+                    ""id"": ""d8cf4468-0baf-44b2-bd5b-46530e9586c3"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -92,7 +92,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Arrows"",
+                    ""name"": ""Arrows [Keyboard]"",
                     ""id"": ""9fbfa77b-fba2-4e51-a6b7-15f51417a5ad"",
                     ""path"": ""Dpad"",
                     ""interactions"": """",
