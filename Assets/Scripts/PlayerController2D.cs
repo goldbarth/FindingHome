@@ -2,6 +2,7 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using static Controls;
 // TODO: thoughts: Movement start/stop physics
+// TODO: Jump doesn't work anymore, find out why
 
 //-------------------------------------------------------------------------------------------------------------------------
 // Originally, this task comes from SAE Diploma (Games Programming) and is now being further developed.
@@ -75,6 +76,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     #region Fields
 
     // Components and classes
+    private InputAction jumpAction;
     private Controls controls;
     private Rigidbody2D rb;
     private Collision coll;
@@ -103,6 +105,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         coll = GetComponent<Collision>();
         controls = new Controls();
         controls.Gameplay.SetCallbacks(this);
+        jumpAction = controls.Gameplay.Jump;
     }
 
     private void OnEnable()
@@ -116,16 +119,19 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     }
 
     private void Update()
-    {
+    
+        {
+        Debug.Log("Coyote: " + coyoteTimeCounter + "Buffer: " + jumpBufferCounter + "Length: " + jumpLengthCounter);
         coll.FrictionChange(wallSlide);
         ResetterAndCounter();
+        LongJump();
     }
 
     private void FixedUpdate()
     {
         InAirBehavior();
         WallSlide();
-        LongJump();
+
         Move();
     }
 
@@ -202,13 +208,13 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         }
     }
 
-    // TODO: Better Walljump
+    // TODO: Better Walljump experience
     /// <summary>
     /// It does a jump off a wall when this object has contact with a wall object and the move direction is pressed.
     /// </summary>
     private void WallJump()
     {
-        if (controls.Gameplay.Move.IsPressed() && wallJump && coll.IsWall() && !coll.IsGround() ) // Jump off the wall when contact is given and the move direction is pressed.
+        if (jumpAction.IsPressed() && wallJump && coll.IsWall() && !coll.IsGround()) // Jump off the wall when contact is given and the move direction is pressed.
         {
             var wallDirection =
                 coll.IsRightWall()
@@ -224,10 +230,11 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     /// </summary>
     private void LongJump()
     {
-        if (controls.Gameplay.Jump.WasPressedThisFrame())
+        if (jumpAction.WasPressedThisFrame())
             jumpBufferCounter = jumpBufferTime;
         
-        if (controls.Gameplay.Jump.IsPressed())
+        // When the jump button is pressed the jump is executed and the counter is counting down.
+        if (jumpAction.IsPressed())
             jumpLengthCounter -= Time.deltaTime;
 
         // Longer airtime when space is hold
@@ -248,7 +255,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     /// </summary>
     private void InAirBehavior() // More immersive jump experience. Source: BetterJump (Youtube)
     {
-        if (wallsliding && !(coll.OnGround() && coll.OnWall()))
+        if (wallsliding && !(coll.IsGround() && coll.IsWall()))
         {
             switch (rb.velocity.y)
             {
@@ -256,7 +263,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
                 case < 0f:
                     rb.velocity += (fallMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up; // Subtracting the multiplier let the gravity multiply by 1.5
                     break;
-                case > 0f when !controls.Gameplay.Jump.IsPressed():
+                case > 0f when !jumpAction.IsPressed():
                     rb.velocity += (lowJumpMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up; // Let the gameobject get more heavyweight at the highest (jumping)point
                     break;
             }
@@ -269,7 +276,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     private void WallSlide()
     {
         const float maxClampValue = 0;
-        if (moveInput != 0 && wallSlide && coll.OnWall() && !coll.OnGround())
+        if (moveInput != 0 && wallSlide && coll.IsWall() && !coll.IsGround())
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlideSpeed, maxClampValue));
             wallsliding = true;
@@ -285,7 +292,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     /// </summary>
     private void ResetterAndCounter()
     {
-        if (!controls.Gameplay.Jump.IsPressed() && coll.OnGround())
+        if (!jumpAction.IsPressed() && coll.IsGround())
         {
             wallsliding = false;
             wallJumped = false;
@@ -300,7 +307,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
         }
 
         // Prevent double jumps
-        if (controls.Gameplay.Jump.WasReleasedThisFrame())
+        if (jumpAction.WasReleasedThisFrame())
             coyoteTimeCounter = 0f;
         
         // If the player is not jumping the timer decreases

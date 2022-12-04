@@ -19,7 +19,6 @@ public class Collision : MonoBehaviour
     
     private Vector2 offsetX = new (0.01f, 0f); // Vector for overlapbox offset -> wallcheck
     private Vector2 offsetY = new (0f, -0.01f); // Vector for overlapbox offset -> groundcheck
-    private float offsetMultiplier = 57f; // Multiplier to tweak the second offset for "distance groundcheck" 
     private float angle; // Don´t need angles rn, but it can be useful in the future
 
     public bool IsGround() { return OnGround(); }
@@ -101,9 +100,6 @@ public class Collision : MonoBehaviour
         // LeftWallCheck
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube((Vector2)box.bounds.center + (-offsetX), box.bounds.size);
-        // Distance-GroundCheck
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube((Vector2)box.bounds.center + (offsetY * offsetMultiplier) , box.bounds.size);
     }
     
 #endif
