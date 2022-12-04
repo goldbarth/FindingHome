@@ -1,12 +1,11 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D), typeof(BoxCollider2D))]
 public class Collision : MonoBehaviour
 {
     [Header("Box Collider")]
-#if UNITY_EDITOR
     [SerializeField] private BoxCollider2D box; // Inspector view only to assign instance for gizmos, can be deleted if visualization is needed anymore
-#endif
 
     [Header("Layers")]
     [SerializeField] private LayerMask groundLayer;
@@ -22,11 +21,24 @@ public class Collision : MonoBehaviour
     private Vector2 offsetY = new (0f, -0.01f); // Vector for overlapbox offset -> groundcheck
     private float offsetMultiplier = 57f; // Multiplier to tweak the second offset for "distance groundcheck" 
     private float angle; // Don´t need angles rn, but it can be useful in the future
+
+    public bool IsGround() { return OnGround(); }
+    public bool IsWall() { return OnWall(); }
+    public bool IsLeftWall() { return OnLeftWall(); }
+    public bool IsRightWall() { return OnRightWall(); }
     
     private void Awake()
     {
         collider = GetComponent<Collider2D>();
         box = GetComponent<BoxCollider2D>();
+    }
+
+    private void Update()
+    {
+        OnGround();
+        OnWall();
+        OnLeftWall();
+        OnRightWall();
     }
     
     #region Friction/Physics Material Swap
@@ -56,11 +68,6 @@ public class Collision : MonoBehaviour
     public bool OnGround()
     {
         return Physics2D.OverlapBox((Vector2)box.bounds.center + offsetY, box.bounds.size, angle, groundLayer);
-    }
-    
-    public bool IsNearGround()
-    {
-        return Physics2D.OverlapBox((Vector2)box.bounds.center + (offsetY * offsetMultiplier), box.bounds.size, angle, groundLayer);
     }
 
     public bool OnWall()

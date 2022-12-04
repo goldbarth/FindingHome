@@ -9,7 +9,7 @@
                     "name": "Move",
                     "type": "Value",
                     "id": "2a84c799-fce4-4231-8d1d-14b8a7268fc3",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -39,7 +39,7 @@
                 {
                     "name": "AD [Keyboard]",
                     "id": "00ca640b-d935-4593-8157-c05846ea39b3",
-                    "path": "2DVector",
+                    "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -48,42 +48,9 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Left",
+                    "name": "Negative",
                     "id": "cf9c485c-95f8-48fd-8dc2-3c0ea4c46411",
                     "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Right",
-                    "id": "d8cf4468-0baf-44b2-bd5b-46530e9586c3",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Arrows [Keyboard]",
-                    "id": "9fbfa77b-fba2-4e51-a6b7-15f51417a5ad",
-                    "path": "Dpad",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "left",
-                    "id": "3b964787-bf35-4e15-bb22-45578d5199ee",
-                    "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -92,9 +59,9 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "right",
-                    "id": "240cfbdb-0f74-4b55-aa67-f0149c938a32",
-                    "path": "<Keyboard>/rightArrow",
+                    "name": "Positive",
+                    "id": "d8cf4468-0baf-44b2-bd5b-46530e9586c3",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",

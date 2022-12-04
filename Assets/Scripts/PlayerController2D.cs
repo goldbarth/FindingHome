@@ -1,7 +1,6 @@
 using UnityEngine.InputSystem;
-using System.Collections;
 using UnityEngine;
-using static Controls; // <- TODO: There has to be a shorter way to do this
+using static Controls;
 // TODO: thoughts: Movement start/stop physics
 
 //-------------------------------------------------------------------------------------------------------------------------
@@ -16,12 +15,20 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     #region Feature Modes
 
     // Features to enable/disable in unity inspector
-    [Header("Feature Modes")]
+    [Header("Multi-Jump Modes")]
+    [Space]
     [Tooltip("If the Checkbox is checked Multi-Jump is on. " +
              "And you can jump (x)times when in the air.")]
     [SerializeField]
     private bool multiJump;
 
+    [Tooltip("The amount of jumps when in air and Multi-Jump is enabled (2 or 3).")] [Range(2, 3)] [SerializeField]
+    private int multiJumps;
+    
+    [Space]
+    
+    [Header("Wall-Feature Modes")]
+    [Space]
     [Tooltip("If the Checkbox is checked Wall Jump is on. " +
              "If it�s unchecked it is not possible to jump off a wall.")]
     [SerializeField]
@@ -35,29 +42,28 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     #endregion
 
     #region Stats
-
+    [Space]
     // Status variables to tweak around -> get a smooth gaming experience
-    [Header("Stats")] [Tooltip("The movementspeed value to in/decrease the velocity")] [Range(0f, 10f)] [SerializeField]
+    [Header("Stats")]
+    [Space]
+    [Tooltip("The movement-speed value to in/decrease the velocity")] [Range(0f, 10f)] [SerializeField]
     private float moveSpeed;
 
-    [Tooltip("The force value to to in/decrease the jumpheight.")] [Range(0f, 10f)] [SerializeField]
+    [Tooltip("The force value to to in/decrease the jump-height.")] [Range(0f, 10f)] [SerializeField]
     private float jumpForce;
-
-    [Tooltip("The lerp value to in-/decrease the 'jumpfeeling' off a wall.")] [Range(0f, 4f)] [SerializeField]
-    private float wallJumpLerp;
-
-    [Tooltip("The slidespeed value to in-/decrease the slide velocity at a wall.")] [Range(0f, 4f)] [SerializeField]
-    private float wallSlideSpeed;
-
+    [Space]
     [Tooltip("The possible amount of time in air when jumping.")] [Range(0f, 0.5f)] [SerializeField]
     private float jumpTime;
 
     [Tooltip("The possible amount of time to jump when leaving the platform.")] [Range(0f, 0.4f)] [SerializeField]
     private float coyoteTime;
+    [Space]
+    [Tooltip("The lerp value to in-/decrease the 'jump-feeling' off a wall.")] [Range(0f, 4f)] [SerializeField]
+    private float wallJumpLerp;
 
-    [Tooltip("The amount of jumps when in air and Multi-Jump is enabled (2 or 3).")] [Range(2, 3)] [SerializeField]
-    private int multiJumps;
-
+    [Tooltip("The slide speed value to in-/decrease the slide velocity at a wall.")] [Range(0f, 4f)] [SerializeField]
+    private float wallSlideSpeed;
+    [Space]
     [Tooltip("The gravity multiplier when the char y-velocity is > 0.")] [Range(0f, 10f)] [SerializeField]
     private float fallMultiplier = 2.5f;
 
@@ -66,7 +72,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
 
     #endregion
 
-    #region Other Fields
+    #region Fields
 
     // Components and classes
     private Controls controls;
@@ -78,7 +84,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     private float jumpBufferTime = 0.2f;
     private float jumpBufferCounter;
     private float coyoteTimeCounter;
-    private float jumpLenghtCounter;
+    private float jumpLengthCounter;
     private int jumpCounter;
 
     // Bools
@@ -113,20 +119,23 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     {
         coll.FrictionChange(wallSlide);
         ResetterAndCounter();
+    }
+
+    private void FixedUpdate()
+    {
+        InAirBehavior();
         WallSlide();
         LongJump();
-        InAirBehavior();
         Move();
-        print(coyoteTimeCounter);
     }
-    
+
     #endregion
 
     #region Gameplay Action
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>().x;
+        moveInput = context.ReadValue<float>();
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -158,14 +167,11 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
 
     private void JumpHandler(InputAction.CallbackContext context)
     {
-        jumpBufferCounter = jumpBufferTime;
         if (context.started)
         {
-            isJumping = true;
-            SingleJump();
             MultiJump();
             WallJump();
-            FallJump();
+            isJumping = true;
         }
     }
 
@@ -184,60 +190,32 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     }
 
     /// <summary>
-    /// It does a single jump and sets/resets values for the jump-mechanic.
-    /// </summary>
-    private void SingleJump()
-    {
-        if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f && !multiJump) // Simple Jump (can not jump when in air).
-        {
-            Jump();
-            jumpLenghtCounter = jumpTime;
-            coyoteTimeCounter = 0f;
-            jumpBufferCounter = 0f;
-        }
-    }
-
-    /// <summary>
     /// It does multiple jumps(x) and counts down the possible jumps(x) till zero.
     /// </summary>
     private void MultiJump()
     {
         if (multiJump && jumpCounter > 0) // Multi-Jump (can jump multiple times when in air).
         {
+            Debug.Log(jumpCounter);
             Jump();
             jumpCounter--;
         }
     }
 
+    // TODO: Better Walljump
     /// <summary>
     /// It does a jump off a wall when this object has contact with a wall object and the move direction is pressed.
     /// </summary>
     private void WallJump()
     {
-        if (coll.OnWall() && !coll.OnGround() && wallJump &&
-            controls.Gameplay.Move
-                .IsPressed()) // Jump off the wall when contact is given and the move direction is pressed.
+        if (controls.Gameplay.Move.IsPressed() && wallJump && coll.IsWall() && !coll.IsGround() ) // Jump off the wall when contact is given and the move direction is pressed.
         {
             var wallDirection =
-                coll.OnRightWall()
+                coll.IsRightWall()
                     ? Vector2.left
                     : Vector2.right; // If it is the right wall the jump direction is left and reverse
             Jump(Vector2.up / 1.5f + wallDirection / 1.5f);
             wallJumped = true;
-        }
-    }
-    
-    /// <summary>
-    /// If pressing the jump button in the air near the ground. The jump will release when go is on ground.
-    /// </summary>
-    private void FallJump()
-    {
-        if (coll.IsNearGround()) // If pressing jump button in the air near ground. The jump will release when on ground.
-        {
-            StartCoroutine(nameof(WaitforNextJump));
-            jumpLenghtCounter = jumpTime;
-            coyoteTimeCounter = 0f;
-            jumpBufferCounter = 0f;
         }
     }
 
@@ -246,35 +224,40 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     /// </summary>
     private void LongJump()
     {
+        if (controls.Gameplay.Jump.WasPressedThisFrame())
+            jumpBufferCounter = jumpBufferTime;
+        
+        if (controls.Gameplay.Jump.IsPressed())
+            jumpLengthCounter -= Time.deltaTime;
+
         // Longer airtime when space is hold
-        if (controls.Gameplay.Jump.IsPressed() && coll.OnGround() && jumpLenghtCounter > 0f)
+        if (jumpLengthCounter > 0f && coyoteTimeCounter > 0f && jumpBufferCounter > 0f)
         {
             Jump();
-            jumpLenghtCounter -= Time.deltaTime;
+            isJumping = true;
+            jumpBufferCounter = 0f;
         }
         else
             isJumping = false;
     }
+    
+    #endregion
 
     /// <summary>
     /// Handles the gravity in air for more immersive experience.
     /// </summary>
     private void InAirBehavior() // More immersive jump experience. Source: BetterJump (Youtube)
     {
-        if (!(coll.OnGround() && coll.OnWall() && wallsliding))
+        if (wallsliding && !(coll.OnGround() && coll.OnWall()))
         {
             switch (rb.velocity.y)
             {
                 // Let the gameobject get more lightweight at jumpstart
                 case < 0f:
-                    rb.velocity +=
-                        (fallMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime *
-                        Vector2.up; // Subtracting the multiplier let the gravity multiply by 1.5
+                    rb.velocity += (fallMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up; // Subtracting the multiplier let the gravity multiply by 1.5
                     break;
                 case > 0f when !controls.Gameplay.Jump.IsPressed():
-                    rb.velocity +=
-                        (lowJumpMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime *
-                        Vector2.up; // Let the gameobject get more heavyweight at the highest (jumping)point
+                    rb.velocity += (lowJumpMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up; // Let the gameobject get more heavyweight at the highest (jumping)point
                     break;
             }
         }
@@ -286,7 +269,7 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     private void WallSlide()
     {
         const float maxClampValue = 0;
-        if (coll.OnWall() && !coll.OnGround() && moveInput != 0 && wallSlide)
+        if (moveInput != 0 && wallSlide && coll.OnWall() && !coll.OnGround())
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlideSpeed, maxClampValue));
             wallsliding = true;
@@ -295,9 +278,6 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
             wallsliding = false;
     }
 
-
-    #endregion
-
     #region Resetter / Counter
 
     /// <summary>
@@ -305,14 +285,12 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
     /// </summary>
     private void ResetterAndCounter()
     {
-        // if (controls.Gameplay.Jump.WasReleasedThisFrame())
-        //     isJumping = false;
-
-        if (coll.OnGround())
+        if (!controls.Gameplay.Jump.IsPressed() && coll.OnGround())
         {
             wallsliding = false;
             wallJumped = false;
             coyoteTimeCounter = coyoteTime;
+            jumpLengthCounter = jumpTime;
             jumpCounter = multiJumps;
         }
         else
@@ -321,24 +299,15 @@ public class PlayerController2D : MonoBehaviour, IGameplayActions
             coyoteTimeCounter -= Time.deltaTime;
         }
 
+        // Prevent double jumps
+        if (controls.Gameplay.Jump.WasReleasedThisFrame())
+            coyoteTimeCounter = 0f;
+        
         // If the player is not jumping the timer decreases
         if (!isJumping) 
             jumpBufferCounter -= Time.deltaTime;
     }
     
     #endregion
-
-    #region Interfaces
-
-    /// <summary>
-    /// Wait till this gameobject is on the ground to execute a jump.
-    /// </summary>
-    /// <returns>Returns the "Jump" Method</returns>
-    private IEnumerator WaitforNextJump()
-    {
-        while (!coll.OnGround()) yield return null;
-        yield return StartCoroutine(nameof(Jump));
-    }
-
-    #endregion
+    
 }
