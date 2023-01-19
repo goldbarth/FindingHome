@@ -134,7 +134,7 @@ namespace PlayerBehavior
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            _moveInput = context.ReadValue<float>();
+            _moveInput = context.ReadValue<Vector2>().x;
         }
 
         public void OnJump(InputAction.CallbackContext context)
