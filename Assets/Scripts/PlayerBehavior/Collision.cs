@@ -4,21 +4,25 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D), typeof(BoxCollider2D))]
 public class Collision : MonoBehaviour
 {
-    [Header("Box Collider")]
-    [SerializeField] private BoxCollider2D box; // Inspector view only to assign instance for gizmos, can be deleted if visualization is needed anymore
+    [Header("Collider")] [Space]
+    [SerializeField] private BoxCollider2D boxCollider; // Inspector view only to assign instance for gizmos, can be deleted if visualization is needed anymore
 
-    [Header("Layers")]
+    [Space]
+    
+    [Header("Layers")] [Space]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
+    
+    [Space]
 
-    [Header("Physics Material")]
+    [Header("Physics Material")] [Space]
     [SerializeField] private PhysicsMaterial2D plainMaterial;
     [SerializeField] private PhysicsMaterial2D stickyMaterial;
     
     private new Collider2D collider;
     
-    private Vector2 offsetX = new (0.01f, 0f); // Vector for overlapbox offset -> wallcheck
-    private Vector2 offsetY = new (0f, -0.01f); // Vector for overlapbox offset -> groundcheck
+    private Vector2 offsetX = new (0.01f, 0f); // Overlapbox offset -> wallcheck
+    private Vector2 offsetY = new (0f, -0.01f); // Overlapbox offset -> groundcheck
     private float angle; // Don´t need angles rn, but it can be useful in the future
 
     public bool IsGround() { return OnGround(); }
@@ -29,7 +33,7 @@ public class Collision : MonoBehaviour
     private void Awake()
     {
         collider = GetComponent<Collider2D>();
-        box = GetComponent<BoxCollider2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
     }
 
     private void Update()
@@ -43,7 +47,7 @@ public class Collision : MonoBehaviour
     #region Friction/Physics Material Swap
 
     /// <summary>
-    /// Changes friction/physics material on gameobject for eg. wallslide possibility.
+    /// Changes friction/physics material on gameobject for ie. wallslide possibility.
     /// </summary>
     /// <param name="isPlain">bool</param>
     public void FrictionChange(bool isPlain)
@@ -63,26 +67,26 @@ public class Collision : MonoBehaviour
     #endregion
 
     #region Bools
-    
-    public bool OnGround()
+
+    private bool OnGround()
     {
-        return Physics2D.OverlapBox((Vector2)box.bounds.center + offsetY, box.bounds.size, angle, groundLayer);
+        return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + offsetY, boxCollider.bounds.size, angle, groundLayer);
     }
 
-    public bool OnWall()
+    private bool OnWall()
     {
-        return Physics2D.OverlapBox((Vector2)box.bounds.center + offsetX, box.bounds.size, angle, wallLayer) || 
-               Physics2D.OverlapBox((Vector2)box.bounds.center + (-offsetX), box.bounds.size, angle, wallLayer);
+        return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + offsetX, boxCollider.bounds.size, angle, wallLayer) || 
+               Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + (-offsetX), boxCollider.bounds.size, angle, wallLayer);
     }
 
-    public bool OnRightWall()
+    private bool OnRightWall()
     {
-        return Physics2D.OverlapBox((Vector2)box.bounds.center + offsetX, box.bounds.size, angle, wallLayer);
+        return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + offsetX, boxCollider.bounds.size, angle, wallLayer);
     }
 
-    public bool OnLeftWall()
+    private bool OnLeftWall()
     {
-        return Physics2D.OverlapBox((Vector2)box.bounds.center + (-offsetX), box.bounds.size, angle, wallLayer);
+        return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + (-offsetX), boxCollider.bounds.size, angle, wallLayer);
     }
     
     #endregion
@@ -93,13 +97,13 @@ public class Collision : MonoBehaviour
     {
         // GroundCheck
         Gizmos.color = Color.magenta;
-        Gizmos.DrawWireCube((Vector2)box.bounds.center + offsetY, box.bounds.size);
+        Gizmos.DrawWireCube((Vector2)boxCollider.bounds.center + offsetY, boxCollider.bounds.size);
         // RightWallCheck
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube((Vector2)box.bounds.center + offsetX, box.bounds.size);
+        Gizmos.DrawWireCube((Vector2)boxCollider.bounds.center + offsetX, boxCollider.bounds.size);
         // LeftWallCheck
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube((Vector2)box.bounds.center + (-offsetX), box.bounds.size);
+        Gizmos.DrawWireCube((Vector2)boxCollider.bounds.center + (-offsetX), boxCollider.bounds.size);
     }
     
 #endif
