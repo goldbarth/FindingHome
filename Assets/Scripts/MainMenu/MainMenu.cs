@@ -10,8 +10,8 @@ namespace MainMenu
     //TODO: create a scene loader?
     public enum MenuState
     {
-        Game,
         MainMenu,
+        Game,
     }
     
     public class MainMenu : MonoBehaviour
@@ -46,7 +46,7 @@ namespace MainMenu
             
             // load the next scene - which will turn load the game
             // because of OnSceneLoaded in DataPersistenceManager
-            SceneManager.LoadSceneAsync("SampleScene");
+            SceneManager.LoadSceneAsync((int)MenuState.Game);
         }
         
         public void OnOptionsClicked()

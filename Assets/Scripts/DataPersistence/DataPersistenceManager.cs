@@ -81,10 +81,10 @@ namespace DataPersistence
             {
                 NewGame();
             }
-            else
+            else if (_gameData == null)
             {
                 Debug.Log("Game data is null");
-                return;
+                // return;
             }
             
             // If there is no game data saved, warning message will be printed
@@ -119,7 +119,7 @@ namespace DataPersistence
             _dataHandler.Save(_gameData, _selectedProfileId);
         }
         
-        private List<IDataPersistence> FindAllDataPersistenceObjects()
+        private static List<IDataPersistence> FindAllDataPersistenceObjects()
         {
             // Find all objects that implement IDataPersistence
             var dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>(); 

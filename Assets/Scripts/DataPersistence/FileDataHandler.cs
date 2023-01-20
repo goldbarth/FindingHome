@@ -36,6 +36,9 @@ namespace DataPersistence
                     using var stream = File.Open(fullPath, FileMode.Open);
                     using var reader = new StreamReader(stream);
                     var dataToLoad = reader.ReadToEnd(); // load the serialized data from the file
+                    
+                    if (_useEncryption)
+                        dataToLoad = EncryptDecrypt(dataToLoad);
 
                     // deserialize the data from json back into the C# object
                     loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
@@ -109,7 +112,7 @@ namespace DataPersistence
         }
 
         // XOR encryption with a code word to make it harder to read the data in the file (not secure) 
-        private string EncryptDecrypt(string data)
+        private static string EncryptDecrypt(string data)
         {
             var modifiedData = "";
             for (var i = 0; i < data.Length; i++)
