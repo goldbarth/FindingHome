@@ -23,5 +23,26 @@ namespace DataPersistence
             
             collectables = new SerializableDictionary<string, bool>();
         }
+
+        public int GetPercentageComplete()
+        {
+            var totalCollected = 0;
+            foreach (var collected in collectables.Values)
+            {
+                if (collected)
+                {
+                    totalCollected++;
+                }
+            }
+            
+            // ensure we don´t divide by 0 when calculating the percentage
+            var percentageCompleted = -1;
+            if (collectables.Count != 0)
+            {
+                percentageCompleted = totalCollected * 100 / collectables.Count; // Dividing by zero is mathematically "undefined" and will result in an error
+            }
+
+            return percentageCompleted;
+        }
     }
 }

@@ -16,6 +16,8 @@ namespace DataPersistence
         [Header("File Storage Config")]
         [SerializeField] private string fileName;
         [SerializeField] private bool useEncryption;
+
+        private string _selectedProfileId = "Slot";
         
         private GameData _gameData;
         private FileDataHandler _dataHandler;
@@ -73,7 +75,7 @@ namespace DataPersistence
         
         public void LoadGame()
         {
-            _gameData = _dataHandler.Load();
+            _gameData = _dataHandler.Load(_selectedProfileId);
 
             if (_gameData == null && initializeDataIfNull)
             {
@@ -81,7 +83,7 @@ namespace DataPersistence
             }
             else
             {
-                Debug.LogError("Game data is null");
+                Debug.Log("Game data is null");
                 return;
             }
             
@@ -114,7 +116,7 @@ namespace DataPersistence
                 dataPersistenceObject.SaveData(ref _gameData);
             }
             
-            _dataHandler.Save(_gameData);
+            _dataHandler.Save(_gameData, _selectedProfileId);
         }
         
         private List<IDataPersistence> FindAllDataPersistenceObjects()
@@ -133,6 +135,11 @@ namespace DataPersistence
         private void OnApplicationQuit()
         {
             SaveGame();
+        }
+
+        public Dictionary<string, GameData> GetAllProfilesGameData()
+        {
+            return _dataHandler.LoadAllProfiles();
         }
     }
 }
