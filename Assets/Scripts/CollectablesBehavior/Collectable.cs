@@ -18,12 +18,7 @@ namespace CollectablesBehavior
             id = Guid.NewGuid().ToString();
         }
 
-        private void Update()
-        {
-            print(_isCollected);
-        }
-
-        public void LoadData(ref GameData data)
+        public void LoadData(GameData data)
         {
             // if the id is not found, the item doesn´t render
             data.collectables.TryGetValue(id, out _isCollected);
@@ -33,7 +28,7 @@ namespace CollectablesBehavior
             }
         }
 
-        public void SaveData(ref GameData data)
+        public void SaveData(GameData data)
         {
             if (data.collectables.ContainsKey(id)) // if the id is already in the dictionary, it is updated
             {

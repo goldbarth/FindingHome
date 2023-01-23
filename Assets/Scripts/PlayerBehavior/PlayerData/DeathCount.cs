@@ -21,12 +21,12 @@ namespace PlayerBehavior.PlayerData
                 _deathCount++;
         }
 
-        public void LoadData(ref GameData data)
+        public void LoadData(GameData data)
         {
             _deathCount = data.deathCount;
         }
 
-        public void SaveData(ref GameData data)
+        public void SaveData(GameData data)
         {
             data.deathCount = _deathCount;
         }

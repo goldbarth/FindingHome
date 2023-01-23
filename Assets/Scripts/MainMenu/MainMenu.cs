@@ -1,4 +1,3 @@
-using System;
 using DataPersistence;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,38 +13,50 @@ namespace MainMenu
         Game,
     }
     
-    public class MainMenu : MonoBehaviour
+    public class MainMenu : Menu
     {
-        [SerializeField] private Button newGameButton;
-        [SerializeField] private Button continueGameButton;
+        [Header("MENU NAVIGATION")] 
+        [SerializeField] private SaveSlotsMenu saveSlotsMenu;
         
-        public MenuState menuState;
+        [Space][Header("MENU BUTTONS")]
+        [SerializeField] private Button newGameButton;
+        [Space][SerializeField] private Button continueGameButton;
+        [Space][SerializeField] private Button loadGameButton;
+        
+        [Space] public MenuState menuState;
 
         private void Start()
         {
+            DisableButtonsDependingOnData();
+        }
+
+        public void DisableButtonsDependingOnData()
+        {
             // Check if there is a save file and enable the continue button if there is
             if (!DataPersistenceManager.Instance.HasGameData())
+            {
                 continueGameButton.interactable = false;
+                loadGameButton.interactable = false;
+            }
         }
 
         public void OnNewGameClicked()
         {
-            DisableMenuButtons();
-            
-            // create a new game - init the data
-            DataPersistenceManager.Instance.NewGame();
-            
-            // load the game scene - which in turn will save the game
-            // in the DataPersistenceManager due to OnSceneUnLoaded.
-            SceneManager.LoadSceneAsync((int)MenuState.Game);
+            saveSlotsMenu.ActivateMenu(false);
+            DeactivateMenu();
         }
         
+        public void OnLoadGameClicked()
+        {
+            saveSlotsMenu.ActivateMenu(true);
+            DeactivateMenu();
+        }
+
         public void OnContinueGameClicked()
         {
             DisableMenuButtons();
-            
-            // load the next scene - which will turn load the game
-            // because of OnSceneLoaded in DataPersistenceManager
+            // save the game anytime before loading a new scene
+            DataPersistenceManager.Instance.SaveGame();
             SceneManager.LoadSceneAsync((int)MenuState.Game);
         }
         
@@ -63,6 +74,17 @@ namespace MainMenu
         {
             newGameButton.interactable = false;
             continueGameButton.interactable = false;
+        }
+        
+        public void ActivateMenu()
+        {
+            gameObject.SetActive(true);
+            DisableButtonsDependingOnData();
+        }
+        
+        private void DeactivateMenu()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

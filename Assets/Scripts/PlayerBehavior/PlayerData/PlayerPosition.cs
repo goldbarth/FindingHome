@@ -5,12 +5,12 @@ namespace PlayerBehavior.PlayerData
 {
     public class PlayerPosition : MonoBehaviour, IDataPersistence
     {
-        public void LoadData(ref GameData data)
+        public void LoadData(GameData data)
         {
             transform.position = data.playerPosition;
         }
 
-        public void SaveData(ref GameData data)
+        public void SaveData(GameData data)
         {
             data.playerPosition = transform.position;
         }

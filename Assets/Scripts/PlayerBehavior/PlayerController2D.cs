@@ -1,6 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static Controls;
+using static PlayerBehavior.AnimationState;
 // TODO: thoughts: Movement start/stop physics
 
 //-------------------------------------------------------------------------------------------------------------------------
@@ -41,6 +43,7 @@ namespace PlayerBehavior
         [Header("Stats")] [Space]
         [Tooltip("The movement-speed value to in/decrease the velocity")] 
         [Range(0f, 10f)] [SerializeField] private float moveSpeed;
+        [Range(0f, 30f)] [SerializeField] private float runSpeed;
 
         [Tooltip("The force value to to in/decrease the jump-height.")] 
         [Range(0f, 10f)] [SerializeField] private float jumpForce;
@@ -80,16 +83,24 @@ namespace PlayerBehavior
         private Collision _coll;
 
         // Variables
-        private float _moveInput; // x(-axis) component
         private const float JUMP_BUFFER_TIME = 0.2f;
+        private const float SPEED_THROTTLE = 0.8f;
+        private const float LANDING_TIME = 0.2f;
+        private float _moveInput; // x(-axis) component
         private float _jumpBufferCounter;
         private float _coyoteTimeCounter;
         private float _jumpLengthCounter;
+        private float _runSpeedValue;
+        private float _velocityChange;
         private int _jumpCounter;
 
         // Bools
+        private bool _isRunning;
         private bool _wallJumped;
         private bool _wallsliding;
+        private bool _isLanding = false;
+        private bool _facingRight = true;
+
 
         #endregion
 
@@ -137,6 +148,11 @@ namespace PlayerBehavior
             _moveInput = context.ReadValue<Vector2>().x;
         }
 
+        public void OnRun(InputAction.CallbackContext context)
+        {
+            _isRunning = context.action.IsPressed();
+        }
+        
         public void OnJump(InputAction.CallbackContext context)
         {
             JumpHandler(context);
@@ -151,31 +167,59 @@ namespace PlayerBehavior
         /// </summary>
         private void Move()
         {
+            _runSpeedValue = runSpeed;
+            _velocityChange = _isRunning ? _runSpeedValue : moveSpeed; // Set speed value
             if (!_wallJumped)
             {
-                _rb.velocity = new Vector2(_moveInput * moveSpeed, _rb.velocity.y);
+                if (!_coll.IsGround()) _runSpeedValue *= SPEED_THROTTLE; // Throttle speed when in air
+                else _runSpeedValue = runSpeed; // Reset speed when on ground
+                
+                _rb.velocity = new Vector2(_moveInput * _velocityChange, _rb.velocity.y);
             }
             else // In case of a wall jump the velocity is "lerped" to get a (immersive) feeling of less control.
             {
-                _rb.velocity = Vector2.Lerp(_rb.velocity, (new Vector2(_moveInput * moveSpeed, _rb.velocity.y)),
-                    wallJumpLerp * Time.deltaTime);
+                //TODO: Better wall jump feeling?
+                _rb.velocity = Vector2.Lerp(_rb.velocity, new Vector2(_moveInput * _velocityChange, _rb.velocity.y)
+                    ,wallJumpLerp * Time.deltaTime);
             }
+            
+            if (_coll.IsGround() && !_isRunning && !_jumpAction.IsPressed() && !_isLanding)
+                AnimationManager.Instance.SetAnimationState(_moveInput != 0 
+                    ? player_walk 
+                    : player_idle);
+            
+            if (_coll.IsGround() && _isRunning)
+                AnimationManager.Instance.SetAnimationState(player_run);
+            
+            if (_rb.velocity.y > 0)
+                AnimationManager.Instance.SetAnimationState(player_jump);
+            else if (_rb.velocity.y < 0 && !_coll.IsNearGround())
+                AnimationManager.Instance.SetAnimationState(player_fall);
+            else if (_rb.velocity.y < 0 && _coll.IsNearGround() || _isLanding)
+                StartCoroutine(LandingAnimation());
+
+            Flip(_moveInput);
+        }
+        
+        private IEnumerator LandingAnimation()
+        {
+            _isLanding = true;
+            AnimationManager.Instance.SetAnimationState(player_land);
+            yield return new WaitForSeconds(LANDING_TIME);
+            _isLanding = false;
         }
 
         private void JumpHandler(InputAction.CallbackContext context)
         {
-            if (context.started)
-            {
-                MultiJump();
-                WallJump();
-            }
+            if (!context.started) return;
+            MultiJump();
+            WallJump();
         }
 
         // (Base-)Jump without parameters
         private void Jump()
         {
-            _rb.velocity = new Vector2(_rb.velocity.x, 0);
-            _rb.velocity += Vector2.up * jumpForce;
+            Jump(Vector2.up);
         }
 
         // (Base-)Jump with parameters
@@ -190,28 +234,25 @@ namespace PlayerBehavior
         /// </summary>
         private void MultiJump()
         {
-            if (multiJump && _jumpCounter > 0) // Multi-Jump (can jump multiple times when in air).
-            {
-                Jump();
-                _jumpCounter--;
-            }
+            if (!multiJump || _jumpCounter <= 0) return; // Multi-Jump (can jump multiple times when in air)
+            Jump();
+            _jumpCounter--;
         }
 
         // TODO: Better Walljump experience
         /// <summary>
-        /// It does a jump off a wall when this object has contact with a wall object and the move direction is pressed.
+        /// It does a jump off a wall when this object has contact with a wall object and the move direction is pressed
         /// </summary>
         private void WallJump()
         {
-            if (_jumpAction.IsPressed() && wallJump && _coll.IsWall() && !_coll.IsGround()) // Jump off the wall when contact is given and the move direction is pressed.
-            {
-                var wallDirection =
-                    _coll.IsRightWall()
-                        ? Vector2.left
-                        : Vector2.right; // If it is the right wall the jump direction is left and reverse.
-                Jump(Vector2.up / 1.5f + wallDirection / 1.5f);
-                _wallJumped = true;
-            }
+            // Jump off the wall when contact is given and the move direction is pressed
+            if (!_jumpAction.IsPressed() || !wallJump || !_coll.IsWall() || _coll.IsGround()) return; 
+            var wallDirection =
+                _coll.IsRightWall()
+                    ? Vector2.left
+                    : Vector2.right; // If it is the right wall the jump direction is left and reverse
+            Jump(Vector2.up / 1.5f + wallDirection / 1.5f);
+            _wallJumped = true;
         }
 
         /// <summary>
@@ -219,17 +260,15 @@ namespace PlayerBehavior
         /// </summary>
         private void LongJump()
         {
-            // Longer airtime when space is hold down.
-            if (_jumpAction.IsPressed())
+            // Longer airtime when space is hold down
+            if (!_jumpAction.IsPressed()) return;
+            if (_jumpLengthCounter > 0f && _coyoteTimeCounter > 0f && _jumpBufferCounter > 0f) 
             {
-                if (_jumpLengthCounter > 0f && _coyoteTimeCounter > 0f && _jumpBufferCounter > 0f) // && _jumpBufferCounter > 0f
-                {
-                    Jump();
-                    _jumpBufferCounter = 0f;
-                }
-
-                _jumpLengthCounter -= Time.deltaTime;
+                Jump(); 
+                _jumpBufferCounter = 0f;
             }
+
+            _jumpLengthCounter -= Time.deltaTime;
         }
     
         #endregion
@@ -239,23 +278,19 @@ namespace PlayerBehavior
         /// </summary>
         private void InAirBehavior() // More immersive jump experience. Source: BetterJump (Youtube)
         {
-            if (!(_wallsliding && _coll.IsGround() && _coll.IsWall()))
+            if (_wallsliding && _coll.IsGround() && _coll.IsWall()) return;
+            if (_rb.velocity.y < 0f)
             {
-                switch (_rb.velocity.y)
-                {
-                    // Let the gameobject get more lightweight at jumpstart
-                    case < 0f:
-                        _rb.velocity += (fallMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up; // Subtracting the multiplier let the gravity multiply by 1.5
-                        break;
-                    case > 0f when !_jumpAction.IsPressed():
-                        _rb.velocity += (lowJumpMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up; // Let the gameobject get more heavyweight at the highest (jumping)point
-                        break;
-                }
+                _rb.velocity += (fallMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up; // Fall faster
+            }
+            else if (_rb.velocity.y > 0f && !_jumpAction.IsPressed())
+            {
+                _rb.velocity += (lowJumpMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up; // Jump higher
             }
         }
     
         /// <summary>
-        /// It does a down-slide at a wall when this object has contact with a wall object.
+        /// It does a down-slide at a wall when this object has contact with a wall object
         /// </summary>
         private void WallSlide()
         {
@@ -267,6 +302,17 @@ namespace PlayerBehavior
             }
             else
                 _wallsliding = false;
+        }
+        /// <summary>
+        /// Flips the gameobject to the direction it is moving.
+        /// </summary>
+        /// <param name="moveInput">float</param>
+        private void Flip(float moveInput)
+        {
+            if ((!(moveInput > 0) || _facingRight) && 
+                (!(moveInput < 0) || !_facingRight)) return;
+            _facingRight = !_facingRight;
+            transform.Rotate(Vector3.up * 180);
         }
 
         #region Resetter / Counter
@@ -300,6 +346,5 @@ namespace PlayerBehavior
         }
     
         #endregion
-    
     }
 }
