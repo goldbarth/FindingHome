@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace MainMenu
+namespace UI
 {
     //TODO: work on main menu and add more options
     //TODO: create a scene loader?

@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using PlayerBehavior;
+using UnityEngine;
 
-namespace PlayerBehavior
+namespace Player
 {
     public enum AnimationState
     {

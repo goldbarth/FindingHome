@@ -3,12 +3,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace MainMenu
+namespace UI
 {
     public class SaveSlotsMenu : Menu
     {
         [Header("MENU NAVIGATION")] 
-        [SerializeField] private MainMenu mainMenu;
+        [SerializeField] private UI.MainMenu mainMenu;
         
         [Header("MENU BUTTONS")]
         [SerializeField] private Button backButton;

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace MainMenu
+namespace UI
 {
     public class ConfirmationPopupMenu : Menu
     {

@@ -53,13 +53,11 @@ namespace DataPersistence
 
         private void OnEnable()
         {
-            // Subscribe to the events
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
         
         private void OnDisable()
         {
-            // Unsubscribe to the events
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 

@@ -2,7 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static Controls;
-using static PlayerBehavior.AnimationState;
+using static Player.AnimationState;
+
 // TODO: thoughts: Movement start/stop physics
 
 //-------------------------------------------------------------------------------------------------------------------------
@@ -11,7 +12,7 @@ using static PlayerBehavior.AnimationState;
 // to de-/select and use it as a base(-blueprint) for new projects/prototypes.
 //-------------------------------------------------------------------------------------------------------------------------
 
-namespace PlayerBehavior
+namespace Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController2D : MonoBehaviour, IGameplayActions
