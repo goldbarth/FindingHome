@@ -1,4 +1,6 @@
 using System.Collections;
+using DataPersistence;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static Controls;
@@ -102,7 +104,6 @@ namespace Player
         private bool _isLanding = false;
         private bool _facingRight = true;
 
-
         #endregion
 
         #region Event Functions
@@ -153,7 +154,17 @@ namespace Player
         {
             _isRunning = context.action.IsPressed();
         }
-        
+
+        //TODO: additive scene loading
+        public void OnPause(InputAction.CallbackContext context)
+        {
+            if (context.started && !GameManager.Instance.IsPaused)
+            {
+                DataPersistenceManager.Instance.SaveGame();
+                SceneLoader.Instance.LoadScene(SceneIndex.PauseMenu);
+            }
+        }
+
         public void OnJump(InputAction.CallbackContext context)
         {
             JumpHandler(context);

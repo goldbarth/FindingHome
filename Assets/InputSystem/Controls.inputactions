@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "10afb346-1f71-4432-8d7b-d3a9d9e3e0cc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -121,6 +130,28 @@
                     "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d43fb5d5-b3f4-4a33-866a-d87023be8f42",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b82cd21f-6fa7-4170-a5e6-e076c2ebff24",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -148,7 +179,7 @@
                 },
                 {
                     "name": "Pointer",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "fd1d0629-590c-4b11-8e33-089a4856250d",
                     "expectedControlType": "Delta",
                     "processors": "",
@@ -157,8 +188,17 @@
                 },
                 {
                     "name": "LeftClick",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "976f2665-e177-4e7f-b485-1d955c1a86d1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "ec2c9dcf-909f-4b30-8ccf-014dec38fae5",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -383,6 +423,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "LeftClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dcda1da7-afca-40f6-8f04-e953af60fda2",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5c6e295e-49b1-4401-badc-dbf20202793c",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

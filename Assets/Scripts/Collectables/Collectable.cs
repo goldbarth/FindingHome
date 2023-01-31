@@ -30,7 +30,8 @@ namespace CollectablesBehavior
 
         public void SaveData(GameData data)
         {
-            if (data.collectables.ContainsKey(id)) // if the id is already in the dictionary, it is updated
+            // if the id is already in the dictionary, it is updated
+            if (data.collectables.ContainsKey(id)) 
             {
                 data.collectables[id] = _isCollected;
             }

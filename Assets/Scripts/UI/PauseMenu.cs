@@ -1,40 +1,60 @@
-using DataPersistence;
+﻿using DataPersistence;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI
 {
-    public class MainMenu : Menu
+    public class PauseMenu : Menu
     {
         [Header("MENU NAVIGATION")] 
         [SerializeField] private SaveSlotsMenu saveSlotsMenu;
         
         [Space][Header("MENU BUTTONS")]
-        [SerializeField] private Button newGameButton;
-        [Space][SerializeField] private Button continueGameButton;
+        [SerializeField] private Button resumeGameButton;
+        [Space][SerializeField] private Button saveGameButton;
         [Space][SerializeField] private Button loadGameButton;
         [Space][SerializeField] private Button optionsButton;
+        [Space][SerializeField] private Button mainMenuButton;
         [Space][SerializeField] private Button quitButton;
-
-        private void Start()
+        
+        private void Awake()
         {
+            GameManager.Instance.IsPaused = true;
             DisableButtonsDependingOnData();
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.Instance.IsPaused = false;
         }
 
         public void DisableButtonsDependingOnData()
         {
             // Check if there is a save file and enable the continue button if there is
             if (DataPersistenceManager.Instance.HasGameData()) return;
-            continueGameButton.interactable = false;
             loadGameButton.interactable = false;
         }
 
-        #region Button Clicks
 
-        public void OnNewGameClicked()
+        #region Button Clicks
+        
+        public void OnResumeGameClicked()
         {
-            saveSlotsMenu.ActivateMenu(false);
-            DeactivateMenu();
+            // save the game anytime before loading a new scene
+            DataPersistenceManager.Instance.SaveGame();
+            //TODO: integrate with scene loader
+            SceneLoader.Instance.LoadScene(SceneIndex.Game);
+        }
+        
+        public void OnOptionsMenuClicked()
+        {
+            //TODO: integrate with scene loader
+            SceneLoader.Instance.LoadScene(SceneIndex.Options);
+        }
+        
+        public void OnSaveGameClicked()
+        {
+            DataPersistenceManager.Instance.SaveGame();
         }
         
         public void OnLoadGameClicked()
@@ -42,24 +62,13 @@ namespace UI
             saveSlotsMenu.ActivateMenu(true);
             DeactivateMenu();
         }
-
-        public void OnContinueGameClicked()
+        
+        public void OnMainMenuClicked()
         {
-            DisableMenuButtons();
-            // save the game anytime before loading a new scene
-            DataPersistenceManager.Instance.SaveGame();
-            //TODO: integrate with scene loader
-            SceneLoader.Instance.LoadScene(SceneIndex.Game);
-            //SceneManager.LoadSceneAsync((int)SceneIndex.Game);
-            
+            SceneLoader.Instance.LoadScene(SceneIndex.MainMenu);
         }
         
-        public void OnOptionsClicked()
-        {
-            SceneLoader.Instance.LoadScene(SceneIndex.Options);
-        }
-        
-        public void OnExitClicked()
+        public void OnQuitGameClicked()
         {
             Application.Quit();
         }
@@ -68,10 +77,11 @@ namespace UI
         
         private void DisableMenuButtons()
         {
-            newGameButton.interactable = false;
-            continueGameButton.interactable = false;
+            resumeGameButton.interactable = false;
+            saveGameButton.interactable = false;
             loadGameButton.interactable = false;
             optionsButton.interactable = false;
+            mainMenuButton.interactable = false;
             quitButton.interactable = false;
         }
         

@@ -1,9 +1,8 @@
-using System;
 using DataPersistence;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace PlayerBehavior.PlayerData
+namespace Player.PlayerData
 {
     public class DeathCount : MonoBehaviour, IDataPersistence
     {

@@ -60,7 +60,7 @@ namespace UI
         {
             // save the game anytime before loading a new scene
             DataPersistenceManager.Instance.SaveGame();
-            SceneManager.LoadSceneAsync((int)MenuState.Game);
+            SceneManager.LoadSceneAsync((int)SceneIndex.Game);
         }
         
         public void OnDeleteButtonClicked(SaveSlot saveSlot)

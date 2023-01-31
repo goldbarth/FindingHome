@@ -10,6 +10,8 @@ namespace DataPersistence
     // if the game is closed manually or crashed, the data will be saved in the file.
     public class DataPersistenceManager : MonoBehaviour
     {
+        public static DataPersistenceManager Instance { get; private set; }
+        
         [Header("DEBUGGING")] [Tooltip("If checked, the data will NOT be saved!!!")]
         [SerializeField] private bool disableDataPersistence = false;
         [Space][SerializeField] private bool initializeDataIfNull = false;
@@ -29,8 +31,6 @@ namespace DataPersistence
         private FileDataHandler _dataHandler;
         private List<IDataPersistence> _dataPersistenceObjects; // List of all objects that need to be saved and loaded
         private Coroutine _autoSaveCoroutine;
-
-        public static DataPersistenceManager Instance { get; private set; }
         
         private void Awake()
         {
@@ -80,16 +80,12 @@ namespace DataPersistence
         {
             // update the profile id to use for saving and loading
             _selectedProfileId = newProfileId;
-            // load the game, which will use that profile
             LoadGame();
         }
         public void DeleteProfileData(string profileId)
         {
-            // delete the data for this profile id
             _dataHandler.Delete(profileId);
-            // initialize the selected profile id
             InitializeSelectedProfileId();
-            // reload the game, the newly selected profile id data matches
             LoadGame();
         }
 
@@ -151,8 +147,8 @@ namespace DataPersistence
         
         private static List<IDataPersistence> FindAllDataPersistenceObjects()
         {
-            // find all objects that implement IDataPersistence. if you want to save data from a new script, add the interface to it  
-            // optionally, if in FindObjectsOfType, you can add true as a parameter, which will include inactive objects
+            // find all objects that implement IDataPersistence
+            // enable true in FindObjectsOfType, than it will include inactive objects
             var dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>(true).OfType<IDataPersistence>(); 
 
             return new List<IDataPersistence>(dataPersistenceObjects);

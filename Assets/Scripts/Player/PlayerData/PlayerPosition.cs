@@ -1,7 +1,7 @@
 using DataPersistence;
 using UnityEngine;
 
-namespace PlayerBehavior.PlayerData
+namespace Player.PlayerData
 {
     public class PlayerPosition : MonoBehaviour, IDataPersistence
     {
