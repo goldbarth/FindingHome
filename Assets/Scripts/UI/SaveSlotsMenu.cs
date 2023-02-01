@@ -1,14 +1,12 @@
 using DataPersistence;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UI
 {
     public class SaveSlotsMenu : Menu
     {
-        [Header("MENU NAVIGATION")] 
-        [SerializeField] private UI.MainMenu mainMenu;
+        private MainMenu _mainMenu;
         
         [Header("MENU BUTTONS")]
         [SerializeField] private Button backButton;
@@ -18,11 +16,20 @@ namespace UI
         
         private SaveSlot[] _saveSlots;
         
-        private bool _isLoadingGame = false;
+        private bool _isLoadingGame;
+        private bool _isNewGame;
 
         private void Awake()
         {
             _saveSlots = GetComponentsInChildren<SaveSlot>();
+        }
+
+        private void Start()
+        {
+            if (GameManager.Instance.IsNewGame)
+                ActivateMenu(false);
+            else if (!GameManager.Instance.IsNewGame)
+                ActivateMenu(true);
         }
 
         public void OnSaveSlotClicked(SaveSlot saveSlot)
@@ -60,7 +67,7 @@ namespace UI
         {
             // save the game anytime before loading a new scene
             DataPersistenceManager.Instance.SaveGame();
-            SceneManager.LoadSceneAsync((int)SceneIndex.Game);
+            SceneLoader.Instance.LoadScene(SceneIndex.Game);
         }
         
         public void OnDeleteButtonClicked(SaveSlot saveSlot)
@@ -78,29 +85,24 @@ namespace UI
 
         public void OnBackButtonClicked()
         {
-            mainMenu.ActivateMenu();
-            DeactivateMenu();
+            _mainMenu.DisableButtonsDependingOnData();
+            SceneLoader.Instance.LoadScene(SceneIndex.MainMenu);
+
         }
 
         public void ActivateMenu(bool isLoadingGame)
         {
-            gameObject.SetActive(true);
-            
-            // set the flag to indicate if we are loading a game or starting a new one
+            // set the flag to indicate if a game is loading or starting a new one
             _isLoadingGame = isLoadingGame;
             
             // load all of the profiles that exist
             var profilesGameData = DataPersistenceManager.Instance.GetAllProfilesGameData();
-            
-            // enable back button when menu gets activated
-            backButton.interactable = true;
-            
+
             // loop through each save slot(button) in the UI and set the right buttons active/inactive
             var firstSelected = backButton.gameObject;
             foreach (var saveSlot in _saveSlots)
             {
-                GameData profileData = null;
-                profilesGameData.TryGetValue(saveSlot.GetProfileId(), out profileData);
+                profilesGameData.TryGetValue(saveSlot.GetProfileId(), out var profileData);
                 saveSlot.SetData(profileData);
                 if (profileData == null && isLoadingGame)
                 {
@@ -120,11 +122,6 @@ namespace UI
             
             var firstSelectedButton = firstSelected.GetComponent<Button>();
             SetFirstSelected(firstSelectedButton);
-        }
-        
-        private void DeactivateMenu()
-        {
-            gameObject.SetActive(false);
         }
         
         private void DisableMenuButtons()

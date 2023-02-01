@@ -1,3 +1,4 @@
+using System;
 using DataPersistence;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,15 +7,9 @@ namespace UI
 {
     public class MainMenu : Menu
     {
-        [Header("MENU NAVIGATION")] 
-        [SerializeField] private SaveSlotsMenu saveSlotsMenu;
-        
         [Space][Header("MENU BUTTONS")]
-        [SerializeField] private Button newGameButton;
         [Space][SerializeField] private Button continueGameButton;
         [Space][SerializeField] private Button loadGameButton;
-        [Space][SerializeField] private Button optionsButton;
-        [Space][SerializeField] private Button quitButton;
 
         private void Start()
         {
@@ -33,25 +28,21 @@ namespace UI
 
         public void OnNewGameClicked()
         {
-            saveSlotsMenu.ActivateMenu(false);
-            DeactivateMenu();
+            SceneLoader.Instance.LoadScene(SceneIndex.LoadMenu);
+            GameManager.Instance.IsNewGame = true;
         }
         
         public void OnLoadGameClicked()
         {
-            saveSlotsMenu.ActivateMenu(true);
-            DeactivateMenu();
+            SceneLoader.Instance.LoadScene(SceneIndex.LoadMenu);
+            GameManager.Instance.IsNewGame = false;
         }
 
         public void OnContinueGameClicked()
         {
-            DisableMenuButtons();
             // save the game anytime before loading a new scene
             DataPersistenceManager.Instance.SaveGame();
-            //TODO: integrate with scene loader
             SceneLoader.Instance.LoadScene(SceneIndex.Game);
-            //SceneManager.LoadSceneAsync((int)SceneIndex.Game);
-            
         }
         
         public void OnOptionsClicked()
@@ -65,25 +56,5 @@ namespace UI
         }
         
         #endregion
-        
-        private void DisableMenuButtons()
-        {
-            newGameButton.interactable = false;
-            continueGameButton.interactable = false;
-            loadGameButton.interactable = false;
-            optionsButton.interactable = false;
-            quitButton.interactable = false;
-        }
-        
-        public void ActivateMenu()
-        {
-            gameObject.SetActive(true);
-            DisableButtonsDependingOnData();
-        }
-        
-        private void DeactivateMenu()
-        {
-            gameObject.SetActive(false);
-        }
     }
 }

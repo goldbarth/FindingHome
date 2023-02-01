@@ -12,7 +12,6 @@ namespace UI
         [SerializeField] private Slider musicVolumeSlider;
         
         private EventSystem _eventSystem;
-        private PauseMenu _pauseMenu;
 
         private void Awake()
         {

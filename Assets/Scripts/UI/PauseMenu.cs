@@ -59,8 +59,6 @@ namespace UI
         
         public void OnLoadGameClicked()
         {
-            saveSlotsMenu.ActivateMenu(true);
-            DeactivateMenu();
         }
         
         public void OnMainMenuClicked()
@@ -74,26 +72,5 @@ namespace UI
         }
         
         #endregion
-        
-        private void DisableMenuButtons()
-        {
-            resumeGameButton.interactable = false;
-            saveGameButton.interactable = false;
-            loadGameButton.interactable = false;
-            optionsButton.interactable = false;
-            mainMenuButton.interactable = false;
-            quitButton.interactable = false;
-        }
-        
-        public void ActivateMenu()
-        {
-            gameObject.SetActive(true);
-            DisableButtonsDependingOnData();
-        }
-        
-        private void DeactivateMenu()
-        {
-            gameObject.SetActive(false);
-        }
     }
 }

@@ -11,6 +11,7 @@ namespace UI
         Options,
         Game,
         PauseMenu,
+        LoadMenu
     }
     
     public class SceneLoader : MonoBehaviour
@@ -36,7 +37,7 @@ namespace UI
 
         public void LoadScene(SceneIndex sceneIndex, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
         {
-            SceneManager.LoadScene((int)sceneIndex, loadSceneMode);
+            SceneManager.LoadSceneAsync((int)sceneIndex, loadSceneMode);
         }
         
         public void UnloadScene(SceneIndex sceneIndex)
