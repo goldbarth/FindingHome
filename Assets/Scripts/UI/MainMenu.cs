@@ -1,7 +1,6 @@
-using System;
 using DataPersistence;
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
 
 namespace UI
 {
@@ -28,26 +27,24 @@ namespace UI
 
         public void OnNewGameClicked()
         {
-            SceneLoader.Instance.LoadScene(SceneIndex.LoadMenu);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndex.LoadMenu);
             GameManager.Instance.IsNewGame = true;
         }
         
         public void OnLoadGameClicked()
         {
-            SceneLoader.Instance.LoadScene(SceneIndex.LoadMenu);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndex.LoadMenu);
             GameManager.Instance.IsNewGame = false;
         }
 
         public void OnContinueGameClicked()
         {
-            // save the game anytime before loading a new scene
-            DataPersistenceManager.Instance.SaveGame();
-            SceneLoader.Instance.LoadScene(SceneIndex.Game);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndex.Game);
         }
         
         public void OnOptionsClicked()
         {
-            SceneLoader.Instance.LoadScene(SceneIndex.Options);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndex.Options);
         }
         
         public void OnExitClicked()

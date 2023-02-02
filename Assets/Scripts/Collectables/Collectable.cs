@@ -1,8 +1,8 @@
-using System;
 using DataPersistence;
 using UnityEngine;
+using System;
 
-namespace CollectablesBehavior
+namespace Collectables
 {
     public class Collectable : MonoBehaviour, IDataPersistence
     {

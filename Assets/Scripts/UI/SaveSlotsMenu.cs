@@ -1,6 +1,6 @@
 using DataPersistence;
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
 
 namespace UI
 {
@@ -26,10 +26,8 @@ namespace UI
 
         private void Start()
         {
-            if (GameManager.Instance.IsNewGame)
-                ActivateMenu(false);
-            else if (!GameManager.Instance.IsNewGame)
-                ActivateMenu(true);
+            if (GameManager.Instance.IsNewGame) ActivateMenu(false);
+            else if (!GameManager.Instance.IsNewGame) ActivateMenu(true);
         }
 
         public void OnSaveSlotClicked(SaveSlot saveSlot)
@@ -67,7 +65,7 @@ namespace UI
         {
             // save the game anytime before loading a new scene
             DataPersistenceManager.Instance.SaveGame();
-            SceneLoader.Instance.LoadScene(SceneIndex.Game);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndex.Game);
         }
         
         public void OnDeleteButtonClicked(SaveSlot saveSlot)
@@ -85,9 +83,8 @@ namespace UI
 
         public void OnBackButtonClicked()
         {
-            _mainMenu.DisableButtonsDependingOnData();
-            SceneLoader.Instance.LoadScene(SceneIndex.MainMenu);
-
+            if (_mainMenu != null) _mainMenu.DisableButtonsDependingOnData();
+            SceneLoader.Instance.LoadSceneAsync(GameManager.Instance.IsPaused ? SceneIndex.PauseMenu : SceneIndex.MainMenu);
         }
 
         public void ActivateMenu(bool isLoadingGame)

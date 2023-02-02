@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine.SceneManagement;
+using System.Collections;
+using UnityEngine.UI;
+using UnityEngine;
 
-//TODO: unload scene when go to next scene
 namespace UI
 {
     public enum SceneIndex
@@ -16,8 +17,12 @@ namespace UI
     
     public class SceneLoader : MonoBehaviour
     {
-        public static SceneLoader Instance { get; private set; }
+        public static SceneLoader Instance;
+        
         [SerializeField] private SceneIndex startScene;
+        [SerializeField] private GameObject loadingScreen;
+        [SerializeField] private float minLoadingDuration;
+        [SerializeField] private Image progressBarFill;
 
         private void Awake()
         {
@@ -32,20 +37,34 @@ namespace UI
                 return;
             }
             
-            LoadScene(startScene);
+            LoadSceneAsync(startScene);
+            loadingScreen.SetActive(false);
         }
 
-        public void LoadScene(SceneIndex sceneIndex, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
+        public void LoadSceneAsync(SceneIndex sceneIndex, LoadSceneMode loadSceneMode = LoadSceneMode.Single, bool showProgress = false)
         {
-            SceneManager.LoadSceneAsync((int)sceneIndex, loadSceneMode);
+            var asyncOperation = SceneManager.LoadSceneAsync((int)sceneIndex, loadSceneMode);
+            
+            if (showProgress) StartCoroutine(LoadingProgress(asyncOperation));
         }
         
-        public void UnloadScene(SceneIndex sceneIndex)
+        private IEnumerator LoadingProgress(AsyncOperation asyncOperation)
         {
-        }
-        
-        public void UnloadCurrentScene()
-        {
+            loadingScreen.SetActive(true);
+            progressBarFill.fillAmount = 0f;
+            var counter = 0f;
+            while (!asyncOperation.isDone || counter <= minLoadingDuration)
+            {
+                yield return null;
+                counter += Time.deltaTime;
+
+                var waitProgress = counter / minLoadingDuration;
+                
+                progressBarFill.fillAmount = Mathf.Min(asyncOperation.progress, waitProgress);
+            }
+
+            progressBarFill.fillAmount = 1f;
+            loadingScreen.SetActive(false);
         }
     }
 }

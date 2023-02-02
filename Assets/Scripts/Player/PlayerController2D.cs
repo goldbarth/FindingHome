@@ -1,10 +1,10 @@
-using System.Collections;
-using DataPersistence;
-using UI;
-using UnityEngine;
-using UnityEngine.InputSystem;
-using static Controls;
 using static Player.AnimationState;
+using UnityEngine.InputSystem;
+using System.Collections;
+using static Controls;
+using DataPersistence;
+using UnityEngine;
+using UI;
 
 // TODO: thoughts: Movement start/stop physics
 
@@ -22,7 +22,7 @@ namespace Player
         #region Feature Modes
 
         // Features to enable/disable in unity inspector
-        [Header("Multi-Jump Modes")] [Space]
+        [Header("MULTI-JUMP MODES")] [Space]
         [Tooltip("If the Checkbox is checked Multi-Jump is on. And you can jump (x)times when in the air.")]
         [SerializeField] private bool multiJump;
 
@@ -31,7 +31,7 @@ namespace Player
     
         [Space]
     
-        [Header("Wall-Feature Modes")] [Space]
+        [Header("WALL-FEATURES MODES")] [Space]
         [Tooltip("If the Checkbox is checked Wall Jump is on. If it�s unchecked it is not possible to jump off a wall.")]
         [SerializeField] private bool wallJump = true;
 
@@ -43,7 +43,7 @@ namespace Player
         #region Stats
         [Space]
     
-        [Header("Stats")] [Space]
+        [Header("STATS")] [Space]
         [Tooltip("The movement-speed value to in/decrease the velocity")] 
         [Range(0f, 10f)] [SerializeField] private float moveSpeed;
         [Range(0f, 30f)] [SerializeField] private float runSpeed;
@@ -101,7 +101,7 @@ namespace Player
         private bool _isRunning;
         private bool _wallJumped;
         private bool _wallsliding;
-        private bool _isLanding = false;
+        private bool _isLanding;
         private bool _facingRight = true;
 
         #endregion
@@ -131,6 +131,7 @@ namespace Player
         {
             _coll.FrictionChange(wallSlide);
             ResetterAndCounter();
+            AnimationHandler();
         }
 
         private void FixedUpdate()
@@ -161,7 +162,7 @@ namespace Player
             if (context.started && !GameManager.Instance.IsPaused)
             {
                 DataPersistenceManager.Instance.SaveGame();
-                SceneLoader.Instance.LoadScene(SceneIndex.PauseMenu);
+                SceneLoader.Instance.LoadSceneAsync(SceneIndex.PauseMenu);
             }
         }
 
@@ -194,33 +195,8 @@ namespace Player
                 _rb.velocity = Vector2.Lerp(_rb.velocity, new Vector2(_moveInput * _velocityChange, _rb.velocity.y)
                     ,wallJumpLerp * Time.deltaTime);
             }
-            
-            if (_coll.IsGround() && !_isRunning && !_jumpAction.IsPressed() && !_isLanding)
-                AnimationManager.Instance.SetAnimationState(_moveInput != 0 
-                    ? player_walk 
-                    : player_idle);
-            
-            if (_coll.IsGround() && _isRunning)
-                AnimationManager.Instance.SetAnimationState(player_run);
-            
-            if (_rb.velocity.y > 0)
-                AnimationManager.Instance.SetAnimationState(player_jump);
-            else if (_rb.velocity.y < 0 && !_coll.IsNearGround())
-                AnimationManager.Instance.SetAnimationState(player_fall);
-            else if (_rb.velocity.y < 0 && _coll.IsNearGround() || _isLanding)
-                StartCoroutine(LandingAnimation());
-
-            Flip(_moveInput);
         }
         
-        private IEnumerator LandingAnimation()
-        {
-            _isLanding = true;
-            AnimationManager.Instance.SetAnimationState(player_land);
-            yield return new WaitForSeconds(LANDING_TIME);
-            _isLanding = false;
-        }
-
         private void JumpHandler(InputAction.CallbackContext context)
         {
             if (!context.started) return;
@@ -315,6 +291,35 @@ namespace Player
             else
                 _wallsliding = false;
         }
+        
+        private void AnimationHandler()
+        {
+            if (_coll.IsGround() && !_isRunning && !_jumpAction.IsPressed() && !_isLanding)
+                AnimationManager.Instance.SetAnimationState(_moveInput != 0
+                    ? player_walk
+                    : player_idle);
+
+            if (_coll.IsGround() && _isRunning)
+                AnimationManager.Instance.SetAnimationState(player_run);
+
+            if (_rb.velocity.y > 0)
+                AnimationManager.Instance.SetAnimationState(player_jump);
+            else if (_rb.velocity.y < 0 && !_coll.IsNearGround() && !_wallsliding)
+                AnimationManager.Instance.SetAnimationState(player_fall);
+            else if (_rb.velocity.y < 0 && _coll.IsNearGround() || _isLanding)
+                StartCoroutine(LandingAnimation());
+
+            Flip(_moveInput);
+        }
+
+        private IEnumerator LandingAnimation()
+        {
+            _isLanding = true;
+            AnimationManager.Instance.SetAnimationState(player_land);
+            yield return new WaitForSeconds(LANDING_TIME);
+            _isLanding = false;
+        }
+
         /// <summary>
         /// Flips the gameobject to the direction it is moving.
         /// </summary>

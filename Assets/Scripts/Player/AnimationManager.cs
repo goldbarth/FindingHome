@@ -1,5 +1,4 @@
-﻿using PlayerBehavior;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Player
 {

@@ -1,6 +1,6 @@
-using System;
 using DataPersistence.Serializable;
 using UnityEngine;
+using System;
 
 namespace DataPersistence
 {

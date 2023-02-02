@@ -1,7 +1,7 @@
 using DataPersistence;
-using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
+using TMPro;
 
 namespace UI
 {
@@ -18,7 +18,7 @@ namespace UI
         [Space][Header("CLEAR DATA BUTTON")]
         [SerializeField] private Button deleteButton;
         
-        public bool HasData { get; private set; } = false;
+        public bool HasData { get; private set; }
         
         private Button _saveSlotButton;
         

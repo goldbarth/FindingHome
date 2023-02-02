@@ -1,6 +1,6 @@
+using UnityEngine.InputSystem;
 using DataPersistence;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Player.PlayerData
 {

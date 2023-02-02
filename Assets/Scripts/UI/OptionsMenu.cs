@@ -1,7 +1,7 @@
-﻿using DataPersistence;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine.EventSystems;
+using DataPersistence;
 using UnityEngine.UI;
+using UnityEngine;
 
 namespace UI
 {
@@ -48,7 +48,7 @@ namespace UI
         
         public void OnBackButtonClicked()
         {
-            SceneLoader.Instance.LoadScene(GameManager.Instance.IsPaused ? SceneIndex.PauseMenu : SceneIndex.MainMenu);
+            SceneLoader.Instance.LoadSceneAsync(GameManager.Instance.IsPaused ? SceneIndex.PauseMenu : SceneIndex.MainMenu);
         }
 
         public void LoadData(GameData data)
