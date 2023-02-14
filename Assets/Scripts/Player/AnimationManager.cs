@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using AddIns;
+using UnityEngine;
 
 namespace Player
 {
@@ -15,25 +16,15 @@ namespace Player
         player_death
     }
     
-    public class AnimationManager : MonoBehaviour
+    public class AnimationManager : Singleton<AnimationManager>
     {
-        public static AnimationManager Instance { get; private set; }
         private Animator _animator;
         private string _currentState;
-        
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(this);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
 
-            _animator = FindObjectOfType<PlayerController2D>().GetComponent<Animator>();
+        protected override void Awake()
+        {
+            base.Awake();
+            _animator = FindObjectOfType<PlayerController2D>().GetComponentInChildren<Animator>();
         }
 
         public void SetAnimationState(AnimationState state)

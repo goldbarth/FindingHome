@@ -22,8 +22,8 @@ namespace Player
     
         private Collider2D _collider;
     
-        private readonly Vector2 _offsetX = new (0.01f, 0f); // Overlapbox offset -> wallcheck
-        private readonly Vector2 _offsetY = new (0f, -0.01f); // Overlapbox offset -> groundcheck
+        public Vector2 _offsetX = new (0.01f, 0f); // Overlapbox offset -> wallcheck
+        public Vector2 _offsetY = new (0f, -0.01f); // Overlapbox offset -> groundcheck
         public Vector2 offset = new (0.01f, -0.01f); // Overlapbox offset -> wallcheck + groundcheck
         private float _angle; // Don´t need angles rn, but it can be useful in the future
 

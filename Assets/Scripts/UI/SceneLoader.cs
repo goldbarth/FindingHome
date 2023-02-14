@@ -1,5 +1,6 @@
 ﻿using UnityEngine.SceneManagement;
 using System.Collections;
+using AddIns;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -15,28 +16,16 @@ namespace UI
         LoadMenu
     }
     
-    public class SceneLoader : MonoBehaviour
+    public class SceneLoader : Singleton<SceneLoader>
     {
-        public static SceneLoader Instance;
-        
         [SerializeField] private SceneIndex startScene;
         [SerializeField] private GameObject loadingScreen;
         [SerializeField] private float minLoadingDuration;
         [SerializeField] private Image progressBarFill;
 
-        private void Awake()
+        protected override void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-                return;
-            }
-            
+            base.Awake();
             LoadSceneAsync(startScene);
             loadingScreen.SetActive(false);
         }

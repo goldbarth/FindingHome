@@ -39,7 +39,7 @@ namespace UI
 
         public void OnContinueGameClicked()
         {
-            SceneLoader.Instance.LoadSceneAsync(SceneIndex.Game);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndex.Game, showProgress: true);
         }
         
         public void OnOptionsClicked()

@@ -5,6 +5,7 @@ using static Controls;
 using DataPersistence;
 using UnityEngine;
 using UI;
+using UnityEngine.SceneManagement;
 
 // TODO: thoughts: Movement start/stop physics
 
@@ -16,7 +17,7 @@ using UI;
 
 namespace Player
 {
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
     public class PlayerController2D : MonoBehaviour, IGameplayActions
     {
         #region Feature Modes
@@ -162,7 +163,7 @@ namespace Player
             if (context.started && !GameManager.Instance.IsPaused)
             {
                 DataPersistenceManager.Instance.SaveGame();
-                SceneLoader.Instance.LoadSceneAsync(SceneIndex.PauseMenu);
+                SceneLoader.Instance.LoadSceneAsync(SceneIndex.PauseMenu, LoadSceneMode.Additive);
             }
         }
 

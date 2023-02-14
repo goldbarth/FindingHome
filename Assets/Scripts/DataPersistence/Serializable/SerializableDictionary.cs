@@ -10,10 +10,10 @@ namespace DataPersistence.Serializable
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
     {
         [SerializeField]
-        private List<TKey> keys = new ();
+        private List<TKey> keys = new();
     
         [SerializeField]
-        private List<TValue> values = new ();
+        private List<TValue> values = new();
     
         public void OnBeforeSerialize()
         {

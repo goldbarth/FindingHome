@@ -7,6 +7,7 @@ namespace UI
 {
     public class OptionsMenu: Menu, IDataPersistence
     {
+        //[SerializeField] private AudioMixer audioMixer;
         [SerializeField] private Slider masterVolumeSlider;
         [SerializeField] private Slider sfxVolumeSlider;
         [SerializeField] private Slider musicVolumeSlider;
@@ -27,8 +28,6 @@ namespace UI
             var masterVolume = masterVolumeSlider.value;
             var sfxVolume = sfxVolumeSlider.value;
             var musicVolume = musicVolumeSlider.value;
-            
-            // Do something with the values
         }
 
         public void OnMasterSliderChanged(float value)

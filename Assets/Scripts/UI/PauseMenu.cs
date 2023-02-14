@@ -6,7 +6,7 @@ namespace UI
 {
     public class PauseMenu : Menu
     {
-        [Space][Header("MENU BUTTONS")]
+        [Space][Header("MENU BUTTON")]
         [Space][SerializeField] private Button loadGameButton;
         
         private void Awake()

@@ -6,15 +6,17 @@ namespace UI
 {
     public class MouseCursor : MonoBehaviour
     {
-        private MouseNavigation _mouse;
-       
-    
-        void Start() {
+        private MousePointer _mouse;
+
+
+        private void Start() 
+        {
             Cursor.visible = false;
-            _mouse = transform.parent.GetComponent<MouseNavigation>();
+            _mouse = transform.parent.GetComponent<MousePointer>();
         }
-        
-        void Update() {
+
+        private void Update() 
+        {
             transform.position = _mouse.DirectionAxis;
         }
     }

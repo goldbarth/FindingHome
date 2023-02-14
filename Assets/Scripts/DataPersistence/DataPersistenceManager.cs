@@ -2,16 +2,15 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
+using AddIns;
 using UnityEngine;
  
 namespace DataPersistence
 {
     // This class is used to store the data of the game.
     // if the game is closed manually or crashed, the data will be saved in the file.
-    public class DataPersistenceManager : MonoBehaviour
+    public class DataPersistenceManager : Singleton<DataPersistenceManager>
     {
-        public static DataPersistenceManager Instance { get; private set; }
-        
         [Header("DEBUGGING")] [Tooltip("If checked, the data will NOT be saved!!!")]
         [SerializeField] private bool disableDataPersistence = false;
         [Space][SerializeField] private bool initializeDataIfNull = false;
@@ -31,19 +30,10 @@ namespace DataPersistence
         private FileDataHandler _dataHandler;
         private List<IDataPersistence> _dataPersistenceObjects; // List of all objects that need to be saved and loaded
         private Coroutine _autoSaveCoroutine;
-        
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
 
+        protected override void Awake()
+        {
+            base.Awake();
             if (disableDataPersistence) 
                 Debug.LogWarning("Data Persistence is disabled!");
             
