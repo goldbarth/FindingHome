@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
+using UnityEngine;
 
 namespace UI
 {
@@ -18,5 +18,6 @@ namespace UI
         {
             firstSelectedButton.Select();
         }
+        
     }
 }

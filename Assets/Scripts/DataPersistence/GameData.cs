@@ -1,6 +1,6 @@
-using System;
 using DataPersistence.Serializable;
 using UnityEngine;
+using System;
 
 namespace DataPersistence
 {
@@ -10,6 +10,9 @@ namespace DataPersistence
         public Vector2 playerPosition;
         public int deathCount;
         public int level;
+        public float masterVolume;
+        public float sfxVolume;
+        public float musicVolume;
         
         public long lastUpdated;
         
@@ -22,6 +25,10 @@ namespace DataPersistence
             playerPosition = Vector3.zero;
             deathCount = 0;
             level = 1;
+            
+            masterVolume = 1f;
+            sfxVolume = 1f;
+            musicVolume = 1f;
             
             collectables = new SerializableDictionary<string, bool>();
         }
