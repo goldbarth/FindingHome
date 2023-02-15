@@ -39,7 +39,7 @@ namespace UI
             {
                 // update the selected profile id to be used for data persistence
                 DataPersistenceManager.Instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
-                SaveGameAndLoadScene();
+                LoadScene();
             }
             else if (saveSlot.HasData)
             {
@@ -48,7 +48,7 @@ namespace UI
                 { //confirm button callback "yes"
                     DataPersistenceManager.Instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
                     DataPersistenceManager.Instance.NewGame();
-                    SaveGameAndLoadScene();
+                    LoadScene();
                 }, () =>
                 { //cancel button callback "no"
                     ActivateMenu(_isLoadingGame);
@@ -58,11 +58,11 @@ namespace UI
             {
                 DataPersistenceManager.Instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
                 DataPersistenceManager.Instance.NewGame();
-                SaveGameAndLoadScene();
+                LoadScene();
             }
         }
         
-        private static void SaveGameAndLoadScene()
+        private static void LoadScene()
         {
             SceneLoader.Instance.LoadSceneAsync(SceneIndex.Game, showProgress: true);
         }
@@ -100,9 +100,11 @@ namespace UI
             {
                 profilesGameData.TryGetValue(saveSlot.GetProfileId(), out var profileData);
                 saveSlot.SetData(profileData);
+
                 if (profileData == null && isLoadingGame)
                 {
                     saveSlot.SetInteractable(false);
+                    
                 }
                 else
                 {
@@ -110,9 +112,7 @@ namespace UI
                     
                     // set the first selectable button to be the first save slot that is interactable
                     if (firstSelected.Equals(backButton.gameObject))
-                    {
                         firstSelected = saveSlot.gameObject;
-                    }
                 }
             }
             
@@ -123,10 +123,8 @@ namespace UI
         private void DisableMenuButtons()
         {
             foreach (var saveSlot in _saveSlots)
-            {
                 saveSlot.SetInteractable(false);
-            }
-            
+
             backButton.interactable = false;
         }
     }
