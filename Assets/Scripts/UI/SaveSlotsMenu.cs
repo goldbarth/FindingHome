@@ -37,7 +37,7 @@ namespace UI
 
             if (_isLoadingGame)
             {
-                // update the selected profile id to be used for data persistence operations
+                // update the selected profile id to be used for data persistence
                 DataPersistenceManager.Instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
                 SaveGameAndLoadScene();
             }
@@ -64,9 +64,7 @@ namespace UI
         
         private static void SaveGameAndLoadScene()
         {
-            // save the game anytime before loading a new scene
-            DataPersistenceManager.Instance.SaveGame();
-            SceneLoader.Instance.LoadSceneAsync(SceneIndex.Game);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndex.Game, showProgress: true);
         }
         
         public void OnDeleteButtonClicked(SaveSlot saveSlot)

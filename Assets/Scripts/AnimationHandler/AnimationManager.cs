@@ -9,6 +9,7 @@ namespace AnimationHandler
         player_idle,
         player_walk,
         player_run,
+        player_run_fast,
         player_jump,
         player_fall,
         player_land,
