@@ -59,7 +59,7 @@ namespace DataPersistence
             
             Debug.Log($"OnSceneLoaded: {scene.name}");
             
-            // Start the auto save coroutine
+            // start the auto save coroutine
             if (_autoSaveCoroutine != null)
                 StopCoroutine(_autoSaveCoroutine);
     
@@ -115,8 +115,6 @@ namespace DataPersistence
         public void SaveGame()
         {
             if (disableDataPersistence) return;
-
-            // If there is no game data saved, warning message will be printed
             if (_gameData == null)
             {
                 Debug.Log("No save data found. A new Game needs to be started before data can be saved.");
@@ -137,8 +135,7 @@ namespace DataPersistence
         
         private static List<IDataPersistence> FindAllDataPersistenceObjects()
         {
-            // find all objects that implement IDataPersistence
-            // enable true in FindObjectsOfType, than it will include inactive objects
+            // enable true in FindObjectsOfType for include inactive objects
             var dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>(true).OfType<IDataPersistence>(); 
 
             return new List<IDataPersistence>(dataPersistenceObjects);

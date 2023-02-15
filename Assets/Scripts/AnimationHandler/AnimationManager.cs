@@ -1,7 +1,8 @@
 ﻿using AddIns;
+using Player;
 using UnityEngine;
 
-namespace Player
+namespace AnimationHandler
 {
     public enum AnimationState
     {

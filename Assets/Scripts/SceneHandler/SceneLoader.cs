@@ -1,10 +1,10 @@
-﻿using UnityEngine.SceneManagement;
-using System.Collections;
+﻿using System.Collections;
 using AddIns;
-using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-namespace UI
+namespace SceneHandler
 {
     public enum SceneIndex
     {

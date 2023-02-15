@@ -1,10 +1,10 @@
-using static Player.AnimationState;
+using static AnimationHandler.AnimationState;
 using UnityEngine.InputSystem;
 using System.Collections;
+using AnimationHandler;
 using static Controls;
-using DataPersistence;
+using SceneHandler;
 using UnityEngine;
-using UI;
 using UnityEngine.SceneManagement;
 
 // TODO: thoughts: Movement start/stop physics
@@ -162,7 +162,6 @@ namespace Player
         {
             if (context.started && !GameManager.Instance.IsPaused)
             {
-                DataPersistenceManager.Instance.SaveGame();
                 SceneLoader.Instance.LoadSceneAsync(SceneIndex.PauseMenu, LoadSceneMode.Additive);
             }
         }
@@ -223,7 +222,7 @@ namespace Player
         /// </summary>
         private void MultiJump()
         {
-            if (!multiJump || _jumpCounter <= 0) return; // Multi-Jump (can jump multiple times when in air)
+            if (!multiJump || _jumpCounter <= 0) return;
             Jump();
             _jumpCounter--;
         }
@@ -234,12 +233,11 @@ namespace Player
         /// </summary>
         private void WallJump()
         {
-            // Jump off the wall when contact is given and the move direction is pressed
             if (!_jumpAction.IsPressed() || !wallJump || !_coll.IsWall() || _coll.IsGround()) return; 
             var wallDirection =
                 _coll.IsRightWall()
                     ? Vector2.left
-                    : Vector2.right; // If it is the right wall the jump direction is left and reverse
+                    : Vector2.right;
             Jump(Vector2.up / 1.5f + wallDirection / 1.5f);
             _wallJumped = true;
         }
@@ -249,7 +247,6 @@ namespace Player
         /// </summary>
         private void LongJump()
         {
-            // Longer airtime when space is hold down
             if (!_jumpAction.IsPressed()) return;
             if (_jumpLengthCounter > 0f && _coyoteTimeCounter > 0f && _jumpBufferCounter > 0f) 
             {
@@ -303,12 +300,21 @@ namespace Player
             if (_coll.IsGround() && _isRunning)
                 AnimationManager.Instance.SetAnimationState(player_run);
 
-            if (_rb.velocity.y > 0)
-                AnimationManager.Instance.SetAnimationState(player_jump);
-            else if (_rb.velocity.y < 0 && !_coll.IsNearGround() && !_wallsliding)
-                AnimationManager.Instance.SetAnimationState(player_fall);
-            else if (_rb.velocity.y < 0 && _coll.IsNearGround() || _isLanding)
-                StartCoroutine(LandingAnimation());
+            switch (_rb.velocity.y)
+            {
+                case > 0:
+                    AnimationManager.Instance.SetAnimationState(player_jump);
+                    break;
+                case < 0 when !_coll.IsNearGround() && !_wallsliding:
+                    AnimationManager.Instance.SetAnimationState(player_fall);
+                    break;
+                default:
+                {
+                    if (_rb.velocity.y < 0 && _coll.IsNearGround() || _isLanding)
+                        StartCoroutine(LandingAnimation());
+                    break;
+                }
+            }
 
             Flip(_moveInput);
         }
