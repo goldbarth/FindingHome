@@ -118,6 +118,7 @@ namespace Player
         private bool _dashStarted;
         private bool _isGrabbing;
         private bool _isClimbing;
+        private Vector2 dashDirection;
 
         #endregion
 
@@ -185,6 +186,11 @@ namespace Player
         public void OnDash(InputAction.CallbackContext context)
         {
             _dashStarted = context.performed;
+            dashDirection.y = _inputY;
+            if (_inputX == 0f)
+                dashDirection.x = transform.right.x;
+            else
+                dashDirection.x = _inputX;
         }
         
         public void OnPause(InputAction.CallbackContext context)
@@ -284,9 +290,8 @@ namespace Player
         
         private void Dash()
         {
-            var dir = new Vector2(_inputX, 0); //TODO: Dash in Y direction and regulate the up force
-            if (dir == Vector2.zero) return;
-            if (_dashStarted && _canDash && !_coll.IsGround() && !_coll.IsWall())
+            if (dashDirection == Vector2.zero) return;
+            if (_dashStarted && _canDash && !_coll.IsWall())
             {
                 _isDashing = true;
                 _canDash = false;
@@ -294,9 +299,8 @@ namespace Player
             }
 
             if (_isDashing)
-                
                 //_rb.AddForce(dir.normalized * dashForce, ForceMode2D.Impulse);
-                _rb.velocity = dir.normalized * dashForce;
+                _rb.velocity = dashDirection.normalized * dashForce;
         }
 
         private void Grab()
@@ -397,6 +401,7 @@ namespace Player
         private IEnumerator StopDashing()
         {
             yield return new WaitForSeconds(dashDuration);
+            _rb.velocity = Vector2.zero;
             _isDashing = false;
             yield return new WaitForSeconds(dashCooldown);
             _canDash = true;
