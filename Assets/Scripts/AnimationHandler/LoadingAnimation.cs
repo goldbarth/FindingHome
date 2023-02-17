@@ -10,7 +10,7 @@ namespace AnimationHandler
         private void Awake()
         {
             _animator = FindObjectOfType<LoadingAnimation>().GetComponent<Animator>();
-            _state = (AnimationState)Random.Range(0, 3);
+            _state = (AnimationState)Random.Range(0, 4);
         }
         
         private void Update()

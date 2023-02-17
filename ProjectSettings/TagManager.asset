@@ -8,13 +8,13 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Ground
   - Wall
-  - Player
-  - 
+  - DecorationFG
+  - DecorationBG
   - 
   - 
   - 
@@ -38,15 +38,21 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: DecorationBG
+    uniqueID: 2436308983
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Player
-    uniqueID: 3937157211
+  - name: Ground
+    uniqueID: 2892795651
     locked: 0
   - name: Wall
     uniqueID: 929986009
     locked: 0
-  - name: Ground
-    uniqueID: 2892795651
+  - name: Player
+    uniqueID: 3937157211
+    locked: 0
+  - name: DecorationFG
+    uniqueID: 391064367
     locked: 0

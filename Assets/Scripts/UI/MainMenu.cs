@@ -2,6 +2,7 @@ using DataPersistence;
 using SceneHandler;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace UI
 {
@@ -34,7 +35,7 @@ namespace UI
         
         public void OnLoadGameClicked()
         {
-            SceneLoader.Instance.LoadSceneAsync(SceneIndex.LoadMenu);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndex.LoadMenu, LoadSceneMode.Additive);
             GameManager.Instance.IsNewGame = false;
         }
 
@@ -45,7 +46,7 @@ namespace UI
         
         public void OnOptionsClicked()
         {
-            SceneLoader.Instance.LoadSceneAsync(SceneIndex.Options);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndex.OptionsMenu, LoadSceneMode.Additive);
         }
         
         public void OnExitClicked()

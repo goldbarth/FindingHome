@@ -110,8 +110,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 62
-        width: 42.666668
-        height: 62
+        width: 48
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,10 +129,10 @@ TextureImporter:
       name: Ledge Climb Sprite Sheet 48x62_1
       rect:
         serializedVersion: 2
-        x: 42
+        x: 48
         y: 62
-        width: 42.666668
-        height: 62
+        width: 48
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,10 +150,10 @@ TextureImporter:
       name: Ledge Climb Sprite Sheet 48x62_2
       rect:
         serializedVersion: 2
-        x: 84
+        x: 96
         y: 62
-        width: 42.666668
-        height: 62
+        width: 48
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,10 +171,10 @@ TextureImporter:
       name: Ledge Climb Sprite Sheet 48x62_3
       rect:
         serializedVersion: 2
-        x: 126
+        x: 144
         y: 62
-        width: 42.666668
-        height: 62
+        width: 48
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,10 +192,10 @@ TextureImporter:
       name: Ledge Climb Sprite Sheet 48x62_4
       rect:
         serializedVersion: 2
-        x: 168
+        x: 192
         y: 62
-        width: 42.666668
-        height: 62
+        width: 48
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -210,138 +210,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ledge Climb Sprite Sheet 48x62_5
+      name: Ledge Climb Sprite Sheet 48x62_11
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 42.666668
-        height: 62
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9e1a086cf51bcdf4c83e773c454ddbfb
-      internalID: 1281605346
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ledge Climb Sprite Sheet 48x62_6
-      rect:
-        serializedVersion: 2
-        x: 42
-        y: 0
-        width: 42.666668
-        height: 62
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 579d15af82cc1f347a4f5a15fe837f93
-      internalID: -287506475
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ledge Climb Sprite Sheet 48x62_7
-      rect:
-        serializedVersion: 2
-        x: 84
-        y: 0
-        width: 42.666668
-        height: 62
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e28bb48cb271f3745a545c6fcd2c9136
-      internalID: 2145943184
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ledge Climb Sprite Sheet 48x62_8
-      rect:
-        serializedVersion: 2
-        x: 126
-        y: 0
-        width: 42.666668
-        height: 62
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a2fc82f904696e14fae82f68c10dea9a
-      internalID: 852383437
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ledge Climb Sprite Sheet 48x62_9
-      rect:
-        serializedVersion: 2
-        x: 168
-        y: 0
-        width: 42.666668
-        height: 62
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7202bedc8fef30741baf5fcb4853e7f3
-      internalID: -1614483942
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ledge Climb Sprite Sheet 48x62_10
-      rect:
-        serializedVersion: 2
-        x: 210
-        y: 0
-        width: 42.666668
-        height: 62
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 291ea42575f30154393785914f31954e
-      internalID: -1368229002
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ledge Climb Sprite Sheet 48x62_11
-      rect:
-        serializedVersion: 2
-        x: 252
-        y: 0
-        width: 42.666668
+        width: 48
         height: 62
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -360,9 +234,9 @@ TextureImporter:
       name: Ledge Climb Sprite Sheet 48x62_12
       rect:
         serializedVersion: 2
-        x: 294
+        x: 48
         y: 0
-        width: 42.666668
+        width: 48
         height: 62
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -381,9 +255,9 @@ TextureImporter:
       name: Ledge Climb Sprite Sheet 48x62_13
       rect:
         serializedVersion: 2
-        x: 336
+        x: 96
         y: 0
-        width: 42.666668
+        width: 48
         height: 62
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -394,6 +268,111 @@ TextureImporter:
       bones: []
       spriteID: 5c66ea401d602754b9e120033573f074
       internalID: 968711644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ledge Climb Sprite Sheet 48x62_14
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 48
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8123e8ad19a81bf4081348cb91531052
+      internalID: -725127160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ledge Climb Sprite Sheet 48x62_15
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 48
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f976d66aa2918874a8f89e8ecaaaa076
+      internalID: 1758849935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ledge Climb Sprite Sheet 48x62_16
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 48
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d050bf7ed4c339641afe142f34780dd0
+      internalID: -106910478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ledge Climb Sprite Sheet 48x62_17
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 48
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 071765889982a2b45a78a297b5de2ae5
+      internalID: 1529724203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ledge Climb Sprite Sheet 48x62_18
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 0
+        width: 48
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db139c94a51377d43a62c44e3b718038
+      internalID: 676533959
       vertices: []
       indices: 
       edges: []
@@ -418,11 +397,16 @@ TextureImporter:
       Ledge Climb Sprite Sheet 48x62_6: -287506475
       Ledge Climb Sprite Sheet 48x62_2: 2029227099
       Ledge Climb Sprite Sheet 48x62_4: 522783547
+      Ledge Climb Sprite Sheet 48x62_17: 1529724203
+      Ledge Climb Sprite Sheet 48x62_18: 676533959
+      Ledge Climb Sprite Sheet 48x62_16: -106910478
       Ledge Climb Sprite Sheet 48x62_8: 852383437
       Ledge Climb Sprite Sheet 48x62_9: -1614483942
       Ledge Climb Sprite Sheet 48x62_1: -768842476
       Ledge Climb Sprite Sheet 48x62_13: 968711644
+      Ledge Climb Sprite Sheet 48x62_14: -725127160
       Ledge Climb Sprite Sheet 48x62_12: 2018035611
+      Ledge Climb Sprite Sheet 48x62_15: 1758849935
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -2,6 +2,7 @@ using DataPersistence;
 using SceneHandler;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace UI
 {
@@ -11,7 +12,6 @@ namespace UI
         
         [Header("MENU BUTTONS")]
         [SerializeField] private Button backButton;
-        
         [Header("CONFIRMATION POPUP")]
         [SerializeField] private ConfirmationPopupMenu confirmationPopupMenu;
         
@@ -39,7 +39,7 @@ namespace UI
             {
                 // update the selected profile id to be used for data persistence
                 DataPersistenceManager.Instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
-                LoadScene();
+                LoadSceneSaveGame();
             }
             else if (saveSlot.HasData)
             {
@@ -48,7 +48,7 @@ namespace UI
                 { //confirm button callback "yes"
                     DataPersistenceManager.Instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
                     DataPersistenceManager.Instance.NewGame();
-                    LoadScene();
+                    LoadSceneSaveGame();
                 }, () =>
                 { //cancel button callback "no"
                     ActivateMenu(_isLoadingGame);
@@ -58,13 +58,15 @@ namespace UI
             {
                 DataPersistenceManager.Instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
                 DataPersistenceManager.Instance.NewGame();
-                LoadScene();
+                LoadSceneSaveGame();
             }
         }
         
-        private static void LoadScene()
+        private static void LoadSceneSaveGame()
         {
+            DataPersistenceManager.Instance.SaveGame(); // TODO: remove this line later
             SceneLoader.Instance.LoadSceneAsync(SceneIndex.Game, showProgress: true);
+            if (GameManager.Instance.IsPaused) GameManager.Instance.IsPaused = false;
         }
         
         public void OnDeleteButtonClicked(SaveSlot saveSlot)
@@ -83,10 +85,13 @@ namespace UI
         public void OnBackButtonClicked()
         {
             if (_mainMenu != null) _mainMenu.DisableButtonsDependingOnData();
-            SceneLoader.Instance.LoadSceneAsync(GameManager.Instance.IsPaused ? SceneIndex.PauseMenu : SceneIndex.MainMenu);
+            SceneLoader.Instance.LoadSceneAsync(GameManager.Instance.IsPaused 
+                ? SceneIndex.PauseMenu : SceneIndex.MainMenu, LoadSceneMode.Additive);
+            
+                SceneLoader.Instance.UnloadSceneAsync();
         }
 
-        public void ActivateMenu(bool isLoadingGame)
+        private void ActivateMenu(bool isLoadingGame)
         {
             // set the flag to indicate if a game is loading or starting a new one
             _isLoadingGame = isLoadingGame;

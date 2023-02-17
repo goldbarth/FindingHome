@@ -1,8 +1,10 @@
-﻿using UnityEngine.EventSystems;
+﻿using System;
+using UnityEngine.EventSystems;
 using DataPersistence;
 using SceneHandler;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace UI
 {
@@ -12,13 +14,11 @@ namespace UI
         [SerializeField] private Slider masterVolumeSlider;
         [SerializeField] private Slider sfxVolumeSlider;
         [SerializeField] private Slider musicVolumeSlider;
-        
-        private EventSystem _eventSystem;
 
         private void Awake()
         {
-            _eventSystem = FindObjectOfType<EventSystem>();
-            _eventSystem.SetSelectedGameObject(masterVolumeSlider.gameObject);
+            var eventSystem = FindObjectOfType<EventSystem>();
+            eventSystem.SetSelectedGameObject(masterVolumeSlider.gameObject);
             masterVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
             sfxVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
             musicVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
@@ -26,22 +26,23 @@ namespace UI
 
         public void OnMasterSliderChanged(float value)
         {
-            Debug.Log(masterVolumeSlider.value);
+            //Debug.Log(masterVolumeSlider.value);
         }
         
         public void OnSFXSliderChanged(float value)
         {
-            Debug.Log(sfxVolumeSlider.value);
+            //Debug.Log(sfxVolumeSlider.value);
         }
         
         public void OnMusicSliderChanged(float value)
         {
-            Debug.Log(musicVolumeSlider.value);
+            //Debug.Log(musicVolumeSlider.value);
         }
         
         public void OnBackButtonClicked()
         {
-            SceneLoader.Instance.LoadSceneAsync(GameManager.Instance.IsPaused ? SceneIndex.PauseMenu : SceneIndex.MainMenu);
+            DataPersistenceManager.Instance.SaveGame();
+            SceneLoader.Instance.UnloadSceneAsync();
         }
 
         public void LoadData(GameData data)

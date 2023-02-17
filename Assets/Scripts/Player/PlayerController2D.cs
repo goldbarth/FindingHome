@@ -6,6 +6,7 @@ using static Controls;
 using SceneHandler;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 // TODO: thoughts: Movement start/stop physics
 
@@ -51,6 +52,11 @@ namespace Player
 
         [Tooltip("The force value to to in/decrease the jump-height.")] 
         [Range(0f, 10f)] [SerializeField] private float jumpForce;
+        
+        [Tooltip("The force value to to in/decrease the dash-force.")] 
+        [Range(0f, 40f)] [SerializeField] private float dashForce = 14f;
+        [Range(0f, 3f)] [SerializeField] private float dashDuration = .5f;
+        [Range(0f, 3f)] [SerializeField] private float dashCooldown = .5f;
     
         [Space]
     
@@ -67,6 +73,7 @@ namespace Player
 
         [Tooltip("The slide speed value to in-/decrease the slide velocity at a wall.")] 
         [Range(0f, 4f)] [SerializeField] private float wallSlideSpeed;
+        [Range(0f, 4f)] [SerializeField] private float wallClimbSpeed = 2f;
     
         [Space]
     
@@ -87,10 +94,12 @@ namespace Player
         private Collision _coll;
 
         // Variables
+        private readonly Vector2 _physicsGravity = new(0, -9.81f);
         private const float JUMP_BUFFER_TIME = 0.2f;
         private const float SPEED_THROTTLE = 0.8f;
         private const float LANDING_TIME = 0.2f;
-        private float _moveInput; // x(-axis) component
+        private float _inputX;
+        private float _inputY;
         private float _jumpBufferCounter;
         private float _coyoteTimeCounter;
         private float _jumpLengthCounter;
@@ -103,7 +112,12 @@ namespace Player
         private bool _wallJumped;
         private bool _wallsliding;
         private bool _isLanding;
+        private bool _isDashing;
+        private bool _canDash = true;
         private bool _facingRight = true;
+        private bool _dashStarted;
+        private bool _isGrabbing;
+        private bool _isClimbing;
 
         #endregion
 
@@ -129,8 +143,8 @@ namespace Player
         }
 
         private void Update()
-        {
-            _coll.FrictionChange(wallSlide);
+        { 
+            _coll.FrictionChange(wallSlide); // wallSlide TODO: wallSlide
             ResetterAndCounter();
             AnimationHandler();
         }
@@ -141,6 +155,8 @@ namespace Player
             WallSlide();
             LongJump();
             Move();
+            Dash();
+            Grab();
         }
 
         #endregion
@@ -149,20 +165,15 @@ namespace Player
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            _moveInput = context.ReadValue<Vector2>().x;
+            _inputX = context.ReadValue<Vector2>().x;
+            _inputY = context.ReadValue<Vector2>().y;
         }
 
         public void OnRun(InputAction.CallbackContext context)
         {
-            _isRunning = context.action.IsPressed();
-        }
-
-        //TODO: additive scene loading
-        public void OnPause(InputAction.CallbackContext context)
-        {
-            if (context.started && !GameManager.Instance.IsPaused)
+            if (_inputX != 0)
             {
-                SceneLoader.Instance.LoadSceneAsync(SceneIndex.PauseMenu, LoadSceneMode.Additive);
+                _isRunning = context.action.IsPressed();
             }
         }
 
@@ -170,7 +181,20 @@ namespace Player
         {
             JumpHandler(context);
         }
-
+        
+        public void OnDash(InputAction.CallbackContext context)
+        {
+            _dashStarted = context.performed;
+        }
+        
+        public void OnPause(InputAction.CallbackContext context)
+        {
+            if (context.started && !GameManager.Instance.IsPaused)
+            {
+                SceneLoader.Instance.LoadSceneAsync(SceneIndex.PauseMenu, LoadSceneMode.Additive);
+            }
+        }
+        
         #endregion
 
         #region Handler
@@ -182,17 +206,17 @@ namespace Player
         {
             _runSpeedValue = runSpeed;
             _velocityChange = _isRunning ? _runSpeedValue : moveSpeed; // Set speed value
+            
             if (!_wallJumped)
             {
                 if (!_coll.IsGround()) _runSpeedValue *= SPEED_THROTTLE; // Throttle speed when in air
                 else _runSpeedValue = runSpeed; // Reset speed when on ground
                 
-                _rb.velocity = new Vector2(_moveInput * _velocityChange, _rb.velocity.y);
+                _rb.velocity = new Vector2(_inputX * _velocityChange, _rb.velocity.y);
             }
             else // In case of a wall jump the velocity is "lerped" to get a (immersive) feeling of less control.
             {
-                //TODO: Better wall jump feeling?
-                _rb.velocity = Vector2.Lerp(_rb.velocity, new Vector2(_moveInput * _velocityChange, _rb.velocity.y)
+                _rb.velocity = Vector2.Lerp(_rb.velocity, new Vector2(_inputX * _velocityChange, _rb.velocity.y)
                     ,wallJumpLerp * Time.deltaTime);
             }
         }
@@ -229,7 +253,7 @@ namespace Player
 
         // TODO: Better Walljump experience
         /// <summary>
-        /// It does a jump off a wall when this object has contact with a wall object and the move direction is pressed
+        /// It does a jump off a wall when this object has contact with a wall object and the move direction is pressed.
         /// </summary>
         private void WallJump()
         {
@@ -243,7 +267,8 @@ namespace Player
         }
 
         /// <summary>
-        /// It does a higher jump when pressing the jump button and counts down a timer till zero. At the latest then the jump button is released.
+        /// It does a higher jump when pressing the jump button and counts down a timer till zero.
+        /// At the latest then the jump button is released.
         /// </summary>
         private void LongJump()
         {
@@ -255,6 +280,31 @@ namespace Player
             }
 
             _jumpLengthCounter -= Time.deltaTime;
+        }
+        
+        private void Dash()
+        {
+            var dir = new Vector2(_inputX, 0); //TODO: Dash in Y direction and regulate the up force
+            if (dir == Vector2.zero) return;
+            if (_dashStarted && _canDash && !_coll.IsGround() && !_coll.IsWall())
+            {
+                _isDashing = true;
+                _canDash = false;
+                StartCoroutine(StopDashing());
+            }
+
+            if (_isDashing)
+                
+                //_rb.AddForce(dir.normalized * dashForce, ForceMode2D.Impulse);
+                _rb.velocity = dir.normalized * dashForce;
+        }
+
+        private void Grab()
+        {
+            if (_inputX != 0 && _coll.IsWall() && !_coll.IsGround())
+            {
+                _rb.velocity = new Vector2(_rb.velocity.x, _inputY * wallClimbSpeed);
+            }
         }
     
         #endregion
@@ -280,10 +330,10 @@ namespace Player
         /// </summary>
         private void WallSlide()
         {
-            const float maxClampValue = 0;
-            if (_moveInput != 0 && wallSlide && _coll.IsWall() && !_coll.IsGround())
+            //const float maxClampValue = 0;
+            if (_inputX != 0 && wallSlide && _coll.IsWall() && !_coll.IsGround())
             {
-                _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, -wallSlideSpeed, maxClampValue));
+                //_rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, -wallSlideSpeed, float.MaxValue));
                 _wallsliding = true;
             }
             else
@@ -292,31 +342,48 @@ namespace Player
         
         private void AnimationHandler()
         {
-            if (_coll.IsGround() && !_isRunning && !_jumpAction.IsPressed() && !_isLanding)
-                AnimationManager.Instance.SetAnimationState(_moveInput != 0
+            Flip(_inputX);
+            
+            var onLandingCanceled = _coll.IsGround() && _jumpAction.IsPressed();
+            if (_coll.IsGround() && !_isRunning && !_jumpAction.IsPressed() 
+                && !_isLanding && !_isClimbing || onLandingCanceled)
+                AnimationManager.Instance.SetAnimationState(_inputX != 0
                     ? player_walk
                     : player_idle);
 
             if (_coll.IsGround() && _isRunning)
                 AnimationManager.Instance.SetAnimationState(player_run);
+            
+            if (_isDashing)
+                AnimationManager.Instance.SetAnimationState(player_dash);
 
-            switch (_rb.velocity.y)
+            if (_rb.velocity.y > 0 && !_isClimbing && !_coll.IsWall() && !_isDashing)
             {
-                case > 0:
-                    AnimationManager.Instance.SetAnimationState(player_jump);
-                    break;
-                case < 0 when !_coll.IsNearGround() && !_wallsliding:
-                    AnimationManager.Instance.SetAnimationState(player_fall);
-                    break;
-                default:
-                {
-                    if (_rb.velocity.y < 0 && _coll.IsNearGround() || _isLanding)
-                        StartCoroutine(LandingAnimation());
-                    break;
-                }
+                AnimationManager.Instance.SetAnimationState(player_jump);
             }
+            else if (_rb.velocity.y < 0 && !_coll.IsNearGround() && !_coll.IsGround() 
+                     && !_wallsliding && !_isClimbing && !_coll.IsWall() && !_isDashing)
+            {
+                AnimationManager.Instance.SetAnimationState(player_fall);
+            }
+            
+            if (_rb.velocity.y < 0 && _coll.IsNearGround() && !_wallsliding || _isLanding)
+                StartCoroutine(LandingAnimation());
+                
+            var isOnWall = _inputX != 0 && _coll.IsWall() && !_coll.IsGround();
+            if (isOnWall && _inputY > 0)
+            {
+                AnimationManager.Instance.SetAnimationState(player_wallclimb);
+                _wallsliding = false;
+                _isClimbing = true;
+            }
+            else
+                _isClimbing = false;
+            if (isOnWall && _inputY == 0 && !_wallsliding && !_isClimbing)
+                AnimationManager.Instance.SetAnimationState(player_wallgrab);
 
-            Flip(_moveInput);
+            if (isOnWall && _wallsliding && !_isClimbing)
+                AnimationManager.Instance.SetAnimationState(player_wallslide);
         }
 
         private IEnumerator LandingAnimation()
@@ -325,6 +392,14 @@ namespace Player
             AnimationManager.Instance.SetAnimationState(player_land);
             yield return new WaitForSeconds(LANDING_TIME);
             _isLanding = false;
+        }
+        
+        private IEnumerator StopDashing()
+        {
+            yield return new WaitForSeconds(dashDuration);
+            _isDashing = false;
+            yield return new WaitForSeconds(dashCooldown);
+            _canDash = true;
         }
 
         /// <summary>
@@ -346,13 +421,12 @@ namespace Player
         /// </summary>
         private void ResetterAndCounter()
         {
-            // Set the counters back to start value and set the bools back to false when the gameobject is on the ground.
             if (!_jumpAction.IsPressed() && _coll.IsGround())
             {
-                _jumpBufferCounter -= Time.deltaTime; // Counts down the buffer time.
-                _coyoteTimeCounter = coyoteTime; // Resets the coyote time.
-                _jumpLengthCounter = jumpTime; // Resets the jump time.
-                _jumpCounter = multiJumps; // Resets the multi jump counter.
+                _jumpBufferCounter -= Time.deltaTime; 
+                _coyoteTimeCounter = coyoteTime;
+                _jumpLengthCounter = jumpTime; 
+                _jumpCounter = multiJumps;
             
                 _wallsliding = false;
                 _wallJumped = false;
@@ -360,8 +434,8 @@ namespace Player
             else 
             {
                 // If the player is not on ground the timer decreases
-                _coyoteTimeCounter -= Time.deltaTime; // Counts down the coyote time.
-                _jumpBufferCounter = JUMP_BUFFER_TIME; // Resets the jump buffer time.
+                _coyoteTimeCounter -= Time.deltaTime;
+                _jumpBufferCounter = JUMP_BUFFER_TIME;
             }
 
             // Prevent double jumps

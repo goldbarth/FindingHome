@@ -362,7 +362,6 @@ GameObject:
   m_Component:
   - component: {fileID: 557028855}
   - component: {fileID: 557028854}
-  - component: {fileID: 557028853}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -370,14 +369,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &557028853
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 557028852}
-  m_Enabled: 1
 --- !u!20 &557028854
 Camera:
   m_ObjectHideFlags: 0
@@ -946,8 +937,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
   startScene: 1
+  minLoadingDuration: 3
   loadingScreen: {fileID: 1033444957}
-  minLoadingDuration: 5
   progressBarFill: {fileID: 240633672}
 --- !u!4 &1153179646
 Transform:
