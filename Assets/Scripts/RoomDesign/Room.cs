@@ -1,4 +1,5 @@
-using System;
+using System.Collections;
+using DataPersistence;
 using UnityEngine;
 
 namespace RoomDesign
@@ -12,15 +13,22 @@ namespace RoomDesign
             if (other.CompareTag("Player") && !other.isTrigger)
             {
                 virtualCamera.SetActive(true);
+                StartCoroutine(LateSave());
             }
         }
-        
+
         private void OnTriggerExit2D(Collider2D other)
         {
             if (other.CompareTag("Player") && !other.isTrigger)
             {
                 virtualCamera.SetActive(false);
             }
+        }
+        
+        private static IEnumerator LateSave()
+        {
+            yield return new WaitForSeconds(1f);
+            DataPersistenceManager.Instance.SaveGame();
         }
     }
 }

@@ -29,7 +29,7 @@ namespace UI
 
         public void OnNewGameClicked()
         {
-            SceneLoader.Instance.LoadSceneAsync(SceneIndex.LoadMenu);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndex.LoadMenu, LoadSceneMode.Additive);
             GameManager.Instance.IsNewGame = true;
         }
         

@@ -23,6 +23,7 @@ namespace UI
         private void Awake()
         {
             _saveSlots = GetComponentsInChildren<SaveSlot>();
+            _mainMenu = FindObjectOfType<MainMenu>();
         }
 
         private void Start()
@@ -64,7 +65,7 @@ namespace UI
         
         private static void LoadSceneSaveGame()
         {
-            DataPersistenceManager.Instance.SaveGame(); // TODO: remove this line later
+            DataPersistenceManager.Instance.SaveGame();
             SceneLoader.Instance.LoadSceneAsync(SceneIndex.Game, showProgress: true);
             if (GameManager.Instance.IsPaused) GameManager.Instance.IsPaused = false;
         }
@@ -72,7 +73,7 @@ namespace UI
         public void OnDeleteButtonClicked(SaveSlot saveSlot)
         {
             confirmationPopupMenu.ActivateMenu(
-                "Starting a new Game will override your current progress. Are you sure you want to continue?", () =>
+                "Do you want delete your current progress?", () =>
                 { //confirm button callback "yes"
                     DataPersistenceManager.Instance.DeleteProfileData(saveSlot.GetProfileId());
                     ActivateMenu(_isLoadingGame);
@@ -86,7 +87,8 @@ namespace UI
         {
             if (_mainMenu != null) _mainMenu.DisableButtonsDependingOnData();
             SceneLoader.Instance.LoadSceneAsync(GameManager.Instance.IsPaused 
-                ? SceneIndex.PauseMenu : SceneIndex.MainMenu, LoadSceneMode.Additive);
+                ? SceneIndex.PauseMenu : SceneIndex.MainMenu, 
+                GameManager.Instance.IsPaused ? LoadSceneMode.Additive : LoadSceneMode.Single);
             
                 SceneLoader.Instance.UnloadSceneAsync();
         }
@@ -109,7 +111,6 @@ namespace UI
                 if (profileData == null && isLoadingGame)
                 {
                     saveSlot.SetInteractable(false);
-                    
                 }
                 else
                 {

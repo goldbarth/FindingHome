@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using AddIns;
+using SceneHandler;
 using UnityEngine;
  
 namespace DataPersistence
@@ -23,6 +24,8 @@ namespace DataPersistence
         
         [Header("AUTO SAVING CONFIG")]
         [SerializeField] private float autoSaveInterval = 60f;
+        
+        private SceneIndex[] _menuScene = {SceneIndex.MainMenu, SceneIndex.LoadMenu, SceneIndex.OptionsMenu, SceneIndex.PauseMenu};
 
         private string _selectedProfileId;
         
@@ -31,6 +34,8 @@ namespace DataPersistence
         private List<IDataPersistence> _dataPersistenceObjects; // List of all objects that need to be saved and loaded
         private Coroutine _autoSaveCoroutine;
 
+        public bool DisableDataPersistence => disableDataPersistence;
+        
         protected override void Awake()
         {
             base.Awake();
@@ -51,19 +56,29 @@ namespace DataPersistence
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
-        // called after OnEnable and awake but before Start
+        // called after OnEnable and Awake but before Start (this note has saved me from further research and time of course)
         public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            _dataPersistenceObjects = FindAllDataPersistenceObjects();
-            LoadGame();
-            
             Debug.Log($"OnSceneLoaded: {scene.name}");
+
+            foreach (var index in _menuScene)
+            {
+                if (scene.buildIndex == (int)index)
+                {
+                    Debug.Log("Menu scene. No Data to load.");
+                }
+                else if (scene.buildIndex != (int)index)
+                {
+                    _dataPersistenceObjects = FindAllDataPersistenceObjects();
+                    LoadGame();
+                }
+            }
             
             // start the auto save coroutine
-            if (_autoSaveCoroutine != null)
-                StopCoroutine(_autoSaveCoroutine);
-    
-            _autoSaveCoroutine = StartCoroutine(AutoSave());
+            // if (_autoSaveCoroutine != null)
+            //     StopCoroutine(_autoSaveCoroutine);
+    // 
+            // _autoSaveCoroutine = StartCoroutine(AutoSave());
         }
 
         public void ChangeSelectedProfileId(string newProfileId)
@@ -160,10 +175,11 @@ namespace DataPersistence
         {
             return _gameData != null;
         }
-
-        private void OnApplicationQuit()
-        {
-            SaveGame();
-        }
+        
+        // TODO: maybe use this later
+        //private void OnApplicationQuit()
+        //{
+        //    SaveGame();
+        //}
     }
 }

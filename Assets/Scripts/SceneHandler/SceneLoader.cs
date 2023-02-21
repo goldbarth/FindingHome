@@ -18,16 +18,18 @@ namespace SceneHandler
         PauseMenu,
         LoadMenu
     }
-    
+
     public class SceneLoader : Singleton<SceneLoader>
     {
-        [Header("SCENE LOADER")]
-        [SerializeField] private SceneIndex startScene;
-        [Space][Header("LOADING SCREEN")]
-        [SerializeField] private float minLoadingDuration;
+        [Header("SCENE LOADER")] [SerializeField]
+        private SceneIndex startScene;
+
+        [Space] [Header("LOADING SCREEN")] [SerializeField]
+        private float minLoadingDuration;
+
         [SerializeField] private GameObject loadingScreen;
         [SerializeField] private Image progressBarFill;
-        
+
         private readonly LinkedList<Enum> _sceneNames = new();
 
         protected override void Awake()
@@ -35,7 +37,7 @@ namespace SceneHandler
             base.Awake();
             LoadSceneAsync(startScene);
             loadingScreen.SetActive(false);
-            
+
             SceneManager.sceneLoaded += RegisterNewScene;
             SceneManager.sceneUnloaded += UnregisterScene;
         }
@@ -45,29 +47,30 @@ namespace SceneHandler
             var result = _sceneNames.Aggregate("List contents: ", (current, item) => current + (item + ", "));
             Debug.Log(result);
         }
-        
-        private void UnregisterScene(Scene scene)
-        { 
-            _sceneNames.Remove((SceneIndex)scene.buildIndex);
-        }
 
         private void RegisterNewScene(Scene scene, LoadSceneMode mode)
         {
             _sceneNames.AddLast((SceneIndex)scene.buildIndex);
         }
 
-        public void LoadSceneAsync(SceneIndex sceneIndex, LoadSceneMode loadSceneMode = LoadSceneMode.Single, bool showProgress = false)
+        private void UnregisterScene(Scene scene)
+        {
+            _sceneNames.Remove((SceneIndex)scene.buildIndex);
+        }
+
+        public void LoadSceneAsync(SceneIndex sceneIndex, LoadSceneMode loadSceneMode = LoadSceneMode.Single,
+            bool showProgress = false)
         {
             var asyncOperation = SceneManager.LoadSceneAsync((int)sceneIndex, loadSceneMode);
             if (showProgress) StartCoroutine(LoadingProgress(asyncOperation));
         }
-        
+
         public void UnloadSceneAsync()
         {
-            SceneManager.UnloadSceneAsync(Convert.ToInt32(_sceneNames.Last.Value));
+            SceneManager.UnloadSceneAsync(Convert.ToInt32(_sceneNames.First.Value));
             _sceneNames.RemoveLast();
         }
-        
+
         private IEnumerator LoadingProgress(AsyncOperation asyncOperation)
         {
             loadingScreen.SetActive(true);
@@ -79,7 +82,7 @@ namespace SceneHandler
                 counter += Time.deltaTime;
 
                 var waitProgress = counter / minLoadingDuration;
-                
+
                 progressBarFill.fillAmount = Mathf.Min(asyncOperation.progress, waitProgress);
             }
 

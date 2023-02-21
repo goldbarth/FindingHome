@@ -48,7 +48,6 @@ namespace DataPersistence
             if (collectables.Count != 0)
                 percentageCompleted = totalCollected * 100 / collectables.Count; // Dividing by zero is mathematically "undefined" and will result in an error
             
-
             return percentageCompleted;
         }
     }

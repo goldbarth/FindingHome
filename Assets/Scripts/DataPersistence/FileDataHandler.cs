@@ -13,8 +13,8 @@ namespace DataPersistence
         private readonly string _backupExtension = ".bak";
 
         // used for XOR encryption
-        private readonly bool _useEncryption = false;
         private const string ENCRYPTION_CODE_WORD = "Dreirad";
+        private readonly bool _useEncryption = false;
 
         public FileDataHandler(string dataPath, string dataFileName, bool useEncryption)
         {
@@ -23,8 +23,8 @@ namespace DataPersistence
             _useEncryption = useEncryption;
         }
         
-        
-        public GameData Load(string profileId, bool allowRestoreFromBackup = true)
+        //TODO: make backup file working
+        public GameData Load(string profileId, bool allowRestoreFromBackup = false)
         {
             if (profileId == null)
                 return null;
@@ -164,6 +164,8 @@ namespace DataPersistence
                 if (profileData != null)
                 {
                     profileDictionary.Add(profileId, profileData);
+                    Debug.Log($"Profile was loaded correctly. " +
+                                       $"ProfileId: {profileId} at path {fullPath}.");
                 }
                 else
                 {
@@ -180,11 +182,11 @@ namespace DataPersistence
             string mostRecentProfileId = null;
             
             var profilesGameData = LoadAllProfiles();
-            foreach (var pair in profilesGameData)
+            foreach (KeyValuePair<string, GameData> pair in profilesGameData)
             {
-                var profileId = pair.Key;
-                var gameData = pair.Value;
-
+                string profileId = pair.Key;
+                GameData gameData = pair.Value;
+                
                 if (gameData == null)
                     continue;
                 
@@ -256,7 +258,7 @@ namespace DataPersistence
             // {
             //     Debug.Log($"Error occured when trying to rollback data from file: {fullPath}\n{e}");
             // }
-// 
+// // 
             // return false;
         }
     }

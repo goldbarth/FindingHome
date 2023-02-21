@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -21,10 +22,12 @@ namespace Player
         [SerializeField] private PhysicsMaterial2D stickyMaterial;
     
         private Collider2D _collider;
-    
-        public Vector2 _offsetX = new (0.01f, 0f); // Overlapbox offset -> wallcheck
-        public Vector2 _offsetY = new (0f, -0.01f); // Overlapbox offset -> groundcheck
-        public Vector2 offset = new (0.01f, -0.01f); // Overlapbox offset -> wallcheck + groundcheck
+        private Bounds Bounds => boxCollider.bounds;
+
+        private readonly Vector3 _reduceX = new (0.03f, 0f, 0f); // Overlapbox size x -> groundcheck
+        private readonly Vector2 _offsetX = new (0.01f, 0f); // Overlapbox offset -> wallcheck
+        private readonly Vector2 _offsetY = new (0f, -0.01f); // Overlapbox offset -> groundcheck
+        private readonly Vector2 _offset = new (0.01f, -0.01f); // Overlapbox offset -> wallcheck + groundcheck
         private float _angle; // Don´t need angles rn, but it can be useful in the future
 
         public bool IsGround() { return OnGround(); }
@@ -74,28 +77,28 @@ namespace Player
 
         private bool OnGround()
         {
-            return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + _offsetY, boxCollider.bounds.size, _angle, groundLayer);
+            return Physics2D.OverlapBox((Vector2)Bounds.center + _offsetY, Bounds.size - _reduceX, _angle, groundLayer);
         }
 
         private bool OnWall()
         {
-            return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + _offsetX, boxCollider.bounds.size, _angle, wallLayer) || 
-                   Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + (-_offsetX), boxCollider.bounds.size, _angle, wallLayer);
+            return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + _offsetX, Bounds.size, _angle, wallLayer) || 
+                   Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + (-_offsetX), Bounds.size, _angle, wallLayer);
         }
 
         private bool OnRightWall()
         {
-            return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + _offsetX, boxCollider.bounds.size, _angle, wallLayer);
+            return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + _offsetX, Bounds.size, _angle, wallLayer);
         }
 
         private bool OnLeftWall()
         {
-            return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + (-_offsetX), boxCollider.bounds.size, _angle, wallLayer);
+            return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + (-_offsetX), Bounds.size, _angle, wallLayer);
         }
     
         private bool NearGround()
         {
-            return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + offset, boxCollider.bounds.size, _angle, groundLayer);
+            return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + _offset, Bounds.size, _angle, groundLayer);
         }
     
         #endregion
@@ -106,16 +109,16 @@ namespace Player
         {
             // GroundCheck
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireCube((Vector2)boxCollider.bounds.center + _offsetY, boxCollider.bounds.size);
+            Gizmos.DrawWireCube((Vector2)boxCollider.bounds.center + _offsetY, Bounds.size - _reduceX);
             // RightWallCheck
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireCube((Vector2)boxCollider.bounds.center + _offsetX, boxCollider.bounds.size);
+            Gizmos.DrawWireCube((Vector2)boxCollider.bounds.center + _offsetX, Bounds.size);
             // LeftWallCheck
             Gizmos.color = Color.green;
-            Gizmos.DrawWireCube((Vector2)boxCollider.bounds.center + -_offsetX, boxCollider.bounds.size);
+            Gizmos.DrawWireCube((Vector2)boxCollider.bounds.center + -_offsetX, Bounds.size);
             // NearGround
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube((Vector2)boxCollider.bounds.center + offset, boxCollider.bounds.size);
+            Gizmos.DrawWireCube((Vector2)boxCollider.bounds.center + _offset, Bounds.size);
         }
     
 #endif
