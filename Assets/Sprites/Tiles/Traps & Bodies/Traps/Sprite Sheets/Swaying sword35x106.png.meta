@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -42,12 +42,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -103,7 +103,898 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Swaying sword35x106_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 134fb08c9152717428dd7657704febcd
+      internalID: -64603111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_1
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10730e592f03dd94e9b73a3d68220a77
+      internalID: -269960561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_2
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: baae2b17ed4368b4ab5682440cb34da8
+      internalID: 1833166875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_3
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: db537fd9cbc20784dabc29bf8ead6d79
+      internalID: -1350238924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_4
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f5a14ca0096bd54ab6005387a30bfee
+      internalID: -469575747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_5
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3acb4e284639bc54da28d8d276a928b6
+      internalID: -291228923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_6
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe135246f19a43c4ea08aba851b76a0f
+      internalID: -549926225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_7
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: e638fc2625fcb9c429118d171e82716d
+      internalID: 1675745999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_8
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cbcd79ac3b5a5c4a8aa6ae26e71bba1
+      internalID: -1351089188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_9
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00fc346f39647cd4a98165881a5b9cec
+      internalID: -868826968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_10
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9eb4d27a5b21bb943bc003eb58da7b68
+      internalID: -1263818318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_11
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6b62e88d4e32de4aa407bb8c6c59b3c
+      internalID: -191988640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_12
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 168a6e85c725abb4ca7279b6ef31b0f2
+      internalID: 194347331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_13
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee18cde79ee501a429bd37b576786dd5
+      internalID: -1591342198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_14
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b9c3bfbf1ad43f42b5b9021cf66bf36
+      internalID: -1326099089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_15
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfb8c3705de87e6419ffdb0ec24bf0b3
+      internalID: 636857723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_16
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31728df6b68840f49ae28485d75f0fd6
+      internalID: 1207662588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_17
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0cb3fb53b7584d449a14c8d9c12534da
+      internalID: -467802558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_18
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19fc7eb54a9bd764d9d4e88e9c3190b3
+      internalID: 924992785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_19
+      rect:
+        serializedVersion: 2
+        x: 665
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c5e794af9df67146a1b681329314259
+      internalID: -1725971918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_20
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82066742e0973214fba67c7a790c0f79
+      internalID: 1128762154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_21
+      rect:
+        serializedVersion: 2
+        x: 735
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: addef16fbb58d4a43a27927eafbc88c4
+      internalID: 1323043780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_22
+      rect:
+        serializedVersion: 2
+        x: 770
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 409b356b460621d49b47722d5e35a480
+      internalID: -1002198288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_23
+      rect:
+        serializedVersion: 2
+        x: 805
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e02163472e3b874ab63a1c8115ea982
+      internalID: 2024709052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_24
+      rect:
+        serializedVersion: 2
+        x: 840
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ad610d253af0d548ab88044483a3bf7
+      internalID: -779451668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_25
+      rect:
+        serializedVersion: 2
+        x: 875
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfa170cf98f539b41b4a458b80bca23e
+      internalID: 2014036472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_26
+      rect:
+        serializedVersion: 2
+        x: 910
+        y: 212
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3311dbfa7d181a7438fb0babecde2b9a
+      internalID: -87737047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_27
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 106
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 755e8e0d8528e694ab37352b98ef7d2d
+      internalID: 612890688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_28
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 106
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83f4f71b2405f324ea68ae5a74385516
+      internalID: 1386308107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_29
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 106
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: f485be41eed133f4f8c590524dcd3c71
+      internalID: -529775846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_30
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 106
+        width: 35
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: 3}
+        - {x: -9.5, y: -12}
+        - {x: -5.5, y: -30}
+        - {x: 2.5, y: -30}
+        - {x: 6.5, y: -12}
+        - {x: 2.5, y: 3}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a7560aaa0df0ff418c33468224b2d81
+      internalID: -1625715606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_31
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 106
+        width: 35
+        height: 86
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -5.5, y: -1}
+        - {x: -9.5, y: -17}
+        - {x: -6.5, y: -35}
+        - {x: 2.5, y: -35}
+        - {x: 6.5, y: -17}
+        - {x: 2.5, y: -1}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ade9021bc9989d4a8d043ee7458ee76
+      internalID: -1521950296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Swaying sword35x106_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 35
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -3.5, y: -15}
+        - {x: -9.5, y: -32}
+        - {x: -6.5, y: -53}
+        - {x: 3.5, y: -53}
+        - {x: 6.5, y: -32}
+        - {x: 0.5, y: -15}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0630167ed1294224ebe31a183ca2274d
+      internalID: 679479288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -114,7 +1005,40 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Swaying sword35x106_5: -291228923
+      Swaying sword35x106_25: 2014036472
+      Swaying sword35x106_12: 194347331
+      Swaying sword35x106_14: -1326099089
+      Swaying sword35x106_22: -1002198288
+      Swaying sword35x106_26: -87737047
+      Swaying sword35x106_20: 1128762154
+      Swaying sword35x106_18: 924992785
+      Swaying sword35x106_11: -191988640
+      Swaying sword35x106_31: -1521950296
+      Swaying sword35x106_15: 636857723
+      Swaying sword35x106_23: 2024709052
+      Swaying sword35x106_19: -1725971918
+      Swaying sword35x106_6: -549926225
+      Swaying sword35x106_7: 1675745999
+      Swaying sword35x106_32: 679479288
+      Swaying sword35x106_10: -1263818318
+      Swaying sword35x106_9: -868826968
+      Swaying sword35x106_16: 1207662588
+      Swaying sword35x106_8: -1351089188
+      Swaying sword35x106_1: -269960561
+      Swaying sword35x106_17: -467802558
+      Swaying sword35x106_24: -779451668
+      Swaying sword35x106_30: -1625715606
+      Swaying sword35x106_27: 612890688
+      Swaying sword35x106_3: -1350238924
+      Swaying sword35x106_4: -469575747
+      Swaying sword35x106_2: 1833166875
+      Swaying sword35x106_29: -529775846
+      Swaying sword35x106_13: -1591342198
+      Swaying sword35x106_28: 1386308107
+      Swaying sword35x106_21: 1323043780
+      Swaying sword35x106_0: -64603111
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

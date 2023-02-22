@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: MushroomMerchant
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: 1115835384, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: -42409905, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: 647081554, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: 369628423, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: 1748851618, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: -624426114, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: 894149036, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: 2081605738, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: -217045562, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: 2121108205, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: -929435725, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: -1206298027, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: 2115444570, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: 405669533, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: -560707674, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: -156263322, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: 1882218899, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: 675040042, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: 946084053, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: -1203386987, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: -1909375835, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: -343635707, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: 2055638170, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  - {fileID: -482555735, guid: eb8c6f34678dfe644844771ef4bc3562, type: 3}
+  m_MinSpeed: 8
+  m_MaxSpeed: 12
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0

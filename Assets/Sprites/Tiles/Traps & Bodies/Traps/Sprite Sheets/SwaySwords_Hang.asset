@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: SwaySwords_Hang
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: -64603111, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -269960561, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: 1833166875, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -1350238924, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -469575747, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -291228923, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -549926225, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: 1675745999, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -1351089188, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -868826968, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -1263818318, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -191988640, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: 194347331, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -1591342198, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -1326099089, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: 636857723, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: 1207662588, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -467802558, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: 924992785, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -1725971918, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: 1128762154, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: 1323043780, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -1002198288, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: 2024709052, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -779451668, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: 2014036472, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  - {fileID: -87737047, guid: 031b078c5e156ff4bbf5254d36c41647, type: 3}
+  m_MinSpeed: 10
+  m_MaxSpeed: 14
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 1
