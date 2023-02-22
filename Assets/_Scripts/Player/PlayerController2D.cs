@@ -123,6 +123,7 @@ namespace Player
         public bool IsRunning { get; private set; }
         public bool Wallsliding { get; set; }
         public bool IsDashing { get; private set; }
+        public bool IsInteracting { get; private set; }
 
         #endregion
 
@@ -198,6 +199,11 @@ namespace Player
         public void OnGrab(InputAction.CallbackContext context)
         {
             _isGrabbing = context.action.IsPressed();
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            IsInteracting = context.started;
         }
 
         public void OnPause(InputAction.CallbackContext context)

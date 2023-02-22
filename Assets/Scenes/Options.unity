@@ -311,7 +311,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
+      propertyPath: m_MinValue
+      value: 0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
       propertyPath: m_Navigation.m_Mode
@@ -691,7 +695,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
+      propertyPath: m_MinValue
+      value: 0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
       propertyPath: m_Navigation.m_Mode
@@ -1161,7 +1169,7 @@ GameObject:
   - component: {fileID: 1347909391}
   - component: {fileID: 1347909390}
   m_Layer: 0
-  m_Name: MenuScripts
+  m_Name: VolumeControl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1192,9 +1200,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstSelected: {fileID: 1324795425}
+  audioMixer: {fileID: 24100000, guid: 64a4c439ef7c7644f94eaaba421e802e, type: 2}
   masterVolumeSlider: {fileID: 2047817603}
   sfxVolumeSlider: {fileID: 634870394}
   musicVolumeSlider: {fileID: 709201074}
+  masterVolumeParameter: Master
+  sfxVolumeParameter: SFX
+  musicVolumeParameter: Music
+  multiplier: 20
 --- !u!224 &1347909392
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1311,7 +1324,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
+      propertyPath: m_MinValue
+      value: 0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
       propertyPath: m_Direction

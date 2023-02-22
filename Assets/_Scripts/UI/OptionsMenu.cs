@@ -4,16 +4,22 @@ using DataPersistence;
 using SceneHandler;
 using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 namespace UI
 {
     public class OptionsMenu: Menu, IDataPersistence
     {
-        //[SerializeField] private AudioMixer audioMixer;
+        
+        [SerializeField] private AudioMixer audioMixer;
         [SerializeField] private Slider masterVolumeSlider;
         [SerializeField] private Slider sfxVolumeSlider;
         [SerializeField] private Slider musicVolumeSlider;
+        [SerializeField] private string masterVolumeParameter = "Master";
+        [SerializeField] private string sfxVolumeParameter = "SFX";
+        [SerializeField] private string musicVolumeParameter = "Music";
+        [SerializeField] private float multiplier = 20f;
+
 
         private void Awake()
         {
@@ -26,22 +32,23 @@ namespace UI
 
         public void OnMasterSliderChanged(float value)
         {
-            //Debug.Log(masterVolumeSlider.value);
+            audioMixer.SetFloat(masterVolumeParameter, Mathf.Log10(value) * multiplier);
         }
         
         public void OnSFXSliderChanged(float value)
         {
-            //Debug.Log(sfxVolumeSlider.value);
+            audioMixer.SetFloat(sfxVolumeParameter, Mathf.Log10(value) * multiplier);
         }
         
         public void OnMusicSliderChanged(float value)
         {
-            //Debug.Log(musicVolumeSlider.value);
+            audioMixer.SetFloat(musicVolumeParameter, Mathf.Log10(value) * multiplier);
         }
         
         public void OnBackButtonClicked()
         {
             DataPersistenceManager.Instance.SaveGame();
+            SceneLoader.Instance.LoadSceneAsync(SceneIndex.MainMenu);
             SceneLoader.Instance.UnloadSceneAsync();
         }
 
@@ -53,12 +60,12 @@ namespace UI
                 return;
             }
             
+            Debug.Log("Loading audio data...");
             masterVolumeSlider.value = data.masterVolume;
             sfxVolumeSlider.value = data.sfxVolume;
             musicVolumeSlider.value = data.musicVolume;
         }
-
-        //TODO: audio mixer data (master, sfx, music)
+        
         public void SaveData(GameData data)
         {
             if (data == null)
@@ -67,6 +74,7 @@ namespace UI
                 return;
             }
             
+            Debug.Log("Saving audio data...");
             data.masterVolume = masterVolumeSlider.value;
             data.sfxVolume = sfxVolumeSlider.value;
             data.musicVolume = musicVolumeSlider.value;
