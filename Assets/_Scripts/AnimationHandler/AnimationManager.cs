@@ -16,9 +16,10 @@ namespace AnimationHandler
         player_wallclimb,
         player_wallslide,
         player_wallgrab,
+        player_teleport,
         player_attack,
         player_hit,
-        player_death
+        player_death,
     }
     
     public class AnimationManager : Singleton<AnimationManager>

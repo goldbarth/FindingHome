@@ -34,13 +34,13 @@ namespace DataPersistence
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(fullPath) ?? string.Empty);
-                
+
                 var dataToStore = JsonUtility.ToJson(data, true);
-                
+
                 // encrypt the data if is selected in the inspector
                 if (_useEncryption)
                     dataToStore = XorCipher(dataToStore);
-                
+
                 using var stream = new FileStream(fullPath, FileMode.Create);
                 using var writer = new StreamWriter(stream);
                 writer.Write(dataToStore);
@@ -48,6 +48,10 @@ namespace DataPersistence
             catch (Exception e)
             {
                 Debug.Log($"Error occured when trying to save data from file: {fullPath}\n{e}");
+            }
+            finally
+            {
+                Debug.Log($"Data saved to file: {fullPath}");
             }
         }
         
@@ -68,7 +72,7 @@ namespace DataPersistence
                     using var stream = File.Open(fullPath, FileMode.Open);
                     using var reader = new StreamReader(stream);
                     var dataToLoad = reader.ReadToEnd(); // load the serialized data from the file
-                    
+
                     // decrypt the data if is selected in the inspector
                     if (_useEncryption)
                         dataToLoad = XorCipher(dataToLoad);
@@ -79,6 +83,10 @@ namespace DataPersistence
                 catch (Exception e)
                 {
                     Debug.LogWarning($"Error occured when trying to load file at path: {fullPath}.\n{e}");
+                }
+                finally
+                {
+                    Debug.Log($"Data loaded from file: {fullPath}");
                 }
             }
 
@@ -104,6 +112,10 @@ namespace DataPersistence
             {
                 Debug.LogWarning($"Error occured when trying to delete data from file: {fullPath}\n{e}");
             }
+            finally
+            {
+                Debug.Log($"Data deleted from file: {fullPath}");
+            }
         }
 
         public Dictionary<string, GameData> LoadAllProfiles()
@@ -123,16 +135,25 @@ namespace DataPersistence
                     Debug.Log($"Skipping directory, all files are loaded or there are no existing file.");
                     continue;
                 }
-                
-                var profileData = Load(profileId);
-                if (profileData != null)
+
+                try
                 {
-                    profileDictionary.Add(profileId, profileData);
+                    var profileData = Load(profileId);
+                    if (profileData != null)
+                    {
+                        profileDictionary.Add(profileId, profileData);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning($"Tried to load profile but something went wrong. " +
+                                     $"ProfileId: {profileId} at path {fullPath}.\n{e}");
+                }
+                finally
+                {
                     Debug.Log($"Profile was loaded correctly. ProfileId: {profileId} at path {fullPath}.");
                 }
-                else
-                    Debug.LogWarning($"Tried to load profile but something went wrong. " +
-                                     $"ProfileId: {profileId} at path {fullPath}.");
+
             }
 
             return profileDictionary;
@@ -148,16 +169,16 @@ namespace DataPersistence
                 if (gameData == null)
                     continue;
                 
-                // if this is the first profile we´re checking, then set it as the most recent
+                // if this is the first profile, set it as the latest
                 if (getLatestProfileId == null)
                 {
                     getLatestProfileId = profileId;
                 }
-                else // otherwise, compare to see which date is the most recent
+                else // compare to see which date is the latest
                 {
                     var latestDateTime = DateTime.FromBinary(gameDataProfiles[getLatestProfileId].lastUpdated);
                     var newDateTime = DateTime.FromBinary(gameData.lastUpdated);
-                    // the greatest DateTime value is the most recent
+                    // the greatest DateTime value is the latest
                     if (newDateTime > latestDateTime)
                         getLatestProfileId = profileId;
                 }

@@ -1,7 +1,7 @@
 -> main
 === main ===
 Hallo Schwester.
-Willst erfahren wie du dich höher und schneller bewegen kannst? # speaker: Kleine Schwester
+Willste erfahren wie du dich höher und schneller bewegen kannst? # speaker: Kleine Schwester
 * [Ja!]
     Na klar, deine Tips sind meistens hilfreich. # speaker: Ich
     -> choice_yes
@@ -10,8 +10,8 @@ Willst erfahren wie du dich höher und schneller bewegen kannst? # speaker: Klei
     -> choice_no
 -> DONE
 === choice_yes ===
-Ja, super! Es ist ganz einfach. Mit dem Controller "B" drücken und du explodierst vor Energie.
-Vorher solltest du dir gedanken machen in welche Richtung du willst. *zwinkersmiley 
+Ja, super! Es ist ganz einfach. Auf dem Controller "B" (ctrl/strg) drücken und du explodierst vor Energie.
+Vorher solltest du dir aber gedanken machen in welche Richtung du willst. *zwinkersmiley 
 # speaker: Kleine Schwester
 -> END
 === choice_no ===

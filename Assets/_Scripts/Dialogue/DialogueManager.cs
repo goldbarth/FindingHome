@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using AddIns;
 using Ink.Runtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 namespace Dialogue
 {
@@ -71,7 +68,6 @@ namespace Dialogue
         private IEnumerator ExitDialogueMode()
         {
             yield return new WaitForSeconds(_waitTillCanMove);
-            
             OnDialogueIsActive = false;
             dialoguePanel.SetActive(false);
             dialogueText.text = "";
@@ -93,8 +89,9 @@ namespace Dialogue
             var currentChoices = _currentStory.currentChoices;
 
             if (currentChoices.Count > choices.Length)
-                Debug.LogError("Not enough choices in the UI. Number of choices in the UI: " + choices.Length + " Number of choices in the ink file: " + currentChoices.Count);
-   
+                Debug.LogError($"Not enough choices in the UI. Number of choices in the UI: " +
+                               $"{choices.Length} Number of choices in the ink file: {currentChoices.Count}");
+
             // enable and initialize the choices in the UI
             var index = 0;
             foreach (var choice in currentChoices)
@@ -114,7 +111,6 @@ namespace Dialogue
         public void ChooseChoice(int choiceIndex)
         {
             _currentStory.ChooseChoiceIndex(choiceIndex);
-            //ContinueDialogue();
         }
         
         private IEnumerator SelectChoice()

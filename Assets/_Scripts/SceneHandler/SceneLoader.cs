@@ -48,10 +48,10 @@ namespace SceneHandler
 
         private void Update()
         {
-            SceneListUpdateInterval();
+            PrintOpenSceneList();
         }
 
-        private void SceneListUpdateInterval()
+        private void PrintOpenSceneList()
         {
             _timer += Time.deltaTime;
             if (_timer >= 15f)
@@ -61,7 +61,6 @@ namespace SceneHandler
                 Debug.Log(_result);
             }
         }
-
 
         private void RegisterNewScene(Scene scene, LoadSceneMode mode)
         {

@@ -24,7 +24,6 @@ namespace DataPersistence
         
         private GameData _gameData;
         private FileDataHandler _dataHandler;
-        //private NewFileHandler _dataHandler;
         private List<IDataPersistence> _dataPersistenceObjects; // List of all objects that need to be saved and loaded
 
         public bool DisableDataPersistence => disableDataPersistence;
@@ -40,7 +39,6 @@ namespace DataPersistence
                 Debug.LogWarning("Data Persistence is disabled!");
             
             _dataHandler = new FileDataHandler(Application.persistentDataPath ,fileName, useEncryption);
-            //_dataHandler = new NewFileHandler(Application.persistentDataPath, fileName);
             InitializeProfileId();
         }
 
@@ -73,8 +71,8 @@ namespace DataPersistence
             }
         }
         
-        // if the game is closed manually or crashed, the data will be saved in the file.
         // TODO: maybe it has use later
+        // if the game is closed manually or crashed, the data will be saved in the file.
         //private void OnApplicationQuit()
         //{
         //    SaveGame();
@@ -95,13 +93,10 @@ namespace DataPersistence
             
             // Save all data from other scripts so they can update the GameData
             foreach (var dataPersistenceObject in _dataPersistenceObjects)
-            {
                 dataPersistenceObject.SaveData(_gameData);
-            }
-            
+
             // timestamp the data it shows when it was last saved
             _gameData.lastUpdated = System.DateTime.Now.ToBinary();
-            
             _dataHandler.Save(_gameData, _selectedProfileId);
         }
         
@@ -112,15 +107,12 @@ namespace DataPersistence
             GameManager.Instance.OnRoomReset = false;
             _gameData = _dataHandler.Load(_selectedProfileId);
             if (_gameData == null && initializeDataIfNull)
-            {
                 NewGame();
-            }
-
+            
             // push data to other scripts that need it (e.g. player pos, inventory, etc.)
             foreach (var dataPersistenceObject in _dataPersistenceObjects)
-            {
                 dataPersistenceObject.LoadData(_gameData);
-            }
+            
         }
         
         #endregion
@@ -164,8 +156,7 @@ namespace DataPersistence
         private static List<IDataPersistence> FindAllDataPersistenceObjects()
         {
             // enable true in FindObjectsOfType for include inactive objects
-            var dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>(true).OfType<IDataPersistence>(); 
-
+            var dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>(true).OfType<IDataPersistence>();
             return new List<IDataPersistence>(dataPersistenceObjects);
         }
         

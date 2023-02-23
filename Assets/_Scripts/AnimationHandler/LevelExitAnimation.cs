@@ -15,7 +15,8 @@ namespace AnimationHandler
         private Animator _animator;
         private GameObject _player;
         
-        private readonly float _timeToBeam = 0.3f;
+        private readonly float _prepareToBeam = 2.5f;
+        private readonly float _timeToBeam = 1f;
 
         private void Awake()
         {
@@ -37,6 +38,8 @@ namespace AnimationHandler
             _rigidBody.transform.position = exitPoint.position;
             _rigidBody.bodyType = RigidbodyType2D.Static;
             AnimationManager.Instance.SetAnimationState(PlayerAnimationState.player_idle);
+            yield return new WaitForSeconds(_prepareToBeam);                                                   
+            AnimationManager.Instance.SetAnimationState(PlayerAnimationState.player_teleport);
             _animator.Play("portal_warp");
             yield return new WaitForSeconds(_timeToBeam);
             _player.SetActive(false);
