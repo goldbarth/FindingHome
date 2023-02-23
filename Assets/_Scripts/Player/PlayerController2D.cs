@@ -1,6 +1,7 @@
 using UnityEngine.InputSystem;
 using System.Collections;
 using AnimationHandler;
+using Dialogue;
 using static Controls;
 using SceneHandler;
 using UnityEngine;
@@ -127,7 +128,7 @@ namespace Player
 
         #endregion
 
-        #region Event Functions
+        #region Events
 
         private void Awake()
         {
@@ -150,20 +151,23 @@ namespace Player
 
         private void Update()
         {
-            Debug.Log("Room Reset: " + GameManager.Instance.OnRoomReset);
             _coll.FrictionChange(wallSlide);
             ResetterAndCounter();
-            Flip();
         }
 
         private void FixedUpdate()
-        {    
+        {
+            // stops the player from moving when in dialogue
+            if (DialogueManager.Instance.OnDialogueIsActive)
+                return;
+            
             InAirBehavior();
             WallSlide();
             LongJump();
             Move();
             Dash();
             Grab();
+            Flip();
         }
 
         #endregion
@@ -191,9 +195,7 @@ namespace Player
         {
             _dashStarted = context.performed;
             _dashDirection.y = InputY;
-            _dashDirection.x = InputX == 0f 
-                ? transform.right.x 
-                : InputX;
+            _dashDirection.x = InputX == 0f ? transform.right.x : InputX;
         }
 
         public void OnGrab(InputAction.CallbackContext context)

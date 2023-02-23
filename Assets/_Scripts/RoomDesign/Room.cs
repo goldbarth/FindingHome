@@ -8,9 +8,9 @@ namespace RoomDesign
     {
         [SerializeField] private GameObject virtualCamera;
 
-        private void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerEnter2D(Collider2D col)
         {
-            if (other.CompareTag("Player") && !other.isTrigger)
+            if (col.CompareTag("Player") && !col.isTrigger)
             {
                 Debug.Log("Entered room");
                 virtualCamera.SetActive(true);
@@ -18,9 +18,9 @@ namespace RoomDesign
             }
         }
 
-        private void OnTriggerExit2D(Collider2D other)
+        private void OnTriggerExit2D(Collider2D col)
         {
-            if (other.CompareTag("Player") && !other.isTrigger)
+            if (col.CompareTag("Player") && !col.isTrigger)
             {
                 virtualCamera.SetActive(false);
             }

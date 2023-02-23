@@ -19,7 +19,7 @@ namespace UI
 
         public void DisableButtonsDependingOnData()
         {
-            // Check if there is a save file and enable the continue button if there is
+            // Check if the saveslot(button) has data, if not disable the button interaction
             if (DataPersistenceManager.Instance.HasGameData()) return;
             continueGameButton.interactable = false;
             loadGameButton.interactable = false;

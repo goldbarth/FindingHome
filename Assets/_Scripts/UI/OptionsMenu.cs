@@ -1,30 +1,29 @@
 ﻿using System;
-using UnityEngine.EventSystems;
 using DataPersistence;
 using SceneHandler;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 namespace UI
 {
     public class OptionsMenu: Menu, IDataPersistence
     {
-        
+        [Header("AUDIO COMPONENTS")]
         [SerializeField] private AudioMixer audioMixer;
         [SerializeField] private Slider masterVolumeSlider;
         [SerializeField] private Slider sfxVolumeSlider;
         [SerializeField] private Slider musicVolumeSlider;
+        [Space][Header("AUDIO PARAMETERS")]
         [SerializeField] private string masterVolumeParameter = "Master";
         [SerializeField] private string sfxVolumeParameter = "SFX";
         [SerializeField] private string musicVolumeParameter = "Music";
+        [Space][Header("AUDIO MULTIPLIER")]
         [SerializeField] private float multiplier = 20f;
-
-
+        
         private void Awake()
         {
-            var eventSystem = FindObjectOfType<EventSystem>();
-            eventSystem.SetSelectedGameObject(masterVolumeSlider.gameObject);
             masterVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
             sfxVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
             musicVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
@@ -48,36 +47,45 @@ namespace UI
         public void OnBackButtonClicked()
         {
             DataPersistenceManager.Instance.SaveGame();
-            SceneLoader.Instance.LoadSceneAsync(SceneIndex.MainMenu);
+            SceneLoader.Instance.LoadSceneAsync(GameManager.Instance.IsPaused ? SceneIndex.PauseMenu : SceneIndex.MainMenu, 
+                GameManager.Instance.IsPaused ? LoadSceneMode.Additive : LoadSceneMode.Single);
             SceneLoader.Instance.UnloadSceneAsync();
         }
 
         public void LoadData(GameData data)
         {
-            if (data == null)
+            try // fancy try catch block
             {
-                Debug.LogWarning("Audio LOAD data is null.");
-                return;
-            }
+                if (data == null)
+                    throw new ArgumentNullException(paramName: nameof(data), message: "Parameter can't be null.");
             
-            Debug.Log("Loading audio data...");
-            masterVolumeSlider.value = data.masterVolume;
-            sfxVolumeSlider.value = data.sfxVolume;
-            musicVolumeSlider.value = data.musicVolume;
+                Debug.Log("Loading audio data...");
+                masterVolumeSlider.value = data.masterVolume;
+                sfxVolumeSlider.value = data.sfxVolume;
+                musicVolumeSlider.value = data.musicVolume;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"{e}\nAudio data couldn't be loaded. There is no save file to to read.");
+            }
         }
         
         public void SaveData(GameData data)
         {
-            if (data == null)
+            try
             {
-                Debug.LogWarning("Audio SAVE data is null.");
-                return;
+                if (data == null)
+                    throw new ArgumentNullException(paramName: nameof(data), message: "Parameter can't be null.");
+
+                Debug.Log("Saving audio data...");
+                data.masterVolume = masterVolumeSlider.value;
+                data.sfxVolume = sfxVolumeSlider.value;
+                data.musicVolume = musicVolumeSlider.value;
             }
-            
-            Debug.Log("Saving audio data...");
-            data.masterVolume = masterVolumeSlider.value;
-            data.sfxVolume = sfxVolumeSlider.value;
-            data.musicVolume = musicVolumeSlider.value;
+            catch (Exception e)
+            {
+                Debug.LogWarning($"{e}\nAudio data couldn't be saved. There is no save file to to write.");
+            }
         }
     }
 }

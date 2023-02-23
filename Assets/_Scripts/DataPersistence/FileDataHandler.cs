@@ -5,12 +5,11 @@ using System;
 
 namespace DataPersistence
 {
-    // This class is used to convert, save and load data from a file.
+    // This class is used to convert, save and load data from a file
     public class FileDataHandler
     {
         private readonly string _dataPath;
         private readonly string _dataFileName;
-        private readonly string _backupExtension = ".bak";
 
         // used for XOR encryption
         private const string ENCRYPTION_CODE_WORD = "Dreirad";
@@ -22,9 +21,37 @@ namespace DataPersistence
             _dataFileName = dataFileName;
             _useEncryption = useEncryption;
         }
+
+        #region Save/Load
+
+         public void Save(GameData data, string profileId)
+        {
+            if (profileId == null)
+                return;
+            
+            // use path.combine because different OS´s having different path separators
+            var fullPath = Path.Combine(_dataPath, profileId, _dataFileName);
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(fullPath) ?? string.Empty);
+                
+                var dataToStore = JsonUtility.ToJson(data, true);
+                
+                // encrypt the data if is selected in the inspector
+                if (_useEncryption)
+                    dataToStore = XorCipher(dataToStore);
+                
+                using var stream = new FileStream(fullPath, FileMode.Create);
+                using var writer = new StreamWriter(stream);
+                writer.Write(dataToStore);
+            }
+            catch (Exception e)
+            {
+                Debug.Log($"Error occured when trying to save data from file: {fullPath}\n{e}");
+            }
+        }
         
-        //TODO: make backup file working
-        public GameData Load(string profileId, bool allowRestoreFromBackup = false)
+        public GameData Load(string profileId)
         {
             if (profileId == null)
                 return null;
@@ -42,103 +69,40 @@ namespace DataPersistence
                     using var reader = new StreamReader(stream);
                     var dataToLoad = reader.ReadToEnd(); // load the serialized data from the file
                     
+                    // decrypt the data if is selected in the inspector
                     if (_useEncryption)
-                        dataToLoad = EncryptDecrypt(dataToLoad);
+                        dataToLoad = XorCipher(dataToLoad);
 
                     // deserialize the data from json back into the C# object
                     loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
                 }
                 catch (Exception e)
                 {
-                    // prevent an infinite recursion loop if the backup file is corrupt
-                    if (allowRestoreFromBackup)
-                    {
-                        Debug.LogWarning($"Error occured when trying to load data from file: {fullPath}." +
-                                         $"Attempting to rollback to backup file.\n{e}");
-                        var rollbackSuccess = AttemptRollback(fullPath);
-                        if (rollbackSuccess)
-                        {
-                            // try to load again recursively
-                            loadedData = Load(profileId, false);
-                        }
-                        else 
-                        {
-                            Debug.LogWarning($"Error occured when trying to load file at path: {fullPath} " +
-                                           $"and backup did not work.\n{e}");
-                        }
-                    }
+                    Debug.LogWarning($"Error occured when trying to load file at path: {fullPath}.\n{e}");
                 }
             }
 
             return loadedData;
         }
         
-        public void Save(GameData data, string profileId)
-        {
-            if (profileId == null)
-                return;
-            
-            // use path.combine to account for different OS´s having different path separators
-            var fullPath = Path.Combine(_dataPath, profileId, _dataFileName);
-            var backupFilePath = fullPath + _backupExtension;                                                                                                                                                                                                       
-            try
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(fullPath) ?? string.Empty);
-                
-                var dataToStore = JsonUtility.ToJson(data, true); // convert to json
-                
-                // encrypt the data if needed
-                if (_useEncryption)
-                    dataToStore = EncryptDecrypt(dataToStore);
-                
-                // using filestream over file.writealltext to avoid locking the file and allow other
-                // processes to access it (e.g. real time data from a memory/network stream, multiple inputs)
-                using var stream = new FileStream(fullPath, FileMode.Create); // create file
-                using var writer = new StreamWriter(stream);
-                writer.Write(dataToStore); // write to file
-                
-                // verify that the file was written correctly
-                var verifiedGameData = Load(profileId);
-                // create a backup of the file
-                if (verifiedGameData != null)
-                {
-                    File.Copy(fullPath, backupFilePath, true);
-                }
-                else
-                {
-                    throw new Exception("Save file could not be verified and backup could not be created.");
-                    // if the file was not written correctly, delete it and restore the backup
-                    // File.Delete(fullPath);
-                    // File.Copy(backupFilePath, fullPath, true);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.Log($"Error occured when trying to save data from file: {fullPath}\n{e}");
-            }
-        }
+        #endregion
+        
+        #region Extensions
         
         public void Delete(string profileId)
         {
             if (profileId == null)
                 return;
             
-            // use path.combine to account for different OS´s having different path separators
             var fullPath = Path.Combine(_dataPath, profileId, _dataFileName);
             try
             {
                 if (File.Exists(fullPath))
-                {
                     Directory.Delete(Path.GetDirectoryName(fullPath) ?? string.Empty, true);
-                }
-                else
-                {
-                    Debug.Log($"File was not found at path: {fullPath}");
-                }
             }
             catch (Exception e)
             {
-                Debug.Log($"Error occured when trying to delete data from file: {fullPath}\n{e}");
+                Debug.LogWarning($"Error occured when trying to delete data from file: {fullPath}\n{e}");
             }
         }
 
@@ -156,7 +120,7 @@ namespace DataPersistence
                 var fullPath = Path.Combine(_dataPath, profileId, _dataFileName);
                 if (!File.Exists(fullPath))
                 {
-                    Debug.LogWarning($"Skipping directory, all files are loaded or there are no existing file there.");
+                    Debug.Log($"Skipping directory, all files are loaded or there are no existing file.");
                     continue;
                 }
                 
@@ -164,52 +128,46 @@ namespace DataPersistence
                 if (profileData != null)
                 {
                     profileDictionary.Add(profileId, profileData);
-                    Debug.Log($"Profile was loaded correctly. " +
-                                       $"ProfileId: {profileId} at path {fullPath}.");
+                    Debug.Log($"Profile was loaded correctly. ProfileId: {profileId} at path {fullPath}.");
                 }
                 else
-                {
-                     Debug.LogWarning($"Tried to load profile but something went wrong. " +
-                                   $"ProfileId: {profileId} at path {fullPath}.");
-                }
+                    Debug.LogWarning($"Tried to load profile but something went wrong. " +
+                                     $"ProfileId: {profileId} at path {fullPath}.");
             }
 
             return profileDictionary;
         }
 
-        public string GetMostRecentlyUpdatedProfileId()
+        public string GetLatestProfileId()
         {
-            string mostRecentProfileId = null;
+            string getLatestProfileId = null;
             
-            var profilesGameData = LoadAllProfiles();
-            foreach (KeyValuePair<string, GameData> pair in profilesGameData)
+            var gameDataProfiles = LoadAllProfiles();
+            foreach (var (profileId, gameData) in gameDataProfiles)
             {
-                string profileId = pair.Key;
-                GameData gameData = pair.Value;
-                
                 if (gameData == null)
                     continue;
                 
                 // if this is the first profile we´re checking, then set it as the most recent
-                if (mostRecentProfileId == null)
+                if (getLatestProfileId == null)
                 {
-                    mostRecentProfileId = profileId;
+                    getLatestProfileId = profileId;
                 }
                 else // otherwise, compare to see which date is the most recent
                 {
-                    var mostRecentDateTime = DateTime.FromBinary(profilesGameData[mostRecentProfileId].lastUpdated);
+                    var latestDateTime = DateTime.FromBinary(gameDataProfiles[getLatestProfileId].lastUpdated);
                     var newDateTime = DateTime.FromBinary(gameData.lastUpdated);
                     // the greatest DateTime value is the most recent
-                    if (newDateTime > mostRecentDateTime)
-                        mostRecentProfileId = profileId;
+                    if (newDateTime > latestDateTime)
+                        getLatestProfileId = profileId;
                 }
             }
             
-            return mostRecentProfileId;
+            return getLatestProfileId;
         }
 
         // XOR encryption with a code word 
-        private static string EncryptDecrypt(string data)
+        private static string XorCipher(string data)
         {
             var modifiedData = "";
             for (var i = 0; i < data.Length; i++)
@@ -218,48 +176,6 @@ namespace DataPersistence
             return modifiedData;
         }
         
-        private bool AttemptRollback(string fullPath)
-        {
-            var success = false;
-            var backupFilePath = fullPath + _backupExtension;
-            try
-            {
-                if (File.Exists(backupFilePath))
-                { 
-                    File.Copy(backupFilePath, fullPath, true);
-                    success = true;
-                    Debug.Log($"Rollback successful. Restored backup file: {backupFilePath}");
-                }
-                else
-                {
-                    throw new Exception($"Rollback failed. Backup file not found: {backupFilePath}");
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.Log($"Error occured when trying to rollback data from file: {fullPath}\n{e}");
-            }
-            
-            return success;
-            // var backupFilePath = fullPath + _backupExtension;
-            // try
-            // {
-            //     if (File.Exists(backupFilePath))
-            //     {
-            //         File.Copy(backupFilePath, fullPath, true);
-            //         Debug.Log($"Rollback successful. Restored backup file: {backupFilePath}");
-            //         return true;
-            //     }
-            //     
-            //     Debug.LogWarning($"Rollback failed. Backup file not found: {backupFilePath}");
-            //     return false;
-            // }
-            // catch (Exception e)
-            // {
-            //     Debug.Log($"Error occured when trying to rollback data from file: {fullPath}\n{e}");
-            // }
-// // 
-            // return false;
-        }
+        #endregion
     }
 }

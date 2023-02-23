@@ -5,7 +5,6 @@ using UnityEngine;
 namespace DataPersistence.Serializable
 {
     // This class is used to store the data of the dictionary in a serializable format that can be saved by .json.
-    // Note: "JSON .NET For Unity" in asset store if it gets more complex.
     [Serializable]
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
     {
@@ -20,7 +19,7 @@ namespace DataPersistence.Serializable
             keys.Clear();
             values.Clear();
     
-            foreach (KeyValuePair<TKey, TValue> pair in this)
+            foreach (var pair in this)
             {
                 keys.Add(pair.Key);
                 values.Add(pair.Value);

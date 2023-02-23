@@ -9,7 +9,7 @@ namespace UI
     {
         [Header("PROFILE")][SerializeField] private string profileId;
         
-        [Space][Header("CONTENT")]
+        [Space][Header("OBJECTS")]
         [SerializeField] private GameObject noDataContent;
         [Space][SerializeField] private GameObject hasDataContent;
         [Space][SerializeField] private TextMeshProUGUI percentageCompleteText;

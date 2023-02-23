@@ -6,9 +6,9 @@ namespace ObstacleHandler
 {
     public class RespawnCollision : MonoBehaviour
     {
-        private void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerEnter2D(Collider2D col)
         {
-            if (other.CompareTag("Player"))
+            if (col.CompareTag("Player") && !col.isTrigger)
             {
                 GameManager.Instance.OnRoomReset = true;
                 DataPersistenceManager.Instance.SaveGame();

@@ -32,6 +32,9 @@ namespace SceneHandler
         [SerializeField] private Image progressBarFill;
 
         private readonly LinkedList<Enum> _sceneNames = new();
+        
+        private string _result;
+        private float _timer;
 
         protected override void Awake()
         {
@@ -45,9 +48,20 @@ namespace SceneHandler
 
         private void Update()
         {
-            var result = _sceneNames.Aggregate("List contents: ", (current, item) => current + (item + ", "));
-            Debug.Log(result);
+            SceneListUpdateInterval();
         }
+
+        private void SceneListUpdateInterval()
+        {
+            _timer += Time.deltaTime;
+            if (_timer >= 15f)
+            {
+                _timer = 0f;
+                _result = _sceneNames.Aggregate("Open scenes: ", (current, item) => current + (item + ", "));
+                Debug.Log(_result);
+            }
+        }
+
 
         private void RegisterNewScene(Scene scene, LoadSceneMode mode)
         {

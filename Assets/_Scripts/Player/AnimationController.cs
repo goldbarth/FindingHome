@@ -1,6 +1,7 @@
 ﻿using static AnimationHandler.PlayerAnimationState;
 using System.Collections;
 using AnimationHandler;
+using Dialogue;
 using UnityEngine;
 
 namespace Player
@@ -23,6 +24,13 @@ namespace Player
         
         private void Update()
         {
+            // keeps animation in idle when in dialogue
+            if (DialogueManager.Instance.OnDialogueIsActive)
+            {
+                AnimationManager.Instance.SetAnimationState(player_idle);
+                return;
+            }
+
             if (_coll.IsGround() && !_player.IsRunning && !_player.JumpAction.IsPressed() 
                 && !_isLanding && !_isClimbing)
                 AnimationManager.Instance.SetAnimationState(_player.InputX != 0
