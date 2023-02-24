@@ -4,6 +4,7 @@ using AnimationHandler;
 using Dialogue;
 using static Controls;
 using SceneHandler;
+using Unity.XR.OpenVR;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -96,6 +97,7 @@ namespace Player
         private CinemachineShake _cinemachine;
 
         // Variables
+        private Vector2[] _dashDirections;
         private Vector2 _dashDirection;
         private float _jumpBufferCounter;
         private float _coyoteTimeCounter;
@@ -132,6 +134,12 @@ namespace Player
 
         private void Awake()
         {
+            _dashDirections = new[]
+            {
+                Vector2.up, Vector2.down, Vector2.left, Vector2.right, (Vector2.up + Vector2.left).normalized,
+                (Vector2.up + Vector2.right).normalized, (Vector2.down + Vector2.left).normalized,
+                (Vector2.down + Vector2.right).normalized
+            };
             Rigid = GetComponent<Rigidbody2D>();
             _coll = GetComponent<Collision>();
             _controls = new Controls();
@@ -194,8 +202,12 @@ namespace Player
         public void OnDash(InputAction.CallbackContext context)
         {
             _dashStarted = context.performed;
-            _dashDirection.y = InputY;
-            _dashDirection.x = InputX == 0f ? transform.right.x : InputX;
+            
+            var dir = new Vector2(InputX, InputY);
+            if (dir == Vector2.zero)
+                _dashDirection =  transform.right;
+            else
+                _dashDirection = DashDirection(dir);
         }
 
         public void OnGrab(InputAction.CallbackContext context)
@@ -304,7 +316,6 @@ namespace Player
             var ampIntensity = 2.9f;
             var freqIntensity = 2f;
             var shakeTime = .2f;
-            if (_dashDirection == Vector2.zero) return;
             if (_dashStarted && _canDash && !_coll.IsWall())
             {
                 IsDashing = true;
@@ -326,6 +337,24 @@ namespace Player
             IsDashing = false;
             yield return new WaitForSeconds(dashCooldown);
             _canDash = true;
+        }
+
+        private Vector2 DashDirection(Vector2 vector)
+        {
+            var maxDot = Mathf.NegativeInfinity;
+            var result = Vector2.zero;
+
+            foreach (var direction in _dashDirections)
+            {
+                var product = Vector2.Dot(vector, direction);
+                if (product > maxDot)
+                {
+                    result = direction;
+                    maxDot = product;
+                }
+            }
+
+            return result;
         }
 
         private void Grab()

@@ -30,7 +30,6 @@ namespace Dialogue
 
         private void Update()
         {
-            Debug.Log(DialogueManager.Instance.OnDialogueIsActive);
             popup.SetActive(_inRange);
             if (_inRange && !DialogueManager.Instance.OnDialogueIsActive)
                 if (_controls.Gameplay.Interact.triggered)
