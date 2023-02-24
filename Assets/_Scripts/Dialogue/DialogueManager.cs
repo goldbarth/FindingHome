@@ -19,7 +19,7 @@ namespace Dialogue
         private TextMeshProUGUI[] _choiceTexts;
         
         private readonly float _waitTillCanMove = .2f;
-        public bool OnDialogueIsActive {get; private set;}
+        public bool OnDialogueIsActive {get; private set;} = false;
 
         protected override void Awake()
         {

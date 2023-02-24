@@ -1,23 +1,23 @@
 -> main
 === main ===
-Hallo Schwester.
-Willste erfahren wie du dich höher und schneller bewegen kannst? # speaker: Kleine Schwester
-* [Ja!]
-    Na klar, deine Tips sind meistens hilfreich. # speaker: Ich
+Hey Sister.
+Do you wanna know how you can move faster and higher? # speaker: Kleine Schwester
+* [Yes!]
+    Of course, you are always helpful. # speaker: Ich
     -> choice_yes
-* [Nö.]
-    Lass mich, ich kann das alleine. # speaker: Ich
+* [Nope.]
+    I can figure it out by myself. # speaker: Ich
     -> choice_no
 -> DONE
 === choice_yes ===
-Ja, super! Es ist ganz einfach. Auf dem Controller "B" (ctrl/strg) drücken und du explodierst vor Energie.
-Vorher solltest du dir aber gedanken machen in welche Richtung du willst. *zwinkersmiley 
+Yes, great! It's very simple. Press "B" on the controller (ctrl/strg on keyboard) and you explode with energy.
+But before that you should think about the direction you want to go. *winksmiley
 # speaker: Kleine Schwester
 -> END
 === choice_no ===
-Na gut... Frag mich einfach wenn du einen Tip haben willst.
+Well... Just ask me if you want a tip.
 # speaker: Kleine Schwester
-* [Alles, klar.] 
-Ciao. # speaker: Ich
+* [All right.]
+Bye. # speaker: Ich
     -> END
     

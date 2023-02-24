@@ -33,9 +33,7 @@ namespace Player
 
             if (_coll.IsGround() && !_player.IsRunning && !_player.JumpAction.IsPressed() 
                 && !_isLanding && !_isClimbing)
-                AnimationManager.Instance.SetAnimationState(_player.InputX != 0
-                    ? player_walk
-                    : player_idle);
+                AnimationManager.Instance.SetAnimationState(_player.InputX != 0 ? player_walk : player_idle);
 
             var onLandingCanceled = _coll.IsGround() && _player.JumpAction.IsPressed();
             if (onLandingCanceled)
@@ -47,7 +45,7 @@ namespace Player
             if (_player.IsDashing)
                 AnimationManager.Instance.SetAnimationState(player_dash);
 
-            if (_player.Rigid.velocity.y > 0 && !_isClimbing && !_coll.IsWall() && !_player.IsDashing)
+            if (_player.Rigid.velocity.y > 0 && !_isClimbing && !_coll.IsWall() && !_coll.IsGround() && !_player.IsDashing)
             {
                 AnimationManager.Instance.SetAnimationState(player_jump);
             }
@@ -57,7 +55,7 @@ namespace Player
                 AnimationManager.Instance.SetAnimationState(player_fall);
             }
             
-            if (_player.Rigid.velocity.y < 0 && _coll.IsNearGround() && !_player.Wallsliding) 
+            if (_player.Rigid.velocity.y < 0 && _coll.IsNearGround() && !_player.Wallsliding && !_coll.IsGround()) 
                 _player.StartCoroutine(LandingAnimation());
                 
             var isOnWall = _player.InputX != 0 && _coll.IsWall();
