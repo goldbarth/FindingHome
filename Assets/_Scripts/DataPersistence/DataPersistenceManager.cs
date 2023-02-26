@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using System;
 using AddIns;
- 
+
 namespace DataPersistence
 {
     // This class is used to store the data of the game.
@@ -28,20 +28,17 @@ namespace DataPersistence
         private string _selectedProfileId;
         private readonly string _menuAudioProfileId = "menu_audio";
         
+        public bool ShowSaveAnimation { get; set; } = false;
         public bool DisableDataPersistence => disableDataPersistence;
-        public bool UseEncryption => useEncryption;
-        public string MenuAudioProfileId => _menuAudioProfileId;
-        
-        
+
         #region Events
         
         protected override void Awake()
         {
             base.Awake();
             
-            if (disableDataPersistence) 
-                Debug.LogWarning("Data Persistence is DISABLED!");
-            
+            if (disableDataPersistence) Debug.LogWarning("Data Persistence is DISABLED!");
+            ShowSaveAnimation = false;
             _dataHandler = new FileDataHandler(Application.persistentDataPath ,fileName, useEncryption);
             InitializeProfileId();
         }
@@ -107,7 +104,7 @@ namespace DataPersistence
             _gameData.lastUpdated = DateTime.Now.ToBinary();
             _dataHandler.Save(_gameData, _selectedProfileId);
         }
-        
+
         public void LoadGame()
         {
             if (disableDataPersistence) return;

@@ -442,6 +442,18 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.b
+      value: 0.63380325
+      objectReference: {fileID: 0}
+    - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.g
+      value: 0.4943396
+      objectReference: {fileID: 0}
+    - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 4
       objectReference: {fileID: 0}
@@ -840,6 +852,18 @@ PrefabInstance:
     - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
       propertyPath: m_Navigation.m_Mode
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.b
+      value: 0.63380325
+      objectReference: {fileID: 0}
+    - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.g
+      value: 0.4943396
+      objectReference: {fileID: 0}
+    - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -1257,6 +1281,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8858956922989983379, guid: 0b8a12abf94fa5a4ca6d5ee8808c392c, type: 3}
+      propertyPath: m_UpdateMode
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b8a12abf94fa5a4ca6d5ee8808c392c, type: 3}
 --- !u!224 &1324795424 stripped
@@ -1414,6 +1442,18 @@ PrefabInstance:
     - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
       propertyPath: m_Navigation.m_Mode
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.b
+      value: 0.63380325
+      objectReference: {fileID: 0}
+    - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.g
+      value: 0.4943396
+      objectReference: {fileID: 0}
+    - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
+      propertyPath: m_Colors.m_SelectedColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 35288445970426229, guid: 64bf437187e54894991943d7ea0005ed, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode

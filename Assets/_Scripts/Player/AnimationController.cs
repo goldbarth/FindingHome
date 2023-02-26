@@ -24,7 +24,9 @@ namespace Player
         
         private void Update()
         {
-            // keeps animation in idle when in dialogue
+            if (GameManager.Instance.IsGamePaused)
+                return;
+            
             if (DialogueManager.Instance.OnDialogueIsActive)
             {
                 AnimationManager.Instance.SetAnimationState(player_idle);

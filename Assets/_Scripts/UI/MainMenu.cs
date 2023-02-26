@@ -56,17 +56,18 @@ namespace UI
         public void OnNewGameClicked()
         {
             GameManager.Instance.IsNewGame = true;
-            LoadSceneLoadMenu();
+            LoadSceneIsLoadMenu();
         }
 
         public void OnLoadGameClicked()
         {
             GameManager.Instance.IsNewGame = false;
-            LoadSceneLoadMenu();
+            LoadSceneIsLoadMenu();
         }
 
         public void OnContinueGameClicked()
         {
+            GameManager.Instance.IsGameStarted = true;
             DataPersistenceManager.Instance.ChangeSelectedProfileId(DataPersistenceManager.Instance.GetLatestProfileId());
             SceneLoader.Instance.LoadSceneAsync(SceneIndex.Level1, showProgress: true);
         }
@@ -83,7 +84,7 @@ namespace UI
             Application.Quit();
         }
         
-        private void LoadSceneLoadMenu()
+        private void LoadSceneIsLoadMenu()
         {
             SceneLoader.Instance.LoadSceneAsync(SceneIndex.LoadMenu, LoadSceneMode.Additive);
             GameManager.Instance.IsMenuActive = false;

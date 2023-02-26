@@ -1,5 +1,4 @@
-﻿using System;
-using DataPersistence;
+﻿using DataPersistence;
 using SceneHandler;
 using UnityEngine.UI;
 using UnityEngine;
@@ -15,10 +14,9 @@ namespace UI
         [Space][Header("BUTTON LAYOUT")]
         [Space][SerializeField] private GameObject buttonLayout;
         
-        private bool _buttonWasSelected = false;
-
         private void Awake()
         {
+            Time.timeScale = 0f;
             GameManager.Instance.IsPauseMenuActive = true;
             GameManager.Instance.IsGamePaused = true;
             DisableButtonDependingOnData();
@@ -26,10 +24,7 @@ namespace UI
 
         private void Update()
         {
-            Debug.Log("Pause Menu is active: true: " + GameManager.Instance.IsPauseMenuActive);
-            Debug.Log("Button was selected: false: " + _buttonWasSelected);
             buttonLayout.SetActive(GameManager.Instance.IsPauseMenuActive);
-            
             if(GameManager.Instance.IsPauseMenuActive && !GameManager.Instance.IsSelected)
             { 
                 resumeGameButton.Select();
@@ -39,7 +34,7 @@ namespace UI
 
         private void OnDestroy()
         {
-            //Time.timeScale = 1f;
+            Time.timeScale = 1f;
         }
 
         private void DisableButtonDependingOnData()
@@ -64,6 +59,7 @@ namespace UI
         
         public void OnSaveGameClicked()
         {
+            //DataPersistenceManager.Instance.ShowSaveAnimation = true;
             DataPersistenceManager.Instance.SaveGame();
         }
         
@@ -74,6 +70,7 @@ namespace UI
         
         public void OnMainMenuClicked()
         {
+            GameManager.Instance.IsGamePaused = false;
             SceneLoader.Instance.LoadSceneAsync(SceneIndex.MainMenu);
         }
         

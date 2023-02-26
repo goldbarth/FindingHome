@@ -1,7 +1,6 @@
-using AddIns;
-using UnityEngine;
+using Unity.VisualScripting;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : AddIns.Singleton<GameManager>
 {
     public bool IsGamePaused { get; set; }
     public bool OnRoomReset { get; set; }
@@ -10,6 +9,8 @@ public class GameManager : Singleton<GameManager>
     public bool IsPauseMenuActive { get; set; }
     public bool OnApplicationStart { get; set; }
     public bool IsSelected { get; set; }
+    public bool IsGameStarted { get; set; }
+    
 
     protected override void Awake()
     {

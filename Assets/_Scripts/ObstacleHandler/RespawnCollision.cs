@@ -11,7 +11,6 @@ namespace ObstacleHandler
             if (col.CompareTag("Player") && !col.isTrigger)
             {
                 GameManager.Instance.OnRoomReset = true;
-                DataPersistenceManager.Instance.SaveGame();
                 DataPersistenceManager.Instance.LoadGame();
                 DeathCount.Instance.OnPlayerDeath();
             }

@@ -4,7 +4,6 @@ using SceneHandler;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.SceneManagement;
 
 namespace UI
 {
@@ -26,10 +25,9 @@ namespace UI
         
         private void Awake()
         {
+            parallaxBackground.SetActive(!GameManager.Instance.IsGamePaused);
             if (GameManager.Instance.IsGamePaused)
                 GameManager.Instance.IsPauseMenuActive = false;
-                
-            parallaxBackground.SetActive(!GameManager.Instance.IsGamePaused);
             
             masterVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
             sfxVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);

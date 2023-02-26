@@ -1,9 +1,7 @@
-using System;
 using DataPersistence;
 using SceneHandler;
 using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace UI
 {
@@ -17,8 +15,7 @@ namespace UI
         [SerializeField] private ConfirmationPopupMenu confirmationPopupMenu;
         
         private SaveSlot[] _saveSlots;
-
-        private readonly string _menuAudioProfileId = "menu_audio";
+        
         private bool _isLoadingGame;
         private bool _isNewGame;
 
@@ -35,7 +32,7 @@ namespace UI
         {
             if (GameManager.Instance.IsNewGame) ActivateSaveSlots(false);
             else if (!GameManager.Instance.IsNewGame) ActivateSaveSlots(true);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName($"{SceneIndex.LoadMenu}"));
+            else if (GameManager.Instance.IsGamePaused) ActivateSaveSlots(true);
         }
 
         public void OnSaveSlotClicked(SaveSlot saveSlot)
@@ -71,6 +68,7 @@ namespace UI
         
         private static void LoadSceneSaveGame()
         {
+            GameManager.Instance.IsGameStarted = true;
             DataPersistenceManager.Instance.SaveGame();
             SceneLoader.Instance.LoadSceneAsync(SceneIndex.Level1, showProgress: true);
             if (GameManager.Instance.IsGamePaused) GameManager.Instance.IsGamePaused = false;
@@ -92,9 +90,6 @@ namespace UI
         public void OnBackButtonClicked()
         {
             if (_mainMenu != null) _mainMenu.DisableButtonsDependingOnData();
-            //if (GameManager.Instance.IsGamePaused)
-            //    SceneLoader.Instance.LoadSceneAsync(SceneIndex.PauseMenu, LoadSceneMode.Additive);
-            
             SceneLoader.Instance.UnloadSceneAsync();
         }
 
@@ -122,9 +117,7 @@ namespace UI
             foreach (var saveSlot in _saveSlots)
             {
                 profilesGameData.TryGetValue(saveSlot.GetProfileId(), out var profileData);
-                if (saveSlot.GetProfileId() == _menuAudioProfileId)
-                    continue;
-                    
+
                 saveSlot.SetData(profileData);
 
                 if (profileData == null && isLoadingGame)
