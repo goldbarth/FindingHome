@@ -19,17 +19,16 @@ namespace DataPersistence
         // key = id of collectable, value = collected or not
         public SerializableDictionary<string, bool> collectables; 
 
-        // default values in the constructor, the game 
-        // starts with when there is no data to load
+        // default values in the constructor
         public GameData()
         {
             playerPosition = Vector3.zero;
             deathCount = 0;
             level = 1;
             
-            masterVolume = 1f;
-            sfxVolume = 1f;
-            musicVolume = 1f;
+            masterVolume = 0.8f;
+            sfxVolume = 0.8f;
+            musicVolume = 0.8f;
             
             collectables = new SerializableDictionary<string, bool>();
         }

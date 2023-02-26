@@ -7,7 +7,8 @@ namespace UI
 {
     public class SaveSlot : MonoBehaviour
     {
-        [Header("PROFILE")][SerializeField] private string profileId;
+        [Header("PROFILE")]
+        [SerializeField] private string profileId;
         
         [Space][Header("OBJECTS")]
         [SerializeField] private GameObject noDataContent;

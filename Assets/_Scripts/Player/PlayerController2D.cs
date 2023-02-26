@@ -4,7 +4,6 @@ using AnimationHandler;
 using Dialogue;
 using static Controls;
 using SceneHandler;
-using Unity.XR.OpenVR;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -52,6 +51,7 @@ namespace Player
 
         [Tooltip("The force value to to in/decrease the jump-height.")] 
         [Range(0f, 10f)] [SerializeField] private float jumpForce;
+        [Range(0f, 10f)] [SerializeField] private float wallJumpDivider = 1.5f;
         
         [Tooltip("The force value to to in/decrease the dash-force.")] 
         [Range(0f, 40f)] [SerializeField] private float dashForce = 14f;
@@ -113,7 +113,7 @@ namespace Player
         private bool _facingRight = true;
         private bool _dashStarted;
         private bool _isGrabbing;
-        private IGameplayActions _gameplayActionsImplementation;
+        private bool _canJump;
 
         #endregion
         
@@ -222,7 +222,7 @@ namespace Player
 
         public void OnPause(InputAction.CallbackContext context)
         {
-            if (context.started && !GameManager.Instance.IsPaused)
+            if (context.started && !GameManager.Instance.IsGamePaused)
                 SceneLoader.Instance.LoadSceneAsync(SceneIndex.PauseMenu, LoadSceneMode.Additive);
         }
         
@@ -246,7 +246,7 @@ namespace Player
                 Rigid.velocity = new Vector2(InputX * _velocityChange, Rigid.velocity.y);
             }
             else // In case of a wall jump the velocity is "lerped" to get a (immersive) feeling of less control.
-                Rigid.velocity = Vector2.Lerp(Rigid.velocity, new Vector2(InputX * _velocityChange, Rigid.velocity.y)
+                Rigid.velocity = Vector2.Lerp(Rigid.velocity, new Vector2(InputX * moveSpeed, Rigid.velocity.y)
                     ,wallJumpLerp * Time.deltaTime);
         }
         
@@ -268,6 +268,7 @@ namespace Player
         {
             Rigid.velocity = new Vector2(Rigid.velocity.x, 0);
             Rigid.velocity += dir * jumpForce;
+            _canJump = false;
         }
 
         /// <summary>
@@ -285,13 +286,11 @@ namespace Player
         /// It does a jump off a wall when this object has contact with a wall object and the move direction is pressed.
         /// </summary>
         private void WallJump()
-        {
+        { 
             if (!JumpAction.IsPressed() || !wallJump || !_coll.IsWall() || _coll.IsGround()) return; 
-            var wallDirection =
-                _coll.IsRightWall()
-                    ? Vector2.left
-                    : Vector2.right;
-            Jump(Vector2.up / 1.5f + wallDirection / 1.5f);
+            var wallDirection = _coll.IsRightWall() ? Vector2.left : Vector2.right;
+            Jump(Vector2.up / wallJumpDivider + wallDirection / wallJumpDivider);
+            Jump(Vector2.up / wallJumpDivider + wallDirection / wallJumpDivider);
             _wallJumped = true;
         }
 
@@ -302,7 +301,7 @@ namespace Player
         private void LongJump()
         {
             if (!JumpAction.IsPressed()) return;
-            if (_jumpLengthCounter > 0f && _coyoteTimeCounter > 0f && _jumpBufferCounter > 0f) 
+            if (_jumpLengthCounter > 0f && _coyoteTimeCounter > 0f && _jumpBufferCounter > 0f && _canJump) 
             {
                 Jump(); 
                 _jumpBufferCounter = 0f;
@@ -425,8 +424,9 @@ namespace Player
             if (JumpAction.WasReleasedThisFrame())
                 _coyoteTimeCounter = 0f;
 
+            if (_controls.Gameplay.Run.WasReleasedThisFrame())
+                IsRunning = false;
             
-            //if (!JumpAction.IsPressed() && _coll.IsGround())
             if (!JumpAction.IsPressed() && _coll.IsGround())
             {
                 _jumpBufferCounter -= Time.deltaTime; 
@@ -436,6 +436,7 @@ namespace Player
             
                 Wallsliding = false;
                 _wallJumped = false;
+                _canJump = true;
             }
             else 
             {
@@ -443,8 +444,6 @@ namespace Player
                 _coyoteTimeCounter -= Time.deltaTime;
                 _jumpBufferCounter = JUMP_BUFFER_TIME;
             }
-
-           
         }
     
         #endregion

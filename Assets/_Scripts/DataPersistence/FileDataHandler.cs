@@ -10,9 +10,10 @@ namespace DataPersistence
     {
         private readonly string _dataPath;
         private readonly string _dataFileName;
+        private readonly string _menuAudioProfileId = "menu_audio";
 
         // used for XOR encryption
-        private const string ENCRYPTION_CODE_WORD = "Dreirad";
+        private const string ENCRYPTION_CODE = "Grünes Dreirad ohne Stützräder, aber mit einem großen Korb und Luftballon, der hinten an den Streben befestigt ist.";
         private readonly bool _useEncryption = false;
 
         public FileDataHandler(string dataPath, string dataFileName, bool useEncryption)
@@ -29,7 +30,7 @@ namespace DataPersistence
             if (profileId == null)
                 return;
             
-            // use path.combine because different OS´s having different path separators
+            // path.combine for different OS´s
             var fullPath = Path.Combine(_dataPath, profileId, _dataFileName);
             try
             {
@@ -47,28 +48,28 @@ namespace DataPersistence
             }
             catch (Exception e)
             {
-                Debug.Log($"Error occured when trying to save data from file: {fullPath}\n{e}");
+                Debug.Log($"Error occured when trying to save ProfileId: {profileId} from file at path: {fullPath}\n{e}");
             }
             finally
             {
-                Debug.Log($"Data saved to file: {fullPath}");
+                Debug.Log($"ProfileId: {profileId} saved to file at path: {fullPath}");
             }
         }
-        
-        public GameData Load(string profileId)
+         
+         public GameData Load(string profileId)
         {
             if (profileId == null)
                 return null;
             
-            // use path.combine because different OS´s having different path separators
+            // path.combine for different OS´s
             var fullPath = Path.Combine(_dataPath, profileId, _dataFileName);
             GameData loadedData = null;
             if (File.Exists(fullPath))
             {
                 try
                 {
-                    // using filestream over file.writealltext to avoid locking the file and allow other
-                    // processes to access it (e.g. real time data from a memory/network stream, multiple inputs)
+                    // using file.open over file.writealltext to avoid locking the file and
+                    // allow other processes to access it.
                     using var stream = File.Open(fullPath, FileMode.Open);
                     using var reader = new StreamReader(stream);
                     var dataToLoad = reader.ReadToEnd(); // load the serialized data from the file
@@ -77,22 +78,22 @@ namespace DataPersistence
                     if (_useEncryption)
                         dataToLoad = XorCipher(dataToLoad);
 
-                    // deserialize the data from json back into the C# object
+                    // deserialize the data
                     loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
                 }
                 catch (Exception e)
                 {
-                    Debug.LogWarning($"Error occured when trying to load file at path: {fullPath}.\n{e}");
+                    Debug.LogWarning($"Error occured when trying to load ProfileId: {profileId} from file at path: {fullPath}.\n{e}");
                 }
                 finally
                 {
-                    Debug.Log($"Data loaded from file: {fullPath}");
+                    Debug.Log($"ProfileId: {profileId} loaded from file at path: {fullPath}");
                 }
             }
 
             return loadedData;
         }
-        
+         
         #endregion
         
         #region Extensions
@@ -110,15 +111,15 @@ namespace DataPersistence
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"Error occured when trying to delete data from file: {fullPath}\n{e}");
+                Debug.LogWarning($"Error occured when trying to delete ProfileId: {profileId} from file at path: {fullPath}\n{e}");
             }
             finally
             {
-                Debug.Log($"Data deleted from file: {fullPath}");
+                Debug.Log($"ProfileId: {profileId} deleted from file at path: {fullPath}.");
             }
         }
 
-        public Dictionary<string, GameData> LoadAllProfiles()
+        public Dictionary<string, GameData> GetAllProfiles(bool getAllProfiles = false, bool skipGameplayData = false)
         {
             var profileDictionary = new Dictionary<string, GameData>();
 
@@ -132,8 +133,19 @@ namespace DataPersistence
                 var fullPath = Path.Combine(_dataPath, profileId, _dataFileName);
                 if (!File.Exists(fullPath))
                 {
-                    Debug.Log($"Skipping directory, all files are loaded or there are no existing file.");
+                    Debug.Log("Skipping directory, all files are loaded or there are no existing file.");
                     continue;
+                }
+
+                if (!getAllProfiles)
+                {
+                    // skip the gameplay data /bc menu audio should be loaded
+                    if (skipGameplayData && profileId != _menuAudioProfileId)
+                        continue;
+                
+                    // skip the menu audio profile /bc it should not be loaded to save slots
+                    if (!skipGameplayData && profileId == _menuAudioProfileId) 
+                        continue;
                 }
 
                 try
@@ -146,14 +158,12 @@ namespace DataPersistence
                 }
                 catch (Exception e)
                 {
-                    Debug.LogWarning($"Tried to load profile but something went wrong. " +
-                                     $"ProfileId: {profileId} at path {fullPath}.\n{e}");
+                    Debug.LogWarning($"Tried to locate ProfileId: {profileId} at path: {fullPath} but the file is not there or is corrupted.\n{e}");
                 }
                 finally
                 {
-                    Debug.Log($"Profile was loaded correctly. ProfileId: {profileId} at path {fullPath}.");
+                    Debug.Log($"ProfileId: {profileId} was correct located at path: {fullPath}.");
                 }
-
             }
 
             return profileDictionary;
@@ -163,17 +173,15 @@ namespace DataPersistence
         {
             string getLatestProfileId = null;
             
-            var gameDataProfiles = LoadAllProfiles();
+            var gameDataProfiles = GetAllProfiles();
             foreach (var (profileId, gameData) in gameDataProfiles)
             {
                 if (gameData == null)
                     continue;
-                
+
                 // if this is the first profile, set it as the latest
                 if (getLatestProfileId == null)
-                {
                     getLatestProfileId = profileId;
-                }
                 else // compare to see which date is the latest
                 {
                     var latestDateTime = DateTime.FromBinary(gameDataProfiles[getLatestProfileId].lastUpdated);
@@ -186,13 +194,14 @@ namespace DataPersistence
             
             return getLatestProfileId;
         }
-
-        // XOR encryption with a code word 
+        
+        // XOR encryption. disclaimer: this is not a secure encryption method
+        // and almost obsolete for a single player game
         private static string XorCipher(string data)
         {
-            var modifiedData = "";
+            var modifiedData = string.Empty;
             for (var i = 0; i < data.Length; i++)
-                modifiedData += (char) (data[i] ^ ENCRYPTION_CODE_WORD[i % ENCRYPTION_CODE_WORD.Length]);
+                modifiedData += (char) (data[i] ^ ENCRYPTION_CODE[i % ENCRYPTION_CODE.Length]);
             
             return modifiedData;
         }

@@ -1,3 +1,4 @@
+using System;
 using DataPersistence;
 using SceneHandler;
 using UnityEngine.UI;
@@ -16,7 +17,8 @@ namespace UI
         [SerializeField] private ConfirmationPopupMenu confirmationPopupMenu;
         
         private SaveSlot[] _saveSlots;
-        
+
+        private readonly string _menuAudioProfileId = "menu_audio";
         private bool _isLoadingGame;
         private bool _isNewGame;
 
@@ -24,12 +26,16 @@ namespace UI
         {
             _saveSlots = GetComponentsInChildren<SaveSlot>();
             _mainMenu = FindObjectOfType<MainMenu>();
+            
+            if (GameManager.Instance.IsGamePaused)
+                GameManager.Instance.IsPauseMenuActive = false;
         }
 
         private void Start()
         {
             if (GameManager.Instance.IsNewGame) ActivateSaveSlots(false);
             else if (!GameManager.Instance.IsNewGame) ActivateSaveSlots(true);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName($"{SceneIndex.LoadMenu}"));
         }
 
         public void OnSaveSlotClicked(SaveSlot saveSlot)
@@ -67,7 +73,7 @@ namespace UI
         {
             DataPersistenceManager.Instance.SaveGame();
             SceneLoader.Instance.LoadSceneAsync(SceneIndex.Level1, showProgress: true);
-            if (GameManager.Instance.IsPaused) GameManager.Instance.IsPaused = false;
+            if (GameManager.Instance.IsGamePaused) GameManager.Instance.IsGamePaused = false;
         }
         
         public void OnDeleteButtonClicked(SaveSlot saveSlot)
@@ -86,10 +92,21 @@ namespace UI
         public void OnBackButtonClicked()
         {
             if (_mainMenu != null) _mainMenu.DisableButtonsDependingOnData();
-            SceneLoader.Instance.LoadSceneAsync(GameManager.Instance.IsPaused ? SceneIndex.PauseMenu : SceneIndex.MainMenu, 
-                GameManager.Instance.IsPaused ? LoadSceneMode.Additive : LoadSceneMode.Single);
+            //if (GameManager.Instance.IsGamePaused)
+            //    SceneLoader.Instance.LoadSceneAsync(SceneIndex.PauseMenu, LoadSceneMode.Additive);
             
-                SceneLoader.Instance.UnloadSceneAsync();
+            SceneLoader.Instance.UnloadSceneAsync();
+        }
+
+        private void OnDestroy()
+        {
+            if (!GameManager.Instance.IsGamePaused)
+                GameManager.Instance.IsMenuActive = true;
+            
+            GameManager.Instance.IsSelected = false;
+            if (GameManager.Instance.IsGamePaused)
+                GameManager.Instance.IsPauseMenuActive = true;
+            
         }
 
         private void ActivateSaveSlots(bool isLoadingGame)
@@ -105,6 +122,9 @@ namespace UI
             foreach (var saveSlot in _saveSlots)
             {
                 profilesGameData.TryGetValue(saveSlot.GetProfileId(), out var profileData);
+                if (saveSlot.GetProfileId() == _menuAudioProfileId)
+                    continue;
+                    
                 saveSlot.SetData(profileData);
 
                 if (profileData == null && isLoadingGame)

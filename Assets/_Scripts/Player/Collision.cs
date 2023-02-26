@@ -3,31 +3,27 @@ using UnityEngine.Serialization;
 
 namespace Player
 {
-    [RequireComponent(typeof(Collider2D), typeof(BoxCollider2D))]
+    [RequireComponent(typeof(Collider2D))]
     public class Collision : MonoBehaviour
     {
-        [Header("Collider")] [Space]
-        [SerializeField] private BoxCollider2D boxCollider; // Inspector view only to assign instance for gizmos, can be deleted if visualization is needed anymore
-
-        [Space]
-    
-        [Header("Layers")] [Space]
+        [Header("LAYERS")] [Space]
         [SerializeField] private LayerMask groundLayer;
         [SerializeField] private LayerMask wallLayer;
     
-        [Space]
-
-        [Header("Physics Material")] [Space]
+        [Space] [Header("PHYSICS MATERIAL")] [Space]
         [SerializeField] private PhysicsMaterial2D plainMaterial;
         [SerializeField] private PhysicsMaterial2D stickyMaterial;
-    
+        
+        [Space] [Header("COLLIDER")]
+        [SerializeField] private PolygonCollider2D polygonCollider;
+        [Space]
         private Collider2D _collider;
-        private Bounds Bounds => boxCollider.bounds;
+        private Bounds Bounds => polygonCollider.bounds;
 
-        private readonly Vector3 _reduceX = new (0.03f, 0f, 0f); // Overlapbox size x -> groundcheck
+        public Vector3 _reduceSize = new (0.03f, 0f, 0f); // Overlapbox size x -> groundcheck
         private readonly Vector2 _offsetX = new (0.01f, 0f); // Overlapbox offset -> wallcheck
-        private readonly Vector2 _offsetY = new (0f, -0.01f); // Overlapbox offset -> groundcheck
-        private readonly Vector2 _offset = new (0.01f, -0.01f); // Overlapbox offset -> wallcheck + groundcheck
+        public Vector2 _offsetY = new (0f, -0.01f); // Overlapbox offset -> groundcheck
+        public Vector2 _offset = new (0.01f, -0.01f); // Overlapbox offset -> wallcheck + groundcheck
         private float _angle; // Don´t need angles rn, but it can be useful in the future
 
         public bool IsGround() { return OnGround(); }
@@ -40,7 +36,6 @@ namespace Player
         private void Awake()
         {
             _collider = GetComponent<Collider2D>();
-            boxCollider = GetComponent<BoxCollider2D>();
         }
 
         private void Update()
@@ -77,28 +72,28 @@ namespace Player
 
         private bool OnGround()
         {
-            return Physics2D.OverlapBox((Vector2)Bounds.center + _offsetY, Bounds.size - _reduceX, _angle, groundLayer);
+            return Physics2D.OverlapBox((Vector2)Bounds.center + _offsetY, Bounds.size - _reduceSize, _angle, groundLayer);
         }
 
         private bool OnWall()
         {
-            return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + _offsetX, Bounds.size, _angle, wallLayer) || 
-                   Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + (-_offsetX), Bounds.size, _angle, wallLayer);
+            return Physics2D.OverlapBox((Vector2)Bounds.center + _offsetX, Bounds.size, _angle, wallLayer) || 
+                   Physics2D.OverlapBox((Vector2)Bounds.center + (-_offsetX), Bounds.size, _angle, wallLayer);
         }
 
         private bool OnRightWall()
         {
-            return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + _offsetX, Bounds.size, _angle, wallLayer);
+            return Physics2D.OverlapBox((Vector2)Bounds.center + _offsetX, Bounds.size, _angle, wallLayer);
         }
 
         private bool OnLeftWall()
         {
-            return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + (-_offsetX), Bounds.size, _angle, wallLayer);
+            return Physics2D.OverlapBox((Vector2)Bounds.center + (-_offsetX), Bounds.size, _angle, wallLayer);
         }
     
         private bool NearGround()
         {
-            return Physics2D.OverlapBox((Vector2)boxCollider.bounds.center + _offset, Bounds.size, _angle, groundLayer);
+            return Physics2D.OverlapBox((Vector2)Bounds.center + _offset, Bounds.size, _angle, groundLayer);
         }
     
         #endregion
@@ -109,16 +104,16 @@ namespace Player
         {
             // GroundCheck
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireCube((Vector2)boxCollider.bounds.center + _offsetY, Bounds.size - _reduceX);
+            Gizmos.DrawWireCube((Vector2)Bounds.center + _offsetY, Bounds.size - _reduceSize);
             // RightWallCheck
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireCube((Vector2)boxCollider.bounds.center + _offsetX, Bounds.size);
+            Gizmos.DrawWireCube((Vector2)Bounds.center + _offsetX, Bounds.size);
             // LeftWallCheck
             Gizmos.color = Color.green;
-            Gizmos.DrawWireCube((Vector2)boxCollider.bounds.center + -_offsetX, Bounds.size);
+            Gizmos.DrawWireCube((Vector2)Bounds.center + -_offsetX, Bounds.size);
             // NearGround
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube((Vector2)boxCollider.bounds.center + _offset, Bounds.size);
+            Gizmos.DrawWireCube((Vector2)Bounds.center + _offset, Bounds.size);
         }
     
 #endif

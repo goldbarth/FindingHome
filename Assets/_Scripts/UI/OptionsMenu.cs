@@ -20,10 +20,17 @@ namespace UI
         [SerializeField] private string sfxVolumeParameter = "SFX";
         [SerializeField] private string musicVolumeParameter = "Music";
         [Space][Header("AUDIO MULTIPLIER")]
-        [SerializeField] private float multiplier = 20f;
+        [SerializeField] private float multiplier = 30f;
+        [Space][Header("Panel")]
+        [SerializeField] private GameObject parallaxBackground;
         
         private void Awake()
         {
+            if (GameManager.Instance.IsGamePaused)
+                GameManager.Instance.IsPauseMenuActive = false;
+                
+            parallaxBackground.SetActive(!GameManager.Instance.IsGamePaused);
+            
             masterVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
             sfxVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
             musicVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
@@ -47,9 +54,17 @@ namespace UI
         public void OnBackButtonClicked()
         {
             DataPersistenceManager.Instance.SaveGame();
-            SceneLoader.Instance.LoadSceneAsync(GameManager.Instance.IsPaused ? SceneIndex.PauseMenu : SceneIndex.MainMenu, 
-                GameManager.Instance.IsPaused ? LoadSceneMode.Additive : LoadSceneMode.Single);
             SceneLoader.Instance.UnloadSceneAsync();
+        }
+
+        private void OnDestroy()
+        {
+            if (!GameManager.Instance.IsGamePaused)
+                GameManager.Instance.IsMenuActive = true;
+            
+            GameManager.Instance.IsSelected = false;
+            if (GameManager.Instance.IsGamePaused)
+                GameManager.Instance.IsPauseMenuActive = true;
         }
 
         public void LoadData(GameData data)
@@ -57,9 +72,8 @@ namespace UI
             try // fancy try catch block
             {
                 if (data == null)
-                    throw new ArgumentNullException(paramName: nameof(data), message: "Parameter can't be null.");
-            
-                Debug.Log("Loading audio data...");
+                    throw new ArgumentNullException(paramName: nameof(data), message: "Load-Data can't be null.");
+                
                 masterVolumeSlider.value = data.masterVolume;
                 sfxVolumeSlider.value = data.sfxVolume;
                 musicVolumeSlider.value = data.musicVolume;
@@ -68,6 +82,10 @@ namespace UI
             {
                 Debug.LogWarning($"{e}\nAudio data couldn't be loaded. There is no save file to to read.");
             }
+            finally
+            {
+                Debug.Log("Audio data loaded in Options-Menu.");
+            }
         }
         
         public void SaveData(GameData data)
@@ -75,9 +93,8 @@ namespace UI
             try
             {
                 if (data == null)
-                    throw new ArgumentNullException(paramName: nameof(data), message: "Parameter can't be null.");
-
-                Debug.Log("Saving audio data...");
+                    throw new ArgumentNullException(paramName: nameof(data), message: "Save-Data can't be null.");
+                
                 data.masterVolume = masterVolumeSlider.value;
                 data.sfxVolume = sfxVolumeSlider.value;
                 data.musicVolume = musicVolumeSlider.value;
@@ -85,6 +102,10 @@ namespace UI
             catch (Exception e)
             {
                 Debug.LogWarning($"{e}\nAudio data couldn't be saved. There is no save file to to write.");
+            }
+            finally
+            {
+                Debug.Log("Audio data saved in Options-Menu.");
             }
         }
     }

@@ -81,7 +81,7 @@ namespace SceneHandler
 
         public void UnloadSceneAsync()
         {
-            SceneManager.UnloadSceneAsync(Convert.ToInt32(_sceneNames.First.Value));
+            SceneManager.UnloadSceneAsync(Convert.ToInt32(_sceneNames.Last.Value));
             _sceneNames.RemoveLast();
         }
 

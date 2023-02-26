@@ -12,9 +12,9 @@ namespace Player.PlayerData
 
         public void SaveData(GameData data)
         {
+            // prevents saving the player position when not changing the room
             if (!GameManager.Instance.OnRoomReset)
             {
-                Debug.Log("POSITION WAS SAVED");
                 data.playerPosition = transform.position;
             }
         }

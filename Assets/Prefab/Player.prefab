@@ -72,10 +72,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -357810085
+  m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2051543943, guid: 8940fb5c6febcf4478d1d72da0e24387, type: 3}
+  m_Sprite: {fileID: -519423119, guid: 2c5d9ed6aa5a4864981a4b35f5d9934a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6485689903279152355}
   - component: {fileID: 6485689903279152353}
-  - component: {fileID: 6485689903279152352}
+  - component: {fileID: 7417988440727297845}
   - component: {fileID: 6485689903279152367}
   - component: {fileID: 6852878049285978474}
   - component: {fileID: 6485689903279152357}
@@ -180,8 +180,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!61 &6485689903279152352
-BoxCollider2D:
+--- !u!60 &7417988440727297845
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -193,19 +193,29 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.020468116, y: 0.00042009354}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.625, y: 2.3125}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.69, y: 1.5}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.24066353, y: 0.7472632}
+      - {x: -0.13482285, y: 0.7520745}
+      - {x: -0.25932884, y: 0.5010772}
+      - {x: -0.25990587, y: -0.3723981}
+      - {x: -0.13349342, y: -0.50222015}
+      - {x: -0.13347381, y: -0.74989426}
+      - {x: 0.23949397, y: -0.74857235}
+      - {x: 0.24017525, y: -0.49817634}
+      - {x: 0.3662243, y: -0.37280703}
+      - {x: 0.36602783, y: -0.24938488}
+      - {x: 0.24090481, y: 0.13281387}
 --- !u!114 &6485689903279152367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,7 +234,8 @@ MonoBehaviour:
   wallSlide: 1
   moveSpeed: 6.5
   runSpeed: 10
-  jumpForce: 5.5
+  jumpForce: 5.7
+  wallJumpDivider: 1.5
   dashForce: 30
   dashDuration: 0.2
   dashCooldown: 0.5
@@ -259,7 +270,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a205f07b9b0aba4fac819aa01e6b94e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxCollider: {fileID: 6485689903279152352}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -268,6 +278,10 @@ MonoBehaviour:
     m_Bits: 128
   plainMaterial: {fileID: 6200000, guid: 8483483e5e80adb4e85af77c4eeaaed7, type: 2}
   stickyMaterial: {fileID: 6200000, guid: acda409097624f640adc20d54e9a0188, type: 2}
+  polygonCollider: {fileID: 7417988440727297845}
+  _reduceSize: {x: 0.25, y: 1.47, z: 0}
+  _offsetY: {x: 0, y: -0.745}
+  _offset: {x: 0.01, y: -0.35}
 --- !u!114 &6485689903279152358
 MonoBehaviour:
   m_ObjectHideFlags: 0

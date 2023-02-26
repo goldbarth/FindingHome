@@ -1,4 +1,5 @@
-﻿using DataPersistence;
+﻿using System;
+using DataPersistence;
 using SceneHandler;
 using UnityEngine.UI;
 using UnityEngine;
@@ -8,13 +9,37 @@ namespace UI
 {
     public class PauseMenu : Menu
     {
-        [Space][Header("MENU BUTTON")]
+        [Space][Header("MENU BUTTONS")]
+        [Space][SerializeField] private Button resumeGameButton;
         [Space][SerializeField] private Button loadGameButton;
+        [Space][Header("BUTTON LAYOUT")]
+        [Space][SerializeField] private GameObject buttonLayout;
         
+        private bool _buttonWasSelected = false;
+
         private void Awake()
         {
-            GameManager.Instance.IsPaused = true;
+            GameManager.Instance.IsPauseMenuActive = true;
+            GameManager.Instance.IsGamePaused = true;
             DisableButtonDependingOnData();
+        }
+
+        private void Update()
+        {
+            Debug.Log("Pause Menu is active: true: " + GameManager.Instance.IsPauseMenuActive);
+            Debug.Log("Button was selected: false: " + _buttonWasSelected);
+            buttonLayout.SetActive(GameManager.Instance.IsPauseMenuActive);
+            
+            if(GameManager.Instance.IsPauseMenuActive && !GameManager.Instance.IsSelected)
+            { 
+                resumeGameButton.Select();
+                GameManager.Instance.IsSelected = true;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            //Time.timeScale = 1f;
         }
 
         private void DisableButtonDependingOnData()
@@ -28,7 +53,7 @@ namespace UI
         
         public void OnResumeGameClicked()
         {
-            GameManager.Instance.IsPaused = false;
+            GameManager.Instance.IsGamePaused = false;
             SceneLoader.Instance.UnloadSceneAsync();
         }
         

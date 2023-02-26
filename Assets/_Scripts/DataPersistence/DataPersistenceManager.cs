@@ -1,9 +1,10 @@
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using System.Linq;
-using AddIns;
 using SceneHandler;
+using System.Linq;
 using UnityEngine;
+using System;
+using AddIns;
  
 namespace DataPersistence
 {
@@ -18,15 +19,18 @@ namespace DataPersistence
         [SerializeField] private string fileName;
         [Space][SerializeField] private bool useEncryption;
 
-        private readonly SceneIndex[] _menuScene = {SceneIndex.MainMenu, SceneIndex.LoadMenu, SceneIndex.OptionsMenu, SceneIndex.PauseMenu};
-
-        private string _selectedProfileId;
-        
         private GameData _gameData;
         private FileDataHandler _dataHandler;
-        private List<IDataPersistence> _dataPersistenceObjects; // List of all objects that need to be saved and loaded
+        private List<IDataPersistence> _dataPersistenceObjects; // list of all objects that need to be saved and loaded
 
+        private readonly SceneIndex[] _menuScene = {SceneIndex.Init, SceneIndex.LoadMenu, SceneIndex.OptionsMenu, SceneIndex.PauseMenu};
+
+        private string _selectedProfileId;
+        private readonly string _menuAudioProfileId = "menu_audio";
+        
         public bool DisableDataPersistence => disableDataPersistence;
+        public bool UseEncryption => useEncryption;
+        public string MenuAudioProfileId => _menuAudioProfileId;
         
         
         #region Events
@@ -36,7 +40,7 @@ namespace DataPersistence
             base.Awake();
             
             if (disableDataPersistence) 
-                Debug.LogWarning("Data Persistence is disabled!");
+                Debug.LogWarning("Data Persistence is DISABLED!");
             
             _dataHandler = new FileDataHandler(Application.persistentDataPath ,fileName, useEncryption);
             InitializeProfileId();
@@ -55,22 +59,26 @@ namespace DataPersistence
         // called after OnEnable and Awake but before Start
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            Debug.Log($"OnSceneLoaded: {scene.name}");
+            Debug.Log($"Scene Loaded: {scene.name}");
 
+            // if the application has started, the menu audio profile is always selected
+            if (GameManager.Instance.OnApplicationStart)
+                _selectedProfileId = _menuAudioProfileId;
+            
             foreach (var index in _menuScene)
             {
                 if (scene.buildIndex == (int)index)
-                {
-                    Debug.Log("Loaded a Menu scene. No persistent data needed to load.");
-                }
+                    Debug.Log("Loaded a menu scene. No persistent data needed to load.");
                 else if (scene.buildIndex != (int)index)
                 {
                     _dataPersistenceObjects = FindAllDataPersistenceObjects();
                     LoadGame();
                 }
             }
+            
+            GameManager.Instance.OnApplicationStart = false;
         }
-        
+
         // TODO: maybe it has use later
         // if the game is closed manually or crashed, the data will be saved in the file.
         //private void OnApplicationQuit()
@@ -91,12 +99,12 @@ namespace DataPersistence
                 return;
             }
             
-            // Save all data from other scripts so they can update the GameData
+            // save all data from other scripts so they can update the GameData
             foreach (var dataPersistenceObject in _dataPersistenceObjects)
                 dataPersistenceObject.SaveData(_gameData);
 
             // timestamp the data it shows when it was last saved
-            _gameData.lastUpdated = System.DateTime.Now.ToBinary();
+            _gameData.lastUpdated = DateTime.Now.ToBinary();
             _dataHandler.Save(_gameData, _selectedProfileId);
         }
         
@@ -108,11 +116,10 @@ namespace DataPersistence
             _gameData = _dataHandler.Load(_selectedProfileId);
             if (_gameData == null && initializeDataIfNull)
                 NewGame();
-            
+
             // push data to other scripts that need it (e.g. player pos, inventory, etc.)
             foreach (var dataPersistenceObject in _dataPersistenceObjects)
                 dataPersistenceObject.LoadData(_gameData);
-            
         }
         
         #endregion
@@ -126,12 +133,46 @@ namespace DataPersistence
         
         public bool HasGameData()
         {
+            var profiles = GetAllProfilesGameData(getAllProfiles: true); 
+            // if audio profile is the only profile from all profiles, return false
+            // (to prevent enabling the continue button and loading the audio profile on continue)
+            if (profiles.Count == 1 && profiles.ContainsKey(_menuAudioProfileId))
+                return false;
+
             return _gameData != null;
+        }
+        
+        public void InitializeMenuAudioProfileId()
+        {
+            try
+            {
+                var containsMenuAudioProfile = GetAllProfilesGameData(getAllProfiles: true).ContainsKey(_menuAudioProfileId);
+                if (!containsMenuAudioProfile)
+                {
+                    _dataHandler.Save(new GameData(), _menuAudioProfileId);
+                }
+
+                _gameData = _dataHandler.Load(_menuAudioProfileId);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Audio profile couldn´t be loaded on Application-Start\n{e}");
+            }
+            finally
+            {
+                Debug.Log("Audio profile was loaded on Application-Start");
+            }
         }
         
         private void InitializeProfileId()
         {
-            _selectedProfileId = _dataHandler.GetLatestProfileId();
+            // if the profile id is null, get the latest profile id
+            _selectedProfileId ??= _dataHandler.GetLatestProfileId();
+        }
+        
+        public string GetLatestProfileId()
+        {
+            return _selectedProfileId = _dataHandler.GetLatestProfileId();
         }
         
         public void ChangeSelectedProfileId(string newProfileId)
@@ -148,14 +189,14 @@ namespace DataPersistence
             LoadGame();
         }
 
-        public Dictionary<string, GameData> GetAllProfilesGameData()
+        public Dictionary<string, GameData> GetAllProfilesGameData(bool getAllProfiles = false, bool skipGameplayData = false)
         {
-            return _dataHandler.LoadAllProfiles();
+            return _dataHandler.GetAllProfiles(getAllProfiles, skipGameplayData);
         }
         
         private static List<IDataPersistence> FindAllDataPersistenceObjects()
         {
-            // enable true in FindObjectsOfType for include inactive objects
+            // enable true in FindObjectsOfType to include inactive objects
             var dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>(true).OfType<IDataPersistence>();
             return new List<IDataPersistence>(dataPersistenceObjects);
         }

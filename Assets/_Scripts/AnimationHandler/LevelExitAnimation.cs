@@ -28,9 +28,7 @@ namespace AnimationHandler
         private void OnTriggerEnter2D(Collider2D col)
         {
             if (col.CompareTag("Player") && !col.isTrigger)
-            {
                 StartCoroutine(AnimateBeforeExit());
-            }
         }
 
         private IEnumerator AnimateBeforeExit()

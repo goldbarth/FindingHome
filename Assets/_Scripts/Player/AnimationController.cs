@@ -31,10 +31,10 @@ namespace Player
                 return;
             }
 
-            if (_coll.IsGround() && !_player.IsRunning && !_player.JumpAction.IsPressed() 
+            if (_coll.IsGround() && !_player.IsRunning && !_player.JumpAction.IsPressed()
                 && !_isLanding && !_isClimbing)
                 AnimationManager.Instance.SetAnimationState(_player.InputX != 0 ? player_walk : player_idle);
-
+            
             var onLandingCanceled = _coll.IsGround() && _player.JumpAction.IsPressed();
             if (onLandingCanceled)
                 AnimationManager.Instance.SetAnimationState(player_idle);
