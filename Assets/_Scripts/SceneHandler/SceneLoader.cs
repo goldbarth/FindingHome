@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace SceneHandler
 {
-    public enum SceneIndex
+    public enum SceneIndices
     {
         Init,
         MainMenu,
@@ -22,8 +22,8 @@ namespace SceneHandler
 
     public class SceneLoader : Singleton<SceneLoader>
     {
-        [Header("SCENE LOADER")] [SerializeField]
-        private SceneIndex startScene;
+        [Header("SCENE LOADER")] 
+        [SerializeField] private SceneIndices startScene;
 
         [Space] [Header("LOADING SCREEN")] [SerializeField]
         private float minLoadingDuration;
@@ -64,18 +64,18 @@ namespace SceneHandler
 
         private void RegisterNewScene(Scene scene, LoadSceneMode mode)
         {
-            _sceneNames.AddLast((SceneIndex)scene.buildIndex);
+            _sceneNames.AddLast((SceneIndices)scene.buildIndex);
         }
 
         private void UnregisterScene(Scene scene)
         {
-            _sceneNames.Remove((SceneIndex)scene.buildIndex);
+            _sceneNames.Remove((SceneIndices)scene.buildIndex);
         }
 
-        public void LoadSceneAsync(SceneIndex sceneIndex, LoadSceneMode loadSceneMode = LoadSceneMode.Single,
+        public void LoadSceneAsync(SceneIndices sceneIndices, LoadSceneMode loadSceneMode = LoadSceneMode.Single,
             bool showProgress = false)
         {
-            var asyncOperation = SceneManager.LoadSceneAsync((int)sceneIndex, loadSceneMode);
+            var asyncOperation = SceneManager.LoadSceneAsync((int)sceneIndices, loadSceneMode);
             if (showProgress) StartCoroutine(LoadingProgress(asyncOperation));
         }
 

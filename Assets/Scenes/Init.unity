@@ -1029,6 +1029,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
   startScene: 1
+  additiveScene: 2
   minLoadingDuration: 3
   loadingScreen: {fileID: 1033444957}
   progressBarFill: {fileID: 240633672}

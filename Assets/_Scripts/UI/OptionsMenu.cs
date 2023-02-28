@@ -22,18 +22,16 @@ namespace UI
         [SerializeField] private float multiplier = 30f;
         [Space][Header("BACKGROUNDS")]
         [SerializeField] private GameObject parallaxBackground;
-        [SerializeField] private GameObject tintPanel;
-        
+
         private void Awake()
         {
             parallaxBackground.SetActive(!GameManager.Instance.IsGamePaused);
-            tintPanel.SetActive(!GameManager.Instance.IsGamePaused);
             if (GameManager.Instance.IsGamePaused)
                 GameManager.Instance.IsPauseMenuActive = false;
             
             masterVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
-            sfxVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
-            musicVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
+            sfxVolumeSlider.onValueChanged.AddListener(OnSFXSliderChanged);
+            musicVolumeSlider.onValueChanged.AddListener(OnMusicSliderChanged);
         }
 
         public void OnMasterSliderChanged(float value)
@@ -73,7 +71,7 @@ namespace UI
             {
                 if (data == null)
                     throw new ArgumentNullException(paramName: nameof(data), message: "Load-Data can't be null.");
-                
+                Debug.LogWarning("OPTIONS: " + data.musicVolume);
                 masterVolumeSlider.value = data.masterVolume;
                 sfxVolumeSlider.value = data.sfxVolume;
                 musicVolumeSlider.value = data.musicVolume;

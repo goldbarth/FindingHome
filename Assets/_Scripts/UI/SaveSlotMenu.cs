@@ -70,7 +70,7 @@ namespace UI
         {
             GameManager.Instance.IsGameStarted = true;
             DataPersistenceManager.Instance.SaveGame();
-            SceneLoader.Instance.LoadSceneAsync(SceneIndex.Level1, showProgress: true);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndices.Level1, showProgress: true);
             if (GameManager.Instance.IsGamePaused) GameManager.Instance.IsGamePaused = false;
         }
         

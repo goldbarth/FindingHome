@@ -23,7 +23,7 @@ namespace DataPersistence
         private FileDataHandler _dataHandler;
         private List<IDataPersistence> _dataPersistenceObjects; // list of all objects that need to be saved and loaded
 
-        private readonly SceneIndex[] _menuScenes = {SceneIndex.Init, SceneIndex.LoadMenu, SceneIndex.OptionsMenu, SceneIndex.PauseMenu};
+        private readonly SceneIndices[] _menuScenes = {SceneIndices.Init, SceneIndices.LoadMenu, SceneIndices.OptionsMenu, SceneIndices.PauseMenu};
 
         private string _selectedProfileId;
         private readonly string _menuAudioProfileId = "menu_audio";

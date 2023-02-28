@@ -1,13 +1,14 @@
+using System;
 using DataPersistence;
 using SceneHandler;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
-//TODO: menu audio in all menu scenes
 namespace UI
 {
-    public class MainMenu : Menu
+    public class MainMenu : Menu, IDataPersistence
     {
         [Space][Header("MENU BUTTONS")]
         [Space][SerializeField] private Button newGameButton;
@@ -17,7 +18,10 @@ namespace UI
         [Space][SerializeField] private GameObject menuCanvas;
         [Space][Header("PARALLAX BACKGROUND")]
         [Space][SerializeField] private GameObject background;
+        [Space][Header("AUDIO")]
+        [SerializeField] private AudioMixer audioMixer;
 
+        
         private bool _buttonWasSelected = false;
 
         private void Awake()
@@ -67,12 +71,12 @@ namespace UI
         {
             GameManager.Instance.IsGameStarted = true;
             DataPersistenceManager.Instance.ChangeSelectedProfileId(DataPersistenceManager.Instance.GetLatestProfileId());
-            SceneLoader.Instance.LoadSceneAsync(SceneIndex.Level1, showProgress: true);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndices.Level1, showProgress: true);
         }
         
         public void OnOptionsMenuClicked()
         {
-            SceneLoader.Instance.LoadSceneAsync(SceneIndex.OptionsMenu, LoadSceneMode.Additive);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndices.OptionsMenu, LoadSceneMode.Additive);
             GameManager.Instance.IsMenuActive = false;
             _buttonWasSelected = false;
         }
@@ -84,11 +88,36 @@ namespace UI
         
         private void LoadSceneSaveSlotMenu()
         {
-            SceneLoader.Instance.LoadSceneAsync(SceneIndex.LoadMenu, LoadSceneMode.Additive);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndices.LoadMenu, LoadSceneMode.Additive);
             GameManager.Instance.IsMenuActive = false;
             _buttonWasSelected = false;
         }
 
         #endregion
+
+        // set the stored audio from "menu_audio" profile to the audio mixer at app-start
+        public void LoadData(GameData data)
+        {
+            try // fancy try catch block
+            {
+                if (data == null)
+                    throw new ArgumentNullException(paramName: nameof(data), message: "Load-Data can't be null.");
+                
+                audioMixer.SetFloat("Master", data.masterVolume);
+                audioMixer.SetFloat("SFX", data.masterVolume);
+                audioMixer.SetFloat("Music", data.masterVolume);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"{e}\nAudio data couldn't be loaded. There is no save file to to read.");
+            }
+            finally
+            {
+                Debug.Log("Audio data loaded in Main-Menu.");
+            }
+        }
+        
+        public void SaveData(GameData data)
+        { }
     }
 }

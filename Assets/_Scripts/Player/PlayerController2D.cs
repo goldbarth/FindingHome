@@ -223,7 +223,7 @@ namespace Player
         public void OnPause(InputAction.CallbackContext context)
         {
             if (context.started && !GameManager.Instance.IsGamePaused)
-                SceneLoader.Instance.LoadSceneAsync(SceneIndex.PauseMenu, LoadSceneMode.Additive);
+                SceneLoader.Instance.LoadSceneAsync(SceneIndices.PauseMenu, LoadSceneMode.Additive);
         }
         
         #endregion

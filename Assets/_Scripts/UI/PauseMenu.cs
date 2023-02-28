@@ -54,7 +54,7 @@ namespace UI
         
         public void OnOptionsMenuClicked()
         {
-            SceneLoader.Instance.LoadSceneAsync(SceneIndex.OptionsMenu, LoadSceneMode.Additive);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndices.OptionsMenu, LoadSceneMode.Additive);
         }
         
         public void OnSaveGameClicked()
@@ -65,13 +65,13 @@ namespace UI
         
         public void OnLoadGameClicked()
         {
-            SceneLoader.Instance.LoadSceneAsync(SceneIndex.LoadMenu, LoadSceneMode.Additive);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndices.LoadMenu, LoadSceneMode.Additive);
         }
         
         public void OnMainMenuClicked()
         {
             GameManager.Instance.IsGamePaused = false;
-            SceneLoader.Instance.LoadSceneAsync(SceneIndex.MainMenu);
+            SceneLoader.Instance.LoadSceneAsync(SceneIndices.MainMenu);
         }
         
         public void OnQuitGameClicked()
