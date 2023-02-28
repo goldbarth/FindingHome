@@ -23,12 +23,11 @@ namespace DataPersistence
         private FileDataHandler _dataHandler;
         private List<IDataPersistence> _dataPersistenceObjects; // list of all objects that need to be saved and loaded
 
-        private readonly SceneIndex[] _menuScene = {SceneIndex.Init, SceneIndex.LoadMenu, SceneIndex.OptionsMenu, SceneIndex.PauseMenu};
+        private readonly SceneIndex[] _menuScenes = {SceneIndex.Init, SceneIndex.LoadMenu, SceneIndex.OptionsMenu, SceneIndex.PauseMenu};
 
         private string _selectedProfileId;
         private readonly string _menuAudioProfileId = "menu_audio";
-        
-        public bool ShowSaveAnimation { get; set; } = false;
+
         public bool DisableDataPersistence => disableDataPersistence;
 
         #region Events
@@ -38,7 +37,6 @@ namespace DataPersistence
             base.Awake();
             
             if (disableDataPersistence) Debug.LogWarning("Data Persistence is DISABLED!");
-            ShowSaveAnimation = false;
             _dataHandler = new FileDataHandler(Application.persistentDataPath ,fileName, useEncryption);
             InitializeProfileId();
         }
@@ -62,7 +60,7 @@ namespace DataPersistence
             if (GameManager.Instance.OnApplicationStart)
                 _selectedProfileId = _menuAudioProfileId;
             
-            foreach (var index in _menuScene)
+            foreach (var index in _menuScenes)
             {
                 if (scene.buildIndex == (int)index)
                     Debug.Log("Loaded a menu scene. No persistent data needed to load.");
@@ -102,15 +100,15 @@ namespace DataPersistence
 
             // timestamp the data it shows when it was last saved
             _gameData.lastUpdated = DateTime.Now.ToBinary();
-            _dataHandler.Save(_gameData, _selectedProfileId);
+            _dataHandler.SaveData(_gameData, _selectedProfileId);
         }
 
         public void LoadGame()
         {
             if (disableDataPersistence) return;
             
-            GameManager.Instance.OnRoomReset = false;
-            _gameData = _dataHandler.Load(_selectedProfileId);
+            GameManager.Instance.OnRoomReset = false; // prevents to save the players position. e.g. when falling into a pit
+            _gameData = _dataHandler.LoadData(_selectedProfileId);
             if (_gameData == null && initializeDataIfNull)
                 NewGame();
 
@@ -146,14 +144,14 @@ namespace DataPersistence
                 var containsMenuAudioProfile = GetAllProfilesGameData(getAllProfiles: true).ContainsKey(_menuAudioProfileId);
                 if (!containsMenuAudioProfile)
                 {
-                    _dataHandler.Save(new GameData(), _menuAudioProfileId);
+                    _dataHandler.SaveData(new GameData(), _menuAudioProfileId); // create a new profile
                 }
 
-                _gameData = _dataHandler.Load(_menuAudioProfileId);
+                _gameData = _dataHandler.LoadData(_menuAudioProfileId);
             }
             catch (Exception e)
             {
-                Debug.LogError($"Audio profile couldn´t be loaded on Application-Start\n{e}");
+                Debug.LogError($"Audio profile couldn´t be loaded on Application-Start\n{e.Message}");
             }
             finally
             {

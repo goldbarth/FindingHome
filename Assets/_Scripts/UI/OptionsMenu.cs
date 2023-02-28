@@ -20,12 +20,14 @@ namespace UI
         [SerializeField] private string musicVolumeParameter = "Music";
         [Space][Header("AUDIO MULTIPLIER")]
         [SerializeField] private float multiplier = 30f;
-        [Space][Header("Panel")]
+        [Space][Header("BACKGROUNDS")]
         [SerializeField] private GameObject parallaxBackground;
+        [SerializeField] private GameObject tintPanel;
         
         private void Awake()
         {
             parallaxBackground.SetActive(!GameManager.Instance.IsGamePaused);
+            tintPanel.SetActive(!GameManager.Instance.IsGamePaused);
             if (GameManager.Instance.IsGamePaused)
                 GameManager.Instance.IsPauseMenuActive = false;
             

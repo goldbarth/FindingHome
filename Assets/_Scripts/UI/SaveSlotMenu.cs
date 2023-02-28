@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace UI
 {
-    public class LoadMenu : Menu
+    public class SaveSlotMenu : Menu
     {
         private MainMenu _mainMenu;
         
@@ -112,7 +112,8 @@ namespace UI
             // load all of the profiles that exist
             var profilesGameData = DataPersistenceManager.Instance.GetAllProfilesGameData();
 
-            // loop through each save slot(button) in the UI and set the right buttons active/inactive
+            // loop through each save slot(button) and compare with the existing profiles,
+            // to set the right buttons active/inactive in the UI
             var firstSelected = backButton.gameObject;
             foreach (var saveSlot in _saveSlots)
             {

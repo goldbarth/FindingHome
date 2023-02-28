@@ -1,9 +1,7 @@
-using System;
 using DataPersistence;
 using SceneHandler;
 using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 //TODO: menu audio in all menu scenes
@@ -56,13 +54,13 @@ namespace UI
         public void OnNewGameClicked()
         {
             GameManager.Instance.IsNewGame = true;
-            LoadSceneIsLoadMenu();
+            LoadSceneSaveSlotMenu();
         }
 
         public void OnLoadGameClicked()
         {
             GameManager.Instance.IsNewGame = false;
-            LoadSceneIsLoadMenu();
+            LoadSceneSaveSlotMenu();
         }
 
         public void OnContinueGameClicked()
@@ -84,7 +82,7 @@ namespace UI
             Application.Quit();
         }
         
-        private void LoadSceneIsLoadMenu()
+        private void LoadSceneSaveSlotMenu()
         {
             SceneLoader.Instance.LoadSceneAsync(SceneIndex.LoadMenu, LoadSceneMode.Additive);
             GameManager.Instance.IsMenuActive = false;

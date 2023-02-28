@@ -3,6 +3,25 @@ using UnityEngine;
 using System.IO;
 using System;
 
+//---------------------------------------------------------------------------------------------------------------------
+// Ich habe recherchiert wie eine Speicherfunktion umgesetzt werden kann und nach einer Methode gesucht meine
+// Vorhaben zu unterstützen. Die Basis für das dauerhafte Speichern von Daten auf einer Festplatte kommt von
+// einem Tutorial. Der Code wurde von mir angepasst und erweitert. Es gab einige Änderungen, die ich vorgenommen habe.
+// Es ist recht umfangreich und ich habe es so gut es ging kommentiert. Ich hoffe, es ist verständlich genug.
+// Erstellen von Savegames mit ScriptableObjects sieht interessant aus, da hatte ich mich aber schon zu lange mit dem
+// Thema beschäftigt und wollte es nicht mehr ändern.
+// Pro´s:
+// - PlayerPrefs ist nicht für die Speicherung von größeren Datenmengen geeignet und/oder
+// - BinaryFormatter wird nicht mehr unterstützt und sollte aus Sicherheitsgründen nicht mehr verwendet werden.
+// Con´s:
+// - Es ist aufwendiger und komplexer.
+// - Für kleinere Projekte ist es nicht zwingend notwendig.
+// 
+// Sources: https://www.youtube.com/watch?v=aUi9aijvpgs&list=PL3viUl9h9k7-tMGkSApPdu4hlUBagKial&index=1&t=0s
+//          https://docs.unity3d.com/ScriptReference/Application-persistentDataPath.html
+//          https://docs.unity3d.com/ScriptReference/ISerializationCallbackReceiver.html
+//          https://docs.microsoft.com/en-us/dotnet/api/system.io.filestream?view=net-5.0
+//---------------------------------------------------------------------------------------------------------------------
 namespace DataPersistence
 {
     // This class is used to convert, save and load data from a file
@@ -25,7 +44,7 @@ namespace DataPersistence
 
         #region Save/Load
 
-         public void Save(GameData data, string profileId)
+         public void SaveData(GameData data, string profileId)
         {
             if (profileId == null)
                 return;
@@ -36,7 +55,7 @@ namespace DataPersistence
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(fullPath) ?? string.Empty);
 
-                var dataToStore = JsonUtility.ToJson(data, true);
+                var dataToStore = JsonUtility.ToJson(data, true);// serialize the data
 
                 // encrypt the data if is selected in the inspector
                 if (_useEncryption)
@@ -44,11 +63,11 @@ namespace DataPersistence
 
                 using var stream = new FileStream(fullPath, FileMode.Create);
                 using var writer = new StreamWriter(stream);
-                writer.Write(dataToStore);
+                writer.Write(dataToStore); // write the serialized data to the file
             }
             catch (Exception e)
             {
-                Debug.Log($"Error occured when trying to save ProfileId: {profileId} from file at path: {fullPath}\n{e}");
+                Debug.Log($"Error occured when trying to save ProfileId: {profileId} from file at path: {fullPath}\n{e.Message}");
             }
             finally
             {
@@ -56,7 +75,7 @@ namespace DataPersistence
             }
         }
          
-         public GameData Load(string profileId)
+         public GameData LoadData(string profileId)
         {
             if (profileId == null)
                 return null;
@@ -83,7 +102,7 @@ namespace DataPersistence
                 }
                 catch (Exception e)
                 {
-                    Debug.LogWarning($"Error occured when trying to load ProfileId: {profileId} from file at path: {fullPath}.\n{e}");
+                    Debug.LogWarning($"Error occured when trying to load ProfileId: {profileId} from file at path: {fullPath}.\n{e.Message}");
                 }
                 finally
                 {
@@ -111,7 +130,7 @@ namespace DataPersistence
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"Error occured when trying to delete ProfileId: {profileId} from file at path: {fullPath}\n{e}");
+                Debug.LogWarning($"Error occured when trying to delete ProfileId: {profileId} from file at path: {fullPath}\n{e.Message}");
             }
             finally
             {
@@ -150,7 +169,7 @@ namespace DataPersistence
 
                 try
                 {
-                    var profileData = Load(profileId);
+                    var profileData = LoadData(profileId);
                     if (profileData != null)
                     {
                         profileDictionary.Add(profileId, profileData);
@@ -158,7 +177,7 @@ namespace DataPersistence
                 }
                 catch (Exception e)
                 {
-                    Debug.LogWarning($"Tried to locate ProfileId: {profileId} at path: {fullPath} but the file is not there or is corrupted.\n{e}");
+                    Debug.LogWarning($"Tried to locate ProfileId: {profileId} at path: {fullPath} but the file is not there or is corrupted.\n{e.Message}");
                 }
                 finally
                 {
