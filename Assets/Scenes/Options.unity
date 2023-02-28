@@ -1190,7 +1190,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8858956922989983372, guid: 0b8a12abf94fa5a4ca6d5ee8808c392c, type: 3}
       propertyPath: m_Navigation.m_Mode
-      value: 1
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8858956922989983372, guid: 0b8a12abf94fa5a4ca6d5ee8808c392c, type: 3}
+      propertyPath: m_Navigation.m_WrapAround
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8858956922989983372, guid: 0b8a12abf94fa5a4ca6d5ee8808c392c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1416,7 +1420,6 @@ MonoBehaviour:
   musicVolumeParameter: Music
   multiplier: 30
   parallaxBackground: {fileID: 3308928155318552878}
-  tintPanel: {fileID: 323984965}
 --- !u!224 &1347909392
 RectTransform:
   m_ObjectHideFlags: 0

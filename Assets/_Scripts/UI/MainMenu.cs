@@ -19,7 +19,13 @@ namespace UI
         [Space][Header("PARALLAX BACKGROUND")]
         [Space][SerializeField] private GameObject background;
         [Space][Header("AUDIO")]
-        [SerializeField] private AudioMixer audioMixer;
+        [Space][SerializeField] private AudioMixer audioMixer;
+        [Space][Header("SCENES TO LOAD")]
+        [Space][SerializeField] private SceneIndices continueCurrentGameScene;
+        [Space][SerializeField] private SceneIndices optionsMenuScene;
+        [Space][SerializeField] private SceneIndices loadMenuScene;
+        [Space][Header("SCENE MODE")]
+        [Space][SerializeField] private LoadSceneMode loadSceneMode = LoadSceneMode.Additive;
 
         
         private bool _buttonWasSelected = false;
@@ -71,12 +77,12 @@ namespace UI
         {
             GameManager.Instance.IsGameStarted = true;
             DataPersistenceManager.Instance.ChangeSelectedProfileId(DataPersistenceManager.Instance.GetLatestProfileId());
-            SceneLoader.Instance.LoadSceneAsync(SceneIndices.Level1, showProgress: true);
+            SceneLoader.Instance.LoadSceneAsync(continueCurrentGameScene, showProgress: true);
         }
         
         public void OnOptionsMenuClicked()
         {
-            SceneLoader.Instance.LoadSceneAsync(SceneIndices.OptionsMenu, LoadSceneMode.Additive);
+            SceneLoader.Instance.LoadSceneAsync(optionsMenuScene, loadSceneMode);
             GameManager.Instance.IsMenuActive = false;
             _buttonWasSelected = false;
         }
@@ -88,7 +94,7 @@ namespace UI
         
         private void LoadSceneSaveSlotMenu()
         {
-            SceneLoader.Instance.LoadSceneAsync(SceneIndices.LoadMenu, LoadSceneMode.Additive);
+            SceneLoader.Instance.LoadSceneAsync(loadMenuScene, loadSceneMode);
             GameManager.Instance.IsMenuActive = false;
             _buttonWasSelected = false;
         }

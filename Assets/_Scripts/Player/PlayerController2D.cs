@@ -3,11 +3,7 @@ using System.Collections;
 using AnimationHandler;
 using Dialogue;
 using static Controls;
-using SceneHandler;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
-// TODO: thoughts: Movement start/stop physics
 
 //-------------------------------------------------------------------------------------------------------------------------
 // Originally, this task comes from SAE Diploma (Games Programming) and is now being further developed.
@@ -77,10 +73,10 @@ namespace Player
     
         [Space]
     
-        [Tooltip("The gravity multiplier when the char y-velocity is > 0.")]
+        [Tooltip("The gravity multiplier when the char is falling.")]
         [Range(0f, 10f)] [SerializeField] private float fallMultiplier = 2.5f;
 
-        [Tooltip("The gravity multiplier when the char y-velocity is < 0.")] 
+        [Tooltip("The gravity multiplier when the char is jumping till highest point in air.")] 
         [Range(0f, 10f)] [SerializeField] private float lowJumpMultiplier = 2f;
 
         #endregion
@@ -126,7 +122,7 @@ namespace Player
         public bool IsRunning { get; private set; }
         public bool Wallsliding { get; set; }
         public bool IsDashing { get; private set; }
-        public bool IsInteracting { get; private set; }
+        private bool IsInteracting { get; set; }
 
         #endregion
 
@@ -220,12 +216,6 @@ namespace Player
             IsInteracting = context.started;
         }
 
-        public void OnPause(InputAction.CallbackContext context)
-        {
-            if (context.started && !GameManager.Instance.IsGamePaused)
-                SceneLoader.Instance.LoadSceneAsync(SceneIndices.PauseMenu, LoadSceneMode.Additive);
-        }
-        
         #endregion
 
         #region Handler
@@ -371,7 +361,7 @@ namespace Player
         /// <summary>
         /// Handles the gravity in air for more immersive experience.
         /// </summary>
-        private void InAirBehavior() // More immersive jump experience. Source: BetterJump (Youtube)
+        private void InAirBehavior() // More immersive jump experience. Source: Cris: BetterJump (Youtube) *zwinkersmiley*
         {
             if (Wallsliding && _coll.IsGround() && _coll.IsWall()) return;
             if (Rigid.velocity.y < 0f)

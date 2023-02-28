@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 
 public class GameManager : AddIns.Singleton<GameManager>
 {
@@ -10,6 +9,7 @@ public class GameManager : AddIns.Singleton<GameManager>
     public bool OnApplicationStart { get; set; }
     public bool IsSelected { get; set; }
     public bool IsGameStarted { get; set; }
+    
     
 
     protected override void Awake()

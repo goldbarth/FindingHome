@@ -421,8 +421,11 @@ MonoBehaviour:
   loadGameButton: {fileID: 1989030721}
   menuCanvas: {fileID: 846448189}
   background: {fileID: 901646502}
-  audioSource: {fileID: 1344713327}
   audioMixer: {fileID: 24100000, guid: 64a4c439ef7c7644f94eaaba421e802e, type: 2}
+  continueCurrentGameScene: 5
+  optionsMenuScene: 2
+  loadMenuScene: 4
+  loadSceneMode: 1
 --- !u!224 &393710379
 RectTransform:
   m_ObjectHideFlags: 0

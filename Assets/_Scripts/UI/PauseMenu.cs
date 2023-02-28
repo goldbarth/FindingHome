@@ -13,7 +13,13 @@ namespace UI
         [Space][SerializeField] private Button loadGameButton;
         [Space][Header("BUTTON LAYOUT")]
         [Space][SerializeField] private GameObject buttonLayout;
-        
+        [Space][Header("SCENES TO LOAD")]
+        [Space][SerializeField] private SceneIndices optionsMenuScene;
+        [Space][SerializeField] private SceneIndices loadMenuScene;
+        [Space][SerializeField] private SceneIndices mainMenuScene;
+        [Space][Header("SCENE MODE")]
+        [Space][SerializeField] private LoadSceneMode loadSceneMode = LoadSceneMode.Additive;
+
         private void Awake()
         {
             Time.timeScale = 0f;
@@ -54,7 +60,7 @@ namespace UI
         
         public void OnOptionsMenuClicked()
         {
-            SceneLoader.Instance.LoadSceneAsync(SceneIndices.OptionsMenu, LoadSceneMode.Additive);
+            SceneLoader.Instance.LoadSceneAsync(optionsMenuScene, loadSceneMode);
         }
         
         public void OnSaveGameClicked()
@@ -63,15 +69,15 @@ namespace UI
             DataPersistenceManager.Instance.SaveGame();
         }
         
-        public void OnLoadGameClicked()
+        public void OnLoadMenuClicked()
         {
-            SceneLoader.Instance.LoadSceneAsync(SceneIndices.LoadMenu, LoadSceneMode.Additive);
+            SceneLoader.Instance.LoadSceneAsync(loadMenuScene, loadSceneMode);
         }
         
         public void OnMainMenuClicked()
         {
             GameManager.Instance.IsGamePaused = false;
-            SceneLoader.Instance.LoadSceneAsync(SceneIndices.MainMenu);
+            SceneLoader.Instance.LoadSceneAsync(mainMenuScene);
         }
         
         public void OnQuitGameClicked()

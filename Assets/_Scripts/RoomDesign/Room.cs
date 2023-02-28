@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using AnimationHandler;
 using DataPersistence;
+using RiddleHandler;
 using UnityEngine;
 
 namespace RoomDesign
@@ -9,8 +10,9 @@ namespace RoomDesign
     public class Room : MonoBehaviour
     {
         [SerializeField] private GameObject virtualCamera;
-        
+
         private SaveAnimation _saveAnimation;
+        
         private static readonly float TimeTillSetFlag = 1f;
 
         private void Awake()
@@ -23,7 +25,6 @@ namespace RoomDesign
         {
             if (col.CompareTag("Player") && !col.isTrigger)
             {
-                Debug.Log("Entered room");
                 virtualCamera.SetActive(true);
                 StartCoroutine(LateSave());
                 if (!GameManager.Instance.IsGameStarted)

@@ -13,6 +13,8 @@ namespace UI
         [SerializeField] private Button backButton;
         [Header("CONFIRMATION POPUP")]
         [SerializeField] private ConfirmationPopupMenu confirmationPopupMenu;
+        [Header("SCENE TO LOAD")]
+        [SerializeField] private SceneIndices sceneToLoad;
         
         private SaveSlot[] _saveSlots;
         
@@ -66,11 +68,11 @@ namespace UI
             }
         }
         
-        private static void LoadSceneSaveGame()
+        private void LoadSceneSaveGame()
         {
             GameManager.Instance.IsGameStarted = true;
             DataPersistenceManager.Instance.SaveGame();
-            SceneLoader.Instance.LoadSceneAsync(SceneIndices.Level1, showProgress: true);
+            SceneLoader.Instance.LoadSceneAsync(sceneToLoad, showProgress: true);
             if (GameManager.Instance.IsGamePaused) GameManager.Instance.IsGamePaused = false;
         }
         

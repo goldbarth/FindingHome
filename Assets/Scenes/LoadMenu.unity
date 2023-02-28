@@ -1018,7 +1018,7 @@ GameObject:
   - component: {fileID: 846448191}
   - component: {fileID: 846448190}
   m_Layer: 5
-  m_Name: MenuCanvas
+  m_Name: "MenuCanvas/Script\u2193"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2138,6 +2138,7 @@ MonoBehaviour:
   firstSelected: {fileID: 2043248069}
   backButton: {fileID: 1382750286}
   confirmationPopupMenu: {fileID: 1477384391}
+  sceneToLoad: 5
 --- !u!114 &1823968682
 MonoBehaviour:
   m_ObjectHideFlags: 0
