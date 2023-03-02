@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Environment;
 using UnityEngine;
 
 namespace AnimationHandler
@@ -9,11 +10,28 @@ namespace AnimationHandler
         [SerializeField] private GameObject saveCanvas;
         [SerializeField] private Animator saveCanvasAnimator;
         
-        public IEnumerator PlaySaveAnimation()
+        private readonly float _saveAnimationTime = 1.7f;
+
+        private void OnDisable()
+        {
+            Room.OnRoomEnterEvent -= Play;
+        }
+        
+        private void OnEnable()
+        {
+            Room.OnRoomEnterEvent += Play;
+        }
+
+        private void Play()
+        {
+            StartCoroutine(PlaySaveAnimation());
+        }
+        
+        private IEnumerator PlaySaveAnimation()
         {
             saveCanvas.SetActive(true);
             saveCanvasAnimator.Play("save_text");
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(_saveAnimationTime);
             saveCanvas.SetActive(false);
         }
     }

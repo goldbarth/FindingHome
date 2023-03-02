@@ -12,16 +12,18 @@ namespace UI
         [SerializeField] private Button confirmButton;
         [SerializeField] private Button cancelButton;
         
+        //TODO: Need to use more UnityEvents, Actions, and Delegates for more modular programming.
+        //NOTE: 
         public void ActivateMenu(string displayedText, UnityAction confirmAction, UnityAction cancelAction)
         {
-            this.gameObject.SetActive(true);
-            this.displayText.text = displayedText;
+            gameObject.SetActive(true);
+            displayText.text = displayedText;
             
-            // remove previous listeners if any exist. only removes listeners added through code
+            // remove previous listeners if any exist.
             confirmButton.onClick.RemoveAllListeners();
             cancelButton.onClick.RemoveAllListeners();
             
-            // assign new listeners
+            // create event and assign new listeners
             confirmButton.onClick.AddListener(() =>
             {
                 DeactivateMenu();

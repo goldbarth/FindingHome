@@ -6,9 +6,10 @@ namespace Collectables
 {
     public class Collectable : MonoBehaviour, IDataPersistence
     {
+        [SerializeField] private AudioSource audioSource;
         [SerializeField] private string id;
         
-        public SpriteRenderer visual;
+        [SerializeField] private SpriteRenderer visual;
         private bool _isCollected = false;
         
         // generates an id for the item in scene
@@ -45,6 +46,7 @@ namespace Collectables
         {
             if (collision.CompareTag("Player"))
             {
+                audioSource.Play();
                 _isCollected = true;
                 visual.gameObject.SetActive(false);
             }

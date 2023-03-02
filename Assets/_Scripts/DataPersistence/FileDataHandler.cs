@@ -214,6 +214,12 @@ namespace DataPersistence
             return getLatestProfileId;
         }
         
+        public bool ContainsAudioProfile()
+        {
+            var fullPath = Path.Combine(_dataPath, _menuAudioProfileId, _dataFileName);
+            return File.Exists(fullPath);
+        }
+        
         // XOR encryption. disclaimer: this is not a secure encryption method
         // and almost obsolete for a single player game
         private static string XorCipher(string data)

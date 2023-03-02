@@ -46,6 +46,8 @@ namespace AddIns
 
         public void OnPause(InputAction.CallbackContext context)
         {
+            Debug.Log("Is Paused: " + GameManager.Instance.IsGamePaused);
+            Debug.Log("Is Game Started: " + GameManager.Instance.IsGameStarted);
             if (context.started && !GameManager.Instance.IsGamePaused && GameManager.Instance.IsGameStarted)
                 SceneLoader.Instance.LoadSceneAsync(pauseMenuScene, loadSceneMode);
         }

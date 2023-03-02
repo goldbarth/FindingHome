@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Audio;
 using DataPersistence;
 using SceneHandler;
 using UnityEngine.UI;
@@ -7,7 +7,7 @@ using UnityEngine.Audio;
 
 namespace UI
 {
-    public class OptionsMenu: Menu, IDataPersistence
+    public class OptionsMenu: Menu
     {
         [Header("AUDIO COMPONENTS")]
         [SerializeField] private AudioMixer audioMixer;
@@ -22,13 +22,12 @@ namespace UI
         [SerializeField] private float multiplier = 30f;
         [Space][Header("BACKGROUNDS")]
         [SerializeField] private GameObject parallaxBackground;
-
+        
         private void Awake()
         {
             parallaxBackground.SetActive(!GameManager.Instance.IsGamePaused);
             if (GameManager.Instance.IsGamePaused)
                 GameManager.Instance.IsPauseMenuActive = false;
-            
             masterVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
             sfxVolumeSlider.onValueChanged.AddListener(OnSFXSliderChanged);
             musicVolumeSlider.onValueChanged.AddListener(OnMusicSliderChanged);
@@ -51,7 +50,7 @@ namespace UI
         
         public void OnBackButtonClicked()
         {
-            DataPersistenceManager.Instance.SaveGame();
+            DataPersistenceManager.Instance.SaveAudioProfile();
             SceneLoader.Instance.UnloadSceneAsync();
         }
 
@@ -63,48 +62,6 @@ namespace UI
             GameManager.Instance.IsSelected = false;
             if (GameManager.Instance.IsGamePaused)
                 GameManager.Instance.IsPauseMenuActive = true;
-        }
-
-        public void LoadData(GameData data)
-        {
-            try // fancy try catch block
-            {
-                if (data == null)
-                    throw new ArgumentNullException(paramName: nameof(data), message: "Load-Data can't be null.");
-                Debug.LogWarning("OPTIONS: " + data.musicVolume);
-                masterVolumeSlider.value = data.masterVolume;
-                sfxVolumeSlider.value = data.sfxVolume;
-                musicVolumeSlider.value = data.musicVolume;
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning($"{e}\nAudio data couldn't be loaded. There is no save file to to read.");
-            }
-            finally
-            {
-                Debug.Log("Audio data loaded in Options-Menu.");
-            }
-        }
-        
-        public void SaveData(GameData data)
-        {
-            try
-            {
-                if (data == null)
-                    throw new ArgumentNullException(paramName: nameof(data), message: "Save-Data can't be null.");
-                
-                data.masterVolume = masterVolumeSlider.value;
-                data.sfxVolume = sfxVolumeSlider.value;
-                data.musicVolume = musicVolumeSlider.value;
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning($"{e}\nAudio data couldn't be saved. There is no save file to to write.");
-            }
-            finally
-            {
-                Debug.Log("Audio data saved in Options-Menu.");
-            }
         }
     }
 }

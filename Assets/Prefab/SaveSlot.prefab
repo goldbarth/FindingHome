@@ -205,7 +205,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2454034405907952342}
   - {fileID: 2454034404961916471}
@@ -245,8 +245,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b0d63874c9770104ba4681eea7b112e7, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: d2fe85469c750f84f8008cf0382c64e9, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -378,6 +378,34 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: Audio.ButtonSounds, Assembly-CSharp
+          m_MethodName: ButtonHoverSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: Audio.ButtonSounds, Assembly-CSharp
+          m_MethodName: ButtonHoverSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &2454034405862186086
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,8 +474,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'DEATH COUNT: 00'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a56fad3920c3c74498c4760be6a7ac6f, type: 2}
-  m_sharedMaterial: {fileID: -7532717427867486110, guid: a56fad3920c3c74498c4760be6a7ac6f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9fcd5ec3742a5a34fb34efbc1ccf1ca4, type: 2}
+  m_sharedMaterial: {fileID: 3087349824124607792, guid: 9fcd5ec3742a5a34fb34efbc1ccf1ca4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -618,8 +646,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 00% TOTAL
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a56fad3920c3c74498c4760be6a7ac6f, type: 2}
-  m_sharedMaterial: {fileID: -7532717427867486110, guid: a56fad3920c3c74498c4760be6a7ac6f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9fcd5ec3742a5a34fb34efbc1ccf1ca4, type: 2}
+  m_sharedMaterial: {fileID: 3087349824124607792, guid: 9fcd5ec3742a5a34fb34efbc1ccf1ca4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

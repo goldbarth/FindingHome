@@ -100,16 +100,16 @@ namespace Player
         private float _jumpLengthCounter;
         private float _runSpeedValue;
         private float _velocityChange;
-        private int _jumpCounter;
 
         // Bools
-       
         private bool _wallJumped;
         private bool _canDash = true;
         private bool _facingRight = true;
         private bool _dashStarted;
         private bool _isGrabbing;
         private bool _canJump;
+        private bool _canMultiJump;
+        private bool  _dashFeatureEnabled = false;
 
         #endregion
         
@@ -117,12 +117,14 @@ namespace Player
         
         public Rigidbody2D Rigid { get; private set; }
         public InputAction JumpAction { get; private set; }
+        public int JumpCounter { get; private set; }
         public float InputX { get; private set; }
         public float InputY { get; private set; }
         public bool IsRunning { get; private set; }
         public bool Wallsliding { get; set; }
         public bool IsDashing { get; private set; }
         private bool IsInteracting { get; set; }
+        public bool CanMultiJump => multiJump && JumpCounter > 0;
 
         #endregion
 
@@ -157,13 +159,25 @@ namespace Player
         {
             _coll.FrictionChange(wallSlide);
             ResetterAndCounter();
+            
+            if (CharMemoryManager.Instance.IsInDialogue)
+                multiJump = true;
         }
 
         private void FixedUpdate()
         {
             // stops the player from moving when in dialogue
-            if (DialogueManager.Instance.OnDialogueIsActive)
+            if (DialogueManager.Instance.OnDialogueActive())
                 return;
+
+            // stops the player from floating above the ground
+            // /bc the "dialogue trigger" is a trigger collider
+            if (CharMemoryManager.Instance.OnDialogueActive()|| 
+                NpcManager.Instance.OnDialogueActive())
+            {
+                Rigid.velocity = Vector2.zero;
+                return;
+            }
             
             InAirBehavior();
             WallSlide();
@@ -186,8 +200,8 @@ namespace Player
 
         public void OnRun(InputAction.CallbackContext context)
         {
-            if (InputX != 0)
-                IsRunning = context.action.IsPressed();
+            //if (InputX != 0)
+            //    IsRunning = context.action.IsPressed();
         }
 
         public void OnJump(InputAction.CallbackContext context)
@@ -197,6 +211,7 @@ namespace Player
         
         public void OnDash(InputAction.CallbackContext context)
         {
+            if(!_dashFeatureEnabled) return;
             _dashStarted = context.performed;
             
             var dir = new Vector2(InputX, InputY);
@@ -266,9 +281,10 @@ namespace Player
         /// </summary>
         private void MultiJump()
         {
-            if (!multiJump || _jumpCounter <= 0) return;
+            if (DialogueManager.Instance.OnDialogueActive()) return;
+            if (!multiJump || JumpCounter <= 0) return;
             Jump();
-            _jumpCounter--;
+            JumpCounter--;
         }
 
         // TODO: Better Wall-Jump experience
@@ -302,9 +318,6 @@ namespace Player
         
         private void Dash()
         {
-            var ampIntensity = 2.9f;
-            var freqIntensity = 2f;
-            var shakeTime = .2f;
             if (_dashStarted && _canDash && !_coll.IsWall())
             {
                 IsDashing = true;
@@ -315,7 +328,7 @@ namespace Player
             if (IsDashing)
             {
                 Rigid.velocity = _dashDirection.normalized * dashForce;
-                CinemachineShake.Instance.CameraShake(ampIntensity, freqIntensity, shakeTime);
+                CinemachineShake.Instance.CameraShake();
             }
         }
         
@@ -422,7 +435,7 @@ namespace Player
                 _jumpBufferCounter -= Time.deltaTime; 
                 _coyoteTimeCounter = coyoteTime;
                 _jumpLengthCounter = jumpTime; 
-                _jumpCounter = multiJumps;
+                JumpCounter = multiJumps;
             
                 Wallsliding = false;
                 _wallJumped = false;
@@ -435,7 +448,7 @@ namespace Player
                 _jumpBufferCounter = JUMP_BUFFER_TIME;
             }
         }
-    
+
         #endregion
     }
 }

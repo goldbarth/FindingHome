@@ -19,14 +19,14 @@ namespace Dialogue
         private TextMeshProUGUI[] _choiceTexts;
         
         private readonly float _waitTillCanMove = .2f;
-        public bool OnDialogueIsActive {get; private set;} = false;
+        private bool _onDialogueIsActive = false;
 
         protected override void Awake()
         {
             base.Awake();
             
             _controls = new Controls();
-            OnDialogueIsActive = false;
+            _onDialogueIsActive = false;
             dialoguePanel.SetActive(false);
             _choiceTexts = new TextMeshProUGUI[choices.Length];
             var index = 0;
@@ -36,7 +36,7 @@ namespace Dialogue
                 index++;
             }
         }
-        
+
         private void OnEnable()
         {
             _controls.Enable();
@@ -49,7 +49,7 @@ namespace Dialogue
 
         private void Update()
         {
-            if (!OnDialogueIsActive) return;
+            if (!_onDialogueIsActive) return;
 
             if (_controls.UI.Submit.triggered)
                 ContinueDialogue();
@@ -59,20 +59,12 @@ namespace Dialogue
         public void EnterDialogueMode(TextAsset inkJson)
         {
             _currentStory = new Story(inkJson.text);
-            OnDialogueIsActive = true;
+            _onDialogueIsActive = true;
             dialoguePanel.SetActive(true);
             
             ContinueDialogue();
         }
 
-        private IEnumerator ExitDialogueMode()
-        {
-            yield return new WaitForSeconds(_waitTillCanMove);
-            OnDialogueIsActive = false;
-            dialoguePanel.SetActive(false);
-            dialogueText.text = "";
-        }
-        
         private void ContinueDialogue()
         {
             if (_currentStory.canContinue)
@@ -113,11 +105,24 @@ namespace Dialogue
             _currentStory.ChooseChoiceIndex(choiceIndex);
         }
         
+        public bool OnDialogueActive()
+        {
+            return _onDialogueIsActive;
+        }
+
         private IEnumerator SelectChoice()
         {
             EventSystem.current.SetSelectedGameObject(null);
             yield return new WaitForEndOfFrame();
             EventSystem.current.SetSelectedGameObject(choices[0].gameObject);
+        }
+        
+        private IEnumerator ExitDialogueMode()
+        {
+            yield return new WaitForSeconds(_waitTillCanMove);
+            _onDialogueIsActive = false;
+            dialoguePanel.SetActive(false);
+            dialogueText.text = string.Empty;
         }
     }
 }

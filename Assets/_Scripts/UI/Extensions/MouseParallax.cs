@@ -1,15 +1,13 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
-namespace UI
+namespace UI.Extensions
 {
     public class MouseParallax : MonoBehaviour 
     {
     
         [Header("PARALLAX EFFECTS SETTINGS")]
-        [Range(0f, 50f)] [SerializeField] private float modifier;
+        [Range(0f, 2f)] [SerializeField] private float modifier;
         
         [Space][Header("CAMERA")]
         [SerializeField] private Camera menuCamera;
@@ -23,10 +21,10 @@ namespace UI
         
         private void Update()
         {
-            ParallaxFx();
+            Parallax();
         }
         
-        private void ParallaxFx() 
+        private void Parallax() 
         {
             var pos = menuCamera.ScreenToViewportPoint(Mouse.current.position.ReadValue());
             var position = transform.position;

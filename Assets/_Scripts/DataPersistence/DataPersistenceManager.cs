@@ -23,7 +23,7 @@ namespace DataPersistence
         private FileDataHandler _dataHandler;
         private List<IDataPersistence> _dataPersistenceObjects; // list of all objects that need to be saved and loaded
 
-        private readonly SceneIndices[] _menuScenes = {SceneIndices.Init, SceneIndices.LoadMenu, SceneIndices.OptionsMenu, SceneIndices.PauseMenu};
+        private readonly List<SceneIndices> _menuScenes = new(){SceneIndices.Init, SceneIndices.LoadMenu, SceneIndices.MainMenu, SceneIndices.OptionsMenu};
 
         private string _selectedProfileId;
         private readonly string _menuAudioProfileId = "menu_audio";
@@ -59,18 +59,18 @@ namespace DataPersistence
             // if the application has started, the menu audio profile is always selected
             if (GameManager.Instance.OnApplicationStart)
                 _selectedProfileId = _menuAudioProfileId;
-            
-            foreach (var index in _menuScenes)
+            // if the current scene is in menuScenes, the menu audio profile is selected
+            else if (_menuScenes.Contains((SceneIndices)scene.buildIndex))
             {
-                if (scene.buildIndex == (int)index)
-                    Debug.Log("Loaded a menu scene. No persistent data needed to load.");
-                else if (scene.buildIndex != (int)index)
-                {
-                    _dataPersistenceObjects = FindAllDataPersistenceObjects();
-                    LoadGame();
-                }
+                _dataPersistenceObjects = FindAllDataPersistenceObjects();
+                Debug.Log($"Loaded a menu scene: {_menuScenes.IndexOf((SceneIndices)scene.buildIndex)}. No persistent data needed to load.");
             }
-            
+            else
+            {
+                _dataPersistenceObjects = FindAllDataPersistenceObjects();
+                LoadGame();
+            }
+
             GameManager.Instance.OnApplicationStart = false;
         }
 
@@ -116,7 +116,7 @@ namespace DataPersistence
             foreach (var dataPersistenceObject in _dataPersistenceObjects)
                 dataPersistenceObject.LoadData(_gameData);
         }
-        
+
         #endregion
         
         #region Extentions
@@ -128,11 +128,13 @@ namespace DataPersistence
         
         public bool HasGameData()
         {
-            var profiles = GetAllProfilesGameData(getAllProfiles: true); 
             // if audio profile is the only profile from all profiles, return false
             // (to prevent enabling the continue button and loading the audio profile on continue)
-            if (profiles.Count == 1 && profiles.ContainsKey(_menuAudioProfileId))
+            if (GetProfileCount() == 1 && ContainsAudioProfile())
+            {
+                LoadAudioProfile();
                 return false;
+            }
 
             return _gameData != null;
         }
@@ -141,13 +143,8 @@ namespace DataPersistence
         {
             try
             {
-                var containsMenuAudioProfile = GetAllProfilesGameData(getAllProfiles: true).ContainsKey(_menuAudioProfileId);
-                if (!containsMenuAudioProfile)
-                {
-                    _dataHandler.SaveData(new GameData(), _menuAudioProfileId); // create a new profile
-                }
-
-                _gameData = _dataHandler.LoadData(_menuAudioProfileId);
+                if (!ContainsAudioProfile())
+                    CreateNewAudioProfile();
             }
             catch (Exception e)
             {
@@ -155,6 +152,7 @@ namespace DataPersistence
             }
             finally
             {
+                _gameData = LoadAudioProfile();
                 Debug.Log("Audio profile was loaded on Application-Start");
             }
         }
@@ -165,9 +163,40 @@ namespace DataPersistence
             _selectedProfileId ??= _dataHandler.GetLatestProfileId();
         }
         
+        private GameData LoadAudioProfile()
+        {
+            return _gameData = _dataHandler.LoadData(_menuAudioProfileId);
+        }
+        
+        public void SaveAudioProfile()
+        {
+            // save all data from other scripts so they can update the GameData
+            foreach (var dataPersistenceObject in _dataPersistenceObjects)
+                dataPersistenceObject.SaveData(_gameData);
+
+            // timestamp the data it shows when it was last saved
+            _gameData.lastUpdated = DateTime.Now.ToBinary();
+            _dataHandler.SaveData(_gameData, _menuAudioProfileId);
+        }
+        
+        private void CreateNewAudioProfile()
+        {
+            _dataHandler.SaveData(new GameData(), _menuAudioProfileId);
+        }
+        
         public string GetLatestProfileId()
         {
             return _selectedProfileId = _dataHandler.GetLatestProfileId();
+        }
+
+        private int GetProfileCount()
+        {
+            return _dataHandler.GetAllProfiles(getAllProfiles: true).Count;
+        }
+
+        private bool ContainsAudioProfile()
+        {
+            return _dataHandler.ContainsAudioProfile();
         }
         
         public void ChangeSelectedProfileId(string newProfileId)

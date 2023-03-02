@@ -4,6 +4,8 @@ namespace RiddleHandler
 {
     public class Door : MonoBehaviour
     {
+        [SerializeField] private AudioSource openSound;
+        
         private Collider2D _collider;
         private Animator _animator;
 
@@ -13,8 +15,19 @@ namespace RiddleHandler
             _animator = GetComponent<Animator>();
         }
 
-        public void Open()
+        private void OnEnable()
         {
+            DoorOpener.OnDoorOpenEvent += Open;
+        }
+        
+        private void OnDisable()
+        {
+            DoorOpener.OnDoorOpenEvent -= Open;
+        }
+
+        private void Open()
+        {
+            openSound.Play();
             _collider.enabled = false;
             _animator.Play("door_open");
             Debug.Log("Door opened");

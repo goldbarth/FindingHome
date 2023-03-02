@@ -1,3 +1,4 @@
+using System;
 using DataPersistence;
 using SceneHandler;
 using UnityEngine.UI;
@@ -10,14 +11,19 @@ namespace UI
         private MainMenu _mainMenu;
         
         [Header("MENU BUTTONS")]
+        [SerializeField] private Button[] deleteButtons;
         [SerializeField] private Button backButton;
         [Header("CONFIRMATION POPUP")]
         [SerializeField] private ConfirmationPopupMenu confirmationPopupMenu;
+        [Space][Header("PARALLAX BACKGROUND")]
+        [Space][SerializeField] private GameObject background;
         [Header("SCENE TO LOAD")]
         [SerializeField] private SceneIndices sceneToLoad;
         
         private SaveSlot[] _saveSlots;
         
+        private readonly string _overrideConfirmText = "Starting a new Game will override your current progress. Are you sure you want to continue?";
+        private readonly string _deleteConfirmText = "Are you sure you want to delete your current progress?";
         private bool _isLoadingGame;
         private bool _isNewGame;
 
@@ -37,6 +43,14 @@ namespace UI
             else if (GameManager.Instance.IsGamePaused) ActivateSaveSlots(true);
         }
 
+        private void Update()
+        {
+            background.SetActive(!GameManager.Instance.IsGamePaused);
+            foreach (var deleteButton in deleteButtons)
+                deleteButton.gameObject.SetActive(!GameManager.Instance.IsGamePaused);
+            
+        }
+
         public void OnSaveSlotClicked(SaveSlot saveSlot)
         {
             DisableSaveSlotsWhenEmpty();
@@ -50,7 +64,7 @@ namespace UI
             else if (saveSlot.HasData)
             {
                 confirmationPopupMenu.ActivateMenu(
-                    "Starting a new Game will override your current progress. Are you sure you want to continue?", () =>
+                    _overrideConfirmText, () =>
                 { //confirm button callback "yes"
                     DataPersistenceManager.Instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
                     DataPersistenceManager.Instance.NewGame();
@@ -79,7 +93,7 @@ namespace UI
         public void OnDeleteButtonClicked(SaveSlot saveSlot)
         {
             confirmationPopupMenu.ActivateMenu(
-                "Do you want delete your current progress?", () =>
+                _deleteConfirmText, () =>
                 { //confirm button callback "yes"
                     DataPersistenceManager.Instance.DeleteProfileData(saveSlot.GetProfileId());
                     ActivateSaveSlots(_isLoadingGame);

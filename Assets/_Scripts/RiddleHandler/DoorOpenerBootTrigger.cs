@@ -4,18 +4,17 @@ namespace RiddleHandler
 {
     public class DoorOpenerBootTrigger : MonoBehaviour
     {
-        private DoorOpener _doorOpener;
+        public delegate void OnBootCollision();
+        public static event OnBootCollision OnBootCollisionEvent;
 
-        private void Awake()
-        {
-            _doorOpener = FindObjectOfType<DoorOpener>();
-        }
-
+        private bool _booted;
+        
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.CompareTag("Player") && !col.isTrigger)
+            if (col.CompareTag("Player") && !col.isTrigger && !_booted)
             {
-                _doorOpener.StartAnimation();
+                OnBootCollisionEvent?.Invoke();
+                _booted = true;
             }
         }
     }

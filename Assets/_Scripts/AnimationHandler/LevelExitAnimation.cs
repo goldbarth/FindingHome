@@ -8,8 +8,12 @@ namespace AnimationHandler
 {
     public class LevelExitAnimation : MonoBehaviour
     {
+        public delegate void OnLevelExit();
+        public static event OnLevelExit OnLevelExitEvent;
         [SerializeField] private Transform exitPoint;
         [SerializeField] private float timeToWait = 2f;
+        
+        [SerializeField] private AudioSource audioSource;
         
         private Rigidbody2D _rigidBody;
         private Animator _animator;
@@ -28,24 +32,24 @@ namespace AnimationHandler
         private void OnTriggerEnter2D(Collider2D col)
         {
             if (col.CompareTag("Player") && !col.isTrigger)
-                StartCoroutine(AnimateBeforeExit());
+                StartCoroutine(PortalWarp());
         }
 
-        private IEnumerator AnimateBeforeExit()
+        // NOTE: OMEGALUL
+        private IEnumerator PortalWarp()
         {
             _rigidBody.transform.position = exitPoint.position;
             _rigidBody.bodyType = RigidbodyType2D.Static;
             AnimationManager.Instance.SetAnimationState(PlayerAnimationState.player_idle);
             yield return new WaitForSeconds(_prepareToBeam);                                                   
             AnimationManager.Instance.SetAnimationState(PlayerAnimationState.player_teleport);
+            audioSource.Play();
             _animator.Play("portal_warp");
             yield return new WaitForSeconds(_timeToBeam);
             _player.SetActive(false);
             _animator.Play("portal_idle");
             yield return new WaitForSeconds(timeToWait);
-            Debug.LogAssertion("EXIT LEVEL 1");
-            //SceneLoader.Instance.LoadSceneAsync(SceneIndex.Level2);
-            //SceneLoader.Instance.UnloadSceneAsync();
+            OnLevelExitEvent?.Invoke();
         }
     }
 }

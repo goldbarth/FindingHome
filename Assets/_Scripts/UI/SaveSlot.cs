@@ -16,7 +16,7 @@ namespace UI
         [Space][SerializeField] private TextMeshProUGUI percentageCompleteText;
         [Space][SerializeField] private TextMeshProUGUI deathCountText;
         
-        [Space][Header("CLEAR DATA BUTTON")]
+        [Space][Header("DELETE BUTTON")]
         [SerializeField] private Button deleteButton;
         
         public bool HasData { get; private set; }
@@ -45,7 +45,7 @@ namespace UI
                 hasDataContent. SetActive(true);
                 deleteButton.gameObject.SetActive(true);
 
-                percentageCompleteText.text = data.GetPercentageComplete() + "% COMPLETE";
+                percentageCompleteText.text = data.GetPercentageComplete() + "% TOTAL";
                 deathCountText.text = "DEATH COUNT: " + data.deathCount;
             }
         }

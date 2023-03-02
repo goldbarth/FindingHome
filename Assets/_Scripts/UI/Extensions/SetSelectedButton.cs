@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace UI
+namespace UI.Extensions
 {
     public class SetSelectedButton : MonoBehaviour
     {

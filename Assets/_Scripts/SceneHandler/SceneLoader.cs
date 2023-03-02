@@ -16,6 +16,7 @@ namespace SceneHandler
         OptionsMenu,
         PauseMenu,
         LoadMenu,
+        CreditsScreen,
         Level1,
         Level2,
     }

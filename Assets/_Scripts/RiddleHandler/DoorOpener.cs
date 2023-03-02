@@ -5,38 +5,52 @@ namespace RiddleHandler
 {
     public class DoorOpener :MonoBehaviour
     {
-        private Door _door;
+        public delegate void OnDoorOpen();
+        public static event OnDoorOpen OnDoorOpenEvent;
+
+        [SerializeField] private AudioSource startSound;
+        
         private Animator _animator;
         
-        private readonly float _timeTillDoorOpenerBooted = 1f;
+        private readonly float _timeTillDoorOpenerBooted = 0.9f;
+        private bool _doorIsOpen;
 
         private void Start()
         {
-            _door = FindObjectOfType<Door>();
             _animator = GetComponent<Animator>();
         }
 
-        public void StartAnimation()
+        private void OnEnable()
+        {
+            DoorOpenerBootTrigger.OnBootCollisionEvent += StartAnimation;
+        }
+        
+        private void OnDisable()
+        {
+            DoorOpenerBootTrigger.OnBootCollisionEvent -= StartAnimation;
+        }
+
+        private void StartAnimation()
         {
             StartCoroutine(AnimationTransition());
         }
 
-        private IEnumerator AnimationTransition()
-        {
-            _animator.Play("door_trigger_start");
-            yield return new WaitForSeconds(_timeTillDoorOpenerBooted);
-            _animator.Play("door_trigger_idle");
-        }
-
-        private bool _doorIsOpen;
         private void OnCollisionEnter2D(Collision2D col)
         {
             if (col.gameObject.CompareTag("Player") && !_doorIsOpen)
             {
-                _door.Open();
+                OnDoorOpenEvent?.Invoke();
                 _animator.Play("door_trigger_shutdown");
                 _doorIsOpen = true;
             }
+        }
+        
+        private IEnumerator AnimationTransition()
+        {
+            startSound.Play();
+            _animator.Play("door_trigger_start");
+            yield return new WaitForSeconds(_timeTillDoorOpenerBooted);
+            _animator.Play("door_trigger_idle");
         }
     }
 }

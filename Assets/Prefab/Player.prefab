@@ -209,10 +209,10 @@ PolygonCollider2D:
       - {x: -0.13482285, y: 0.7520745}
       - {x: -0.25932884, y: 0.5010772}
       - {x: -0.25990587, y: -0.3723981}
-      - {x: -0.13349342, y: -0.50222015}
+      - {x: -0.10734367, y: -0.5003524}
       - {x: -0.13347381, y: -0.74989426}
-      - {x: 0.23949397, y: -0.74857235}
-      - {x: 0.24017525, y: -0.49817634}
+      - {x: 0.23762667, y: -0.74857235}
+      - {x: 0.2121582, y: -0.49817634}
       - {x: 0.3662243, y: -0.37280703}
       - {x: 0.36602783, y: -0.24938488}
       - {x: 0.24090481, y: 0.13281387}
@@ -234,7 +234,7 @@ MonoBehaviour:
   wallSlide: 1
   moveSpeed: 6.5
   runSpeed: 10
-  jumpForce: 5.7
+  jumpForce: 6.5
   wallJumpDivider: 1.5
   dashForce: 30
   dashDuration: 0.2
@@ -245,7 +245,7 @@ MonoBehaviour:
   wallSlideSpeed: 1.85
   wallClimbSpeed: 2
   fallMultiplier: 2.5
-  lowJumpMultiplier: 2
+  lowJumpMultiplier: 1.7
 --- !u!114 &6852878049285978474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,6 +316,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 6485689903279152366}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69ed62d11fbd4616abed422d04b4f8a9, type: 3}
+  m_Script: {fileID: 11500000, guid: 7cb8c5bd5a6f4d78a629698066bca788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stepSound: {fileID: 0}
+  jumpSound: {fileID: 0}

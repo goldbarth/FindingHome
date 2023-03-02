@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using AddIns;
 
 namespace Dialogue
 {
-    public class IntroDialogue : MonoBehaviour
+    public class IntroDialogue : Singleton<IntroDialogue>
     {
         [SerializeField] private GameObject popup;
         [SerializeField] private SpriteRenderer spriteRenderer;
@@ -11,7 +12,7 @@ namespace Dialogue
         private Controls _controls;
         private bool _inRange;
 
-        private void Awake()
+        protected override void Awake()
         {
             _inRange = false;
             popup.SetActive(false);
@@ -22,7 +23,7 @@ namespace Dialogue
         {
             _controls.Enable();
         }
-        
+
         private void OnDisable()
         {
             _controls.Disable();
@@ -31,7 +32,7 @@ namespace Dialogue
         private void Update()
         {
             popup.SetActive(_inRange);
-            if (_inRange && !DialogueManager.Instance.OnDialogueIsActive)
+            if (_inRange && !DialogueManager.Instance.OnDialogueActive())
                 if (_controls.Gameplay.Interact.triggered)
                     DialogueManager.Instance.EnterDialogueMode(inkJson);
         }

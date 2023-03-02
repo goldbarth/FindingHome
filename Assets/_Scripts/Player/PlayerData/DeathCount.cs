@@ -1,13 +1,24 @@
 using AddIns;
 using DataPersistence;
+using ObstacleHandler;
 
 namespace Player.PlayerData
 {
     public class DeathCount : Singleton<DeathCount>, IDataPersistence
     {
-        private int _deathCount = 0;
+        private int _deathCount;
         
-        public void OnPlayerDeath()
+        private void OnEnable()
+        {
+            RespawnCollision.OnTrapCollisionEvent += OnPlayerDeath;
+        }
+        
+        private void OnDisable()
+        {
+            RespawnCollision.OnTrapCollisionEvent -= OnPlayerDeath;
+        }
+        
+        private void OnPlayerDeath()
         {
             _deathCount++;
         }

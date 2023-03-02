@@ -24,6 +24,7 @@ namespace UI
         [Space][SerializeField] private SceneIndices continueCurrentGameScene;
         [Space][SerializeField] private SceneIndices optionsMenuScene;
         [Space][SerializeField] private SceneIndices loadMenuScene;
+        [Space][SerializeField] private SceneIndices creditsScreenScene;
         [Space][Header("SCENE MODE")]
         [Space][SerializeField] private LoadSceneMode loadSceneMode = LoadSceneMode.Additive;
 
@@ -86,7 +87,14 @@ namespace UI
             GameManager.Instance.IsMenuActive = false;
             _buttonWasSelected = false;
         }
-        
+
+        public void OnCreditsClicked()
+        {
+            SceneLoader.Instance.LoadSceneAsync(creditsScreenScene, loadSceneMode);
+            GameManager.Instance.IsMenuActive = false;
+            _buttonWasSelected = false;
+        }
+
         public void OnExitClicked()
         {
             Application.Quit();

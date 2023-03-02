@@ -9,14 +9,12 @@ namespace Player
         [Header("LAYERS")] [Space]
         [SerializeField] private LayerMask groundLayer;
         [SerializeField] private LayerMask wallLayer;
-    
         [Space] [Header("PHYSICS MATERIAL")] [Space]
         [SerializeField] private PhysicsMaterial2D plainMaterial;
         [SerializeField] private PhysicsMaterial2D stickyMaterial;
-        
         [Space] [Header("COLLIDER")]
         [SerializeField] private PolygonCollider2D polygonCollider;
-        [Space]
+
         private Collider2D _collider;
         private Bounds Bounds => polygonCollider.bounds;
 
