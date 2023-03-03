@@ -6,8 +6,8 @@ namespace ObstacleHandler
     { 
         [SerializeField] private Transform closestRespawnPoint;
         public delegate void OnTrapCollision();
-        public delegate void OnRespawn(Transform closestRespawnPoint);
         public static event OnTrapCollision OnTrapCollisionEvent;
+        public delegate void OnRespawn(Transform closestRespawnPoint);
         public static event OnRespawn OnRespawnEvent;
         private void OnTriggerEnter2D(Collider2D col)
         {
