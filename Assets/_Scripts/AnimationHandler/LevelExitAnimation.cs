@@ -17,6 +17,7 @@ namespace AnimationHandler
         
         private Rigidbody2D _rigidBody;
         private Animator _animator;
+        private Animator _playerAnimator;
         private GameObject _player;
         
         private readonly float _prepareToBeam = 2.5f;
@@ -27,6 +28,7 @@ namespace AnimationHandler
             _animator = GetComponent<Animator>();
             _rigidBody = FindObjectOfType<PlayerController2D>().GetComponent<Rigidbody2D>();
             _player = FindObjectOfType<PlayerController2D>().gameObject;
+            _playerAnimator = FindObjectOfType<PlayerController2D>().GetComponent<Animator>();
         }
         
         private void OnTriggerEnter2D(Collider2D col)
@@ -40,9 +42,9 @@ namespace AnimationHandler
         {
             _rigidBody.transform.position = exitPoint.position;
             _rigidBody.bodyType = RigidbodyType2D.Static;
-            AnimationManager.Instance.SetAnimationState(PlayerAnimationState.player_idle);
+            _playerAnimator.Play("player_idle");
             yield return new WaitForSeconds(_prepareToBeam);                                                   
-            AnimationManager.Instance.SetAnimationState(PlayerAnimationState.player_teleport);
+            _playerAnimator.Play("player_teleport");
             audioSource.Play();
             _animator.Play("portal_warp");
             yield return new WaitForSeconds(_timeToBeam);

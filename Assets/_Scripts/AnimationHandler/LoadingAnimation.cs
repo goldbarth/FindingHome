@@ -2,15 +2,22 @@ using UnityEngine;
 
 namespace AnimationHandler
 {
+    internal enum PlayerAnimation
+    {
+        player_idle,
+        player_walk,
+        player_run,
+        player_dash
+    }
     public class LoadingAnimation :MonoBehaviour
     {
         private Animator _animator;
-        private PlayerAnimationState _state;
+        private PlayerAnimation _state;
 
         private void Awake()
         {
             _animator = FindObjectOfType<LoadingAnimation>().GetComponent<Animator>();
-            _state = (PlayerAnimationState)Random.Range(1, 6);
+            _state = (PlayerAnimation)Random.Range(1, 5);
         }
 
         private void Update()

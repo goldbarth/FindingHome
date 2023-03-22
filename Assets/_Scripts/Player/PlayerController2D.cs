@@ -13,7 +13,7 @@ using UnityEngine;
 
 namespace Player
 {
-    [RequireComponent(typeof(Rigidbody2D), typeof(AnimationController), typeof(Collision))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(Collision))]
     public class PlayerController2D : MonoBehaviour, IGameplayActions
     {
         #region Feature Modes
