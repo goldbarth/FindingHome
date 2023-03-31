@@ -17,8 +17,8 @@ namespace Dialogue
         private Controls _controls;
         private Story _currentStory;
         private TextMeshProUGUI[] _choiceTexts;
-        
-        private readonly float _waitTillCanMove = .2f;
+
+        private const float WAIT_TILL_CAN_MOVE = .2f;
         private bool _onDialogueIsActive = false;
 
         protected override void Awake()
@@ -119,7 +119,7 @@ namespace Dialogue
         
         private IEnumerator ExitDialogueMode()
         {
-            yield return new WaitForSeconds(_waitTillCanMove);
+            yield return new WaitForSeconds(WAIT_TILL_CAN_MOVE);
             _onDialogueIsActive = false;
             dialoguePanel.SetActive(false);
             dialogueText.text = string.Empty;

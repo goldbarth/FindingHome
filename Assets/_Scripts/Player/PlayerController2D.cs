@@ -90,6 +90,7 @@ namespace Player
         // Components and classes
         private Controls _controls;
         private Collision _coll;
+        private Animator _animator;
         private CinemachineShake _cinemachine;
 
         // Variables
@@ -140,6 +141,7 @@ namespace Player
             };
             Rigid = GetComponent<Rigidbody2D>();
             _coll = GetComponent<Collision>();
+            _animator = GetComponentInChildren<Animator>();
             _controls = new Controls();
             _controls.Gameplay.SetCallbacks(this);
             JumpAction = _controls.Gameplay.Jump;
@@ -166,19 +168,22 @@ namespace Player
 
         private void FixedUpdate()
         {
+            
             // stops the player from moving when in dialogue
-            if (DialogueManager.Instance.OnDialogueActive())
-                return;
+            // if (DialogueManager.Instance.OnDialogueActive())
+            //     return;
 
             // stops the player from floating above the ground
             // /bc the "dialogue trigger" is a trigger collider
             if (CharMemoryManager.Instance.OnDialogueActive()|| 
-                NpcManager.Instance.OnDialogueActive())
+                NpcManager.Instance.OnDialogueActive() && GameManager.Instance.IsGameStarted)
             {
                 Rigid.velocity = Vector2.zero;
+                _animator.SetBool("IsWalking", false);
                 return;
             }
             
+            AnimationControl();
             InAirBehavior();
             WallSlide();
             LongJump();
@@ -401,11 +406,36 @@ namespace Player
             else
                 Wallsliding = false;
         }
+        
+        private void AnimationControl()
+        {
+            if (_coll.IsGround() && !JumpAction.IsPressed())
+                _animator.SetBool("IsWalking", InputX != 0);
+            
+            if (_coll.IsGround() && JumpAction.IsPressed())
+                _animator.SetBool("IsJumping", true);
+            else if (Rigid.velocity.y < 0 && !_coll.IsGround())
+            {
+                _animator.SetBool("IsFalling", true);
+                _animator.SetBool("IsJumping", false);
+            }
+            
+            if (Rigid.velocity.y < 0 && _coll.IsNearGround() && !_coll.IsGround())
+            {
+                _animator.SetBool("IsFalling", true);
+                _animator.SetBool("IsLanding", true);
+            }
+
+            if (_coll.IsGround())
+            {
+                _animator.SetBool("IsLanding", false);
+                _animator.SetBool("IsFalling", false);
+            }
+        }
 
         /// <summary>
         /// Flips the gameobject to the direction it is moving.
         /// </summary>
-        /// <param name="inputX">float</param>
         private void Flip()
         {
             if ((!(InputX > 0) || _facingRight) && 

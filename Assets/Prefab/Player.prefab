@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 444942082362087368}
   - component: {fileID: 7994285524533288982}
   - component: {fileID: 4203052331031920553}
-  - component: {fileID: 1885267457}
   m_Layer: 3
   m_Name: SpriteAnimator
   m_TagString: Untagged
@@ -96,7 +95,7 @@ Animator:
   m_GameObject: {fileID: 3119544026840903618}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a1e931fc18c4a664c9046e919f9de74a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2dde34d690591884e8ca6e3da39f7ab7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -106,19 +105,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1885267457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3119544026840903618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae740f3a256c4a03a060515c9e033db0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 0
 --- !u!1 &6485689903279152366
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +117,6 @@ GameObject:
   - component: {fileID: 6485689903279152353}
   - component: {fileID: 7417988440727297845}
   - component: {fileID: 6485689903279152367}
-  - component: {fileID: 6852878049285978474}
   - component: {fileID: 6485689903279152357}
   - component: {fileID: 6485689903279152358}
   - component: {fileID: 6485689903279152359}
@@ -196,10 +181,10 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.625, y: 2.3125}
+    newSize: {x: 5.625, y: 2.3125}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
@@ -246,18 +231,6 @@ MonoBehaviour:
   wallClimbSpeed: 2
   fallMultiplier: 2.5
   lowJumpMultiplier: 1.7
---- !u!114 &6852878049285978474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6485689903279152366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6670a07b4f846cb921440b020d1ed33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6485689903279152357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,6 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de9dd5c57907fba448cbc2433ad38592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!114 &6485689903279152359
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,7 +5,6 @@ namespace Environment
     public class RespawnPoint : MonoBehaviour
     {
         [SerializeField] private Transform spawnPoint;
-        public Transform SpawnPoint => spawnPoint;
 
         private void Awake()
         {
