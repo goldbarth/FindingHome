@@ -9,16 +9,18 @@ namespace Player.PlayerData
     public class PlayerPosition : MonoBehaviour, IDataPersistence
     {
         [SerializeField] private AudioSource audioSource;
-        [SerializeField] private float respawnTime = 0.7f;
+        [SerializeField] private float respawnTime = 0.9f;
         
         private Animator _animator;
-        
+        private Rigidbody2D _rigidBody;
+
         private void Start()
         {
             if (GameManager.Instance.IsNewGame)
                 transform.position = FindObjectOfType<StartSpawnPoint>().SpawnPoint.position;
             
             _animator = GetComponentInChildren<Animator>();
+            _rigidBody = GetComponent<Rigidbody2D>();
         }
 
         private void OnEnable()
@@ -39,12 +41,15 @@ namespace Player.PlayerData
         
         private IEnumerator RespawnPositionCoroutine(Transform closestRespawnPoint)
         {
-            //yield return new WaitForSeconds(0.3f);
             DataPersistenceManager.Instance.LoadGame();
             transform.position = closestRespawnPoint.position;
-            _animator.SetBool("IsAppearing", true);
+            GameManager.Instance.IsRespawning = true;
+            _animator.Play("player_appear_teleport");
+            _rigidBody.constraints = RigidbodyConstraints2D.FreezePosition;
             yield return new WaitForSeconds(respawnTime);
-            _animator.SetBool("IsAppearing", false);
+            _rigidBody.constraints = RigidbodyConstraints2D.None;
+            _rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            GameManager.Instance.IsRespawning = false;
         }
 
         public void LoadData(GameData data)
@@ -54,8 +59,7 @@ namespace Player.PlayerData
 
         public void SaveData(GameData data)
         {
-            // prevents saving the player position when not changing the room (e.g. when falling into a pit)
-            if (!GameManager.Instance.OnRoomReset)
+            if (GameManager.Instance.IsGameStarted && !GameManager.Instance.IsGamePaused)
                 data.playerPosition = transform.position;
         }
     }

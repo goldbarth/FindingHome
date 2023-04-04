@@ -74,7 +74,7 @@ namespace Player
         [Space]
     
         [Tooltip("The gravity multiplier when the char is falling.")]
-        [Range(0f, 10f)] [SerializeField] private float fallMultiplier = 2.5f;
+        [Range(0f, 10f)] [SerializeField] private float fallMultiplier = 3.5f;
 
         [Tooltip("The gravity multiplier when the char is jumping till highest point in air.")] 
         [Range(0f, 10f)] [SerializeField] private float lowJumpMultiplier = 2f;
@@ -168,10 +168,13 @@ namespace Player
 
         private void FixedUpdate()
         {
+
+            if (GameManager.Instance.IsRespawning)
+                return;
             
-            // stops the player from moving when in dialogue
-            // if (DialogueManager.Instance.OnDialogueActive())
-            //     return;
+            //stops the player from moving when in dialogue
+            if (DialogueManager.Instance.OnDialogueActive())
+                 return;
 
             // stops the player from floating above the ground
             // /bc the "dialogue trigger" is a trigger collider
