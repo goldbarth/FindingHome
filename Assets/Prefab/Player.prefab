@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 6485689903279152367}
   - component: {fileID: 6485689903279152357}
   - component: {fileID: 6485689903279152358}
+  - component: {fileID: 8661996951960408167}
   - component: {fileID: 6485689903279152359}
   - component: {fileID: 6485689902739367194}
   m_Layer: 3
@@ -229,7 +230,7 @@ MonoBehaviour:
   wallJumpLerp: 3.5
   wallSlideSpeed: 1.85
   wallClimbSpeed: 2
-  fallMultiplier: 2.5
+  fallMultiplier: 3.5
   lowJumpMultiplier: 1.7
 --- !u!114 &6485689903279152357
 MonoBehaviour:
@@ -267,7 +268,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de9dd5c57907fba448cbc2433ad38592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8661996951960408167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6485689903279152366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de2a8555397a4d78869b77e0e82c1150, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
+  respawnTime: 0.9
 --- !u!114 &6485689903279152359
 MonoBehaviour:
   m_ObjectHideFlags: 0

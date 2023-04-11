@@ -14,7 +14,7 @@ using UnityEngine;
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody2D), typeof(Collision))]
-    public class PlayerController2D : MonoBehaviour, IGameplayActions
+    public class PlayerController : MonoBehaviour, IGameplayActions
     {
         #region Feature Modes
 

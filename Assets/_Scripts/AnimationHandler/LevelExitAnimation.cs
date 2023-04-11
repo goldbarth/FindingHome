@@ -26,8 +26,8 @@ namespace AnimationHandler
         private void Awake()
         {
             _animator = GetComponent<Animator>();
-            _rigidBody = FindObjectOfType<PlayerController2D>().GetComponent<Rigidbody2D>();
-            _player = FindObjectOfType<PlayerController2D>().gameObject;
+            _rigidBody = FindObjectOfType<PlayerController>().GetComponent<Rigidbody2D>();
+            _player = FindObjectOfType<PlayerController>().gameObject;
             _playerAnimator = _player.GetComponentInChildren<Animator>();
         }
 

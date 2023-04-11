@@ -10,14 +10,14 @@ namespace Player.Audio
         
         private CharMemoryManager _memoryManager;
         private NpcManager _npcManager;
-        private PlayerController2D _player;
+        private PlayerController _player;
         private Collision _coll;
         
         private void Awake()
         {
             _memoryManager = FindObjectOfType<CharMemoryManager>();
             _npcManager = FindObjectOfType<NpcManager>();
-            _player = GetComponent<PlayerController2D>();
+            _player = GetComponent<PlayerController>();
             _coll = GetComponent<Collision>();
         }
 

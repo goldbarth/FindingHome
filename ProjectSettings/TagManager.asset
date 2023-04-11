@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - RoomWithDoorTrigger
+  - Summoner
+  - Spitter
   layers:
   - Default
   - TransparentFX
