@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BehaviorTree
 {
     // Sources: Christoph Graf´s KI Basics and https://www.behaviortree.dev/docs/category/learn-the-basic-concepts
-    public enum ReturnStat
+    public enum NodeState
     {
         SUCCESS,
         FAILURE,
@@ -13,7 +13,7 @@ namespace BehaviorTree
 
     public abstract class Node : MonoBehaviour
     {
-        protected ReturnStat Result;
+        protected NodeState Result;
         public Node Parent;
         protected List<Node> Children = new();
         
@@ -30,12 +30,13 @@ namespace BehaviorTree
                 AddChild(child);
         }
         
-        public void AddChild(Node child)
+        public void AddChild(Node node)
         {
-            Children.Add(child);
+            node.Parent = this;
+            Children.Add(node);
         }
         
-        public virtual ReturnStat Tick() => ReturnStat.FAILURE;
+        public virtual NodeState Evaluate() => NodeState.FAILURE;
         
         public void SetData(string key, object value)
         {

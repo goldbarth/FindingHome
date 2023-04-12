@@ -7,28 +7,28 @@ namespace BehaviorTree.Nodes.Composite
         public Sequence() : base() { }
         public Sequence(List<Node> children) : base(children) { }
         
-        public override ReturnStat Tick()
+        public override NodeState Evaluate()
         {
             var isRunning = false;
             foreach (var child in Children)
             {
-                switch (child.Tick())
+                switch (child.Evaluate())
                 {
-                    case ReturnStat.SUCCESS:
+                    case NodeState.SUCCESS:
                         continue;
-                    case ReturnStat.FAILURE:
-                        Result = ReturnStat.FAILURE;
+                    case NodeState.FAILURE:
+                        Result = NodeState.FAILURE;
                         return Result;
-                    case ReturnStat.RUNNING:
+                    case NodeState.RUNNING:
                         isRunning = true;
                         continue;
                     default:
-                        Result = ReturnStat.SUCCESS;
+                        Result = NodeState.SUCCESS;
                         return Result;
                 }
             }
             
-            Result = isRunning ? ReturnStat.RUNNING : ReturnStat.SUCCESS;
+            Result = isRunning ? NodeState.RUNNING : NodeState.SUCCESS;
             return Result;
         }
     }

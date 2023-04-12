@@ -13,7 +13,8 @@ namespace BehaviorTree
 
         private void Update()
         {
-            if(_root != null) _root.Tick();
+            // ReSharper disable once Unity.NoNullPropagation
+            _root?.Evaluate();
         }
 
         protected abstract Node CreateTree();

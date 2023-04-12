@@ -7,25 +7,25 @@ namespace BehaviorTree.Nodes.Composite
         public Selector() : base() { }
         public Selector(List<Node> children) : base(children) { }
 
-        public override ReturnStat Tick()
+        public override NodeState Evaluate()
         {
             foreach (var child in Children)
             {
-                switch (child.Tick())
+                switch (child.Evaluate())
                 {
-                    case ReturnStat.SUCCESS:
-                        Result = ReturnStat.SUCCESS;
+                    case NodeState.SUCCESS:
+                        Result = NodeState.SUCCESS;
                         return Result;
-                    case ReturnStat.FAILURE:
+                    case NodeState.FAILURE:
                         continue;
-                    case ReturnStat.RUNNING:
+                    case NodeState.RUNNING:
                         return Result;
                     default:
                         continue;
                 }
             }
             
-            Result = ReturnStat.FAILURE;
+            Result = NodeState.FAILURE;
             return Result;
         }
     }

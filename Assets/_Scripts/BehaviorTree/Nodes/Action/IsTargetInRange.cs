@@ -5,51 +5,46 @@ namespace BehaviorTree.Nodes.Action
 {
     public class IsTargetInRange : Node
     {
-        [SerializeField] private string targetID;
         
         //TODO: Test purpose. Entity should be passed in from the tree.
         [SerializeField] private float detectionRadius = 10f;
         [SerializeField] private LayerMask layerMask = 0;
-        [SerializeField] private new Transform transform;
+        private Transform _transform;
+        private string _targetID;
         
-        public IsTargetInRange(Transform transform)
+        public IsTargetInRange(Transform transform, string target)
         {
-            this.transform = transform;
-        }
-        
-        [ContextMenu("Generate guid for target id")]
-        private void GenerateGuid()
-        {
-            targetID = Guid.NewGuid().ToString();
+            _transform = transform;
+            _targetID = target;
         }
 
-        public override ReturnStat Tick()
+        public override NodeState Evaluate()
         {
-            var summoner = GetData(targetID);
-            if (summoner == null)
+            var target = GetData(_targetID);
+            if (target == null)
             {
-                var colliders = Physics.OverlapSphere(transform.position, detectionRadius, layerMask);
+                var colliders = Physics.OverlapSphere(_transform.position, detectionRadius, layerMask);
                 if(colliders.Length > 0)
                 {
-                    Parent.Parent.SetData(targetID, colliders[0].transform);
-                    Result = ReturnStat.SUCCESS;
+                    Parent.Parent.SetData(_targetID, colliders[0].transform);
+                    Result = NodeState.SUCCESS;
                     return Result;
                 }
             
-                Result = ReturnStat.FAILURE;
+                Result = NodeState.FAILURE;
                 return Result;
             }
             else
             {
-                var colliders = Physics.OverlapSphere(transform.position, detectionRadius, layerMask);
+                var colliders = Physics.OverlapSphere(_transform.position, detectionRadius, layerMask);
                 if(colliders.Length == 0)
                 {
-                    Parent.Parent.ClearData(targetID);
-                    Result = ReturnStat.FAILURE;
+                    Parent.Parent.ClearData(_targetID);
+                    Result = NodeState.FAILURE;
                     return Result;
                 }
             
-                Result = ReturnStat.SUCCESS;
+                Result = NodeState.SUCCESS;
                 return Result;
             }
         }
