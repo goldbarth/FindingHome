@@ -9,6 +9,5 @@ namespace BehaviorTree.Entities
         public BTEntity()
         {
         }
-        
     }
 }

@@ -3,24 +3,14 @@ using UnityEngine;
 
 namespace BehaviorTree.Behaviors
 {
-    public class SummonerBehavior : Tree
+    public class SummonerBehavior : MonoBehaviour
     {
-        [SerializeField] private string _targetID;
-
-        public string TargetID => _targetID;
-
+        [SerializeField] private string targetID;
+        
         [ContextMenu("Generate guid for target id")]
         private void GenerateGuid()
         {
-            _targetID = Guid.NewGuid().ToString();
-        }
-        
-        //TODO: testing purpose. entities later.
-        [SerializeField] private new Transform transform;
-
-        protected override Node CreateTree()
-        {
-            return null;
+            targetID = Guid.NewGuid().ToString();
         }
     }
 }

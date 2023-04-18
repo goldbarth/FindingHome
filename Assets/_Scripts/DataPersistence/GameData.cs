@@ -8,29 +8,32 @@ namespace DataPersistence
     public class GameData
     {
         public Vector2 playerPosition;
-        public int deathCount;
-        public int level;
         public float masterVolume;
         public float sfxVolume;
         public float musicVolume;
+        public int eatableCount;
+        public int deathCount;
+        public int level;
         
         public long lastUpdated;
         
         // key = id of collectable, value = collected or not
-        public SerializableDictionary<string, bool> collectables; 
-
-        // default values in the constructor
+        public SerializableDictionary<string, bool> collectables;
+        public SerializableDictionary<string, bool> eatables;
+        
         public GameData()
         {
             playerPosition = Vector3.zero;
+            eatableCount = 0;
             deathCount = 0;
             level = 1;
             
             masterVolume = 0.8f;
-            sfxVolume = 0.8f;
             musicVolume = 0.8f;
+            sfxVolume = 0.8f;
             
             collectables = new SerializableDictionary<string, bool>();
+            eatables = new SerializableDictionary<string, bool>();
         }
 
         // TODO: expand the range with (sub)goals for completion
@@ -49,6 +52,13 @@ namespace DataPersistence
                 percentageCompleted = 0;
 
             return percentageCompleted;
+        }
+        
+        public bool HasEatable()
+        {
+            foreach (var collected in eatables.Values)
+                if (collected) return true;
+            return false;
         }
     }
 }

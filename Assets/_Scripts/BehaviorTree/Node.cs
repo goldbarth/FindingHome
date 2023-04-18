@@ -1,9 +1,11 @@
+
 using System.Collections.Generic;
-using UnityEngine;
+using BehaviorTree.Behaviors;
 
 namespace BehaviorTree
 {
-    // Sources: Christoph Graf´s KI Basics and https://www.behaviortree.dev/docs/category/learn-the-basic-concepts
+    // Sources: Christoph Graf´s KI Basics, https://github.com/MinaPecheux/UnityTutorials-BehaviourTrees
+    // and https://www.behaviortree.dev/docs/intro
     public enum NodeState
     {
         SUCCESS,
@@ -11,13 +13,17 @@ namespace BehaviorTree
         RUNNING
     }
 
-    public abstract class Node : MonoBehaviour
+    public abstract class Node
     {
-        protected NodeState Result;
-        public Node Parent;
         protected List<Node> Children = new();
+        protected NodeState State;
         
+        public Node Parent;
+        
+        //TODO: testing purpose. try implementing a method to store target id.
+        protected Dictionary<(string, string), object> _objects = new();
         private Dictionary<string, object> _data = new();
+        private string _targetID;
         
         public Node()
         {
@@ -37,7 +43,20 @@ namespace BehaviorTree
         }
         
         public virtual NodeState Evaluate() => NodeState.FAILURE;
+
+        #region ID_Tests
         
+        public void SetObject(string key, object value)
+        {
+            _objects[(key, _targetID)] = value;
+        }
+        
+        public Dictionary<(string, string), object> GetObject()
+        {
+            return _objects;
+        }
+        #endregion
+
         public void SetData(string key, object value)
         {
             _data[key] = value;

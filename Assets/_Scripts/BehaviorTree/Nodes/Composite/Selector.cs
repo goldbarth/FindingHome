@@ -2,7 +2,7 @@
 
 namespace BehaviorTree.Nodes.Composite
 {
-    public class Selector : Node
+    public class Selector : CompositeNode
     {
         public Selector() : base() { }
         public Selector(List<Node> children) : base(children) { }
@@ -14,19 +14,20 @@ namespace BehaviorTree.Nodes.Composite
                 switch (child.Evaluate())
                 {
                     case NodeState.SUCCESS:
-                        Result = NodeState.SUCCESS;
-                        return Result;
+                        State = NodeState.SUCCESS;
+                        return State;
                     case NodeState.FAILURE:
                         continue;
                     case NodeState.RUNNING:
-                        return Result;
+                        State = NodeState.RUNNING;
+                        return State;
                     default:
                         continue;
                 }
             }
             
-            Result = NodeState.FAILURE;
-            return Result;
+            State = NodeState.FAILURE;
+            return State;
         }
     }
 }

@@ -2,14 +2,14 @@
 
 namespace BehaviorTree.Nodes.Composite
 {
-    public class Sequence : Node
+    public class Sequence : CompositeNode
     {
         public Sequence() : base() { }
         public Sequence(List<Node> children) : base(children) { }
         
         public override NodeState Evaluate()
         {
-            var isRunning = false;
+            var anyChildIsRunning = false;
             foreach (var child in Children)
             {
                 switch (child.Evaluate())
@@ -17,19 +17,19 @@ namespace BehaviorTree.Nodes.Composite
                     case NodeState.SUCCESS:
                         continue;
                     case NodeState.FAILURE:
-                        Result = NodeState.FAILURE;
-                        return Result;
+                        State = NodeState.FAILURE;
+                        return State;
                     case NodeState.RUNNING:
-                        isRunning = true;
+                        anyChildIsRunning = true;
                         continue;
                     default:
-                        Result = NodeState.SUCCESS;
-                        return Result;
+                        State = NodeState.SUCCESS;
+                        return State;
                 }
             }
             
-            Result = isRunning ? NodeState.RUNNING : NodeState.SUCCESS;
-            return Result;
+            State = anyChildIsRunning ? NodeState.RUNNING : NodeState.SUCCESS;
+            return State;
         }
     }
 }

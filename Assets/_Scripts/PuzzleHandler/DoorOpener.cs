@@ -5,8 +5,8 @@ namespace RiddleHandler
 {
     public class DoorOpener :MonoBehaviour
     {
-        public delegate void OnDoorOpen();
-        public static event OnDoorOpen OnDoorOpenEvent;
+        public delegate void DoorOpen();
+        public static event DoorOpen OnDoorOpenEvent;
 
         [SerializeField] private AudioSource startSound;
         
