@@ -1,34 +1,33 @@
-﻿using DataPersistence;
+﻿using Player.PlayerData;
 using UnityEngine;
 
 namespace BehaviorTree.Nodes.Conditions
 {
     public class CheckPlayerHasEatable : LeafNode
     {
-        private GameData _gameData;
+        private readonly EatablesCount _eatables;
         
         public CheckPlayerHasEatable()
         {
-            _gameData = new GameData();
+            _eatables = GameObject.FindWithTag("Player").GetComponent<EatablesCount>();
         }
-
+        
         public override NodeState Evaluate()
         {
-            if (HasEatable(_gameData))
+            if (HasEatable())
             {
                 Debug.Log("Player has eatable");
                 State = NodeState.SUCCESS;
                 return State;
             }
 
-
             State = NodeState.FAILURE;
             return State;
         }
 
-        private bool HasEatable(GameData gameData)
+        private bool HasEatable()
         {
-            return gameData.HasEatable();
+            return _eatables.GetCount() > 0;
         }
     }
 }

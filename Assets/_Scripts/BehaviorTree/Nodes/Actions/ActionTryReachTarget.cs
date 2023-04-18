@@ -12,10 +12,10 @@ namespace BehaviorTree.Nodes.Actions
 
         public ActionTryReachTarget(float jumpForce, float interval, Component component)
         {
+            _animator = component.GetComponentInChildren<Animator>();
+            _rb = component.GetComponent<Rigidbody2D>();
             _jumpForce = jumpForce;
             _interval = interval;
-            _rb = component.GetComponent<Rigidbody2D>();
-            _animator = component.GetComponentInChildren<Animator>();
         }
 
         public override NodeState Evaluate()

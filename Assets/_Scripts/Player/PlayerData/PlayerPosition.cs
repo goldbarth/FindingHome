@@ -1,7 +1,4 @@
-using System.Collections;
 using DataPersistence;
-using Environment;
-using ObstacleHandler;
 using UnityEngine;
 
 namespace Player.PlayerData

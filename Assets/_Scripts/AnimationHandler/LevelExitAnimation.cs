@@ -8,8 +8,8 @@ namespace AnimationHandler
 {
     public class LevelExitAnimation : MonoBehaviour
     {
-        public delegate void OnLevelExit();
-        public static event OnLevelExit OnLevelExitEvent;
+        public delegate void LevelExit();
+        public static event LevelExit OnLevelExitEvent;
         
         [SerializeField] private Transform exitPoint;
         [SerializeField] private AudioSource audioSource;

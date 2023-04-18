@@ -38,6 +38,7 @@ namespace BehaviorTree.Behaviors
                     new Sequence(new List<Node>
                     {
                         new CheckPlayerHasEatable(),
+                        new ActionConsumeEatable(6.5f, transform),
                         new ActionFollowTarget(speedPlayerFollow, stopDistancePlayer, trans),
                         
                     })

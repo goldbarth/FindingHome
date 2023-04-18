@@ -560,7 +560,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4157970296974458886, guid: 17b31d2da1383ed48af5580f19cb2a24, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17b31d2da1383ed48af5580f19cb2a24, type: 3}
@@ -11051,7 +11051,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9075771265978280695, guid: 1233a34f14a923646af0a563ad2aaefe, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1233a34f14a923646af0a563ad2aaefe, type: 3}
@@ -13196,7 +13196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7146040938080208635, guid: ae9567524a8956e40b08d81a3fcc4d2b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae9567524a8956e40b08d81a3fcc4d2b, type: 3}
@@ -15210,7 +15210,7 @@ Tilemap:
       - {fileID: 419398074, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
       - {fileID: -118794990, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
       - {fileID: -1491263886, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
-      m_AnimationSpeed: 13.557822
+      m_AnimationSpeed: 13.2938595
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:
@@ -17523,6 +17523,7 @@ GameObject:
   - component: {fileID: 1628078901215527947}
   - component: {fileID: 1907127610569901454}
   - component: {fileID: 6824033556607224879}
+  - component: {fileID: 6824033556607224880}
   m_Layer: 0
   m_Name: Eatable
   m_TagString: Untagged
@@ -18504,6 +18505,18 @@ MonoBehaviour:
   audioSource: {fileID: 741500125}
   id: 7047b92a-5df3-4075-b00b-50580b4cb4c6
   visual: {fileID: 855072461139145995}
+--- !u!114 &6824033556607224880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2779271437099082342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f9ae46c47fe9a41bad7bfb49e5bafe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7692167469429414299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18609,7 +18622,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7692167469429414300}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d99608d08754aa8ad4ed80f8158c7f2, type: 3}
   m_Name: 
