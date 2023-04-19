@@ -1,6 +1,4 @@
-
 using System.Collections.Generic;
-using BehaviorTree.Behaviors;
 
 namespace BehaviorTree
 {
@@ -8,9 +6,9 @@ namespace BehaviorTree
     // and https://www.behaviortree.dev/docs/intro
     public enum NodeState
     {
-        SUCCESS,
-        FAILURE,
-        RUNNING
+        Success,
+        Failure,
+        Running
     }
 
     public abstract class Node
@@ -21,7 +19,7 @@ namespace BehaviorTree
         public Node Parent;
         
         //TODO: testing purpose. try implementing a method to store target id.
-        protected Dictionary<(string, string), object> _objects = new();
+        private Dictionary<(string, string), object> _objects = new();
         private Dictionary<string, object> _data = new();
         private string _targetID;
         
@@ -42,7 +40,7 @@ namespace BehaviorTree
             Children.Add(node);
         }
         
-        public virtual NodeState Evaluate() => NodeState.FAILURE;
+        public virtual NodeState Evaluate() => NodeState.Failure;
 
         #region ID_Tests
         

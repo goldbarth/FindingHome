@@ -15210,7 +15210,7 @@ Tilemap:
       - {fileID: 419398074, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
       - {fileID: -118794990, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
       - {fileID: -1491263886, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
-      m_AnimationSpeed: 13.2938595
+      m_AnimationSpeed: 11.014454
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:
@@ -18501,10 +18501,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7b3e6394da04a64cb03d4d0a8ccaefd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
-  audioSource: {fileID: 741500125}
-  id: 7047b92a-5df3-4075-b00b-50580b4cb4c6
-  visual: {fileID: 855072461139145995}
+  _type: 0
+  _id: d7312a5f-0d04-452b-a605-247ed40211eb
+  _audioSource: {fileID: 741500125}
+  _visual: {fileID: 855072461139145995}
 --- !u!114 &6824033556607224880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18601,6 +18601,14 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7692167469429414301, guid: a984ce26536582b45a7f5ad60ea58f26, type: 3}
+      propertyPath: _playerLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692167469429414301, guid: a984ce26536582b45a7f5ad60ea58f26, type: 3}
+      propertyPath: _stopDistancePlayer
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692167469429414301, guid: a984ce26536582b45a7f5ad60ea58f26, type: 3}
       propertyPath: detectionRadiusEnemy
       value: 3
       objectReference: {fileID: 0}
@@ -18610,23 +18618,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a984ce26536582b45a7f5ad60ea58f26, type: 3}
---- !u!1 &7692167469429414300 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2060691674138155755, guid: a984ce26536582b45a7f5ad60ea58f26, type: 3}
-  m_PrefabInstance: {fileID: 7692167469429414299}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7692167469429414301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7692167469429414300}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d99608d08754aa8ad4ed80f8158c7f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7866204345128766426
 PrefabInstance:
   m_ObjectHideFlags: 0

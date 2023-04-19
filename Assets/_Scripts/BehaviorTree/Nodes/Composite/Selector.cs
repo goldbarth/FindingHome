@@ -13,20 +13,20 @@ namespace BehaviorTree.Nodes.Composite
             {
                 switch (child.Evaluate())
                 {
-                    case NodeState.SUCCESS:
-                        State = NodeState.SUCCESS;
+                    case NodeState.Success:
+                        State = NodeState.Success;
                         return State;
-                    case NodeState.FAILURE:
+                    case NodeState.Failure:
                         continue;
-                    case NodeState.RUNNING:
-                        State = NodeState.RUNNING;
+                    case NodeState.Running:
+                        State = NodeState.Running;
                         return State;
                     default:
                         continue;
                 }
             }
             
-            State = NodeState.FAILURE;
+            State = NodeState.Failure;
             return State;
         }
     }

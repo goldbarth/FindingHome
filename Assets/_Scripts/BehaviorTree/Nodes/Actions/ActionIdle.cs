@@ -16,7 +16,7 @@ namespace BehaviorTree.Nodes.Actions
             //_animator.SetBool("IsWalking", false);
             //_animator.SetBool("IsAttacking", false);
             
-            State = NodeState.RUNNING;
+            State = NodeState.Running;
             return State;
         }
     }

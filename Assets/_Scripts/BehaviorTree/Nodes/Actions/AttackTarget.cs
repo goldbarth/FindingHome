@@ -5,7 +5,7 @@ namespace BehaviorTree.Nodes.Action
     {
         public override NodeState Evaluate()
         {
-            return NodeState.FAILURE;
+            return NodeState.Failure;
         }
     }
 }

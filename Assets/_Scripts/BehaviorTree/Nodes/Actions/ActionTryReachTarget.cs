@@ -31,11 +31,11 @@ namespace BehaviorTree.Nodes.Actions
                 _rb.velocity += targetDir * _jumpForce;
                 _timer = 0;
 
-                State = NodeState.RUNNING;
+                State = NodeState.Running;
                 return State;
             }
 
-            State = NodeState.FAILURE;
+            State = NodeState.Failure;
             return State;
         }
     }

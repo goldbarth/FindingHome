@@ -31,13 +31,11 @@ namespace BehaviorTree.Nodes.Actions
                 _transform.position = Vector2.MoveTowards(_transform.position, target.position, step);
                 _rb.transform.localScale = new Vector3(targetDir.x > 0 ? 1 : -1, 1, 1);
                 
-                State = NodeState.RUNNING;
-                return State;
+                State = NodeState.Success;
+                return State; 
             }
             
-            _animator.SetBool("IsWalking", false);
-
-            State = NodeState.FAILURE;
+            State = NodeState.Failure;
             return State;
         }
     }

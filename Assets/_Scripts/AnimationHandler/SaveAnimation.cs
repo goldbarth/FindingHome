@@ -7,10 +7,10 @@ namespace AnimationHandler
     public class SaveAnimation : MonoBehaviour
     {
         [Header("SAVE CANVAS")]
-        [SerializeField] private GameObject saveCanvas;
-        [SerializeField] private Animator saveCanvasAnimator;
-        
-        private readonly float _saveAnimationTime = 1.7f;
+        [SerializeField] private GameObject _saveCanvas;
+        [SerializeField] private Animator _saveCanvasAnimator;
+
+        private const float SAVE_ANIMATION_TIME = 1.7f;
 
         private void OnDisable()
         {
@@ -29,10 +29,10 @@ namespace AnimationHandler
         
         private IEnumerator PlaySaveAnimation()
         {
-            saveCanvas.SetActive(true);
-            saveCanvasAnimator.Play("save_text");
-            yield return new WaitForSeconds(_saveAnimationTime);
-            saveCanvas.SetActive(false);
+            _saveCanvas.SetActive(true);
+            _saveCanvasAnimator.Play("save_text");
+            yield return new WaitForSeconds(SAVE_ANIMATION_TIME);
+            _saveCanvas.SetActive(false);
         }
     }
 }

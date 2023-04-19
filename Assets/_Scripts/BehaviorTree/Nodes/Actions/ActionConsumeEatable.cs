@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BehaviorTree.Nodes.Actions
 {
     public class ActionConsumeEatable : LeafNode
     {
+        public delegate void ConsumeEatable();
+        public static event ConsumeEatable OnConsumeEatableEvent;
+        
         private float _speed;
         private float _timer;
         private float _duration = 2f;
@@ -30,36 +32,46 @@ namespace BehaviorTree.Nodes.Actions
             _transform.position = Vector2.MoveTowards(_transform.position, target.position, step);
             _rb.transform.localScale = new Vector3(targetDir.x > 0 ? 1 : -1, 1, 1);
 
-            if (distance <= .8f)
+            if (distance <= 1f)
             {
                 _rb.velocity = Vector2.zero;
 
-                if (!_isEating)
-                {
-                    _animator.SetBool("IsEating", true);
-                    _isEating = true;
-                    _timer = 0;
-                }
-
-                _timer += Time.deltaTime;
-
-                if (_timer >= _duration)
-                {
-                    _animator.SetBool("IsEating", false);
-                    _isEating = false;
-                    
-                    State = NodeState.RUNNING;
-                    return State;
-                }
-
-                State = NodeState.RUNNING;
+                Debug.Log("Eating");
+                OnConsumeEatableEvent?.Invoke();
+                _animator.SetBool("IsEating", true);
+                
+                State = NodeState.Success;
                 return State;
+                
+                //if (!_isEating)
+                //{
+                //    Debug.Log("Eating");
+                //    OnConsumeEatableEvent?.Invoke();
+                //    _animator.SetBool("IsEating", true);
+                //    _isEating = true;
+                //    _timer = 0;
+                //    
+                //    State = NodeState.Success;
+                //    return State;
+                //}
+////
+                //_timer += Time.deltaTime;
+////
+                //if (_timer >= _duration)
+                //{
+                //    Debug.Log("Finished eating");
+                //    _animator.SetBool("IsEating", false);
+                //    _isEating = false;
+                //    
+                //    State = NodeState.Success;
+                //    return State;
+                //}
+//
+                //State = NodeState.Running;
+                //return State;
             }
 
-            _isEating = false;
-            //_animator.SetBool("IsEating", false);
-
-            State = NodeState.RUNNING;
+            State = NodeState.Failure;
             return State;
         }
     }

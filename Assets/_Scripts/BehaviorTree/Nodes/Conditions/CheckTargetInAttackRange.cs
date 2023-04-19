@@ -20,7 +20,7 @@ namespace BehaviorTree.Nodes.Actions
             var target = GetData("target");
             if (target == null)
             {
-                State = NodeState.FAILURE;
+                State = NodeState.Failure;
                 return State;
             }
 
@@ -29,11 +29,11 @@ namespace BehaviorTree.Nodes.Actions
             {
                 _animator.SetBool("IsAttacking", true);
                 
-                State = NodeState.SUCCESS;
+                State = NodeState.Success;
                 return State;
             }
             
-            State = NodeState.FAILURE;
+            State = NodeState.Failure;
             return State;
         }
     }

@@ -12,15 +12,16 @@ namespace BehaviorTree.Behaviors
     public class SpitterBehavior : Tree
     {
         //TODO: testing purpose. entities later.
-        [SerializeField] private float detectionRadiusEnemy = 5f;
-        [SerializeField] private float detectionRadiusPlayer = 7f;
-        [SerializeField] private float attackRadius = 1.5f;
-        [SerializeField] private float stopDistanceTarget = 1.7f;
-        [SerializeField] private float stopDistancePlayer = 1f;
-        [SerializeField] private float speedGoToPlayer = 2.5f;
-        [SerializeField] private float speedPlayerFollow = 6.8f;
+        [SerializeField] private float _detectionRadiusEnemy = 5f;
+        [SerializeField] private float _detectionRadiusPlayer = 7f;
+        [SerializeField] private float _attackRadius = 1.5f;
+        [SerializeField] private float _stopDistanceTarget = 1.7f;
+        [SerializeField] private float _stopDistancePlayer = .8f;
+        [SerializeField] private float _speedGoToPlayer = 2.5f;
+        [SerializeField] private float _speedPlayerFollow = 6.8f;
+        [SerializeField] bool _hasEaten = false;
         //[SerializeField] private LayerMask targetLayer;
-        [SerializeField] private LayerMask playerLayer;
+        [SerializeField] private LayerMask _playerLayer;
         
         private GameData _gameData;
 
@@ -33,14 +34,17 @@ namespace BehaviorTree.Behaviors
             {
                 new Sequence(new List<Node>
                 {
-                    new CheckTargetInFOVRange(detectionRadiusPlayer, playerLayer, trans),
-                    new ActionFollowTarget(speedGoToPlayer, stopDistancePlayer, trans),
+                    new CheckTargetHasEaten(_hasEaten),
+                    new ActionFollowTarget(_speedPlayerFollow, _stopDistancePlayer, trans),
+                }),
+                new Sequence(new List<Node>
+                {
+                    new CheckTargetInFOVRange(_detectionRadiusPlayer, _playerLayer, trans, CheckType.PlayerInFOVRange, _hasEaten),
+                    new ActionFollowTarget(_speedGoToPlayer, _stopDistancePlayer, trans),
                     new Sequence(new List<Node>
                     {
                         new CheckPlayerHasEatable(),
-                        new ActionConsumeEatable(6.5f, transform),
-                        new ActionFollowTarget(speedPlayerFollow, stopDistancePlayer, trans),
-                        
+                        new ActionConsumeEatable(5.5f, transform),
                     })
                 }),
                 //new Sequence(new List<Node>
@@ -54,13 +58,28 @@ namespace BehaviorTree.Behaviors
             
             return root;
         }
+        
+        private void OnEnable()
+        {
+            ActionConsumeEatable.OnConsumeEatableEvent += SetHasEaten;
+        }
+        
+        private void OnDisable()
+        {
+            ActionConsumeEatable.OnConsumeEatableEvent -= SetHasEaten;
+        }
+
+        private void SetHasEaten()
+        {
+            _hasEaten = true;
+        }
 
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, detectionRadiusEnemy);
+            Gizmos.DrawWireSphere(transform.position, _detectionRadiusEnemy);
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, detectionRadiusPlayer);
+            Gizmos.DrawWireSphere(transform.position, _detectionRadiusPlayer);
         }
     }
 }
