@@ -32,11 +32,7 @@ namespace BehaviorTree.Behaviors
             var trans = transform;
             var root = new Selector(new List<Node>
             {
-                new Sequence(new List<Node>
-                {
-                    new CheckTargetHasEaten(_hasEaten),
-                    new ActionFollowTarget(_speedPlayerFollow, _stopDistancePlayer, trans),
-                }),
+                
                 new Sequence(new List<Node>
                 {
                     new CheckTargetInFOVRange(_detectionRadiusPlayer, _playerLayer, trans, CheckType.PlayerInFOVRange, _hasEaten),
@@ -45,7 +41,9 @@ namespace BehaviorTree.Behaviors
                     {
                         new CheckPlayerHasEatable(),
                         new ActionConsumeEatable(5.5f, transform),
-                    })
+                        new CheckTargetHasEaten(_hasEaten),
+                        new ActionFollowTarget(_speedPlayerFollow, _stopDistancePlayer, trans)
+                    }),
                 }),
                 //new Sequence(new List<Node>
                 //{

@@ -15210,7 +15210,7 @@ Tilemap:
       - {fileID: 419398074, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
       - {fileID: -118794990, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
       - {fileID: -1491263886, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
-      m_AnimationSpeed: 11.014454
+      m_AnimationSpeed: 11.922745
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:
@@ -18482,7 +18482,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2779271437099082342}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.37, y: -3.88, z: 0}
+  m_LocalPosition: {x: 4.04, y: -3.79, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18613,7 +18613,15 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7692167469429414301, guid: a984ce26536582b45a7f5ad60ea58f26, type: 3}
+      propertyPath: _detectionRadiusEnemy
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692167469429414301, guid: a984ce26536582b45a7f5ad60ea58f26, type: 3}
       propertyPath: detectionRadiusPlayer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692167469429414301, guid: a984ce26536582b45a7f5ad60ea58f26, type: 3}
+      propertyPath: _detectionRadiusPlayer
       value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -18752,11 +18760,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7958855757498042228, guid: 4c2d4cdd980dd3a429061e4fec6594df, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.7
+      value: -5.19
       objectReference: {fileID: 0}
     - target: {fileID: 7958855757498042228, guid: 4c2d4cdd980dd3a429061e4fec6594df, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.21
+      value: 0.17
       objectReference: {fileID: 0}
     - target: {fileID: 7958855757498042228, guid: 4c2d4cdd980dd3a429061e4fec6594df, type: 3}
       propertyPath: m_LocalPosition.z
