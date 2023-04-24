@@ -1,0 +1,827 @@
+fileFormatVersion: 2
+guid: 1e0dcf9720e425247b0c6739e896e02c
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 156
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8aec519cb20493b459b4e19a9ef6274e
+      internalID: -495054909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_1
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 156
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a8fcc47f6194b14abde3f539ba386b8
+      internalID: 1624252319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_2
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 156
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1943f254fb197234caeded022968e637
+      internalID: -1956477492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_3
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 156
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe6fe72dd6ce2a943a056acdcbff83e3
+      internalID: -1781893395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_4
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 156
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a1c37e08d05a8841a49082935c6af6e
+      internalID: -178260288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_5
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 156
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90f466f162ec58f4fb784332de265b80
+      internalID: -307513851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 117
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75f6f2eab05913c4eb4204359f1202b5
+      internalID: 1241325247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_7
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 117
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 337808f81f28bd34290c7ac037bd8003
+      internalID: -256785793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_8
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 117
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 140fa17f8d6a0c34e94f40cec7de41e0
+      internalID: 19935295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_9
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 117
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7459efad9e4ccdb47b76e51447613a96
+      internalID: -1698499795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_10
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 117
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3862f7bde2f3d3444bdd0f6986249aea
+      internalID: -1930497883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_11
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 117
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68552d62ac3d08f4a8e181ccb1c7e3bd
+      internalID: -1215860291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_12
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 117
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa6ebcf950ca20242830c6c79d3f80ce
+      internalID: -1179820932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 78
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 134e369f4cbb86f4d921c81670597610
+      internalID: -1987546209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_14
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 78
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95e6ebf93bdbf1a449ea8524e74aa15a
+      internalID: 645072092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_15
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 78
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec750f0678850e740a757c3965a150b7
+      internalID: 472870575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_16
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 78
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f3a59b55b5d1b44fa4e6c6137afc38c
+      internalID: 2035685213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_17
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 78
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14178512c47145445ac4d5b114aada53
+      internalID: -1023710007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_18
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 78
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d59289a35fd71ed46be7142e90061b31
+      internalID: 986500331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_19
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 78
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 560c141d92f04c2439ea660f409a34dc
+      internalID: 811634875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_20
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 78
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9739d1f358363c8489f5d64f0e045897
+      internalID: -1819217096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 39
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f41c986501141a48983cec88430fcc1
+      internalID: 224955780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_22
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 39
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1afda8ad145b853479a7606bc55ff8c4
+      internalID: 1227036851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_23
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 39
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 272580a5a7b888e40b984ca4ac9f5cc7
+      internalID: -434319734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96cdee2e961205e48ba93bf0148dd0f5
+      internalID: -178903835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_25
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 0
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8009b666b3b64c046b8cdf60ebb1c187
+      internalID: 708490035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_26
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 0
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69016bb53524c30429bfef664f2474f0
+      internalID: -208699317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_27
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 0
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1958996b979c2d4b8df9f4e5b0fc2bd
+      internalID: 458511507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_28
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 0
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99d3f1cab37aa594da6d0d8d7453d65f
+      internalID: -221897336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_29
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 0
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45a47cd35c5119d4282a014da4a0b713
+      internalID: 1975087753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_30
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 0
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d6bb2b4994d3684a80000a3d729e34d
+      internalID: 1956320746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spitter Green Sprite Sheet 57 x 39_31
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 0
+        width: 57
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 414504d1784645b4b9e3db7dfaa735ec
+      internalID: 1571004707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Spitter Green Sprite Sheet 57 x 39_31: 1571004707
+      Spitter Green Sprite Sheet 57 x 39_13: -1987546209
+      Spitter Green Sprite Sheet 57 x 39_10: -1930497883
+      Spitter Green Sprite Sheet 57 x 39_9: -1698499795
+      Spitter Green Sprite Sheet 57 x 39_15: 472870575
+      Spitter Green Sprite Sheet 57 x 39_20: -1819217096
+      Spitter Green Sprite Sheet 57 x 39_7: -256785793
+      Spitter Green Sprite Sheet 57 x 39_25: 708490035
+      Spitter Green Sprite Sheet 57 x 39_30: 1956320746
+      Spitter Green Sprite Sheet 57 x 39_17: -1023710007
+      Spitter Green Sprite Sheet 57 x 39_16: 2035685213
+      Spitter Green Sprite Sheet 57 x 39_27: 458511507
+      Spitter Green Sprite Sheet 57 x 39_12: -1179820932
+      Spitter Green Sprite Sheet 57 x 39_24: -178903835
+      Spitter Green Sprite Sheet 57 x 39_8: 19935295
+      Spitter Green Sprite Sheet 57 x 39_14: 645072092
+      Spitter Green Sprite Sheet 57 x 39_4: -178260288
+      Spitter Green Sprite Sheet 57 x 39_22: 1227036851
+      Spitter Green Sprite Sheet 57 x 39_3: -1781893395
+      Spitter Green Sprite Sheet 57 x 39_2: -1956477492
+      Spitter Green Sprite Sheet 57 x 39_26: -208699317
+      Spitter Green Sprite Sheet 57 x 39_11: -1215860291
+      Spitter Green Sprite Sheet 57 x 39_28: -221897336
+      Spitter Green Sprite Sheet 57 x 39_6: 1241325247
+      Spitter Green Sprite Sheet 57 x 39_5: -307513851
+      Spitter Green Sprite Sheet 57 x 39_21: 224955780
+      Spitter Green Sprite Sheet 57 x 39_29: 1975087753
+      Spitter Green Sprite Sheet 57 x 39_1: 1624252319
+      Spitter Green Sprite Sheet 57 x 39_23: -434319734
+      Spitter Green Sprite Sheet 57 x 39_18: 986500331
+      Spitter Green Sprite Sheet 57 x 39_0: -495054909
+      Spitter Green Sprite Sheet 57 x 39_19: 811634875
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
