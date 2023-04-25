@@ -121,10 +121,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7b3e6394da04a64cb03d4d0a8ccaefd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
-  audioSource: {fileID: 0}
-  id: 1a804141-c103-4b4e-926c-115b44007ddb
-  visual: {fileID: 4714758069776665545}
+  _type: 1
+  _id: 
+  _audioSource: {fileID: 0}
+  _visual: {fileID: 0}
 --- !u!95 &6641654417917065929
 Animator:
   serializedVersion: 4
@@ -158,7 +158,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.06250954, y: -0.18798366}
+  m_Offset: {x: -0.00004005432, y: -0.000037670135}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -169,5 +169,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.25111008, y: 0.3751766}
+  m_Size: {x: 0.25009537, y: 0.31246662}
   m_EdgeRadius: 0

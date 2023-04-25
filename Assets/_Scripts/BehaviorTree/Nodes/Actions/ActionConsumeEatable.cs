@@ -9,8 +9,6 @@ namespace BehaviorTree.Nodes.Actions
         
         private float _speed;
         private float _timer;
-        private float _duration = 2f;
-        private bool _isEating = false;
         private Rigidbody2D _rb;
         private Animator _animator;
         private Transform _transform;
@@ -25,50 +23,28 @@ namespace BehaviorTree.Nodes.Actions
 
         public override NodeState Evaluate()
         {
-            var target = (Transform)GetData("target");
-            var targetDir = ((Vector2)target.position - (Vector2)_transform.position).normalized;
-            var distance = Vector2.Distance(_transform.position, target.position);
+            var player = (Transform)GetData("player");
+            if (player is null)
+            {
+                State = NodeState.Failure;
+                return State;
+            }
+            
+            var distance = Vector2.Distance(_transform.position, player.position);
+            var direction = ((Vector2)player.position - (Vector2)_transform.position).normalized;
             var step = _speed * Time.deltaTime;
-            _transform.position = Vector2.MoveTowards(_transform.position, target.position, step);
-            _rb.transform.localScale = new Vector3(targetDir.x > 0 ? 1 : -1, 1, 1);
+            _transform.position = Vector2.MoveTowards(_transform.position, player.position, step);
+            _rb.transform.localScale = new Vector3(direction.x > 0 ? 1 : -1, 1, 1);
 
-            if (distance <= 1f)
+            if (distance <= 1.2f)
             {
                 _rb.velocity = Vector2.zero;
 
                 Debug.Log("Eating");
                 OnConsumeEatableEvent?.Invoke();
-                _animator.SetBool("IsEating", true);
-                
+                _animator.SetTrigger("IsEatingTrigger");
                 State = NodeState.Success;
                 return State;
-                
-                //if (!_isEating)
-                //{
-                //    Debug.Log("Eating");
-                //    OnConsumeEatableEvent?.Invoke();
-                //    _animator.SetBool("IsEating", true);
-                //    _isEating = true;
-                //    _timer = 0;
-                //    
-                //    State = NodeState.Success;
-                //    return State;
-                //}
-////
-                //_timer += Time.deltaTime;
-////
-                //if (_timer >= _duration)
-                //{
-                //    Debug.Log("Finished eating");
-                //    _animator.SetBool("IsEating", false);
-                //    _isEating = false;
-                //    
-                //    State = NodeState.Success;
-                //    return State;
-                //}
-//
-                //State = NodeState.Running;
-                //return State;
             }
 
             State = NodeState.Failure;

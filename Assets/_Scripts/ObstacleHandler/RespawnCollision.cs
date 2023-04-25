@@ -4,7 +4,7 @@ namespace ObstacleHandler
 {
     public class RespawnCollision : MonoBehaviour
     { 
-        [SerializeField] private Transform closestRespawnPoint;
+        [SerializeField] private Transform _closestRespawnPoint;
         public delegate void TrapCollision();
         public static event TrapCollision OnTrapCollisionEvent;
         public delegate void Respawn(Transform closestRespawnPoint);
@@ -15,7 +15,7 @@ namespace ObstacleHandler
             {
                 GameManager.Instance.OnRoomReset = true;
                 OnTrapCollisionEvent?.Invoke();
-                OnRespawnEvent?.Invoke(closestRespawnPoint);
+                OnRespawnEvent?.Invoke(_closestRespawnPoint);
             }
         }
     }

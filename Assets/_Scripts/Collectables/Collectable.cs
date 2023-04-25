@@ -2,12 +2,6 @@ using DataPersistence;
 using UnityEngine;
 using System;
 
-internal enum CollectableType
-{
-    Eatable,
-    Collectable
-}
-
 namespace Collectables
 {
     public class Collectable : MonoBehaviour, IDataPersistence
@@ -42,7 +36,7 @@ namespace Collectables
         {
             if (_type == CollectableType.Eatable)
                 data.eatables.TryGetValue(_id, out _isCollected);
-            else if (_type == CollectableType.Collectable) 
+            else if (_type == CollectableType.Can) 
                 data.collectables.TryGetValue(_id, out _isCollected);
 
             if (_isCollected)
@@ -59,7 +53,7 @@ namespace Collectables
                 else // if the id is not in the dictionary, it is added
                     data.eatables.Add(_id, _isCollected);
             }
-            else if (_type == CollectableType.Collectable)
+            else if (_type == CollectableType.Can)
             {
                 if (data.collectables.ContainsKey(_id))
                     data.collectables[_id] = _isCollected;

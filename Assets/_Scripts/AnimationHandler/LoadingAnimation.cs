@@ -2,13 +2,6 @@ using UnityEngine;
 
 namespace AnimationHandler
 {
-    internal enum PlayerAnimation
-    {
-        player_idle,
-        player_walk,
-        player_run,
-        player_dash
-    }
     public class LoadingAnimation :MonoBehaviour
     {
         private Animator _animator;

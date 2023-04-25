@@ -7,7 +7,7 @@ namespace AddIns
         public static T Instance { get; private set; }
         
         [Header("SINGLETON")]
-        [SerializeField] private bool dontDestroyOnLoad = false;
+        [SerializeField] private bool _dontDestroyOnLoad = false;
 
         /// <summary>
         /// Creating an instance of the class who inherits from Singleton.
@@ -21,7 +21,7 @@ namespace AddIns
                 Destroy(gameObject);
             }
         
-            if(dontDestroyOnLoad)
+            if(_dontDestroyOnLoad)
                 DontDestroyOnLoad(gameObject);
         }
     }

@@ -8,11 +8,11 @@ namespace ObstacleHandler
     public class FallingObstacle : MonoBehaviour
     {
         [Header("RAYCAST DISTANCE")]
-        [SerializeField]private float distance;
+        [SerializeField]private float _distance;
         [Header("RAYCAST ORIGIN")]
-        [SerializeField]private Transform raycastOrigin;
+        [SerializeField]private Transform _raycastOrigin;
         [Header("SPRITE CHANGE WHEN HIT GROUND")]
-        [SerializeField] private Sprite newSprite;
+        [SerializeField] private Sprite _newSprite;
         
         private SpriteRenderer _spriteRenderer;
         private Animator _animator;
@@ -33,8 +33,8 @@ namespace ObstacleHandler
             Physics2D.queriesStartInColliders = false;
             if (!_isFalling)
             {
-                var hit = Physics2D.Raycast(transform.position, Vector2.down, distance);
-                Debug.DrawRay(raycastOrigin.position, Vector2.down * distance, Color.red);
+                var hit = Physics2D.Raycast(transform.position, Vector2.down, _distance);
+                Debug.DrawRay(_raycastOrigin.position, Vector2.down * _distance, Color.red);
                 
                 if (hit.collider != null && hit.collider.CompareTag("Player"))
                 {
@@ -62,7 +62,7 @@ namespace ObstacleHandler
             {
                 _coll.enabled = false;
                 _rb.bodyType = RigidbodyType2D.Static;
-                _spriteRenderer.sprite = newSprite;
+                _spriteRenderer.sprite = _newSprite;
                 _animator.enabled = false;
             }
         }
@@ -72,7 +72,7 @@ namespace ObstacleHandler
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(raycastOrigin.position, Vector2.down * distance);
+            Gizmos.DrawRay(_raycastOrigin.position, Vector2.down * _distance);
         }
 #endif
     }

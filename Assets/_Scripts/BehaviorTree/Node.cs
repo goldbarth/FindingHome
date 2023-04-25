@@ -4,13 +4,6 @@ namespace BehaviorTree
 {
     // Sources: Christoph Graf´s KI Basics, https://github.com/MinaPecheux/UnityTutorials-BehaviourTrees
     // and https://www.behaviortree.dev/docs/intro
-    public enum NodeState
-    {
-        Success,
-        Failure,
-        Running
-    }
-
     public abstract class Node
     {
         protected List<Node> Children = new();

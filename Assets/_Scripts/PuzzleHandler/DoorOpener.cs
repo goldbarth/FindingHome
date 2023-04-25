@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace RiddleHandler
+namespace PuzzleHandler
 {
     public class DoorOpener :MonoBehaviour
     {

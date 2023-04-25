@@ -8,21 +8,19 @@ namespace DataPersistence.Serializable
     [Serializable]
     public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
     {
-        [SerializeField]
-        private List<TKey> keys = new();
+        [SerializeField] private List<TKey> _keys = new();
     
-        [SerializeField]
-        private List<TValue> values = new();
+        [SerializeField] private List<TValue> _values = new();
     
         public void OnBeforeSerialize()
         {
-            keys.Clear();
-            values.Clear();
+            _keys.Clear();
+            _values.Clear();
     
             foreach (var pair in this)
             {
-                keys.Add(pair.Key);
-                values.Add(pair.Value);
+                _keys.Add(pair.Key);
+                _values.Add(pair.Value);
             }
         }
     
@@ -30,12 +28,12 @@ namespace DataPersistence.Serializable
         {
             Clear();
     
-            if (keys.Count != values.Count)
-                Debug.Log($"there are {keys.Count} keys and {values.Count} values after deserialization. " +
+            if (_keys.Count != _values.Count)
+                Debug.Log($"there are {_keys.Count} keys and {_values.Count} values after deserialization. " +
                           $"Make sure that both key and value types are serializable.");
     
-            for (int i = 0; i < keys.Count; i++)
-                Add(keys[i], values[i]);
+            for (int i = 0; i < _keys.Count; i++)
+                Add(_keys[i], _values[i]);
         }
     }
 }

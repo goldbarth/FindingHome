@@ -4,11 +4,11 @@ namespace Audio
 {
     public class ButtonSounds : MonoBehaviour
     {
-        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioSource _audioSource;
 
         public void ButtonHoverSound()
         {
-            audioSource.Play();
+            _audioSource.Play();
         }
     }
 }

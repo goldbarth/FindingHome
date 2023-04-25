@@ -9,18 +9,6 @@ using UnityEngine.UI;
 
 namespace SceneHandler
 {
-    public enum SceneIndices
-    {
-        Init,
-        MainMenu,
-        OptionsMenu,
-        PauseMenu,
-        LoadMenu,
-        CreditsScreen,
-        Level1,
-        Level2,
-    }
-
     public class SceneLoader : Singleton<SceneLoader>
     {
         [Header("SCENE LOADER")] 

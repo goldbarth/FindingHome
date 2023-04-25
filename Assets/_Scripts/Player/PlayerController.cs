@@ -412,11 +412,12 @@ namespace Player
         
         private void AnimationControl()
         {
-            if (_coll.IsGround() && !JumpAction.IsPressed())
+            if (_coll.IsGround() && !JumpAction.WasPressedThisFrame())
                 _animator.SetBool("IsWalking", InputX != 0);
             
             if (_coll.IsGround() && JumpAction.IsPressed())
                 _animator.SetBool("IsJumping", true);
+
             else if (Rigid.velocity.y < 0 && !_coll.IsGround())
             {
                 _animator.SetBool("IsFalling", true);
@@ -425,13 +426,12 @@ namespace Player
             
             if (Rigid.velocity.y < 0 && _coll.IsNearGround() && !_coll.IsGround())
             {
-                _animator.SetBool("IsFalling", true);
+                _animator.SetBool("IsFalling", false);
                 _animator.SetBool("IsLanding", true);
             }
 
             if (_coll.IsGround())
             {
-                _animator.SetBool("IsLanding", false);
                 _animator.SetBool("IsFalling", false);
             }
         }

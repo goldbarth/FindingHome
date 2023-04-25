@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BehaviorTree.Nodes.Actions
+namespace BehaviorTree.Nodes.Conditions
 {
     public class CheckTargetInAttackRange : LeafNode
     {
@@ -17,18 +17,11 @@ namespace BehaviorTree.Nodes.Actions
 
         public override NodeState Evaluate()
         {
-            var target = GetData("target");
-            if (target == null)
+            var target = (Transform)GetData("target");
+            var distance = Vector2.Distance(_transform.position, target.position);
+            if (distance < _attackRange)
             {
-                State = NodeState.Failure;
-                return State;
-            }
-
-            var targetTransform = (Transform)target;
-            if (Vector2.Distance(_transform.position, targetTransform.position) > _attackRange)
-            {
-                _animator.SetBool("IsAttacking", true);
-                
+                Debug.Log("Target in attack range");
                 State = NodeState.Success;
                 return State;
             }

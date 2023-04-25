@@ -6,7 +6,7 @@ namespace Environment
 {
     public class Room : MonoBehaviour
     {
-        [SerializeField] private GameObject virtualCamera;
+        [SerializeField] private GameObject _virtualCamera;
         
         public delegate void OnRoomEnter();
         public static event OnRoomEnter OnRoomEnterEvent;
@@ -22,7 +22,7 @@ namespace Environment
         {
             if (col.CompareTag("Player") && !col.isTrigger)
             {
-                virtualCamera.SetActive(true);
+                _virtualCamera.SetActive(true);
                 StartCoroutine(LateSave());
                 if (!GameManager.Instance.IsGameStarted)
                     OnRoomEnterEvent?.Invoke();
@@ -33,7 +33,7 @@ namespace Environment
         {
             if (col.CompareTag("Player") && !col.isTrigger)
             {
-                virtualCamera.SetActive(false);
+                _virtualCamera.SetActive(false);
             }
         }
 

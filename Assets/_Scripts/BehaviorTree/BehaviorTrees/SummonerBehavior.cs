@@ -1,16 +1,16 @@
 ﻿using System;
 using UnityEngine;
 
-namespace BehaviorTree.Behaviors
+namespace BehaviorTree.BehaviorTrees
 {
     public class SummonerBehavior : MonoBehaviour
     {
-        [SerializeField] private string targetID;
+        [SerializeField] private string _targetID;
         
         [ContextMenu("Generate guid for target id")]
         private void GenerateGuid()
         {
-            targetID = Guid.NewGuid().ToString();
+            _targetID = Guid.NewGuid().ToString();
         }
     }
 }

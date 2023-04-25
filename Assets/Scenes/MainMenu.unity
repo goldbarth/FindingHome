@@ -2511,6 +2511,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ButtonAudio
       objectReference: {fileID: 0}
+    - target: {fileID: 9096829828874581847, guid: 17075b18722f4f448ad63d52dd3fc258, type: 3}
+      propertyPath: _audioSource
+      value: 
+      objectReference: {fileID: 9096829829756759473}
     - target: {fileID: 9096829828874581849, guid: 17075b18722f4f448ad63d52dd3fc258, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -2557,6 +2561,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17075b18722f4f448ad63d52dd3fc258, type: 3}
+--- !u!82 &9096829829756759473 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 9096829828874581848, guid: 17075b18722f4f448ad63d52dd3fc258, type: 3}
+  m_PrefabInstance: {fileID: 9096829829756759472}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9116364225014372612
 PrefabInstance:
   m_ObjectHideFlags: 0

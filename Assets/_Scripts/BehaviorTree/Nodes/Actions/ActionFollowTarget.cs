@@ -4,7 +4,7 @@ namespace BehaviorTree.Nodes.Actions
 {
     public class ActionFollowTarget : LeafNode
     {
-        private float _speed = 3f;
+        private float _speed;
         private float _stopDistance;
         private Transform _transform;
         private Animator _animator;

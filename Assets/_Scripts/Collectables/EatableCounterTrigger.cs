@@ -4,14 +4,14 @@ namespace Collectables
 {
     public class EatableCounterTrigger : MonoBehaviour
     {
-        public delegate void EatableCountChanged();
-        public static event EatableCountChanged OnEatableCountChangedEvent;
+        public delegate void EatableCollect();
+        public static event EatableCollect OnEatableCollectEvent;
     
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
             {
-                OnEatableCountChangedEvent?.Invoke();
+                OnEatableCollectEvent?.Invoke();
             }
         }
     }

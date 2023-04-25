@@ -8,9 +8,9 @@ namespace AddIns
     public class PauseManager : Singleton<PauseManager>, Controls.IUIActions
     {
         [Header("SCENE TO LOAD")]
-        [SerializeField] private SceneIndices pauseMenuScene;
+        [SerializeField] private SceneIndices _pauseMenuScene;
         [Header("SCENE MODE")]
-        [SerializeField] private LoadSceneMode loadSceneMode = LoadSceneMode.Additive;
+        [SerializeField] private LoadSceneMode _loadSceneMode = LoadSceneMode.Additive;
 
         private Controls _controls;
 
@@ -49,7 +49,7 @@ namespace AddIns
             Debug.Log("Is Paused: " + GameManager.Instance.IsGamePaused);
             Debug.Log("Is Game Started: " + GameManager.Instance.IsGameStarted);
             if (context.started && !GameManager.Instance.IsGamePaused && GameManager.Instance.IsGameStarted)
-                SceneLoader.Instance.LoadSceneAsync(pauseMenuScene, loadSceneMode);
+                SceneLoader.Instance.LoadSceneAsync(_pauseMenuScene, _loadSceneMode);
         }
     }
 }

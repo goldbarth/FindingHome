@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RiddleHandler
+namespace PuzzleHandler
 {
     public class DoorOpenerBootTrigger : MonoBehaviour
     {

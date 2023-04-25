@@ -12,12 +12,12 @@ namespace DataPersistence
     public class DataPersistenceManager : Singleton<DataPersistenceManager>
     {
         [Header("DEBUGGING")] [Tooltip("If checked, the data will NOT be saved!!!")]
-        [SerializeField] private bool disableDataPersistence = false;
-        [Space][SerializeField] private bool initializeDataIfNull = false;
+        [SerializeField] private bool _disableDataPersistence = false;
+        [Space][SerializeField] private bool _initializeDataIfNull = false;
 
         [Header("FILE STORAGE CONFIG")]
-        [SerializeField] private string fileName;
-        [Space][SerializeField] private bool useEncryption;
+        [SerializeField] private string _fileName;
+        [Space][SerializeField] private bool _useEncryption;
 
         private GameData _gameData;
         private FileDataHandler _dataHandler;
@@ -28,7 +28,7 @@ namespace DataPersistence
         private string _selectedProfileId;
         private readonly string _menuAudioProfileId = "menu_audio";
 
-        public bool DisableDataPersistence => disableDataPersistence;
+        public bool DisableDataPersistence => _disableDataPersistence;
 
         #region Events
         
@@ -36,8 +36,8 @@ namespace DataPersistence
         {
             base.Awake();
             
-            if (disableDataPersistence) Debug.LogWarning("Data Persistence is DISABLED!");
-            _dataHandler = new FileDataHandler(Application.persistentDataPath ,fileName, useEncryption);
+            if (_disableDataPersistence) Debug.LogWarning("Data Persistence is DISABLED!");
+            _dataHandler = new FileDataHandler(Application.persistentDataPath ,_fileName, _useEncryption);
             InitializeProfileId();
         }
 
@@ -87,7 +87,7 @@ namespace DataPersistence
 
         public void SaveGame()
         {
-            if (disableDataPersistence) return;
+            if (_disableDataPersistence) return;
             if (_gameData == null)
             {
                 Debug.Log("No save data found. A new Game needs to be started before data can be saved.");
@@ -105,11 +105,11 @@ namespace DataPersistence
 
         public void LoadGame()
         {
-            if (disableDataPersistence) return;
+            if (_disableDataPersistence) return;
             
             GameManager.Instance.OnRoomReset = false; // prevents to save the players position. e.g. when falling into a pit
             _gameData = _dataHandler.LoadData(_selectedProfileId);
-            if (_gameData == null && initializeDataIfNull)
+            if (_gameData == null && _initializeDataIfNull)
                 NewGame();
 
             // push data to other scripts that need it (e.g. player pos, inventory, etc.)
