@@ -2,13 +2,13 @@
 
 namespace BehaviorTree.Nodes.Conditions
 {
-    public class CheckTargetInAttackRange : LeafNode
+    public class CheckIfTargetInAttackRange : LeafNode
     {
-        private float _attackRange;
-        private Transform _transform;
+        private readonly float _attackRange;
+        private readonly Transform _transform;
         private Animator _animator;
 
-        public CheckTargetInAttackRange(Transform transform, float attackRange)
+        public CheckIfTargetInAttackRange(Transform transform, float attackRange)
         {
             _animator = transform.GetComponentInChildren<Animator>();
             _transform = transform;
@@ -17,11 +17,20 @@ namespace BehaviorTree.Nodes.Conditions
 
         public override NodeState Evaluate()
         {
-            var target = (Transform)GetData("target");
+            var obj = GetData("target");
+            if (obj == null)
+            {
+                State = NodeState.Failure;
+                return State;
+            }
+            
+            var target = (Transform)obj;
             var distance = Vector2.Distance(_transform.position, target.position);
             if (distance < _attackRange)
             {
                 Debug.Log("Target in attack range");
+                _animator.SetBool("IsAttacking", true);
+                
                 State = NodeState.Success;
                 return State;
             }

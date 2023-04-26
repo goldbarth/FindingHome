@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace BehaviorTree.Nodes.Conditions
 {
-    public class CheckPlayerHasEatable : LeafNode
+    public class CheckIfPlayerHasEatable : LeafNode
     {
         private readonly EatablesCount _eatables;
         
-        public CheckPlayerHasEatable()
+        public CheckIfPlayerHasEatable()
         {
             _eatables = GameObject.FindWithTag("Player").GetComponent<EatablesCount>();
         }

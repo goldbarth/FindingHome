@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5612327083219393384}
   - component: {fileID: 8004422528301996776}
   - component: {fileID: 8804928833257030271}
+  - component: {fileID: 5344248975414694760}
   m_Layer: 0
   m_Name: SummonerEnemy
   m_TagString: Untagged
@@ -166,3 +167,15 @@ PolygonCollider2D:
       - {x: 0.4423406, y: -0.0073432922}
       - {x: 0.5220299, y: 0.109841585}
       - {x: 0.45015597, y: 0.24406171}
+--- !u!114 &5344248975414694760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5965219278494422980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b5db24d512547e086e2245d79f7ea98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

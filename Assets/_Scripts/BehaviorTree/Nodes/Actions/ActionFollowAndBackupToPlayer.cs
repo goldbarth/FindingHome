@@ -2,7 +2,7 @@
 
 namespace BehaviorTree.Nodes.Actions
 {
-    public class ActionFollowAndBackupPlayer : LeafNode
+    public class ActionFollowAndBackupToPlayer : LeafNode
     {
         private float _speed;
         private float _stopDistance;
@@ -11,7 +11,7 @@ namespace BehaviorTree.Nodes.Actions
         private Animator _animator;
         private Rigidbody2D _rb;
         
-        public ActionFollowAndBackupPlayer(float speed, float stopDistance, Transform transform)
+        public ActionFollowAndBackupToPlayer(float speed, float stopDistance, Transform transform)
         {
             _animator = transform.GetComponentInChildren<Animator>();
             _rb = transform.GetComponent<Rigidbody2D>();
@@ -34,10 +34,12 @@ namespace BehaviorTree.Nodes.Actions
             }
             else if (distance < _stopDistance - _backupDistance)
             {
-                var direction = ((Vector2)_rb.transform.position - (Vector2)player.position).normalized;
+                var reverseDirection = ((Vector2)_rb.transform.position - (Vector2)player.position).normalized;
+                var backup = reverseDirection * _backupDistance;
                 var step = _speed * Time.deltaTime;
-                _transform.position = Vector2.MoveTowards(_transform.position, _transform.position + (Vector3)direction * _backupDistance, step);
-                _rb.transform.localScale = new Vector3(direction.x > 0 ? 1 : -1, 1, 1);
+                _transform.position = MathL.MoveAway(_transform.position, backup, step);
+                //_transform.position = Vector2.MoveTowards(_transform.position, _transform.position + (Vector3)reverseDirection * _backupDistance, step);
+                _rb.transform.localScale = new Vector3(reverseDirection.x > 0 ? 1 : -1, 1, 1);
                 _animator.SetBool("IsWalking", true);
             }
             else

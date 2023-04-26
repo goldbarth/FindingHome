@@ -20,7 +20,7 @@ namespace BehaviorTree.Nodes.Decorator
                         State = NodeState.Success;
                         return State;
                     case NodeState.Running:
-                        State = NodeState.Running;
+                        State = NodeState.Failure;
                         return State;
                     default:
                         State = NodeState.Failure;
@@ -28,37 +28,6 @@ namespace BehaviorTree.Nodes.Decorator
                 }
             }
             
-            State = NodeState.Failure;
-            return State;
-        }
-    }
-
-    public class CopyOfInverter : DecoratorNode
-    {
-        public CopyOfInverter() : base() { }
-        public CopyOfInverter(List<Node> children) : base(children) { }
-
-        public override NodeState Evaluate()
-        {
-            foreach (var child in Children)
-            {
-                switch (child.Evaluate())
-                {
-                    case NodeState.Success:
-                        State = NodeState.Failure;
-                        return State;
-                    case NodeState.Failure:
-                        State = NodeState.Success;
-                        return State;
-                    case NodeState.Running:
-                        State = NodeState.Running;
-                        return State;
-                    default:
-                        State = NodeState.Failure;
-                        return State;
-                }
-            }
-
             State = NodeState.Failure;
             return State;
         }

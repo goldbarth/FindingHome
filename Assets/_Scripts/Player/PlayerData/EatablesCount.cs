@@ -33,14 +33,25 @@ namespace Player.PlayerData
 
         private void Update()
         {
-            if (_eatableCount < _previousEatableCount)
-            {
-                _hasEatableDecreased = true;
-            }
-            else
-            {
-                _hasEatableDecreased = false;
-            }
+            EatableDecreaseCheck();
+        }
+
+        private void EatableDecreaseCheck()
+        {
+            _hasEatableDecreased = _eatableCount < _previousEatableCount;
+            _previousEatableCount = _eatableCount;
+        }
+        
+        public bool HasEatableDecreased()
+        {
+            var result = _hasEatableDecreased;
+            _hasEatableDecreased = false;
+            return result;
+        }
+        
+        public int GetCount()
+        {
+            return _eatableCount;
         }
 
         private IEnumerator WaitForData()
@@ -61,16 +72,6 @@ namespace Player.PlayerData
         private void DecrementEatableCount()
         {
             _eatableCount--;
-        }
-        
-        public int GetCount()
-        {
-            return _eatableCount;
-        }
-        
-        public bool HasEatableDecreased()
-        {
-            return _hasEatableDecreased;
         }
 
         public void LoadData(GameData data)

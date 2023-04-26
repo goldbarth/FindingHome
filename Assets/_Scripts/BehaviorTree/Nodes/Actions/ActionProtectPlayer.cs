@@ -6,7 +6,6 @@ namespace BehaviorTree.Nodes.Actions
     {
         private float _speed;
         private float _stopDistance;
-        private float _backupDistance = 0.5f;
         private Transform _transform;
         private Animator _animator;
         private Rigidbody2D _rb;
@@ -31,8 +30,7 @@ namespace BehaviorTree.Nodes.Actions
             var distance = Vector2.Distance(_transform.position, player.position);
             if (distance > _stopDistance)
             {
-                // The player is far away, move towards them
-                var direction = ((Vector2)player.position - (Vector2)_transform.position).normalized;
+                var direction = ((Vector2)player.position - (Vector2)_rb.transform.position).normalized;
                 var step = _speed * Time.deltaTime;
                 _transform.position = Vector2.MoveTowards(_transform.position, player.position, step);
                 _rb.transform.localScale = new Vector3(direction.x > 0 ? 1 : -1, 1, 1);
@@ -40,7 +38,6 @@ namespace BehaviorTree.Nodes.Actions
             }
             else
             {
-                // The object is at the desired distance from the player
                 _animator.SetBool("IsWalking", false);
             }
 

@@ -31,7 +31,7 @@ namespace BehaviorTree.Nodes.Actions
             }
             
             var distance = Vector2.Distance(_transform.position, player.position);
-            var direction = ((Vector2)player.position - (Vector2)_transform.position).normalized;
+            var direction = ((Vector2)player.position - (Vector2)_rb.transform.position).normalized;
             var step = _speed * Time.deltaTime;
             _transform.position = Vector2.MoveTowards(_transform.position, player.position, step);
             _rb.transform.localScale = new Vector3(direction.x > 0 ? 1 : -1, 1, 1);
