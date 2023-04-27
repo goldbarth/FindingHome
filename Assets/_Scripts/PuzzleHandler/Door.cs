@@ -4,7 +4,7 @@ namespace PuzzleHandler
 {
     public class Door : MonoBehaviour
     {
-        [SerializeField] private AudioSource openSound;
+        [SerializeField] private AudioSource _openSound;
         
         private Collider2D _collider;
         private Animator _animator;
@@ -27,7 +27,7 @@ namespace PuzzleHandler
 
         private void Open()
         {
-            openSound.Play();
+            _openSound.Play();
             _collider.enabled = false;
             _animator.Play("door_open");
             Debug.Log("Door opened");

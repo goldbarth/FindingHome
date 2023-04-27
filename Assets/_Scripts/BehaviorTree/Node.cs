@@ -6,11 +6,11 @@ namespace BehaviorTree
     // and https://www.behaviortree.dev/docs/intro
     public abstract class Node
     {
-        protected List<Node> Children = new();
-        protected NodeState State;
-        
         public Node Parent;
         
+        protected List<Node> Children = new();
+        protected NodeState State;
+
         //TODO: testing purpose. try implementing a method to store target id.
         private Dictionary<(string, string), object> _objects = new();
         private Dictionary<string, object> _data = new();

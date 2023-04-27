@@ -6,12 +6,11 @@ namespace Environment
 {
     public class Room : MonoBehaviour
     {
-        [SerializeField] private GameObject _virtualCamera;
+        private const float TimeTillSetFlag = 1f;
         
+        [SerializeField] private GameObject _virtualCamera;
         public delegate void OnRoomEnter();
         public static event OnRoomEnter OnRoomEnterEvent;
-        
-        private static readonly float TimeTillSetFlag = 1f;
 
         private void Awake()
         {

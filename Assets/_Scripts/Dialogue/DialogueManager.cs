@@ -11,14 +11,13 @@ namespace Dialogue
     {
         [SerializeField] private GameObject dialoguePanel;
         [SerializeField] private TextMeshProUGUI dialogueText;
-        
         [SerializeField] private GameObject[] choices;
         
-        private Controls _controls;
-        private Story _currentStory;
         private TextMeshProUGUI[] _choiceTexts;
+        private Story _currentStory;
+        private Controls _controls;
 
-        private const float WAIT_TILL_CAN_MOVE = .2f;
+        private const float WaitTillCanMove = .2f;
         private bool _onDialogueIsActive = false;
 
         protected override void Awake()
@@ -119,7 +118,7 @@ namespace Dialogue
         
         private IEnumerator ExitDialogueMode()
         {
-            yield return new WaitForSeconds(WAIT_TILL_CAN_MOVE);
+            yield return new WaitForSeconds(WaitTillCanMove);
             _onDialogueIsActive = false;
             dialoguePanel.SetActive(false);
             dialogueText.text = string.Empty;

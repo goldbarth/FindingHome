@@ -4,17 +4,18 @@ namespace BehaviorTree.Nodes.Actions
 {
     public class ActionFollowAndBackupToPlayer : LeafNode
     {
-        private float _speed;
-        private float _stopDistance;
-        private float _backupDistance = 0.5f;
-        private Transform _transform;
-        private Animator _animator;
-        private Rigidbody2D _rb;
+        private const float BackupDistance = 0.5f;
         
+        private readonly Transform _transform;
+        private readonly Rigidbody2D _rigid;
+        private readonly Animator _animator;
+        private readonly float _stopDistance;
+        private readonly float _speed;
+
         public ActionFollowAndBackupToPlayer(float speed, float stopDistance, Transform transform)
         {
             _animator = transform.GetComponentInChildren<Animator>();
-            _rb = transform.GetComponent<Rigidbody2D>();
+            _rigid = transform.GetComponent<Rigidbody2D>();
             _stopDistance = stopDistance;
             _transform = transform;
             _speed = speed;
@@ -26,28 +27,32 @@ namespace BehaviorTree.Nodes.Actions
             var distance = Vector2.Distance(_transform.position, player.position);
             if (distance > _stopDistance)
             {
-                var direction = ((Vector2)player.position - (Vector2)_rb.transform.position).normalized;
+                var direction = ((Vector2)player.position - (Vector2)_rigid.transform.position).normalized;
                 var step = _speed * Time.deltaTime;
                 _transform.position = Vector2.MoveTowards(_transform.position, player.position, step);
-                _rb.transform.localScale = new Vector3(direction.x > 0 ? 1 : -1, 1, 1);
+                _rigid.transform.localScale = new Vector3(direction.x > 0 ? 1 : -1, 1, 1);
                 _animator.SetBool("IsWalking", true);
+                
+                State = NodeState.Success;
+                return State;
             }
-            else if (distance < _stopDistance - _backupDistance)
+            if (distance < _stopDistance - BackupDistance)
             {
-                var reverseDirection = ((Vector2)_rb.transform.position - (Vector2)player.position).normalized;
-                var backup = reverseDirection * _backupDistance;
+                var reverseDirection = ((Vector2)_rigid.transform.position - (Vector2)player.position).normalized;
+                var backup = reverseDirection * BackupDistance;
                 var step = _speed * Time.deltaTime;
                 _transform.position = MathL.MoveAway(_transform.position, backup, step);
                 //_transform.position = Vector2.MoveTowards(_transform.position, _transform.position + (Vector3)reverseDirection * _backupDistance, step);
-                _rb.transform.localScale = new Vector3(reverseDirection.x > 0 ? 1 : -1, 1, 1);
+                _rigid.transform.localScale = new Vector3(reverseDirection.x > 0 ? 1 : -1, 1, 1);
                 _animator.SetBool("IsWalking", true);
+                
+                State = NodeState.Success;
+                return State;
             }
-            else
-            {
-                _animator.SetBool("IsWalking", false);
-            }
+            
+            _animator.SetBool("IsWalking", false);
 
-            State = NodeState.Success;
+            State = NodeState.Failure;
             return State;
         }
     }

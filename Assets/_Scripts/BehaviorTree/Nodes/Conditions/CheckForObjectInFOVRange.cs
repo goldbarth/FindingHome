@@ -5,10 +5,10 @@ namespace BehaviorTree.Nodes.Conditions
     public class CheckForObjectInFOVRange : LeafNode
     {
         //TODO: Test purpose. Entity should be passed in from the tree.
-        private readonly string _targetKey;
-        private readonly float _detectionRadius;
         private readonly Transform _transform;
         private readonly LayerMask _layerMask;
+        private readonly float _detectionRadius;
+        private readonly string _targetKey;
 
         public CheckForObjectInFOVRange(string key, float radius, LayerMask layerMask, Transform transform)
         {

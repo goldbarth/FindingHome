@@ -9,6 +9,7 @@ namespace AddIns
     {
         [Header("SCENE TO LOAD")]
         [SerializeField] private SceneIndices _pauseMenuScene;
+        
         [Header("SCENE MODE")]
         [SerializeField] private LoadSceneMode _loadSceneMode = LoadSceneMode.Additive;
 

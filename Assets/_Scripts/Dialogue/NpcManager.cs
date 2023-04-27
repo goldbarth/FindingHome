@@ -10,7 +10,6 @@ namespace Dialogue
     {
         [SerializeField] private GameObject dialoguePanel;
         [SerializeField] private TextMeshProUGUI dialogueText;
-        
         [SerializeField] private AudioSource audioSource;
         
         private Controls _controls;

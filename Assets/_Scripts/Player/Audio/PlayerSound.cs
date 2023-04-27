@@ -5,12 +5,12 @@ namespace Player.Audio
 {
     public class PlayerSound : MonoBehaviour
     {
-        [SerializeField] private AudioSource stepSound;
-        [SerializeField] private AudioSource jumpSound;
+        [SerializeField] private AudioSource _stepSound;
+        [SerializeField] private AudioSource _jumpSound;
         
         private CharMemoryManager _memoryManager;
-        private NpcManager _npcManager;
         private PlayerController _player;
+        private NpcManager _npcManager;
         private Collision _coll;
         
         private void Awake()
@@ -31,12 +31,12 @@ namespace Player.Audio
         {
             if(_memoryManager.IsInDialogue || _npcManager.IsInDialogue)
                 return;
-            if (_player.JumpAction.ReadValue<float>() > 0 && _coll.IsGround())
-                jumpSound.Play();
+            if (_player.JumpAction.ReadValue<float>() > 0 && _coll.IsGround() && _player.CanJump)
+                _jumpSound.Play();
             else if (_player.JumpAction.WasPerformedThisFrame() && _player.CanMultiJump) //doesnt work as intended
-                jumpSound.Play();
+                _jumpSound.Play();
             if (_player.JumpAction.ReadValue<float>() > 0 && _coll.IsWall())
-                jumpSound.Play();
+                _jumpSound.Play();
             Debug.Log("WasPerformedThisFrame: " + _player.JumpAction.WasPerformedThisFrame());
             Debug.Log("Can Multi Jump: " + _player.CanMultiJump);
         }
@@ -44,9 +44,9 @@ namespace Player.Audio
         private void Footsteps()
         {
             if (_player.InputX != 0 && _coll.IsGround() && !_coll.IsWall())
-                stepSound.enabled = true;
+                _stepSound.enabled = true;
             else
-                stepSound.enabled = false;
+                _stepSound.enabled = false;
         }
     }
 }

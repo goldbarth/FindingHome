@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f697eef6843441eae2d639240e9423e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 0
+  _dontDestroyOnLoad: 0
   dialoguePanel: {fileID: 0}
   dialogueText: {fileID: 0}
+  audioSource: {fileID: 0}

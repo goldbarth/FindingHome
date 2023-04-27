@@ -8,11 +8,11 @@ namespace Player
 {
     public class RespawnHandler : MonoBehaviour
     {
-        [SerializeField] private AudioSource audioSource;
-        [SerializeField] private float respawnTime = 0.9f;
+        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private float _respawnTime = 0.9f;
         
-        private Animator _animator;
         private Rigidbody2D _rigidBody;
+        private Animator _animator;
 
         private void Start()
         {
@@ -35,7 +35,7 @@ namespace Player
 
         private void RespawnPosition(Transform closestRespawnPoint)
         {
-            audioSource.Play();
+            _audioSource.Play();
             StartCoroutine(RespawnPositionCoroutine(closestRespawnPoint));
         }
 
@@ -46,7 +46,7 @@ namespace Player
             GameManager.Instance.IsRespawning = true;
             _animator.Play("player_appear_teleport");
             _rigidBody.constraints = RigidbodyConstraints2D.FreezePosition;
-            yield return new WaitForSeconds(respawnTime);
+            yield return new WaitForSeconds(_respawnTime);
             _rigidBody.constraints = RigidbodyConstraints2D.None;
             _rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
             GameManager.Instance.IsRespawning = false;

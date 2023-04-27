@@ -215,24 +215,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b71624c87371741b76fb0574308f2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiJump: 0
-  multiJumps: 2
-  wallJump: 1
-  wallSlide: 1
-  moveSpeed: 6.5
-  runSpeed: 10
-  jumpForce: 6.5
-  wallJumpDivider: 1.5
-  dashForce: 30
-  dashDuration: 0.2
-  dashCooldown: 0.5
-  jumpTime: 0.1
-  coyoteTime: 0.2
-  wallJumpLerp: 3.5
-  wallSlideSpeed: 1.85
-  wallClimbSpeed: 2
-  fallMultiplier: 3.5
-  lowJumpMultiplier: 1.7
+  _multiJump: 0
+  _multiJumps: 2
+  _wallJump: 0
+  _wallSlide: 0
+  _moveSpeed: 6.5
+  _runSpeed: 10
+  _jumpForce: 6.5
+  _wallJumpDivider: 1.5
+  _dashForce: 30
+  _dashDuration: 0.2
+  _dashCooldown: 2
+  _jumpTime: 0.1
+  _coyoteTime: 0.2
+  _wallJumpLerp: 3.5
+  _wallSlideSpeed: 1.85
+  _wallClimbSpeed: 2
+  _fallMultiplier: 3.5
+  _lowJumpMultiplier: 1.7
 --- !u!114 &6485689903279152357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,18 +245,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a205f07b9b0aba4fac819aa01e6b94e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundLayer:
+  _groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  wallLayer:
+  _wallLayer:
     serializedVersion: 2
     m_Bits: 128
-  plainMaterial: {fileID: 6200000, guid: 8483483e5e80adb4e85af77c4eeaaed7, type: 2}
-  stickyMaterial: {fileID: 6200000, guid: acda409097624f640adc20d54e9a0188, type: 2}
-  polygonCollider: {fileID: 7417988440727297845}
-  _reduceSize: {x: 0.25, y: 1.47, z: 0}
-  _offsetY: {x: 0, y: -0.745}
-  _offset: {x: 0.01, y: -0.35}
+  _plainMaterial: {fileID: 6200000, guid: 8483483e5e80adb4e85af77c4eeaaed7, type: 2}
+  _stickyMaterial: {fileID: 6200000, guid: acda409097624f640adc20d54e9a0188, type: 2}
+  _polygonCollider: {fileID: 7417988440727297845}
 --- !u!114 &6485689903279152358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,8 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2a8555397a4d78869b77e0e82c1150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
-  respawnTime: 0.9
+  _audioSource: {fileID: 0}
+  _respawnTime: 0.9
 --- !u!114 &6485689903279152359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f7265669db3e7a449aa00a5f31bf5bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 0
+  _dontDestroyOnLoad: 0
 --- !u!114 &6485689902739367194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,8 +305,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb8c5bd5a6f4d78a629698066bca788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stepSound: {fileID: 0}
-  jumpSound: {fileID: 0}
+  _stepSound: {fileID: 0}
+  _jumpSound: {fileID: 0}
 --- !u!114 &8808611977840083990
 MonoBehaviour:
   m_ObjectHideFlags: 0

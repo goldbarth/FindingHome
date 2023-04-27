@@ -2,15 +2,15 @@
 
 namespace BehaviorTree.Nodes.Actions
 {
-    public class ActionFollowTarget : LeafNode
+    public class ActionGoToTarget : LeafNode
     {
-        private float _speed;
-        private float _stopDistance;
-        private Transform _transform;
-        private Animator _animator;
-        private Rigidbody2D _rb;
+        private readonly Transform _transform;
+        private readonly Animator _animator;
+        private readonly Rigidbody2D _rb;
+        private readonly float _stopDistance;
+        private readonly float _speed;
         
-        public ActionFollowTarget(float speed, float stopDistance, Transform transform)
+        public ActionGoToTarget(float speed, float stopDistance, Transform transform)
         {
             _animator = transform.GetComponentInChildren<Animator>();
             _rb = transform.GetComponent<Rigidbody2D>();

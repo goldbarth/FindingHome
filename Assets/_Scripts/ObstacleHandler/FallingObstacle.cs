@@ -9,15 +9,17 @@ namespace ObstacleHandler
     {
         [Header("RAYCAST DISTANCE")]
         [SerializeField]private float _distance;
+        
         [Header("RAYCAST ORIGIN")]
         [SerializeField]private Transform _raycastOrigin;
+        
         [Header("SPRITE CHANGE WHEN HIT GROUND")]
         [SerializeField] private Sprite _newSprite;
         
         private SpriteRenderer _spriteRenderer;
+        private PolygonCollider2D _coll;
         private Animator _animator;
         private Rigidbody2D _rb;
-        private PolygonCollider2D _coll;
         private bool _isFalling;
 
         private void Awake()

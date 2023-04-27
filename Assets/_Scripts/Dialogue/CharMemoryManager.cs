@@ -8,15 +8,14 @@ namespace Dialogue
 {
     public class CharMemoryManager : Singleton<CharMemoryManager>
     {
+        private const float WaitTillCanMove = .2f;
+        
         [SerializeField] private GameObject dialoguePanel;
         [SerializeField] private TextMeshProUGUI dialogueText;
-        
         [SerializeField] private AudioSource audioSource;
         
-        private Controls _controls;
         private Story _currentStory;
-
-        private readonly float _waitTillCanMove = .2f;
+        private Controls _controls;
         private bool _onDialogueIsActive = false;
 
         public bool IsInDialogue { get; private set; }
@@ -74,7 +73,7 @@ namespace Dialogue
         private IEnumerator ExitDialogueMode()
         {
             audioSource.Stop();
-            yield return new WaitForSeconds(_waitTillCanMove);
+            yield return new WaitForSeconds(WaitTillCanMove);
             _onDialogueIsActive = false;
             dialoguePanel.SetActive(false);
             dialogueText.text = string.Empty;

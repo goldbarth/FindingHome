@@ -12,13 +12,13 @@ namespace SceneHandler
     public class SceneLoader : Singleton<SceneLoader>
     {
         [Header("SCENE LOADER")] 
-        [SerializeField] private SceneIndices startScene;
-
-        [Space] [Header("LOADING SCREEN")] [SerializeField]
-        private float minLoadingDuration;
-
-        [SerializeField] private GameObject loadingScreen;
-        [SerializeField] private Image progressBarFill;
+        [SerializeField] private SceneIndices _startScene;
+        
+        [Space] [Header("LOADING SCREEN")] 
+        [SerializeField] private float _minLoadingDuration = 3f;
+        
+        [SerializeField] private GameObject _loadingScreen;
+        [SerializeField] private Image _progressBarFill;
 
         private readonly LinkedList<Enum> _sceneNames = new();
         
@@ -28,8 +28,8 @@ namespace SceneHandler
         protected override void Awake()
         {
             base.Awake();
-            LoadSceneAsync(startScene);
-            loadingScreen.SetActive(false);
+            LoadSceneAsync(_startScene);
+            _loadingScreen.SetActive(false);
 
             SceneManager.sceneLoaded += RegisterNewScene;
             SceneManager.sceneUnloaded += UnregisterScene;
@@ -76,21 +76,21 @@ namespace SceneHandler
 
         private IEnumerator LoadingProgress(AsyncOperation asyncOperation)
         {
-            loadingScreen.SetActive(true);
-            progressBarFill.fillAmount = 0f;
+            _loadingScreen.SetActive(true);
+            _progressBarFill.fillAmount = 0f;
             var counter = 0f;
-            while (!asyncOperation.isDone || counter <= minLoadingDuration)
+            while (!asyncOperation.isDone || counter <= _minLoadingDuration)
             {
                 yield return null;
                 counter += Time.deltaTime;
 
-                var waitProgress = counter / minLoadingDuration;
+                var waitProgress = counter / _minLoadingDuration;
 
-                progressBarFill.fillAmount = Mathf.Min(asyncOperation.progress, waitProgress);
+                _progressBarFill.fillAmount = Mathf.Min(asyncOperation.progress, waitProgress);
             }
 
-            progressBarFill.fillAmount = 1f;
-            loadingScreen.SetActive(false);
+            _progressBarFill.fillAmount = 1f;
+            _loadingScreen.SetActive(false);
         }
     }
 }

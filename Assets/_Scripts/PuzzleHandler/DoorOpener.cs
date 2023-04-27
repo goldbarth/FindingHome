@@ -5,15 +5,15 @@ namespace PuzzleHandler
 {
     public class DoorOpener :MonoBehaviour
     {
-        public delegate void DoorOpen();
-        public static event DoorOpen OnDoorOpenEvent;
-
-        [SerializeField] private AudioSource startSound;
+        private const float TimeTillDoorOpenerBooted = 0.9f;
+        
+        [SerializeField] private AudioSource _startSound;
         
         private Animator _animator;
-        
-        private readonly float _timeTillDoorOpenerBooted = 0.9f;
         private bool _doorIsOpen;
+        
+        public delegate void DoorOpen();
+        public static event DoorOpen OnDoorOpenEvent;
 
         private void Start()
         {
@@ -47,9 +47,9 @@ namespace PuzzleHandler
         
         private IEnumerator AnimationTransition()
         {
-            startSound.Play();
+            _startSound.Play();
             _animator.Play("door_trigger_start");
-            yield return new WaitForSeconds(_timeTillDoorOpenerBooted);
+            yield return new WaitForSeconds(TimeTillDoorOpenerBooted);
             _animator.Play("door_trigger_idle");
         }
     }

@@ -4,14 +4,14 @@ namespace BehaviorTree.Nodes.Actions
 {
     public class ActionConsumeEatable : LeafNode
     {
+        private readonly Transform _transform;
+        private readonly Animator _animator;
+        private readonly Rigidbody2D _rb;
+        private readonly float _speed;
+        private readonly float _timer;
+        
         public delegate void ConsumeEatable();
         public static event ConsumeEatable OnConsumeEatableEvent;
-        
-        private float _speed;
-        private float _timer;
-        private Rigidbody2D _rb;
-        private Animator _animator;
-        private Transform _transform;
 
         public ActionConsumeEatable(float speed, Component component)
         {

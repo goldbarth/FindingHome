@@ -9,13 +9,13 @@ namespace AnimationHandler
         // and for some reason, the delegate is not being called
         public static CinemachineShake Instance { get; private set; }
         
+        private const float AmpIntensity = 2.9f;
+        private const float FreqIntensity = 2f;
+        private const float ShakeTime = .2f;
+        
         [SerializeField] private CinemachineVirtualCamera _virtualCamera;
         
         private CinemachineVirtualCamera _perlin;
-        
-        private readonly float _ampIntensity = 2.9f;
-        private readonly float _freqIntensity = 2f;
-        private readonly float _shakeTime = .2f;
 
         private void Awake()
         {
@@ -27,9 +27,9 @@ namespace AnimationHandler
         public void CameraShake()
         {
             var perlin = _virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-            perlin.m_AmplitudeGain = _ampIntensity;
-            perlin.m_FrequencyGain = _freqIntensity;
-            Invoke(nameof(StopShaking), _shakeTime);
+            perlin.m_AmplitudeGain = AmpIntensity;
+            perlin.m_FrequencyGain = FreqIntensity;
+            Invoke(nameof(StopShaking), ShakeTime);
         }
         
         private void StopShaking()

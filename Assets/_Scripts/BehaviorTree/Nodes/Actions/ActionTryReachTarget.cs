@@ -4,12 +4,13 @@ namespace BehaviorTree.Nodes.Actions
 {
     public class ActionTryReachTarget : LeafNode
     {
-        private float _timer;
-        private float _jumpForce;
-        private float _interval;
-        private Rigidbody2D _rb;
-        private Animator _animator;
+        private readonly Animator _animator;
+        private readonly Rigidbody2D _rb;
+        private readonly float _jumpForce;
+        private readonly float _interval;
 
+        private float _timer;
+        
         public ActionTryReachTarget(float jumpForce, float interval, Component component)
         {
             _animator = component.GetComponentInChildren<Animator>();

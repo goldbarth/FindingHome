@@ -11,6 +11,8 @@ namespace DataPersistence
     // This class is used to store the data of the game.
     public class DataPersistenceManager : Singleton<DataPersistenceManager>
     {
+        private const string MenuAudioProfileId = "menu_audio";
+
         [Header("DEBUGGING")] [Tooltip("If checked, the data will NOT be saved!!!")]
         [SerializeField] private bool _disableDataPersistence = false;
         [Space][SerializeField] private bool _initializeDataIfNull = false;
@@ -19,14 +21,12 @@ namespace DataPersistence
         [SerializeField] private string _fileName;
         [Space][SerializeField] private bool _useEncryption;
 
-        private GameData _gameData;
-        private FileDataHandler _dataHandler;
-        private List<IDataPersistence> _dataPersistenceObjects; // list of all objects that need to be saved and loaded
-
         private readonly List<SceneIndices> _menuScenes = new(){SceneIndices.Init, SceneIndices.LoadMenu, SceneIndices.MainMenu, SceneIndices.OptionsMenu};
-
+        
+        private List<IDataPersistence> _dataPersistenceObjects; // list of all objects that need to be saved and loaded
+        private FileDataHandler _dataHandler;
+        private GameData _gameData;
         private string _selectedProfileId;
-        private readonly string _menuAudioProfileId = "menu_audio";
 
         public bool DisableDataPersistence => _disableDataPersistence;
 
@@ -58,7 +58,7 @@ namespace DataPersistence
 
             // if the application has started, the menu audio profile is always selected
             if (GameManager.Instance.OnApplicationStart)
-                _selectedProfileId = _menuAudioProfileId;
+                _selectedProfileId = MenuAudioProfileId;
             // if the current scene is in menuScenes, the menu audio profile is selected
             else if (_menuScenes.Contains((SceneIndices)scene.buildIndex))
             {
@@ -165,7 +165,7 @@ namespace DataPersistence
         
         private GameData LoadAudioProfile()
         {
-            return _gameData = _dataHandler.LoadData(_menuAudioProfileId);
+            return _gameData = _dataHandler.LoadData(MenuAudioProfileId);
         }
         
         public void SaveAudioProfile()
@@ -176,12 +176,12 @@ namespace DataPersistence
 
             // timestamp the data it shows when it was last saved
             _gameData.lastUpdated = DateTime.Now.ToBinary();
-            _dataHandler.SaveData(_gameData, _menuAudioProfileId);
+            _dataHandler.SaveData(_gameData, MenuAudioProfileId);
         }
         
         private void CreateNewAudioProfile()
         {
-            _dataHandler.SaveData(new GameData(), _menuAudioProfileId);
+            _dataHandler.SaveData(new GameData(), MenuAudioProfileId);
         }
         
         public string GetLatestProfileId()

@@ -1009,10 +1009,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 1
-  startScene: 1
-  minLoadingDuration: 3
-  loadingScreen: {fileID: 1033444957}
-  progressBarFill: {fileID: 240633672}
+  _startScene: 1
+  _minLoadingDuration: 3
+  _loadingScreen: {fileID: 1033444957}
+  _progressBarFill: {fileID: 240633672}
 --- !u!4 &1153179646
 Transform:
   m_ObjectHideFlags: 0

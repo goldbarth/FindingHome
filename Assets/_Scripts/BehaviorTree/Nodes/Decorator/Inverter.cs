@@ -20,7 +20,7 @@ namespace BehaviorTree.Nodes.Decorator
                         State = NodeState.Success;
                         return State;
                     case NodeState.Running:
-                        State = NodeState.Failure;
+                        State = NodeState.Running;
                         return State;
                     default:
                         State = NodeState.Failure;

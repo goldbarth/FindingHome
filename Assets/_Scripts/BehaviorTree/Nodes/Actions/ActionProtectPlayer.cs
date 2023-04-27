@@ -4,16 +4,16 @@ namespace BehaviorTree.Nodes.Actions
 {
     public class ActionProtectPlayer : LeafNode
     {
-        private float _speed;
-        private float _stopDistance;
-        private Transform _transform;
-        private Animator _animator;
-        private Rigidbody2D _rb;
+        private readonly Transform _transform;
+        private readonly Animator _animator;
+        private readonly Rigidbody2D _rigid;
+        private readonly float _stopDistance;
+        private readonly float _speed;
         
         public ActionProtectPlayer(float speed, float stopDistance, Transform transform)
         {
             _animator = transform.GetComponentInChildren<Animator>();
-            _rb = transform.GetComponent<Rigidbody2D>();
+            _rigid = transform.GetComponent<Rigidbody2D>();
             _stopDistance = stopDistance;
             _transform = transform;
             _speed = speed;
@@ -22,18 +22,13 @@ namespace BehaviorTree.Nodes.Actions
         public override NodeState Evaluate()
         {
             var player = (Transform)GetData("player");
-            if (player is null)
-            {
-                State = NodeState.Failure;
-                return State;
-            }
             var distance = Vector2.Distance(_transform.position, player.position);
             if (distance > _stopDistance)
             {
-                var direction = ((Vector2)player.position - (Vector2)_rb.transform.position).normalized;
+                var direction = ((Vector2)player.position - (Vector2)_rigid.transform.position).normalized;
                 var step = _speed * Time.deltaTime;
                 _transform.position = Vector2.MoveTowards(_transform.position, player.position, step);
-                _rb.transform.localScale = new Vector3(direction.x > 0 ? 1 : -1, 1, 1);
+                _rigid.transform.localScale = new Vector3(direction.x > 0 ? 1 : -1, 1, 1);
                 _animator.SetBool("IsWalking", true);
             }
             else

@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e729863e45aa404898e200aa5efb9af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 1
-  pauseMenuScene: 3
-  loadSceneMode: 1
+  _dontDestroyOnLoad: 1
+  _pauseMenuScene: 3
+  _loadSceneMode: 1

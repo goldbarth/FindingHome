@@ -117,7 +117,7 @@ MonoBehaviour:
     m_StretchHeight: 1
   ImageScale: {x: 1.03, y: 1}
   ImageOffset: {x: 0, y: 0}
-  ShowWhenSelected: 0
+  ShowWhenSelected: 1
   ShowWhenUnselected: 1
   ShowInGameEditor: 0
   Offset: 0
@@ -276,4 +276,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81102e612d774c81a5e973ed50d739c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoint: {fileID: 6164999026281216654}
+  _spawnPoint: {fileID: 6164999026281216654}

@@ -302,8 +302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3063bf11af573e41966886352de1077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 1
-  disableDataPersistence: 0
-  initializeDataIfNull: 0
-  fileName: Game.sav
-  useEncryption: 0
+  _dontDestroyOnLoad: 1
+  _disableDataPersistence: 1
+  _initializeDataIfNull: 1
+  _fileName: save
+  _useEncryption: 0

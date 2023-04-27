@@ -4,9 +4,9 @@ namespace BehaviorTree.Nodes.Conditions
 {
     public class CheckIfTargetInAttackRange : LeafNode
     {
-        private readonly float _attackRange;
         private readonly Transform _transform;
-        private Animator _animator;
+        private readonly Animator _animator;
+        private readonly float _attackRange;
 
         public CheckIfTargetInAttackRange(Transform transform, float attackRange)
         {

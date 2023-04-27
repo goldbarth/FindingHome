@@ -122,9 +122,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 1
-  _id: 
+  _id: 213d72a8-60c2-4fe0-af7d-99ab31bfb7fb
   _audioSource: {fileID: 0}
-  _visual: {fileID: 0}
+  _visual: {fileID: 4714758069776665545}
 --- !u!95 &6641654417917065929
 Animator:
   serializedVersion: 4

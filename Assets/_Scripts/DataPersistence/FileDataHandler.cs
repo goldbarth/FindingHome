@@ -27,12 +27,12 @@ namespace DataPersistence
     // This class is used to convert, save and load data from a file
     public class FileDataHandler
     {
-        private readonly string _dataPath;
+        private const string EncryptionCode = "Grünes Dreirad ohne Stützräder, aber mit einem großen Korb und Luftballon, der hinten an den Streben befestigt ist.";
+        private const string MenuAudioProfileId = "menu_audio";
+        
         private readonly string _dataFileName;
-        private readonly string _menuAudioProfileId = "menu_audio";
-
+        private readonly string _dataPath;
         // used for XOR encryption
-        private const string ENCRYPTION_CODE = "Grünes Dreirad ohne Stützräder, aber mit einem großen Korb und Luftballon, der hinten an den Streben befestigt ist.";
         private readonly bool _useEncryption = false;
 
         public FileDataHandler(string dataPath, string dataFileName, bool useEncryption)
@@ -159,11 +159,11 @@ namespace DataPersistence
                 if (!getAllProfiles)
                 {
                     // skip the gameplay data /bc menu audio should be loaded
-                    if (skipGameplayData && profileId != _menuAudioProfileId)
+                    if (skipGameplayData && profileId != MenuAudioProfileId)
                         continue;
                 
                     // skip the menu audio profile /bc it should not be loaded to save slots
-                    if (!skipGameplayData && profileId == _menuAudioProfileId) 
+                    if (!skipGameplayData && profileId == MenuAudioProfileId) 
                         continue;
                 }
 
@@ -216,7 +216,7 @@ namespace DataPersistence
         
         public bool ContainsAudioProfile()
         {
-            var fullPath = Path.Combine(_dataPath, _menuAudioProfileId, _dataFileName);
+            var fullPath = Path.Combine(_dataPath, MenuAudioProfileId, _dataFileName);
             return File.Exists(fullPath);
         }
         
@@ -226,7 +226,7 @@ namespace DataPersistence
         {
             var modifiedData = string.Empty;
             for (var i = 0; i < data.Length; i++)
-                modifiedData += (char) (data[i] ^ ENCRYPTION_CODE[i % ENCRYPTION_CODE.Length]);
+                modifiedData += (char) (data[i] ^ EncryptionCode[i % EncryptionCode.Length]);
             
             return modifiedData;
         }

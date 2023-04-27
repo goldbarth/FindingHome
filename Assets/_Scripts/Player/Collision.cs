@@ -7,22 +7,25 @@ namespace Player
     public class Collision : MonoBehaviour
     {
         [Header("LAYERS")] [Space]
-        [SerializeField] private LayerMask groundLayer;
-        [SerializeField] private LayerMask wallLayer;
+        [SerializeField] private LayerMask _groundLayer;
+        [SerializeField] private LayerMask _wallLayer;
+        
         [Space] [Header("PHYSICS MATERIAL")] [Space]
-        [SerializeField] private PhysicsMaterial2D plainMaterial;
-        [SerializeField] private PhysicsMaterial2D stickyMaterial;
+        [SerializeField] private PhysicsMaterial2D _plainMaterial;
+        [SerializeField] private PhysicsMaterial2D _stickyMaterial;
+        
         [Space] [Header("COLLIDER")]
-        [SerializeField] private PolygonCollider2D polygonCollider;
+        [SerializeField] private PolygonCollider2D _polygonCollider;
 
-        private Collider2D _collider;
-        private Bounds Bounds => polygonCollider.bounds;
-
-        public Vector3 _reduceSize = new (0.03f, 0f, 0f); // Overlapbox size x -> groundcheck
+        private readonly Vector3 _reduceSize = new (0.25f, 1.45f, 0f); // Overlapbox size x -> groundcheck
         private readonly Vector2 _offsetX = new (0.01f, 0f); // Overlapbox offset -> wallcheck
-        public Vector2 _offsetY = new (0f, -0.01f); // Overlapbox offset -> groundcheck
-        public Vector2 _offset = new (0.01f, -0.01f); // Overlapbox offset -> wallcheck + groundcheck
-        private float _angle; // Don´t need angles rn, but it can be useful in the future
+        private readonly Vector2 _offsetY = new (0f, -0.745f); // Overlapbox offset -> groundcheck
+        private readonly Vector2 _offset = new (0.01f, -0.35f); // Overlapbox offset -> wallcheck + groundcheck
+        
+        private Collider2D _collider;
+        private float _angle;
+        
+        private Bounds Bounds => _polygonCollider.bounds;
 
         public bool IsGround() { return OnGround(); }
         public bool IsWall() { return OnWall(); }
@@ -53,8 +56,8 @@ namespace Player
         public void FrictionChange(bool isPlain)
         {
             var physicsMat = isPlain 
-                ? plainMaterial 
-                : stickyMaterial;
+                ? _plainMaterial 
+                : _stickyMaterial;
             ApplyPhysicsMaterial(physicsMat);
         }
 
@@ -70,28 +73,28 @@ namespace Player
 
         private bool OnGround()
         {
-            return Physics2D.OverlapBox((Vector2)Bounds.center + _offsetY, Bounds.size - _reduceSize, _angle, groundLayer);
+            return Physics2D.OverlapBox((Vector2)Bounds.center + _offsetY, Bounds.size - _reduceSize, _angle, _groundLayer);
         }
 
         private bool OnWall()
         {
-            return Physics2D.OverlapBox((Vector2)Bounds.center + _offsetX, Bounds.size, _angle, wallLayer) || 
-                   Physics2D.OverlapBox((Vector2)Bounds.center + (-_offsetX), Bounds.size, _angle, wallLayer);
+            return Physics2D.OverlapBox((Vector2)Bounds.center + _offsetX, Bounds.size, _angle, _wallLayer) || 
+                   Physics2D.OverlapBox((Vector2)Bounds.center + (-_offsetX), Bounds.size, _angle, _wallLayer);
         }
 
         private bool OnRightWall()
         {
-            return Physics2D.OverlapBox((Vector2)Bounds.center + _offsetX, Bounds.size, _angle, wallLayer);
+            return Physics2D.OverlapBox((Vector2)Bounds.center + _offsetX, Bounds.size, _angle, _wallLayer);
         }
 
         private bool OnLeftWall()
         {
-            return Physics2D.OverlapBox((Vector2)Bounds.center + (-_offsetX), Bounds.size, _angle, wallLayer);
+            return Physics2D.OverlapBox((Vector2)Bounds.center + (-_offsetX), Bounds.size, _angle, _wallLayer);
         }
     
         private bool NearGround()
         {
-            return Physics2D.OverlapBox((Vector2)Bounds.center + _offset, Bounds.size, _angle, groundLayer);
+            return Physics2D.OverlapBox((Vector2)Bounds.center + _offset, Bounds.size, _angle, _groundLayer);
         }
     
         #endregion

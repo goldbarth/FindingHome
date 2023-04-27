@@ -6,13 +6,13 @@ namespace BehaviorTree.Nodes.Conditions
     public class CheckIfFriendlyNPCHasEaten : LeafNode
     {
         private readonly EatablesCount _eatables;
+        
         private bool _hasEaten = false;
 
         public CheckIfFriendlyNPCHasEaten()
         {
             _eatables = GameObject.FindWithTag("Player").GetComponent<EatablesCount>();
         }
-        
         
         public override NodeState Evaluate()
         {

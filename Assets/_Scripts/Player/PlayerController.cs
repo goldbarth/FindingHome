@@ -21,19 +21,19 @@ namespace Player
         // Features to enable/disable in unity inspector
         [Header("MULTI-JUMP MODE")] [Space]
         [Tooltip("If the Checkbox is checked Multi-Jump is on. And you can jump (x)times when in the air.")]
-        [SerializeField] private bool multiJump;
+        [SerializeField] private bool _multiJump;
 
         [Tooltip("The amount of jumps when in air and Multi-Jump is enabled (2 or 3).")] 
-        [Range(2, 3)] [SerializeField] private int multiJumps;
+        [Range(2, 3)] [SerializeField] private int _multiJumps;
     
         [Space]
     
         [Header("WALL-FEATURES MODES")] [Space]
         [Tooltip("If the Checkbox is checked Wall Jump is on. If it�s unchecked it is not possible to jump off a wall.")]
-        [SerializeField] private bool wallJump = true;
+        [SerializeField] private bool _wallJump = true;
 
         [Tooltip("If the Checkbox is checked Wall Sliding is on. If it�s unchecked it is not possible to slide down a wall.")]
-        [SerializeField] private bool wallSlide = true;
+        [SerializeField] private bool _wallSlide = true;
 
         #endregion
 
@@ -42,90 +42,90 @@ namespace Player
     
         [Header("STATS")] [Space]
         [Tooltip("The movement-speed value to in/decrease the velocity")] 
-        [Range(0f, 10f)] [SerializeField] private float moveSpeed;
-        [Range(0f, 30f)] [SerializeField] private float runSpeed;
+        [Range(0f, 10f)] [SerializeField] private float _moveSpeed = 6.5f;
+        [Range(0f, 30f)] [SerializeField] private float _runSpeed = 10f;
 
         [Tooltip("The force value to to in/decrease the jump-height.")] 
-        [Range(0f, 10f)] [SerializeField] private float jumpForce;
-        [Range(0f, 10f)] [SerializeField] private float wallJumpDivider = 1.5f;
+        [Range(0f, 10f)] [SerializeField] private float _jumpForce = 6.5f;
+        [Range(0f, 10f)] [SerializeField] private float _wallJumpDivider = 1.5f;
         
         [Tooltip("The force value to to in/decrease the dash-force.")] 
-        [Range(0f, 40f)] [SerializeField] private float dashForce = 14f;
-        [Range(0f, 3f)] [SerializeField] private float dashDuration = .5f;
-        [Range(0f, 3f)] [SerializeField] private float dashCooldown = .5f;
+        [Range(0f, 40f)] [SerializeField] private float _dashForce = 30f;
+        [Range(0f, 3f)] [SerializeField] private float _dashDuration = .2f;
+        [Range(0f, 3f)] [SerializeField] private float _dashCooldown = 2f;
     
         [Space]
     
         [Tooltip("The possible amount of time in air when jumping.")] 
-        [Range(0f, 0.5f)] [SerializeField] private float jumpTime;
+        [Range(0f, 0.5f)] [SerializeField] private float _jumpTime = .1f;
 
         [Tooltip("The possible amount of time to jump when leaving the platform.")] 
-        [Range(0f, 0.4f)] [SerializeField] private float coyoteTime;
+        [Range(0f, 0.4f)] [SerializeField] private float _coyoteTime = .2f;
     
         [Space]
     
         [Tooltip("The lerp value to in-/decrease the 'jump-feeling' off a wall.")] 
-        [Range(0f, 10f)] [SerializeField] private float wallJumpLerp;
+        [Range(0f, 10f)] [SerializeField] private float _wallJumpLerp = 3.5f;
 
         [Tooltip("The slide speed value to in-/decrease the slide velocity at a wall.")] 
-        [Range(0f, 4f)] [SerializeField] private float wallSlideSpeed;
-        [Range(0f, 4f)] [SerializeField] private float wallClimbSpeed = 4f;
+        [Range(0f, 4f)] [SerializeField] private float _wallSlideSpeed = 1.85f;
+        [Range(0f, 4f)] [SerializeField] private float _wallClimbSpeed = 2f;
     
         [Space]
     
         [Tooltip("The gravity multiplier when the char is falling.")]
-        [Range(0f, 10f)] [SerializeField] private float fallMultiplier = 3.5f;
+        [Range(0f, 10f)] [SerializeField] private float _fallMultiplier = 3.5f;
 
         [Tooltip("The gravity multiplier when the char is jumping till highest point in air.")] 
-        [Range(0f, 10f)] [SerializeField] private float lowJumpMultiplier = 2f;
+        [Range(0f, 10f)] [SerializeField] private float _lowJumpMultiplier = 1.7f;
 
         #endregion
 
         #region Fields
 
         // Constants
-        private const float JUMP_BUFFER_TIME = 0.2f;
-        private const float SPEED_THROTTLE = 0.8f;
+        private const float JumpBufferTime = 0.2f;
+        private const float SpeedThrottle = 0.8f;
         
         // Components and classes
+        private CinemachineShake _cinemachine;
+        private Animator _animator;
         private Controls _controls;
         private Collision _coll;
-        private Animator _animator;
-        private CinemachineShake _cinemachine;
 
         // Variables
         private Vector2[] _dashDirections;
-        private Vector2 _dashDirection;
         private float _jumpBufferCounter;
         private float _coyoteTimeCounter;
         private float _jumpLengthCounter;
-        private float _runSpeedValue;
+        private Vector2 _dashDirection;
         private float _velocityChange;
+        private float _runSpeedValue;
 
         // Bools
-        private bool _wallJumped;
-        private bool _canDash = true;
-        private bool _facingRight = true;
-        private bool _dashStarted;
-        private bool _isGrabbing;
-        private bool _canJump;
-        private bool _canMultiJump;
         private bool  _dashFeatureEnabled = false;
+        private bool _facingRight = true;
+        private bool _canDash = true;
+        private bool _canMultiJump;
+        private bool _dashStarted;
+        private bool _wallJumped;
+        private bool _isGrabbing;
 
         #endregion
         
         #region Properties
         
-        public Rigidbody2D Rigid { get; private set; }
         public InputAction JumpAction { get; private set; }
+        public Rigidbody2D Rigid { get; private set; }
         public int JumpCounter { get; private set; }
-        public float InputX { get; private set; }
         public float InputY { get; private set; }
+        public float InputX { get; private set; }
         public bool IsRunning { get; private set; }
-        public bool Wallsliding { get; set; }
         public bool IsDashing { get; private set; }
-        private bool IsInteracting { get; set; }
-        public bool CanMultiJump => multiJump && JumpCounter > 0;
+        public bool CanJump { get; private set; }
+        public bool IsInteracting { get; set; }
+        public bool Wallsliding { get; set; }
+        public bool CanMultiJump => _multiJump && JumpCounter > 0;
 
         #endregion
 
@@ -159,11 +159,11 @@ namespace Player
 
         private void Update()
         {
-            _coll.FrictionChange(wallSlide);
+            _coll.FrictionChange(_wallSlide);
             ResetterAndCounter();
             
             if (CharMemoryManager.Instance.IsInDialogue)
-                multiJump = true;
+                _multiJump = true;
         }
 
         private void FixedUpdate()
@@ -248,19 +248,19 @@ namespace Player
         /// </summary>
         private void Move()
         {
-            _runSpeedValue = runSpeed;
-            _velocityChange = IsRunning ? _runSpeedValue : moveSpeed; // Set speed value
+            _runSpeedValue = _runSpeed;
+            _velocityChange = IsRunning ? _runSpeedValue : _moveSpeed; // Set speed value
             
             if (!_wallJumped)
             {
-                if (!_coll.IsGround()) _runSpeedValue *= SPEED_THROTTLE; // Throttle speed when in air
-                else _runSpeedValue = runSpeed; // Reset speed when on ground
+                if (!_coll.IsGround()) _runSpeedValue *= SpeedThrottle; // Throttle speed when in air
+                else _runSpeedValue = _runSpeed; // Reset speed when on ground
                 
                 Rigid.velocity = new Vector2(InputX * _velocityChange, Rigid.velocity.y);
             }
             else // In case of a wall jump the velocity is "lerped" to get a (immersive) feeling of less control.
-                Rigid.velocity = Vector2.Lerp(Rigid.velocity, new Vector2(InputX * moveSpeed, Rigid.velocity.y)
-                    ,wallJumpLerp * Time.deltaTime);
+                Rigid.velocity = Vector2.Lerp(Rigid.velocity, new Vector2(InputX * _moveSpeed, Rigid.velocity.y)
+                    ,_wallJumpLerp * Time.deltaTime);
         }
         
         private void JumpHandler(InputAction.CallbackContext context)
@@ -280,8 +280,8 @@ namespace Player
         private void Jump(Vector2 dir)
         {
             Rigid.velocity = new Vector2(Rigid.velocity.x, 0);
-            Rigid.velocity += dir * jumpForce;
-            _canJump = false;
+            Rigid.velocity += dir * _jumpForce;
+            CanJump = false;
         }
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace Player
         private void MultiJump()
         {
             if (DialogueManager.Instance.OnDialogueActive()) return;
-            if (!multiJump || JumpCounter <= 0) return;
+            if (!_multiJump || JumpCounter <= 0) return;
             Jump();
             JumpCounter--;
         }
@@ -301,10 +301,10 @@ namespace Player
         /// </summary>
         private void WallJump()
         { 
-            if (!JumpAction.IsPressed() || !wallJump || !_coll.IsWall() || _coll.IsGround()) return; 
+            if (!JumpAction.IsPressed() || !_wallJump || !_coll.IsWall() || _coll.IsGround()) return; 
             var wallDirection = _coll.IsRightWall() ? Vector2.left : Vector2.right;
-            Jump(Vector2.up / wallJumpDivider + wallDirection / wallJumpDivider);
-            Jump(Vector2.up / wallJumpDivider + wallDirection / wallJumpDivider);
+            Jump(Vector2.up / _wallJumpDivider + wallDirection / _wallJumpDivider);
+            Jump(Vector2.up / _wallJumpDivider + wallDirection / _wallJumpDivider);
             _wallJumped = true;
         }
 
@@ -315,7 +315,7 @@ namespace Player
         private void LongJump()
         {
             if (!JumpAction.IsPressed()) return;
-            if (_jumpLengthCounter > 0f && _coyoteTimeCounter > 0f && _jumpBufferCounter > 0f && _canJump) 
+            if (_jumpLengthCounter > 0f && _coyoteTimeCounter > 0f && _jumpBufferCounter > 0f && CanJump) 
             {
                 Jump(); 
                 _jumpBufferCounter = 0f;
@@ -335,17 +335,17 @@ namespace Player
 
             if (IsDashing)
             {
-                Rigid.velocity = _dashDirection.normalized * dashForce;
+                Rigid.velocity = _dashDirection.normalized * _dashForce;
                 CinemachineShake.Instance.CameraShake();
             }
         }
         
         private IEnumerator StopDashing()
         {
-            yield return new WaitForSeconds(dashDuration);
+            yield return new WaitForSeconds(_dashDuration);
             Rigid.velocity = Vector2.zero;
             IsDashing = false;
-            yield return new WaitForSeconds(dashCooldown);
+            yield return new WaitForSeconds(_dashCooldown);
             _canDash = true;
         }
 
@@ -371,7 +371,7 @@ namespace Player
         {
             if (InputX != 0 && _coll.IsWall() && _isGrabbing)
             {
-                Rigid.velocity = new Vector2(Rigid.velocity.x, InputY * wallClimbSpeed);
+                Rigid.velocity = new Vector2(Rigid.velocity.x, InputY * _wallClimbSpeed);
             }
         }
     
@@ -387,11 +387,11 @@ namespace Player
             if (Wallsliding && _coll.IsGround() && _coll.IsWall()) return;
             if (Rigid.velocity.y < 0f)
             {
-                Rigid.velocity += (fallMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up; // Fall faster
+                Rigid.velocity += (_fallMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up; // Fall faster
             }
             else if (Rigid.velocity.y > 0f && !JumpAction.IsPressed())
             {
-                Rigid.velocity += (lowJumpMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up; // Jump higher
+                Rigid.velocity += (_lowJumpMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up; // Jump higher
             }
         }
     
@@ -401,9 +401,9 @@ namespace Player
         private void WallSlide()
         {
             //const float maxClampValue = 0;
-            if (InputX != 0 && wallSlide && _coll.IsWall() && !_coll.IsGround())
-            {
-                //_rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, -wallSlideSpeed, float.MaxValue));
+            if (InputX != 0 && _wallSlide && _coll.IsWall() && !_coll.IsGround())
+            { 
+                Rigid.velocity = new Vector2(Rigid.velocity.x, Mathf.Clamp(Rigid.velocity.y, -_wallSlideSpeed, float.MaxValue));
                 Wallsliding = true;
             }
             else
@@ -427,12 +427,15 @@ namespace Player
             if (Rigid.velocity.y < 0 && _coll.IsNearGround() && !_coll.IsGround())
             {
                 _animator.SetBool("IsFalling", false);
-                _animator.SetBool("IsLanding", true);
+                _animator.SetTrigger("IsLandingTrigger");
+                //_animator.SetBool("IsLanding", true);
             }
 
-            if (_coll.IsGround())
+            if (_coll.IsGround() && !CanJump)
             {
                 _animator.SetBool("IsFalling", false);
+                _animator.SetBool("IsLanding", false);
+                _animator.SetBool("IsJumping", false);
             }
         }
 
@@ -466,19 +469,19 @@ namespace Player
             if (!JumpAction.IsPressed() && _coll.IsGround())
             {
                 _jumpBufferCounter -= Time.deltaTime; 
-                _coyoteTimeCounter = coyoteTime;
-                _jumpLengthCounter = jumpTime; 
-                JumpCounter = multiJumps;
+                _coyoteTimeCounter = _coyoteTime;
+                _jumpLengthCounter = _jumpTime; 
+                JumpCounter = _multiJumps;
             
                 Wallsliding = false;
                 _wallJumped = false;
-                _canJump = true;
+                CanJump = true;
             }
             else 
             {
                 // If the player is not on ground the timer decreases
                 _coyoteTimeCounter -= Time.deltaTime;
-                _jumpBufferCounter = JUMP_BUFFER_TIME;
+                _jumpBufferCounter = JumpBufferTime;
             }
         }
 

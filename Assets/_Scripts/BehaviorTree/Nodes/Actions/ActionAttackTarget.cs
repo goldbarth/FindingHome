@@ -5,10 +5,11 @@ namespace BehaviorTree.Nodes.Actions
 {
     public class ActionAttackTarget : LeafNode
     {
+        private const float AttackTime = .8f;
+        
         private readonly Transform _transform;
         private readonly Animator _animator;
         private readonly Rigidbody2D _rb;
-        private readonly float _attackTime = 1f;
         private readonly float _speed;
         
         private Transform _lastTarget;
@@ -16,7 +17,7 @@ namespace BehaviorTree.Nodes.Actions
         private Summoner _summoner;
         private float _attackCounter;
 
-        public bool IsAttacking { get; private set; }
+        public static bool IsInAttackPhase { get; private set; }
 
         public ActionAttackTarget() : base() { }
         public ActionAttackTarget(Transform transform, float speed)
@@ -46,20 +47,22 @@ namespace BehaviorTree.Nodes.Actions
                 _transform.position = Vector2.MoveTowards(_transform.position, target.position, step);
                 _rb.transform.localScale = new Vector3(direction.x > 0 ? 1 : -1, 1, 1);
 
-                if (_attackCounter >= _attackTime)
+                if (_attackCounter >= AttackTime)
                 {
-                    IsAttacking = true;
                     Debug.Log("Attacking target");
+                    IsInAttackPhase = true;
                     var enemyIsDead = _summoner.TakeHit();
                     if (enemyIsDead)
                     {
                         ClearData("target");
+                        IsInAttackPhase = false;
                         _animator.SetBool("IsAttacking", false);
+                        
+                        State = NodeState.Failure;
+                        return State;
                     }
-                    else
-                    {
-                        _attackCounter = 0f;
-                    }
+
+                    _attackCounter = 0f;
                 }
                 else
                 {

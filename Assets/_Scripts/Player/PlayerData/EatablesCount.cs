@@ -9,10 +9,10 @@ namespace Player.PlayerData
 {
     public class EatablesCount : MonoBehaviour, IDataPersistence
     {
-        private int _eatableCount;
         private int _previousEatableCount;
         private bool _hasEatableDecreased = false;
         private bool _isDataLoaded = false;
+        private int _eatableCount;
 
         private void OnEnable()
         {

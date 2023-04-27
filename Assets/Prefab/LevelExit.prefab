@@ -63,7 +63,7 @@ PolygonCollider2D:
       - {x: -0.33577427, y: 0.4995526}
       - {x: -0.50071853, y: -0.51127446}
       - {x: 0.4994588, y: -0.5002701}
-      - {x: 0.49999365, y: 0.5001198}
+      - {x: 0.33998564, y: 0.5001275}
 --- !u!1 &2407159266244937635
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,8 +211,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 153e3dfdeb774f32b3be6d14c4e9a87c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exitPoint: {fileID: 2407159265967065954}
-  timeToWait: 2
+  _exitPoint: {fileID: 2407159265967065954}
+  _audioSource: {fileID: 0}
+  _timeToWait: 2
 --- !u!1001 &7235427648092490837
 PrefabInstance:
   m_ObjectHideFlags: 0
