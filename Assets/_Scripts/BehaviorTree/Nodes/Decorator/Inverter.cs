@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BehaviorTree.Core;
 
 namespace BehaviorTree.Nodes.Decorator
 {

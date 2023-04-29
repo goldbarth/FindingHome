@@ -1,22 +1,24 @@
-﻿using Player.PlayerData;
+﻿using BehaviorTree.Core;
+using Player;
+using Player.PlayerData;
 using UnityEngine;
 
 namespace BehaviorTree.Nodes.Conditions
 {
-    public class CheckIfFriendlyNPCHasEaten : LeafNode
+    public class CheckIfFriendlyNPCHasEaten : ConditionNode
     {
-        private readonly EatablesCount _eatables;
+        private readonly IEatables _eatables;
         
         private bool _hasEaten = false;
 
-        public CheckIfFriendlyNPCHasEaten()
+        public CheckIfFriendlyNPCHasEaten(IEatables eatables)
         {
-            _eatables = GameObject.FindWithTag("Player").GetComponent<EatablesCount>();
+            _eatables = eatables;
         }
-        
+
         public override NodeState Evaluate()
         {
-            if (_eatables.HasEatableDecreased() && !_hasEaten)
+            if (IsFull() && !_hasEaten)
             {
                 Debug.Log("Target has eaten");
                 _hasEaten = true;
@@ -25,7 +27,6 @@ namespace BehaviorTree.Nodes.Conditions
             }
             if(_hasEaten)
             {
-                // TODO: Check if friendly follower died, if so, set state to failure.
                 Debug.Log("Target is still full");
                 State = NodeState.Success;
                 return State;
@@ -33,6 +34,11 @@ namespace BehaviorTree.Nodes.Conditions
 
             State = NodeState.Failure;
             return State;
+        }
+        
+        private bool IsFull()
+        {
+            return _eatables.HasEatableDecreased();
         }
     }
 }

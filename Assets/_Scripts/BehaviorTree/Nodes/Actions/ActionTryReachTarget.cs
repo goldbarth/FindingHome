@@ -1,35 +1,39 @@
-﻿using UnityEngine;
+﻿using AddIns;
+using BehaviorTree.Blackboard;
+using BehaviorTree.Core;
+using UnityEngine;
 
 namespace BehaviorTree.Nodes.Actions
 {
-    public class ActionTryReachTarget : LeafNode
+    public class ActionTryReachTarget : ActionNode
     {
+        private readonly IBlackboard _blackboard;
         private readonly Animator _animator;
-        private readonly Rigidbody2D _rb;
+        private readonly Rigidbody2D _rigid;
         private readonly float _jumpForce;
         private readonly float _interval;
 
         private float _timer;
         
-        public ActionTryReachTarget(float jumpForce, float interval, Component component)
+        public ActionTryReachTarget(float jumpForce, float interval, Component component, IBlackboard blackboard)
         {
             _animator = component.GetComponentInChildren<Animator>();
-            _rb = component.GetComponent<Rigidbody2D>();
+            _rigid = component.GetComponent<Rigidbody2D>();
+            _blackboard = blackboard;
             _jumpForce = jumpForce;
             _interval = interval;
         }
 
         public override NodeState Evaluate()
         {
-            var target = (Transform)GetData("target");
-            var targetDir = ((Vector2)target.position - (Vector2)_rb.transform.position).normalized;
-
+            var target = _blackboard.GetData<Transform>("target");
+            var direction = Vec2.Direction(_rigid.transform.position, target.position);
             _timer += Time.deltaTime;
             if (_timer >= _interval)
             {
                 _animator.SetBool("IsAttacking", true);
-                _rb.velocity = new Vector2(_rb.velocity.x, 0);
-                _rb.velocity += targetDir * _jumpForce;
+                _rigid.velocity = new Vector2(_rigid.velocity.x, 0);
+                _rigid.velocity += direction * _jumpForce;
                 _timer = 0;
 
                 State = NodeState.Running;

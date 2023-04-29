@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
-namespace BehaviorTree
+namespace BehaviorTree.Core
 {
+    // Sources: Christoph Graf´s KI Basics, https://github.com/MinaPecheux/UnityTutorials-BehaviourTrees
+    // and https://www.behaviortree.dev/docs/intro
     public abstract class Tree : MonoBehaviour
     {
         private Node _root = null;
@@ -13,7 +15,6 @@ namespace BehaviorTree
 
         private void Update()
         {
-            // ReSharper disable once Unity.NoNullPropagation
             _root?.Evaluate();
         }
 

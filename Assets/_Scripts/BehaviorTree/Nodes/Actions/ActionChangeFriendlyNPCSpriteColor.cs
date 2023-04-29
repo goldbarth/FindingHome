@@ -1,9 +1,10 @@
-﻿using UnityEditor.Animations;
+﻿using BehaviorTree.Core;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace BehaviorTree.Nodes.Actions
 {
-    public class ActionChangeFriendlyNPCSpriteColor : LeafNode
+    public class ActionChangeFriendlyNPCSpriteColor : ActionNode
     {
         private readonly AnimatorController _newController;
         private readonly Animator _animator;

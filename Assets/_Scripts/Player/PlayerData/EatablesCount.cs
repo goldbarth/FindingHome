@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Player.PlayerData
 {
-    public class EatablesCount : MonoBehaviour, IDataPersistence
+    public class EatablesCount : MonoBehaviour, IDataPersistence, IEatables
     {
         private int _previousEatableCount;
         private bool _hasEatableDecreased = false;
@@ -47,6 +47,11 @@ namespace Player.PlayerData
             var result = _hasEatableDecreased;
             _hasEatableDecreased = false;
             return result;
+        }
+        
+        public bool HasEatable()
+        {
+            return _eatableCount > 0;
         }
         
         public int GetCount()

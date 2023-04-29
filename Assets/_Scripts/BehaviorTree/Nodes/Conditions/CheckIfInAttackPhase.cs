@@ -1,17 +1,16 @@
-﻿using BehaviorTree.Nodes.Actions;
+﻿using BehaviorTree.Core;
+using BehaviorTree.Nodes.Actions;
 using UnityEngine;
 
 namespace BehaviorTree.Nodes.Conditions
 {
-    public class CheckIfInAttackPhase : LeafNode
+    public class CheckIfInAttackPhase : ConditionNode
     {
-        public CheckIfInAttackPhase() : base()
-        { }
+        public CheckIfInAttackPhase() : base() { }
 
         public override NodeState Evaluate()
         {
-
-            if (ActionAttackTarget.IsInAttackPhase)
+            if (CheckIfTargetInAttackRange.IsInAttackRange)
             {
                 Debug.Log("In attack phase");
                 State = NodeState.Success;

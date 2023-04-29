@@ -1,51 +1,61 @@
-﻿using UnityEngine;
+﻿using AddIns;
+using BehaviorTree.Blackboard;
+using BehaviorTree.Core;
+using UnityEngine;
 
 namespace BehaviorTree.Nodes.Actions
 {
-    public class ActionFollowAndBackupToPlayer : LeafNode
+    public class ActionFollowAndBackupToPlayer : ActionNode
     {
         private const float BackupDistance = 0.5f;
         
+        private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
         private readonly Rigidbody2D _rigid;
         private readonly Animator _animator;
         private readonly float _stopDistance;
         private readonly float _speed;
 
-        public ActionFollowAndBackupToPlayer(float speed, float stopDistance, Transform transform)
+        public ActionFollowAndBackupToPlayer(float speed, float stopDistance, Transform transform, IBlackboard blackboard)
         {
             _animator = transform.GetComponentInChildren<Animator>();
             _rigid = transform.GetComponent<Rigidbody2D>();
             _stopDistance = stopDistance;
+            _blackboard = blackboard;
             _transform = transform;
             _speed = speed;
         }
         
         public override NodeState Evaluate()
         {
-            var player = (Transform)GetData("player");
-            var distance = Vector2.Distance(_transform.position, player.position);
+            if (ActionAttackTarget.IsInAttackPhase)
+            {
+                State = NodeState.Failure;
+                return State;
+            }
+            
+            var player = _blackboard.GetData<Transform>("player");
+            var position = _transform.position;
+            var distance = Vector2.Distance(position, player.position);
+            var direction = Vec2.Direction(position, player.position);
+            var reverseDirection = Vec2.Direction(position, position);
+            var backup = reverseDirection * BackupDistance;
+            var step = _speed * Time.deltaTime;
             if (distance > _stopDistance)
             {
-                var direction = ((Vector2)player.position - (Vector2)_rigid.transform.position).normalized;
-                var step = _speed * Time.deltaTime;
-                _transform.position = Vector2.MoveTowards(_transform.position, player.position, step);
-                _rigid.transform.localScale = new Vector3(direction.x > 0 ? 1 : -1, 1, 1);
                 _animator.SetBool("IsWalking", true);
-                
+                Vec2.MoveTo(_transform, player, step);
+                Vec2.LookAt(_rigid, direction);
+
                 State = NodeState.Success;
                 return State;
             }
             if (distance < _stopDistance - BackupDistance)
             {
-                var reverseDirection = ((Vector2)_rigid.transform.position - (Vector2)player.position).normalized;
-                var backup = reverseDirection * BackupDistance;
-                var step = _speed * Time.deltaTime;
-                _transform.position = MathL.MoveAway(_transform.position, backup, step);
-                //_transform.position = Vector2.MoveTowards(_transform.position, _transform.position + (Vector3)reverseDirection * _backupDistance, step);
-                _rigid.transform.localScale = new Vector3(reverseDirection.x > 0 ? 1 : -1, 1, 1);
                 _animator.SetBool("IsWalking", true);
-                
+                Vec2.MoveAway(_transform, position, backup, step);
+                Vec2.LookAt(_rigid, reverseDirection);
+
                 State = NodeState.Success;
                 return State;
             }

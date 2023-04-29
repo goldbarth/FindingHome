@@ -1,67 +1,59 @@
-﻿using System.Collections.Generic;
-using BehaviorTree.Nodes.Actions;
-using BehaviorTree.Nodes.Composite;
+﻿using Tree = BehaviorTree.Core.Tree;
 using BehaviorTree.Nodes.Conditions;
+using BehaviorTree.Nodes.Composite;
 using BehaviorTree.Nodes.Decorator;
-using UnityEditor.Animations;
+using BehaviorTree.Nodes.Actions;
+using System.Collections.Generic;
+using BehaviorTree.Blackboard;
+using BehaviorTree.Core;
+using Player.PlayerData;
 using UnityEngine;
+using Player;
 
 namespace BehaviorTree.BehaviorTrees
 {
     public class SpitterBehaviorTree : Tree
     {
-        //TODO: testing purpose. entities later.
-        [SerializeField] private LayerMask _targetLayer;
-        [SerializeField] private LayerMask _playerLayer;
-        [SerializeField] private AnimatorController _friendlyAnimController;
-        [SerializeField] private string _playerTag = "player";
-        [SerializeField] private string _targetTag = "target";
-        [SerializeField] private float _detectionRadiusEnemy = 5f;
-        [SerializeField] private float _detectionRadiusPlayer = 7f;
-        [SerializeField] private float _attackRadius = 2f;
-        [SerializeField] private float _stopDistancePlayer = 3f;
-        [SerializeField] private float _stopDistancePlayerProtect = 1.8f;
-        [SerializeField] private float _speedGoToPlayer = 2.5f;
-        [SerializeField] private float _speedPlayerFollow = 6.8f;
-        [SerializeField] private float _speedTargetFollow = 5f;
-        
+        [SerializeField] private Entity.Entity _entity;
         protected override Node CreateTree()
         {
-            //const float jumpInterval = 1.2f;
+            var eatables = FindObjectOfType<PlayerController>().GetComponent<EatablesCount>();
+            var blackboard = new BtBlackboard();
             var trans = transform;
+            
             var root = new Selector(new List<Node>
                 {
                     new Sequence(new List<Node>
                         {
-                            new CheckIfFriendlyNPCHasEaten(),
+                            new CheckIfFriendlyNPCHasEaten(eatables),
                             new Inverter(new List<Node>
                             {
                                 new Sequence(new List<Node>
                                 {
-                                    new CheckForObjectInFOVRange(_targetTag, _detectionRadiusEnemy, _targetLayer, trans),
-                                    new ActionGoToTarget(_speedTargetFollow, .4f, trans),
-                                    new CheckIfTargetInAttackRange(trans, _attackRadius),
-                                    new ActionAttackTarget(trans, _speedTargetFollow)
+                                    new CheckForObjectInFOVRange(_entity._targetTag, _entity._detectionRadiusEnemy, _entity._targetLayer, trans, blackboard),
+                                    new ActionGoToTarget(_entity._speedTargetFollow, .4f, trans, blackboard),
+                                    new CheckIfTargetInAttackRange(trans, _entity._attackRadius, blackboard),
+                                    new ActionAttackTarget(trans, _entity._speedTargetFollow, blackboard)
                                 })
                             }),
                             new Inverter(new List<Node>
                             {
                                 new CheckIfInAttackPhase()
                             }),
-                            new CheckForObjectInFOVRange(_playerTag, _detectionRadiusPlayer, _playerLayer, trans),
-                            new ActionProtectPlayer(_speedPlayerFollow, _stopDistancePlayerProtect, trans)
+                            new CheckForObjectInFOVRange(_entity._playerTag, _entity._detectionRadiusPlayer, _entity._playerLayer, trans, blackboard),
+                            new ActionProtectPlayer(_entity._speedPlayerFollow, _entity._stopDistancePlayerProtect, trans, blackboard)
                         }
                     ),
                     new Sequence(new List<Node>
                     {
                         new Inverter(new List<Node>
                         {
-                            new CheckIfFriendlyNPCHasEaten()
+                            new CheckIfFriendlyNPCHasEaten(eatables)
                         }),
-                        new CheckForObjectInFOVRange(_playerTag, _detectionRadiusPlayer, _playerLayer, trans),
-                        new ActionFollowAndBackupToPlayer(_speedGoToPlayer, _stopDistancePlayer, trans),
-                        new CheckIfPlayerHasEatable(),
-                        new ActionConsumeEatable(5.5f, trans),
+                        new CheckForObjectInFOVRange(_entity._playerTag, _entity._detectionRadiusPlayer, _entity._playerLayer, trans, blackboard),
+                        new ActionFollowAndBackupToPlayer(_entity._speedGoToPlayer, _entity._stopDistancePlayer, trans, blackboard),
+                        new CheckIfPlayerHasEatable(eatables),
+                        new ActionConsumeEatable(5.5f, trans, blackboard),
                         //new ActionChangeFriendlyNPCSpriteColor(trans, _friendlyAnimController)
                     })
                 }
@@ -73,11 +65,11 @@ namespace BehaviorTree.BehaviorTrees
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, _detectionRadiusEnemy);
+            Gizmos.DrawWireSphere(transform.position, _entity._detectionRadiusEnemy);
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, _detectionRadiusPlayer);
+            Gizmos.DrawWireSphere(transform.position, _entity._detectionRadiusPlayer);
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(transform.position, _attackRadius);
+            Gizmos.DrawWireSphere(transform.position, _entity._attackRadius);
         }
     }
 }

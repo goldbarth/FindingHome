@@ -1,15 +1,19 @@
-﻿using Enemies;
+﻿using AddIns;
+using BehaviorTree.Blackboard;
+using BehaviorTree.Core;
+using Enemies;
 using UnityEngine;
 
 namespace BehaviorTree.Nodes.Actions
 {
-    public class ActionAttackTarget : LeafNode
+    public class ActionAttackTarget : ActionNode
     {
         private const float AttackTime = .8f;
         
+        private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
+        private readonly Rigidbody2D _rigid;
         private readonly Animator _animator;
-        private readonly Rigidbody2D _rb;
         private readonly float _speed;
         
         private Transform _lastTarget;
@@ -20,19 +24,27 @@ namespace BehaviorTree.Nodes.Actions
         public static bool IsInAttackPhase { get; private set; }
 
         public ActionAttackTarget() : base() { }
-        public ActionAttackTarget(Transform transform, float speed)
+        public ActionAttackTarget(Transform transform, float speed, IBlackboard blackboard) : base()
         {
-            _speed = speed;
-            _transform = transform;
-            _rb = transform.GetComponent<Rigidbody2D>();
             _animator = transform.GetComponentInChildren<Animator>();
+            _rigid = transform.GetComponent<Rigidbody2D>();
+            _blackboard = blackboard;
+            _transform = transform;
+            _speed = speed;
         }
 
         public override NodeState Evaluate()
         {
+            Debug.Log("Checking if in attack phase: " + IsInAttackPhase);
             try
             {
-                var target = (Transform)GetData("target");
+                if(!_blackboard.ContainsKey("target"))
+                {
+                    State = NodeState.Failure;
+                    return State;
+                }
+                
+                var target = _blackboard.GetData<Transform>("target");
                 
                 // This is to prevent the enemy from switching targets mid-attack
                 _lastTarget = target == _target ? _lastTarget : _target;
@@ -41,23 +53,20 @@ namespace BehaviorTree.Nodes.Actions
                 // Set the target component if it isn´t already set
                 _summoner ??= _target.GetComponent<Summoner>();
                 
-                var direction =((Vector2)target.position - (Vector2)_rb.transform.position).normalized;
+                var direction = Vec2.Direction(_transform.position, target.position);
                 var step = _speed * Time.deltaTime;
-                
-                _transform.position = Vector2.MoveTowards(_transform.position, target.position, step);
-                _rb.transform.localScale = new Vector3(direction.x > 0 ? 1 : -1, 1, 1);
+                Vec2.MoveTo(_transform, target, step);
+                Vec2.LookAt(_rigid, direction);
 
                 if (_attackCounter >= AttackTime)
                 {
                     Debug.Log("Attacking target");
-                    IsInAttackPhase = true;
                     var enemyIsDead = _summoner.TakeHit();
                     if (enemyIsDead)
                     {
-                        ClearData("target");
-                        IsInAttackPhase = false;
+                        _blackboard.ClearData("target");
                         _animator.SetBool("IsAttacking", false);
-                        
+
                         State = NodeState.Failure;
                         return State;
                     }

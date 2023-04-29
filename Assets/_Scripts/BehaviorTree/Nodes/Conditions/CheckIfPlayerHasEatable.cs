@@ -1,16 +1,21 @@
-﻿using Player.PlayerData;
+﻿using BehaviorTree.Core;
+using Player;
+using Player.PlayerData;
 using UnityEngine;
 
 namespace BehaviorTree.Nodes.Conditions
 {
-    public class CheckIfPlayerHasEatable : LeafNode
+    public class CheckIfPlayerHasEatable : ConditionNode
     {
-        private readonly EatablesCount _eatables;
+        private readonly IEatables _eatables;
         
-        public CheckIfPlayerHasEatable()
+        public CheckIfPlayerHasEatable(IEatables eatables)
         {
-            _eatables = GameObject.FindWithTag("Player").GetComponent<EatablesCount>();
+            _eatables = eatables;
         }
+        
+        
+        
         
         public override NodeState Evaluate()
         {

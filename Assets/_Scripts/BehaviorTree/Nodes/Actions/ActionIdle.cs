@@ -1,14 +1,15 @@
-﻿using UnityEngine;
+﻿using BehaviorTree.Core;
+using UnityEngine;
 
 namespace BehaviorTree.Nodes.Actions
 {
-    public class ActionIdle : LeafNode
+    public class ActionIdle : ActionNode
     {
         private Animator _animator;
         
-        public ActionIdle(Transform transform)
+        public ActionIdle(Component component)
         {
-            _animator = transform.GetComponentInChildren<Animator>();
+            _animator = component.GetComponentInChildren<Animator>();
         }
 
         public override NodeState Evaluate()

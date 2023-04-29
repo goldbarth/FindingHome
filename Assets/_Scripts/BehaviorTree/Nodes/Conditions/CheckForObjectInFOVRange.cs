@@ -1,33 +1,36 @@
-﻿using UnityEngine;
+﻿using BehaviorTree.Blackboard;
+using BehaviorTree.Core;
+using UnityEngine;
 
 namespace BehaviorTree.Nodes.Conditions
 {
-    public class CheckForObjectInFOVRange : LeafNode
+    public class CheckForObjectInFOVRange : ConditionNode
     {
-        //TODO: Test purpose. Entity should be passed in from the tree.
+        private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
         private readonly LayerMask _layerMask;
         private readonly float _detectionRadius;
-        private readonly string _targetKey;
+        private readonly string _key;
 
-        public CheckForObjectInFOVRange(string key, float radius, LayerMask layerMask, Transform transform)
+        public CheckForObjectInFOVRange(string key, float radius, LayerMask layerMask, Transform transform, IBlackboard blackboard)
         {
             _detectionRadius = radius;
+            _blackboard = blackboard;
             _transform = transform;
             _layerMask = layerMask;
-            _targetKey = key;
+            _key = key;
         }
 
         public override NodeState Evaluate()
         {
-            var obj = GetData(_targetKey);
-            if (obj == null)
+            var obj = _blackboard.GetData<object>(_key);
+            if (obj is null)
             {
                 var colliders = Physics2D.OverlapCircleAll(_transform.position, _detectionRadius, _layerMask);
 
                 if (colliders.Length > 0)
                 {
-                    Parent.SetData(_targetKey, colliders[0].transform);
+                    _blackboard.SetData(_key, colliders[0].transform);
                     State = NodeState.Success;
                     return State;
                 }
@@ -40,7 +43,7 @@ namespace BehaviorTree.Nodes.Conditions
                 var colliders = Physics2D.OverlapCircleAll(_transform.position, _detectionRadius, _layerMask);
                 if (colliders.Length == 0)
                 {
-                    Parent.ClearData(_targetKey);
+                    _blackboard.ClearData(_key);
                     State = NodeState.Failure;
                     return State;
                 }
