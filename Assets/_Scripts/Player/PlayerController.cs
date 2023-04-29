@@ -1,9 +1,9 @@
 using UnityEngine.InputSystem;
 using System.Collections;
 using AnimationHandler;
-using Dialogue;
 using static Controls;
 using UnityEngine;
+using Dialogue;
 
 //-------------------------------------------------------------------------------------------------------------------------
 // Originally, this task comes from SAE Diploma (Games Programming) and is now being further developed.
@@ -435,7 +435,7 @@ namespace Player
             {
                 _animator.SetBool("IsFalling", false);
                 _animator.SetBool("IsLanding", false);
-                _animator.SetBool("IsJumping", false);
+                //_animator.SetBool("IsJumping", false);
             }
         }
 

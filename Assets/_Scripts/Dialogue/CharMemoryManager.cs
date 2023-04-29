@@ -10,9 +10,9 @@ namespace Dialogue
     {
         private const float WaitTillCanMove = .2f;
         
-        [SerializeField] private GameObject dialoguePanel;
-        [SerializeField] private TextMeshProUGUI dialogueText;
-        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private GameObject _dialoguePanel;
+        [SerializeField] private TextMeshProUGUI _dialogueText;
+        [SerializeField] private AudioSource _audioSource;
         
         private Story _currentStory;
         private Controls _controls;
@@ -26,7 +26,7 @@ namespace Dialogue
             
             _controls = new Controls();
             _onDialogueIsActive = false;
-            dialoguePanel.SetActive(false);
+            _dialoguePanel.SetActive(false);
             IsInDialogue = false;
         }
         
@@ -49,10 +49,10 @@ namespace Dialogue
         public void EnterDialogueMode(TextAsset inkJson)
         {
             IsInDialogue = true;
-            audioSource.Play();
+            _audioSource.Play();
             _currentStory = new Story(inkJson.text);
             _onDialogueIsActive = true;
-            dialoguePanel.SetActive(true);
+            _dialoguePanel.SetActive(true);
             
             ContinueDialogue();
         }
@@ -60,7 +60,7 @@ namespace Dialogue
         private void ContinueDialogue()
         {
             if (_currentStory.canContinue)
-                dialogueText.text = _currentStory.Continue();
+                _dialogueText.text = _currentStory.Continue();
             else
                 StartCoroutine(ExitDialogueMode());
         }
@@ -72,11 +72,11 @@ namespace Dialogue
 
         private IEnumerator ExitDialogueMode()
         {
-            audioSource.Stop();
+            _audioSource.Stop();
             yield return new WaitForSeconds(WaitTillCanMove);
             _onDialogueIsActive = false;
-            dialoguePanel.SetActive(false);
-            dialogueText.text = string.Empty;
+            _dialoguePanel.SetActive(false);
+            _dialogueText.text = string.Empty;
             IsInDialogue = false;
         }
     }

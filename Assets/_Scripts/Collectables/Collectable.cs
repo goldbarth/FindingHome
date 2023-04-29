@@ -1,26 +1,17 @@
 using DataPersistence;
 using UnityEngine;
-using System;
+using AddIns;
 
 namespace Collectables
 {
-    public class Collectable : MonoBehaviour, IDataPersistence
+    public class Collectable : GenerateGuid, IDataPersistence
     {
-        [Header("Collectable Type")] [SerializeField]
-        private CollectableType _type;
-
-        [SerializeField] private string _id;
+        [Header("Collectable Type")] 
+        [SerializeField] private CollectableType _type;
         [Space] [SerializeField] private AudioSource _audioSource;
         [SerializeField] private SpriteRenderer _visual;
         
         private bool _isCollected = false;
-
-        // generates an id for the item in scene
-        [ContextMenu("Generate guid for id")]
-        private void GenerateGuid()
-        {
-            _id = Guid.NewGuid().ToString();
-        }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {

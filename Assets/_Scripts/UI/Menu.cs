@@ -6,11 +6,11 @@ namespace UI
     public class Menu : MonoBehaviour
     {
         [Header("FIRST SELECTED BUTTON")]
-        [SerializeField] private Button firstSelected;
+        [SerializeField] private Button _firstSelected;
 
         protected virtual void OnEnable()
         {
-            SetFirstSelected(firstSelected);
+            SetFirstSelected(_firstSelected);
         }
 
         // prevents after scene change, that the first selected button in the next scene is not selectable

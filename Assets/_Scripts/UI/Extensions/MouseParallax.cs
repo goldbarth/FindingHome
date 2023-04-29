@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using UnityEngine.InputSystem;
+using UnityEngine;
 
 namespace UI.Extensions
 {
@@ -7,16 +7,16 @@ namespace UI.Extensions
     {
     
         [Header("PARALLAX EFFECTS SETTINGS")]
-        [Range(0f, 2f)] [SerializeField] private float modifier;
+        [Range(0f, 2f)] [SerializeField] private float _modifier;
         
         [Space][Header("CAMERA")]
-        [SerializeField] private Camera menuCamera;
+        [SerializeField] private Camera _menuCamera;
         private Vector3 _startPos;
 
         private void Awake()
         {
             _startPos = transform.position;
-            menuCamera = Camera.main;
+            _menuCamera = Camera.main;
         }
         
         private void Update()
@@ -26,10 +26,10 @@ namespace UI.Extensions
         
         private void Parallax() 
         {
-            var pos = menuCamera.ScreenToViewportPoint(Mouse.current.position.ReadValue());
+            var pos = _menuCamera.ScreenToViewportPoint(Mouse.current.position.ReadValue());
             var position = transform.position;
-            var posX = Mathf.Lerp(position.x, _startPos.x + (pos.x * modifier), 5f * Time.deltaTime);
-            var posY = Mathf.Lerp(position.y, _startPos.y + (pos.y * modifier), 5f * Time.deltaTime);
+            var posX = Mathf.Lerp(position.x, _startPos.x + (pos.x * _modifier), 5f * Time.deltaTime);
+            var posY = Mathf.Lerp(position.y, _startPos.y + (pos.y * _modifier), 5f * Time.deltaTime);
             
             position = new Vector3(posX, posY, position.z);
             transform.position = position;

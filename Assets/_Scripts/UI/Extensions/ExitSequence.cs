@@ -9,17 +9,17 @@ namespace UI.Extensions
 {
     public class ExitSequence : MonoBehaviour
     {
-        [SerializeField] private GameObject exitCanvas;
-        [SerializeField] private GameObject teleportAnimation;
-        [SerializeField] private GameObject walkAnimation;
-        [SerializeField] private GameObject closingWords;
-        [SerializeField] private GameObject menuButton;
-        [SerializeField] private AudioSource stepAudio;
-        [SerializeField] private AudioSource teleportAudio;
+        [SerializeField] private GameObject _exitCanvas;
+        [SerializeField] private GameObject _teleportAnimation;
+        [SerializeField] private GameObject _walkAnimation;
+        [SerializeField] private GameObject _closingWords;
+        [SerializeField] private GameObject _menuButton;
+        [SerializeField] private AudioSource _stepAudio;
+        [SerializeField] private AudioSource _teleportAudio;
 
-        private const float WAIT_TO_PITCH = 4.5f;
-        private const float STOP_AUDIO = 1.5f;
-        private const float DISPLAY_END_SCREEN = 2f;
+        private const float WaitToPitch = 4.5f;
+        private const float StopAudio = 1.5f;
+        private const float DisplayEndScreen = 2f;
 
         private void OnEnable()
         {
@@ -33,27 +33,27 @@ namespace UI.Extensions
         
         private void StartExitSequence()
         {
-            exitCanvas.SetActive(true);
+            _exitCanvas.SetActive(true);
             StartCoroutine(CharExitSequence());
         }
 
         private IEnumerator CharExitSequence()
         {
-            teleportAudio.Play();
-            teleportAnimation.SetActive(true);
+            _teleportAudio.Play();
+            _teleportAnimation.SetActive(true);
             yield return new WaitForSeconds(.8f);
-            teleportAnimation.SetActive(false);
-            walkAnimation.SetActive(true);
-            teleportAudio.Stop();
-            stepAudio.enabled = true;
-            yield return new WaitForSeconds(WAIT_TO_PITCH);
-            stepAudio.pitch = 1f;
-            yield return new WaitForSeconds(STOP_AUDIO);
-            stepAudio.Stop();
-            walkAnimation.SetActive(false);
-            yield return new WaitForSeconds(DISPLAY_END_SCREEN);
-            closingWords.SetActive(true);
-            menuButton.gameObject.SetActive(true);
+            _teleportAnimation.SetActive(false);
+            _walkAnimation.SetActive(true);
+            _teleportAudio.Stop();
+            _stepAudio.enabled = true;
+            yield return new WaitForSeconds(WaitToPitch);
+            _stepAudio.pitch = 1f;
+            yield return new WaitForSeconds(StopAudio);
+            _stepAudio.Stop();
+            _walkAnimation.SetActive(false);
+            yield return new WaitForSeconds(DisplayEndScreen);
+            _closingWords.SetActive(true);
+            _menuButton.gameObject.SetActive(true);
         }
     }
 }

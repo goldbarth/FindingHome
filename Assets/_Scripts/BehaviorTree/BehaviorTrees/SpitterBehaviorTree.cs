@@ -1,10 +1,9 @@
 ﻿using Tree = BehaviorTree.Core.Tree;
 using BehaviorTree.Nodes.Conditions;
-using BehaviorTree.Nodes.Composite;
+using BehaviorTree.Nodes.Composites;
 using BehaviorTree.Nodes.Decorator;
 using BehaviorTree.Nodes.Actions;
 using System.Collections.Generic;
-using BehaviorTree.Blackboard;
 using BehaviorTree.Core;
 using Player.PlayerData;
 using UnityEngine;
@@ -15,10 +14,11 @@ namespace BehaviorTree.BehaviorTrees
     public class SpitterBehaviorTree : Tree
     {
         [SerializeField] private Entity.Entity _entity;
+
         protected override Node CreateTree()
         {
             var eatables = FindObjectOfType<PlayerController>().GetComponent<EatablesCount>();
-            var blackboard = new BtBlackboard();
+            var blackboard = new Blackboard.Blackboard();
             var trans = transform;
             
             var root = new Selector(new List<Node>

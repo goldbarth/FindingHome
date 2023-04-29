@@ -8,16 +8,16 @@ namespace UI
     public class SaveSlot : MonoBehaviour
     {
         [Header("PROFILE")]
-        [SerializeField] private string profileId;
+        [SerializeField] private string _profileId = "save1";
         
         [Space][Header("OBJECTS")]
-        [SerializeField] private GameObject noDataContent;
-        [Space][SerializeField] private GameObject hasDataContent;
-        [Space][SerializeField] private TextMeshProUGUI percentageCompleteText;
-        [Space][SerializeField] private TextMeshProUGUI deathCountText;
+        [SerializeField] private GameObject _noDataContent;
+        [Space][SerializeField] private GameObject _hasDataContent;
+        [Space][SerializeField] private TextMeshProUGUI _percentageCompleteText;
+        [Space][SerializeField] private TextMeshProUGUI _deathCountText;
         
         [Space][Header("DELETE BUTTON")]
-        [SerializeField] private Button deleteButton;
+        [SerializeField] private Button _deleteButton;
         
         public bool HasData { get; private set; }
         
@@ -34,31 +34,31 @@ namespace UI
             if (data == null)
             {
                 HasData = false;
-                noDataContent.SetActive(true);
-                hasDataContent. SetActive(false);
-                deleteButton.gameObject.SetActive(false);
+                _noDataContent.SetActive(true);
+                _hasDataContent. SetActive(false);
+                _deleteButton.gameObject.SetActive(false);
             }
             else
             {
                 HasData = true;
-                noDataContent.SetActive(false);
-                hasDataContent. SetActive(true);
-                deleteButton.gameObject.SetActive(true);
+                _noDataContent.SetActive(false);
+                _hasDataContent. SetActive(true);
+                _deleteButton.gameObject.SetActive(true);
 
-                percentageCompleteText.text = data.GetPercentageComplete() + "% TOTAL";
-                deathCountText.text = "DEATH COUNT: " + data.deathCount;
+                _percentageCompleteText.text = data.GetPercentageComplete() + "% TOTAL";
+                _deathCountText.text = "DEATH COUNT: " + data.deathCount;
             }
         }
 
         public string GetProfileId()
         {
-            return profileId;
+            return _profileId;
         }
         
         public void SetInteractable(bool interactable)
         {
             _saveSlotButton.interactable = interactable;
-            deleteButton.interactable = interactable;
+            _deleteButton.interactable = interactable;
         }
     }
 }

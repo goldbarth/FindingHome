@@ -1,14 +1,14 @@
-﻿using AddIns;
-using BehaviorTree.Blackboard;
+﻿using BehaviorTree.Blackboard;
 using BehaviorTree.Core;
-using Enemies;
 using UnityEngine;
+using Enemies;
+using AddIns;
 
 namespace BehaviorTree.Nodes.Actions
 {
     public class ActionAttackTarget : ActionNode
     {
-        private const float AttackTime = .8f;
+        private const float AttackTime = .2f;
         
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
@@ -20,9 +20,7 @@ namespace BehaviorTree.Nodes.Actions
         private Transform _target;
         private Summoner _summoner;
         private float _attackCounter;
-
-        public static bool IsInAttackPhase { get; private set; }
-
+        
         public ActionAttackTarget() : base() { }
         public ActionAttackTarget(Transform transform, float speed, IBlackboard blackboard) : base()
         {
@@ -35,7 +33,6 @@ namespace BehaviorTree.Nodes.Actions
 
         public override NodeState Evaluate()
         {
-            Debug.Log("Checking if in attack phase: " + IsInAttackPhase);
             try
             {
                 if(!_blackboard.ContainsKey("target"))
@@ -57,13 +54,13 @@ namespace BehaviorTree.Nodes.Actions
                 var step = _speed * Time.deltaTime;
                 Vec2.MoveTo(_transform, target, step);
                 Vec2.LookAt(_rigid, direction);
-
+                
                 if (_attackCounter >= AttackTime)
                 {
-                    Debug.Log("Attacking target");
-                    var enemyIsDead = _summoner.TakeHit();
+                    var enemyIsDead = _summoner.TakeDamage(10);
                     if (enemyIsDead)
                     {
+                        GameManager.Instance.IsInAttackPhase = false;
                         _blackboard.ClearData("target");
                         _animator.SetBool("IsAttacking", false);
 
@@ -83,7 +80,6 @@ namespace BehaviorTree.Nodes.Actions
             }
             catch
             {
-
                 State = NodeState.Failure;
                 return State;
             }

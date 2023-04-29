@@ -22,7 +22,5 @@ namespace BehaviorTree.Core
         }
 
         public virtual NodeState Evaluate() => NodeState.Failure;
-
-       
     }
 }

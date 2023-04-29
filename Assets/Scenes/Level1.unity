@@ -10753,6 +10753,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5344248975414694760, guid: 4c2d4cdd980dd3a429061e4fec6594df, type: 3}
+      propertyPath: _id
+      value: de043e9c-0808-458d-9915-4b65bd6913cb
+      objectReference: {fileID: 0}
     - target: {fileID: 5965219278494422980, guid: 4c2d4cdd980dd3a429061e4fec6594df, type: 3}
       propertyPath: m_Name
       value: SummonerEnemy (1)
@@ -10763,11 +10767,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7958855757498042228, guid: 4c2d4cdd980dd3a429061e4fec6594df, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.44
+      value: 2.28
       objectReference: {fileID: 0}
     - target: {fileID: 7958855757498042228, guid: 4c2d4cdd980dd3a429061e4fec6594df, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.83
+      value: 2.62
       objectReference: {fileID: 0}
     - target: {fileID: 7958855757498042228, guid: 4c2d4cdd980dd3a429061e4fec6594df, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11559,13 +11563,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04edd7576c8b472fb79ffd4fa53e404e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exitCanvas: {fileID: 161648607}
-  teleportAnimation: {fileID: 996805177}
-  walkAnimation: {fileID: 4633164651217305646}
-  closingWords: {fileID: 534600890}
-  menuButton: {fileID: 4633164651217305645}
-  stepAudio: {fileID: 414353414}
-  teleportAudio: {fileID: 827599435}
+  _exitCanvas: {fileID: 161648607}
+  _teleportAnimation: {fileID: 996805177}
+  _walkAnimation: {fileID: 4633164651217305646}
+  _closingWords: {fileID: 534600890}
+  _menuButton: {fileID: 4633164651217305645}
+  _stepAudio: {fileID: 414353414}
+  _teleportAudio: {fileID: 827599435}
 --- !u!4 &937104154
 Transform:
   m_ObjectHideFlags: 0
@@ -15276,7 +15280,7 @@ Tilemap:
       - {fileID: 419398074, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
       - {fileID: -118794990, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
       - {fileID: -1491263886, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
-      m_AnimationSpeed: 12.203812
+      m_AnimationSpeed: 12.3517685
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:
@@ -16720,15 +16724,39 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2090659852}
     - target: {fileID: 4385410298560842236, guid: 41373cd7aa48d4445a387e8b397193a4, type: 3}
+      propertyPath: _dialogueText
+      value: 
+      objectReference: {fileID: 2090659852}
+    - target: {fileID: 4385410298560842236, guid: 41373cd7aa48d4445a387e8b397193a4, type: 3}
       propertyPath: dialoguePanel
       value: 
       objectReference: {fileID: 1246096065}
+    - target: {fileID: 4385410298560842236, guid: 41373cd7aa48d4445a387e8b397193a4, type: 3}
+      propertyPath: _dialoguePanel
+      value: 
+      objectReference: {fileID: 1246096065}
+    - target: {fileID: 4385410298560842236, guid: 41373cd7aa48d4445a387e8b397193a4, type: 3}
+      propertyPath: _choices.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4385410298560842236, guid: 41373cd7aa48d4445a387e8b397193a4, type: 3}
       propertyPath: choices.Array.data[0]
       value: 
       objectReference: {fileID: 2034764349}
     - target: {fileID: 4385410298560842236, guid: 41373cd7aa48d4445a387e8b397193a4, type: 3}
       propertyPath: choices.Array.data[1]
+      value: 
+      objectReference: {fileID: 319286202}
+    - target: {fileID: 4385410298560842236, guid: 41373cd7aa48d4445a387e8b397193a4, type: 3}
+      propertyPath: _choices.Array.data[0]
+      value: 
+      objectReference: {fileID: 2034764349}
+    - target: {fileID: 4385410298560842236, guid: 41373cd7aa48d4445a387e8b397193a4, type: 3}
+      propertyPath: _choices.Array.data[1]
+      value: 
+      objectReference: {fileID: 319286202}
+    - target: {fileID: 4385410298560842236, guid: 41373cd7aa48d4445a387e8b397193a4, type: 3}
+      propertyPath: _choices.Array.data[2]
       value: 
       objectReference: {fileID: 319286202}
     - target: {fileID: 7721512253580178147, guid: 41373cd7aa48d4445a387e8b397193a4, type: 3}
@@ -17571,11 +17599,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 748122487}
     - target: {fileID: 8334813756943848939, guid: 94291f204f8abbd43ac6b1b0564480a2, type: 3}
+      propertyPath: _audioSource
+      value: 
+      objectReference: {fileID: 748122487}
+    - target: {fileID: 8334813756943848939, guid: 94291f204f8abbd43ac6b1b0564480a2, type: 3}
       propertyPath: dialogueText
       value: 
       objectReference: {fileID: 6633970528787665311}
     - target: {fileID: 8334813756943848939, guid: 94291f204f8abbd43ac6b1b0564480a2, type: 3}
+      propertyPath: _dialogueText
+      value: 
+      objectReference: {fileID: 6633970528787665311}
+    - target: {fileID: 8334813756943848939, guid: 94291f204f8abbd43ac6b1b0564480a2, type: 3}
       propertyPath: dialoguePanel
+      value: 
+      objectReference: {fileID: 6633970528003918674}
+    - target: {fileID: 8334813756943848939, guid: 94291f204f8abbd43ac6b1b0564480a2, type: 3}
+      propertyPath: _dialoguePanel
       value: 
       objectReference: {fileID: 6633970528003918674}
     m_RemovedComponents: []
@@ -17884,6 +17924,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6256799606026290613, guid: 7896f5946a563ca4ba220739ddffcf2e, type: 3}
+      propertyPath: _inkJson
+      value: 
+      objectReference: {fileID: 4900000, guid: d30a53bde212bb845b56564b79358312, type: 3}
     - target: {fileID: 6256799606026290614, guid: 7896f5946a563ca4ba220739ddffcf2e, type: 3}
       propertyPath: m_Name
       value: FlashbackTrigger
@@ -18005,7 +18049,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68725b31e4884e2cb0679070503b522b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inkJson: {fileID: 4900000, guid: 09d9de397e39b124aaba0c0987292fec, type: 3}
+  _inkJson: {fileID: 4900000, guid: 09d9de397e39b124aaba0c0987292fec, type: 3}
 --- !u!1001 &6485689902739367192
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18068,6 +18112,10 @@ PrefabInstance:
     - target: {fileID: 6485689903279152366, guid: 0094219d2263f6a42b394821a5e7f07e, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6485689903279152367, guid: 0094219d2263f6a42b394821a5e7f07e, type: 3}
+      propertyPath: _wallSlide
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8661996951960408167, guid: 0094219d2263f6a42b394821a5e7f07e, type: 3}
       propertyPath: _audioSource
@@ -18574,6 +18622,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5344248975414694760, guid: 4c2d4cdd980dd3a429061e4fec6594df, type: 3}
+      propertyPath: _id
+      value: 10e54de7-df66-43aa-b577-a822d9ddb363
+      objectReference: {fileID: 0}
     - target: {fileID: 5965219278494422980, guid: 4c2d4cdd980dd3a429061e4fec6594df, type: 3}
       propertyPath: m_Name
       value: SummonerEnemy
@@ -18654,6 +18706,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  dialoguePanel: {fileID: 1994179224348260636}
-  dialogueText: {fileID: 1994179224577303505}
-  audioSource: {fileID: 1550595839}
+  _dialoguePanel: {fileID: 1994179224348260636}
+  _dialogueText: {fileID: 1994179224577303505}
+  _audioSource: {fileID: 1550595839}

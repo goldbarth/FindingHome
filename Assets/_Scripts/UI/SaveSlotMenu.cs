@@ -1,7 +1,6 @@
-using System;
 using DataPersistence;
-using SceneHandler;
 using UnityEngine.UI;
+using SceneHandler;
 using UnityEngine;
 
 namespace UI
@@ -11,14 +10,14 @@ namespace UI
         private MainMenu _mainMenu;
         
         [Header("MENU BUTTONS")]
-        [SerializeField] private Button[] deleteButtons;
-        [SerializeField] private Button backButton;
+        [SerializeField] private Button[] _deleteButtons;
+        [SerializeField] private Button _backButton;
         [Header("CONFIRMATION POPUP")]
-        [SerializeField] private ConfirmationPopupMenu confirmationPopupMenu;
+        [SerializeField] private ConfirmationPopupMenu _confirmationPopupMenu;
         [Space][Header("PARALLAX BACKGROUND")]
-        [Space][SerializeField] private GameObject background;
+        [Space][SerializeField] private GameObject _background;
         [Header("SCENE TO LOAD")]
-        [SerializeField] private SceneIndices sceneToLoad;
+        [SerializeField] private SceneIndices _sceneToLoad;
         
         private SaveSlot[] _saveSlots;
         
@@ -45,8 +44,8 @@ namespace UI
 
         private void Update()
         {
-            background.SetActive(!GameManager.Instance.IsGamePaused);
-            foreach (var deleteButton in deleteButtons)
+            _background.SetActive(!GameManager.Instance.IsGamePaused);
+            foreach (var deleteButton in _deleteButtons)
                 deleteButton.gameObject.SetActive(!GameManager.Instance.IsGamePaused);
             
         }
@@ -63,7 +62,7 @@ namespace UI
             }
             else if (saveSlot.HasData)
             {
-                confirmationPopupMenu.ActivateMenu(
+                _confirmationPopupMenu.ActivateMenu(
                     _overrideConfirmText, () =>
                 { //confirm button callback "yes"
                     DataPersistenceManager.Instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
@@ -86,13 +85,13 @@ namespace UI
         {
             GameManager.Instance.IsGameStarted = true;
             DataPersistenceManager.Instance.SaveGame();
-            SceneLoader.Instance.LoadSceneAsync(sceneToLoad, showProgress: true);
+            SceneLoader.Instance.LoadSceneAsync(_sceneToLoad, showProgress: true);
             if (GameManager.Instance.IsGamePaused) GameManager.Instance.IsGamePaused = false;
         }
         
         public void OnDeleteButtonClicked(SaveSlot saveSlot)
         {
-            confirmationPopupMenu.ActivateMenu(
+            _confirmationPopupMenu.ActivateMenu(
                 _deleteConfirmText, () =>
                 { //confirm button callback "yes"
                     DataPersistenceManager.Instance.DeleteProfileData(saveSlot.GetProfileId());
@@ -130,7 +129,7 @@ namespace UI
 
             // loop through each save slot(button) and compare with the existing profiles,
             // to set the right buttons active/inactive in the UI
-            var firstSelected = backButton.gameObject;
+            var firstSelected = _backButton.gameObject;
             foreach (var saveSlot in _saveSlots)
             {
                 profilesGameData.TryGetValue(saveSlot.GetProfileId(), out var profileData);
@@ -144,7 +143,7 @@ namespace UI
                     saveSlot.SetInteractable(true);
                     
                     // set the first selectable button to be the first save slot that is interactable
-                    if (firstSelected.Equals(backButton.gameObject))
+                    if (firstSelected.Equals(_backButton.gameObject))
                         firstSelected = saveSlot.gameObject;
                 }
             }
@@ -158,7 +157,7 @@ namespace UI
             foreach (var saveSlot in _saveSlots)
                 saveSlot.SetInteractable(false);
 
-            backButton.interactable = false;
+            _backButton.interactable = false;
         }
     }
 }

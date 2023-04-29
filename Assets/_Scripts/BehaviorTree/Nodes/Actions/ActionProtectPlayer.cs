@@ -1,7 +1,7 @@
-﻿using AddIns;
-using BehaviorTree.Blackboard;
+﻿using BehaviorTree.Blackboard;
 using BehaviorTree.Core;
 using UnityEngine;
+using AddIns;
 
 namespace BehaviorTree.Nodes.Actions
 {
@@ -26,7 +26,7 @@ namespace BehaviorTree.Nodes.Actions
         
         public override NodeState Evaluate()
         {
-            if (ActionAttackTarget.IsInAttackPhase)
+            if (GameManager.Instance.IsInAttackPhase)
             {
                 State = NodeState.Failure;
                 return State;

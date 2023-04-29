@@ -240,9 +240,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de6bb447e8f441579af464d4105ebd9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popup: {fileID: 6919439958493221642}
-  spriteRenderer: {fileID: 6919439957823008971}
-  inkJson: {fileID: 0}
+  _dontDestroyOnLoad: 0
+  _popup: {fileID: 6919439958493221642}
+  _spriteRenderer: {fileID: 6919439957823008971}
+  _inkJson: {fileID: 0}
 --- !u!1 &6919439959294847565
 GameObject:
   m_ObjectHideFlags: 0

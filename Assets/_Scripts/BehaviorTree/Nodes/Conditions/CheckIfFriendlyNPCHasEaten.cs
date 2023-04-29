@@ -1,6 +1,5 @@
-﻿using BehaviorTree.Core;
-using Player;
-using Player.PlayerData;
+﻿using Player.PlayerData;
+using BehaviorTree.Core;
 using UnityEngine;
 
 namespace BehaviorTree.Nodes.Conditions

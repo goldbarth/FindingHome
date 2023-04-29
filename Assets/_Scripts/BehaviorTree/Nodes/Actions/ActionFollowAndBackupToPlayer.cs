@@ -1,7 +1,7 @@
-﻿using AddIns;
-using BehaviorTree.Blackboard;
+﻿using BehaviorTree.Blackboard;
 using BehaviorTree.Core;
 using UnityEngine;
+using AddIns;
 
 namespace BehaviorTree.Nodes.Actions
 {
@@ -28,7 +28,7 @@ namespace BehaviorTree.Nodes.Actions
         
         public override NodeState Evaluate()
         {
-            if (ActionAttackTarget.IsInAttackPhase)
+            if (GameManager.Instance.IsInAttackPhase)
             {
                 State = NodeState.Failure;
                 return State;
@@ -38,7 +38,7 @@ namespace BehaviorTree.Nodes.Actions
             var position = _transform.position;
             var distance = Vector2.Distance(position, player.position);
             var direction = Vec2.Direction(position, player.position);
-            var reverseDirection = Vec2.Direction(position, position);
+            var reverseDirection = Vec2.Direction(player.position, position);
             var backup = reverseDirection * BackupDistance;
             var step = _speed * Time.deltaTime;
             if (distance > _stopDistance)

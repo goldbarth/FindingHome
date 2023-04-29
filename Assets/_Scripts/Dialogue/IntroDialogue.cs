@@ -5,9 +5,9 @@ namespace Dialogue
 {
     public class IntroDialogue : Singleton<IntroDialogue>
     {
-        [SerializeField] private GameObject popup;
-        [SerializeField] private SpriteRenderer spriteRenderer;
-        [SerializeField] private TextAsset inkJson;
+        [SerializeField] private GameObject _popup;
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private TextAsset _inkJson;
         
         private Controls _controls;
         private bool _inRange;
@@ -15,7 +15,7 @@ namespace Dialogue
         protected override void Awake()
         {
             _inRange = false;
-            popup.SetActive(false);
+            _popup.SetActive(false);
             _controls = new Controls();
         }
 
@@ -31,10 +31,10 @@ namespace Dialogue
 
         private void Update()
         {
-            popup.SetActive(_inRange);
+            _popup.SetActive(_inRange);
             if (_inRange && !DialogueManager.Instance.OnDialogueActive())
                 if (_controls.Gameplay.Interact.triggered)
-                    DialogueManager.Instance.EnterDialogueMode(inkJson);
+                    DialogueManager.Instance.EnterDialogueMode(_inkJson);
         }
 
         private void OnTriggerEnter2D(Collider2D col)
@@ -43,7 +43,7 @@ namespace Dialogue
                 _inRange = true;
             
             var hitPos = col.ClosestPoint(transform.position);
-            spriteRenderer.flipX = hitPos.x < transform.position.x;
+            _spriteRenderer.flipX = hitPos.x < transform.position.x;
         }
         
         private void OnTriggerExit2D(Collider2D col)
@@ -52,7 +52,7 @@ namespace Dialogue
                 _inRange = false;
             
             var hitPos = col.ClosestPoint(transform.position);
-            spriteRenderer.flipX = hitPos.x < transform.position.x;
+            _spriteRenderer.flipX = hitPos.x < transform.position.x;
         }
     }
 }

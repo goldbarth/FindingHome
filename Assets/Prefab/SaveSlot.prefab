@@ -301,7 +301,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UI.LoadMenu, Assembly-CSharp
-        m_MethodName: OnSaveSlotClicked
+        m_MethodName: 
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 2454034405539189017}
@@ -324,11 +324,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profileId: save1
-  noDataContent: {fileID: 2454034405907952343}
-  hasDataContent: {fileID: 2454034404961916468}
-  percentageCompleteText: {fileID: 2454034406004167327}
-  deathCountText: {fileID: 2454034405862186080}
-  deleteButton: {fileID: 0}
+  _noDataContent: {fileID: 2454034405907952343}
+  _hasDataContent: {fileID: 2454034404961916468}
+  _percentageCompleteText: {fileID: 2454034406004167327}
+  _deathCountText: {fileID: 2454034405862186080}
+  _deleteButton: {fileID: 0}
 --- !u!95 &2454034405946649825
 Animator:
   serializedVersion: 4

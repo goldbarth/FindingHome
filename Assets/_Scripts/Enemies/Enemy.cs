@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using AddIns;
+using UnityEngine;
 
 namespace Enemies
 {
-    public abstract class Enemy : MonoBehaviour
+    public abstract class Enemy : GenerateGuid
     {
         private int _health;
-        
+
         protected virtual void Awake()
         {
             _health = 30;
@@ -17,11 +18,14 @@ namespace Enemies
         /// </summary>
         /// <param name="damage">int</param>
         /// <returns>Returns true if enemy is dead</returns>
-        protected virtual bool TakeDamage(int damage)
+        protected internal virtual bool TakeDamage(int damage)
         {
+            Debug.Log("Enemy took " + damage + " damage");
             _health -= damage;
+            Debug.Log("Enemy health is now " + _health);
             var isDead = _health <= 0;
-            if (isDead) Die();
+            Debug.Log("Enemy is dead: " + isDead);
+            if (isDead) Destroy(gameObject);
             return isDead;
         }
 

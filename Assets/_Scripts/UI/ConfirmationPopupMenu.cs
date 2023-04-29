@@ -8,28 +8,28 @@ namespace UI
     public class ConfirmationPopupMenu : Menu
     {
         [Header("COMPONENTS")]  
-        [SerializeField] private TextMeshProUGUI displayText;
-        [SerializeField] private Button confirmButton;
-        [SerializeField] private Button cancelButton;
+        [SerializeField] private TextMeshProUGUI _displayText;
+        [SerializeField] private Button _confirmButton;
+        [SerializeField] private Button _cancelButton;
         
         //TODO: Need to use more UnityEvents, Actions, and Delegates for more modular programming.
         //NOTE: 
         public void ActivateMenu(string displayedText, UnityAction confirmAction, UnityAction cancelAction)
         {
             gameObject.SetActive(true);
-            displayText.text = displayedText;
+            _displayText.text = displayedText;
             
             // remove previous listeners if any exist.
-            confirmButton.onClick.RemoveAllListeners();
-            cancelButton.onClick.RemoveAllListeners();
+            _confirmButton.onClick.RemoveAllListeners();
+            _cancelButton.onClick.RemoveAllListeners();
             
             // create event and assign new listeners
-            confirmButton.onClick.AddListener(() =>
+            _confirmButton.onClick.AddListener(() =>
             {
                 DeactivateMenu();
                 confirmAction();
             });
-            cancelButton.onClick.AddListener(() =>
+            _cancelButton.onClick.AddListener(() =>
             {
                 DeactivateMenu();
                 cancelAction();

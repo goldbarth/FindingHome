@@ -1,51 +1,50 @@
-﻿using Audio;
+﻿using UnityEngine.Audio;
 using DataPersistence;
-using SceneHandler;
 using UnityEngine.UI;
+using SceneHandler;
 using UnityEngine;
-using UnityEngine.Audio;
 
 namespace UI
 {
     public class OptionsMenu: Menu
     {
         [Header("AUDIO COMPONENTS")]
-        [SerializeField] private AudioMixer audioMixer;
-        [SerializeField] private Slider masterVolumeSlider;
-        [SerializeField] private Slider sfxVolumeSlider;
-        [SerializeField] private Slider musicVolumeSlider;
+        [SerializeField] private AudioMixer _audioMixer;
+        [SerializeField] private Slider _masterVolumeSlider;
+        [SerializeField] private Slider _sfxVolumeSlider;
+        [SerializeField] private Slider _musicVolumeSlider;
         [Space][Header("AUDIO PARAMETERS")]
-        [SerializeField] private string masterVolumeParameter = "Master";
-        [SerializeField] private string sfxVolumeParameter = "SFX";
-        [SerializeField] private string musicVolumeParameter = "Music";
+        [SerializeField] private string _masterVolumeParameter = "Master";
+        [SerializeField] private string _sfxVolumeParameter = "SFX";
+        [SerializeField] private string _musicVolumeParameter = "Music";
         [Space][Header("AUDIO MULTIPLIER")]
-        [SerializeField] private float multiplier = 30f;
+        [SerializeField] private float _multiplier = 30f;
         [Space][Header("BACKGROUNDS")]
-        [SerializeField] private GameObject parallaxBackground;
+        [SerializeField] private GameObject _parallaxBackground;
         
         private void Awake()
         {
-            parallaxBackground.SetActive(!GameManager.Instance.IsGamePaused);
+            _parallaxBackground.SetActive(!GameManager.Instance.IsGamePaused);
             if (GameManager.Instance.IsGamePaused)
                 GameManager.Instance.IsPauseMenuActive = false;
-            masterVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
-            sfxVolumeSlider.onValueChanged.AddListener(OnSFXSliderChanged);
-            musicVolumeSlider.onValueChanged.AddListener(OnMusicSliderChanged);
+            _masterVolumeSlider.onValueChanged.AddListener(OnMasterSliderChanged);
+            _sfxVolumeSlider.onValueChanged.AddListener(OnSFXSliderChanged);
+            _musicVolumeSlider.onValueChanged.AddListener(OnMusicSliderChanged);
         }
 
         public void OnMasterSliderChanged(float value)
         {
-            audioMixer.SetFloat(masterVolumeParameter, Mathf.Log10(value) * multiplier);
+            _audioMixer.SetFloat(_masterVolumeParameter, Mathf.Log10(value) * _multiplier);
         }
         
         public void OnSFXSliderChanged(float value)
         {
-            audioMixer.SetFloat(sfxVolumeParameter, Mathf.Log10(value) * multiplier);
+            _audioMixer.SetFloat(_sfxVolumeParameter, Mathf.Log10(value) * _multiplier);
         }
         
         public void OnMusicSliderChanged(float value)
         {
-            audioMixer.SetFloat(musicVolumeParameter, Mathf.Log10(value) * multiplier);
+            _audioMixer.SetFloat(_musicVolumeParameter, Mathf.Log10(value) * _multiplier);
         }
         
         public void OnBackButtonClicked()

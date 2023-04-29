@@ -443,18 +443,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b138dee9db762744bcdd2db13f83fbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstSelected: {fileID: 920938595}
-  newGameButton: {fileID: 920938595}
-  continueGameButton: {fileID: 925198872}
-  loadGameButton: {fileID: 1989030721}
-  menuCanvas: {fileID: 846448189}
-  background: {fileID: 901646502}
-  audioMixer: {fileID: 24100000, guid: 64a4c439ef7c7644f94eaaba421e802e, type: 2}
-  continueCurrentGameScene: 6
-  optionsMenuScene: 2
-  loadMenuScene: 4
-  creditsScreenScene: 5
-  loadSceneMode: 1
+  _firstSelected: {fileID: 920938595}
+  _newGameButton: {fileID: 920938595}
+  _continueGameButton: {fileID: 925198872}
+  _loadGameButton: {fileID: 1989030721}
+  _menuCanvas: {fileID: 846448189}
+  _background: {fileID: 901646502}
+  _audioMixer: {fileID: 24100000, guid: 64a4c439ef7c7644f94eaaba421e802e, type: 2}
+  _continueCurrentGameScene: 6
+  _optionsMenuScene: 2
+  _loadMenuScene: 4
+  _creditsScreenScene: 5
+  _loadSceneMode: 1
 --- !u!224 &393710379
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2223,8 +2223,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e746a888466749a4cb356861ed75c309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modifier: 0.2
-  menuCamera: {fileID: 3049694235730924234}
+  _modifier: 0.2
+  _menuCamera: {fileID: 3049694235730924234}
 --- !u!1001 &3049694235730924233
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -9,9 +9,9 @@ namespace Dialogue
 {
     public class DialogueManager : Singleton<DialogueManager>
     {
-        [SerializeField] private GameObject dialoguePanel;
-        [SerializeField] private TextMeshProUGUI dialogueText;
-        [SerializeField] private GameObject[] choices;
+        [SerializeField] private GameObject _dialoguePanel;
+        [SerializeField] private TextMeshProUGUI _dialogueText;
+        [SerializeField] private GameObject[] _choices;
         
         private TextMeshProUGUI[] _choiceTexts;
         private Story _currentStory;
@@ -26,10 +26,10 @@ namespace Dialogue
             
             _controls = new Controls();
             _onDialogueIsActive = false;
-            dialoguePanel.SetActive(false);
-            _choiceTexts = new TextMeshProUGUI[choices.Length];
+            _dialoguePanel.SetActive(false);
+            _choiceTexts = new TextMeshProUGUI[_choices.Length];
             var index = 0;
-            foreach (var choice in choices)
+            foreach (var choice in _choices)
             {
                 _choiceTexts[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
                 index++;
@@ -59,7 +59,7 @@ namespace Dialogue
         {
             _currentStory = new Story(inkJson.text);
             _onDialogueIsActive = true;
-            dialoguePanel.SetActive(true);
+            _dialoguePanel.SetActive(true);
             
             ContinueDialogue();
         }
@@ -68,7 +68,7 @@ namespace Dialogue
         {
             if (_currentStory.canContinue)
             {
-                dialogueText.text = _currentStory.Continue();
+                _dialogueText.text = _currentStory.Continue();
                 DisplayChoices();
             }
             else
@@ -79,22 +79,22 @@ namespace Dialogue
         {
             var currentChoices = _currentStory.currentChoices;
 
-            if (currentChoices.Count > choices.Length)
+            if (currentChoices.Count > _choices.Length)
                 Debug.LogError($"Not enough choices in the UI. Number of choices in the UI: " +
-                               $"{choices.Length} Number of choices in the ink file: {currentChoices.Count}");
+                               $"{_choices.Length} Number of choices in the ink file: {currentChoices.Count}");
 
             // enable and initialize the choices in the UI
             var index = 0;
             foreach (var choice in currentChoices)
             {
-                choices[index].gameObject.SetActive(true);
+                _choices[index].gameObject.SetActive(true);
                 _choiceTexts[index].text = choice.text;
                 index++;
             }
             
             // disable the rest of the choices
-            for (var i = index; i < choices.Length; i++)
-                choices[i].gameObject.SetActive(false);
+            for (var i = index; i < _choices.Length; i++)
+                _choices[i].gameObject.SetActive(false);
             
             StartCoroutine(SelectChoice());
         }
@@ -113,15 +113,15 @@ namespace Dialogue
         {
             EventSystem.current.SetSelectedGameObject(null);
             yield return new WaitForEndOfFrame();
-            EventSystem.current.SetSelectedGameObject(choices[0].gameObject);
+            EventSystem.current.SetSelectedGameObject(_choices[0].gameObject);
         }
         
         private IEnumerator ExitDialogueMode()
         {
             yield return new WaitForSeconds(WaitTillCanMove);
             _onDialogueIsActive = false;
-            dialoguePanel.SetActive(false);
-            dialogueText.text = string.Empty;
+            _dialoguePanel.SetActive(false);
+            _dialogueText.text = string.Empty;
         }
     }
 }

@@ -10,6 +10,7 @@ public class GameManager : AddIns.Singleton<GameManager>
     public bool IsSelected { get; set; }
     public bool IsGameStarted { get; set; }
     public bool IsRespawning { get; set; }
+    public bool IsInAttackPhase { get; set; }
     
     
 

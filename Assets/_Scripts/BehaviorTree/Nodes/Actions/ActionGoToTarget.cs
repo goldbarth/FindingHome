@@ -1,7 +1,7 @@
-﻿using AddIns;
-using BehaviorTree.Blackboard;
+﻿using BehaviorTree.Blackboard;
 using BehaviorTree.Core;
 using UnityEngine;
+using AddIns;
 
 namespace BehaviorTree.Nodes.Actions
 {

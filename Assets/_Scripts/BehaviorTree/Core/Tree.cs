@@ -8,7 +8,7 @@ namespace BehaviorTree.Core
     {
         private Node _root = null;
 
-        protected void Start()
+        protected virtual void Start()
         {
             _root = CreateTree();
         }

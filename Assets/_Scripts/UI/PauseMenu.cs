@@ -1,24 +1,24 @@
-﻿using DataPersistence;
-using SceneHandler;
+﻿using UnityEngine.SceneManagement;
+using DataPersistence;
 using UnityEngine.UI;
+using SceneHandler;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace UI
 {
     public class PauseMenu : Menu
     {
         [Space][Header("MENU BUTTONS")]
-        [Space][SerializeField] private Button resumeGameButton;
-        [Space][SerializeField] private Button loadGameButton;
+        [Space][SerializeField] private Button _resumeGameButton;
+        [Space][SerializeField] private Button _loadGameButton;
         [Space][Header("BUTTON LAYOUT")]
-        [Space][SerializeField] private GameObject buttonLayout;
+        [Space][SerializeField] private GameObject _buttonLayout;
         [Space][Header("SCENES TO LOAD")]
-        [Space][SerializeField] private SceneIndices optionsMenuScene;
-        [Space][SerializeField] private SceneIndices loadMenuScene;
-        [Space][SerializeField] private SceneIndices mainMenuScene;
+        [Space][SerializeField] private SceneIndices _optionsMenuScene;
+        [Space][SerializeField] private SceneIndices _loadMenuScene;
+        [Space][SerializeField] private SceneIndices _mainMenuScene;
         [Space][Header("SCENE MODE")]
-        [Space][SerializeField] private LoadSceneMode loadSceneMode = LoadSceneMode.Additive;
+        [Space][SerializeField] private LoadSceneMode _loadSceneMode = LoadSceneMode.Additive;
 
         private void Awake()
         {
@@ -30,10 +30,10 @@ namespace UI
 
         private void Update()
         {
-            buttonLayout.SetActive(GameManager.Instance.IsPauseMenuActive);
+            _buttonLayout.SetActive(GameManager.Instance.IsPauseMenuActive);
             if(GameManager.Instance.IsPauseMenuActive && !GameManager.Instance.IsSelected)
             { 
-                resumeGameButton.Select();
+                _resumeGameButton.Select();
                 GameManager.Instance.IsSelected = true;
             }
         }
@@ -47,7 +47,7 @@ namespace UI
         {
             // Check if there is a save file and enable the continue button if there is
             if (DataPersistenceManager.Instance.HasGameData()) return;
-            loadGameButton.interactable = false;
+            _loadGameButton.interactable = false;
         }
 
         #region Button Clicks
@@ -60,7 +60,7 @@ namespace UI
         
         public void OnOptionsMenuClicked()
         {
-            SceneLoader.Instance.LoadSceneAsync(optionsMenuScene, loadSceneMode);
+            SceneLoader.Instance.LoadSceneAsync(_optionsMenuScene, _loadSceneMode);
         }
         
         public void OnSaveGameClicked()
@@ -71,13 +71,13 @@ namespace UI
         
         public void OnLoadMenuClicked()
         {
-            SceneLoader.Instance.LoadSceneAsync(loadMenuScene, loadSceneMode);
+            SceneLoader.Instance.LoadSceneAsync(_loadMenuScene, _loadSceneMode);
         }
         
         public void OnMainMenuClicked()
         {
             GameManager.Instance.IsGamePaused = false;
-            SceneLoader.Instance.LoadSceneAsync(mainMenuScene);
+            SceneLoader.Instance.LoadSceneAsync(_mainMenuScene);
         }
         
         public void OnQuitGameClicked()

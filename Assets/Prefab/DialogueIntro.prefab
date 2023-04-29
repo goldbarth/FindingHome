@@ -189,9 +189,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de6bb447e8f441579af464d4105ebd9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popup: {fileID: 6063373590144621249}
-  spriteRenderer: {fileID: 6063373590854906454}
-  inkJson: {fileID: 4900000, guid: 04f5622bdd329a042a2723930ba78d7e, type: 3}
+  _dontDestroyOnLoad: 0
+  _popup: {fileID: 6063373590144621249}
+  _spriteRenderer: {fileID: 6063373590854906454}
+  _inkJson: {fileID: 0}
 --- !u!1 &6063373590144621249
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,9 +382,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de6bb447e8f441579af464d4105ebd9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popup: {fileID: 6063373590015418337}
-  spriteRenderer: {fileID: 6063373591222975520}
-  inkJson: {fileID: 4900000, guid: 04f5622bdd329a042a2723930ba78d7e, type: 3}
+  _dontDestroyOnLoad: 0
+  _popup: {fileID: 6063373590015418337}
+  _spriteRenderer: {fileID: 6063373590854906454}
+  _inkJson: {fileID: 0}
 --- !u!1 &6063373590854906448
 GameObject:
   m_ObjectHideFlags: 0

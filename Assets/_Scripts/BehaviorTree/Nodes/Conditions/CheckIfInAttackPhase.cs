@@ -1,5 +1,4 @@
 ﻿using BehaviorTree.Core;
-using BehaviorTree.Nodes.Actions;
 using UnityEngine;
 
 namespace BehaviorTree.Nodes.Conditions
@@ -10,7 +9,7 @@ namespace BehaviorTree.Nodes.Conditions
 
         public override NodeState Evaluate()
         {
-            if (CheckIfTargetInAttackRange.IsInAttackRange)
+            if (GameManager.Instance.IsInAttackPhase)
             {
                 Debug.Log("In attack phase");
                 State = NodeState.Success;

@@ -1,32 +1,32 @@
-using System;
-using DataPersistence;
-using SceneHandler;
-using UnityEngine.UI;
-using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
+using DataPersistence;
+using UnityEngine.UI;
+using SceneHandler;
+using UnityEngine;
+using System;
 
 namespace UI
 {
     public class MainMenu : Menu, IDataPersistence
     {
         [Space][Header("MENU BUTTONS")]
-        [Space][SerializeField] private Button newGameButton;
-        [Space][SerializeField] private Button continueGameButton;
-        [Space][SerializeField] private Button loadGameButton;
+        [Space][SerializeField] private Button _newGameButton;
+        [Space][SerializeField] private Button _continueGameButton;
+        [Space][SerializeField] private Button _loadGameButton;
         [Space][Header("MENU CANVAS")]
-        [Space][SerializeField] private GameObject menuCanvas;
+        [Space][SerializeField] private GameObject _menuCanvas;
         [Space][Header("PARALLAX BACKGROUND")]
-        [Space][SerializeField] private GameObject background;
+        [Space][SerializeField] private GameObject _background;
         [Space][Header("AUDIO")]
-        [Space][SerializeField] private AudioMixer audioMixer;
+        [Space][SerializeField] private AudioMixer _audioMixer;
         [Space][Header("SCENES TO LOAD")]
-        [Space][SerializeField] private SceneIndices continueCurrentGameScene;
-        [Space][SerializeField] private SceneIndices optionsMenuScene;
-        [Space][SerializeField] private SceneIndices loadMenuScene;
-        [Space][SerializeField] private SceneIndices creditsScreenScene;
+        [Space][SerializeField] private SceneIndices _continueCurrentGameScene;
+        [Space][SerializeField] private SceneIndices _optionsMenuScene;
+        [Space][SerializeField] private SceneIndices _loadMenuScene;
+        [Space][SerializeField] private SceneIndices _creditsScreenScene;
         [Space][Header("SCENE MODE")]
-        [Space][SerializeField] private LoadSceneMode loadSceneMode = LoadSceneMode.Additive;
+        [Space][SerializeField] private LoadSceneMode _loadSceneMode = LoadSceneMode.Additive;
 
         
         private bool _buttonWasSelected = false;
@@ -44,11 +44,11 @@ namespace UI
 
         private void Update()
         {
-            menuCanvas.SetActive(GameManager.Instance.IsMenuActive);
-            background.SetActive(GameManager.Instance.IsMenuActive);
+            _menuCanvas.SetActive(GameManager.Instance.IsMenuActive);
+            _background.SetActive(GameManager.Instance.IsMenuActive);
             if (GameManager.Instance.IsMenuActive && !_buttonWasSelected)
             {
-                newGameButton.Select();
+                _newGameButton.Select();
                 _buttonWasSelected = true;
             }
         }
@@ -56,8 +56,8 @@ namespace UI
         public void DisableButtonsDependingOnData()
         {
             if (DataPersistenceManager.Instance.HasGameData()) return;
-            continueGameButton.interactable = false;
-            loadGameButton.interactable = false;
+            _continueGameButton.interactable = false;
+            _loadGameButton.interactable = false;
         }
 
         #region Button Clicks
@@ -78,19 +78,19 @@ namespace UI
         {
             GameManager.Instance.IsGameStarted = true;
             DataPersistenceManager.Instance.ChangeSelectedProfileId(DataPersistenceManager.Instance.GetLatestProfileId());
-            SceneLoader.Instance.LoadSceneAsync(continueCurrentGameScene, showProgress: true);
+            SceneLoader.Instance.LoadSceneAsync(_continueCurrentGameScene, showProgress: true);
         }
         
         public void OnOptionsMenuClicked()
         {
-            SceneLoader.Instance.LoadSceneAsync(optionsMenuScene, loadSceneMode);
+            SceneLoader.Instance.LoadSceneAsync(_optionsMenuScene, _loadSceneMode);
             GameManager.Instance.IsMenuActive = false;
             _buttonWasSelected = false;
         }
 
         public void OnCreditsClicked()
         {
-            SceneLoader.Instance.LoadSceneAsync(creditsScreenScene, loadSceneMode);
+            SceneLoader.Instance.LoadSceneAsync(_creditsScreenScene, _loadSceneMode);
             GameManager.Instance.IsMenuActive = false;
             _buttonWasSelected = false;
         }
@@ -102,7 +102,7 @@ namespace UI
         
         private void LoadSceneSaveSlotMenu()
         {
-            SceneLoader.Instance.LoadSceneAsync(loadMenuScene, loadSceneMode);
+            SceneLoader.Instance.LoadSceneAsync(_loadMenuScene, _loadSceneMode);
             GameManager.Instance.IsMenuActive = false;
             _buttonWasSelected = false;
         }
@@ -117,9 +117,9 @@ namespace UI
                 if (data == null)
                     throw new ArgumentNullException(paramName: nameof(data), message: "Load-Data can't be null.");
                 
-                audioMixer.SetFloat("Master", data.masterVolume);
-                audioMixer.SetFloat("SFX", data.masterVolume);
-                audioMixer.SetFloat("Music", data.masterVolume);
+                _audioMixer.SetFloat("Master", data.masterVolume);
+                _audioMixer.SetFloat("SFX", data.masterVolume);
+                _audioMixer.SetFloat("Music", data.masterVolume);
             }
             catch (Exception e)
             {

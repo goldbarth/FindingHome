@@ -1879,10 +1879,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f315a566265311b4ba7298ab38103afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstSelected: {fileID: 1522429000}
-  displayText: {fileID: 1824796236}
-  confirmButton: {fileID: 747683472}
-  cancelButton: {fileID: 1522429000}
+  _firstSelected: {fileID: 1522429000}
+  _displayText: {fileID: 1824796236}
+  _confirmButton: {fileID: 747683472}
+  _cancelButton: {fileID: 1522429000}
 --- !u!1 &1522428998
 GameObject:
   m_ObjectHideFlags: 0
@@ -2316,16 +2316,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c22064dc4a2a6d4f96323fa1bfe267e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstSelected: {fileID: 2043248069}
-  deleteButtons:
+  _firstSelected: {fileID: 1382750286}
+  _deleteButtons:
   - {fileID: 8380303867039110125}
   - {fileID: 1187947428}
   - {fileID: 743246381}
   - {fileID: 1263190199}
-  backButton: {fileID: 1382750286}
-  confirmationPopupMenu: {fileID: 1477384391}
-  background: {fileID: 1438952929}
-  sceneToLoad: 6
+  _backButton: {fileID: 1382750286}
+  _confirmationPopupMenu: {fileID: 1477384391}
+  _background: {fileID: 1438952929}
+  _sceneToLoad: 6
 --- !u!114 &1823968682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2767,17 +2767,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2454034405539189022, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
   m_PrefabInstance: {fileID: 2454034405946649821}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2043248069 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2454034405539189016, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
-  m_PrefabInstance: {fileID: 2454034405946649821}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2454034405946649821
 PrefabInstance:
   m_ObjectHideFlags: 0

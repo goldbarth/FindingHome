@@ -1,6 +1,7 @@
 ﻿using BehaviorTree.Blackboard;
 using BehaviorTree.Core;
 using UnityEngine;
+using Enemies;
 
 namespace BehaviorTree.Nodes.Conditions
 {
@@ -30,7 +31,14 @@ namespace BehaviorTree.Nodes.Conditions
 
                 if (colliders.Length > 0)
                 {
-                    _blackboard.SetData(_key, colliders[0].transform);
+                    if(_key == "player")
+                        _blackboard.SetData(_key, "", colliders[0].transform);
+                    if (_key == "target")
+                    {
+                        if(colliders[0].TryGetComponent(out Summoner target))
+                            _blackboard.SetData(_key, target._id, colliders[0].transform);
+                    }
+                    
                     State = NodeState.Success;
                     return State;
                 }
@@ -44,6 +52,7 @@ namespace BehaviorTree.Nodes.Conditions
                 if (colliders.Length == 0)
                 {
                     _blackboard.ClearData(_key);
+                    
                     State = NodeState.Failure;
                     return State;
                 }

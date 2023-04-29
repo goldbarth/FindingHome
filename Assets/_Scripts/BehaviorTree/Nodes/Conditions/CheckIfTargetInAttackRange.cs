@@ -1,7 +1,6 @@
 ﻿using BehaviorTree.Blackboard;
 using BehaviorTree.Core;
 using UnityEngine;
-using Tree = BehaviorTree.Core.Tree;
 
 namespace BehaviorTree.Nodes.Conditions
 {
@@ -12,8 +11,6 @@ namespace BehaviorTree.Nodes.Conditions
         private readonly Animator _animator;
         private readonly float _attackRange;
         
-        public static bool IsInAttackRange { get; private set; }
-
         public CheckIfTargetInAttackRange(Transform transform, float attackRange, IBlackboard blackboard)
         {
             _animator = transform.GetComponentInChildren<Animator>();
@@ -25,6 +22,7 @@ namespace BehaviorTree.Nodes.Conditions
         public override NodeState Evaluate()
         {
             var target = _blackboard.GetData<Transform>("target");
+            Debug.Log("Target ID:"+ _blackboard.GetId("target"));
             if (target is null)
             {
                 State = NodeState.Failure;
@@ -34,7 +32,7 @@ namespace BehaviorTree.Nodes.Conditions
             var distance = Vector2.Distance(_transform.position, target.position);
             if (distance < _attackRange)
             {
-                IsInAttackRange = true;
+                GameManager.Instance.IsInAttackPhase = true;
                 Debug.Log("Target in attack range");
                 _animator.SetBool("IsAttacking", true);
                 
@@ -42,7 +40,7 @@ namespace BehaviorTree.Nodes.Conditions
                 return State;
             }
             
-            IsInAttackRange = false;
+            GameManager.Instance.IsInAttackPhase = false;
             
             State = NodeState.Failure;
             return State;
