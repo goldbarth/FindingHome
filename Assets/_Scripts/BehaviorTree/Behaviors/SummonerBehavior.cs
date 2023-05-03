@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BehaviorTree.BehaviorTrees
+namespace BehaviorTree.Behaviors
 {
     public class SummonerBehavior : MonoBehaviour
     { }

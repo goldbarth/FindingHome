@@ -4,6 +4,6 @@ namespace BehaviorTree.Facade
 {
     public abstract class FacadeBase
     {
-        public abstract Node GetRoot();
+        protected internal abstract Node GetRoot();
     }
 }

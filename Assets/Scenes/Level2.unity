@@ -9417,7 +9417,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 34e7259d30beace44bbb4b1b1b0c9b79, type: 2}
     - target: {fileID: 7692167469429414301, guid: a984ce26536582b45a7f5ad60ea58f26, type: 3}
       propertyPath: _isChangingColor
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a984ce26536582b45a7f5ad60ea58f26, type: 3}

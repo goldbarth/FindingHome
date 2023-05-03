@@ -8,7 +8,7 @@ namespace BehaviorTree.Nodes.Actions
     public class ActionFollowAndBackupToPlayer : ActionNode
     {
         // the distance who the enemy is in idle state
-        private const float BackupDistance = 2f;
+        private const float BackupDistance = 3f;
         
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;

@@ -26,7 +26,7 @@ namespace BehaviorTree.Facade
             _entity = entity;
         }
 
-        public override Node GetRoot()
+        protected internal override Node GetRoot()
         {
              var blackboard = new Blackboard.Blackboard();
              var player = Object.FindObjectOfType<PlayerController>();
@@ -78,5 +78,7 @@ namespace BehaviorTree.Facade
             
             return root;
         }
+
+       
     }
 }

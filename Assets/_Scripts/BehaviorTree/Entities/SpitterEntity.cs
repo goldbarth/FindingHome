@@ -8,7 +8,8 @@ namespace BehaviorTree.Entities
     [CreateAssetMenu(fileName = "Entity", menuName = "ScriptableObjects/BehaviorTree/Entity", order = 1)]
     public class SpitterEntity : Entity
     {
-        [Header("Components")]
+        [Header("Components")] 
+        public Animator _animator;
         [Tooltip("Get switched when becomes friendly.")]
         public AnimatorController _animatorController;
         [Header("Radii")]

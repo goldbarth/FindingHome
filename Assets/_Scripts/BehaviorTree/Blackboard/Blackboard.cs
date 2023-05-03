@@ -44,9 +44,7 @@ namespace BehaviorTree.Blackboard
         public T GetData<T>(Dictionary<string, BlackboardItem> data, string key, string id, T defaultValue = default)
         {
             if (data.TryGetValue(key, out var item) && item.ID == id && item.Value is T result)
-            {
                 return result;
-            }
 
             return defaultValue;
         }
