@@ -18,14 +18,11 @@ namespace Enemies
         /// </summary>
         /// <param name="damage">int</param>
         /// <returns>Returns true if enemy is dead</returns>
-        protected internal virtual bool TakeDamage(int damage)
+        protected internal bool TakeDamage(int damage)
         {
-            Debug.Log("Enemy took " + damage + " damage");
             _health -= damage;
-            Debug.Log("Enemy health is now " + _health);
             var isDead = _health <= 0;
-            Debug.Log("Enemy is dead: " + isDead);
-            if (isDead) Destroy(gameObject);
+            if (isDead) Die();
             return isDead;
         }
 

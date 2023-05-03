@@ -7,8 +7,7 @@ namespace BehaviorTree.Core
         protected DecoratorNode() : base() {}
         protected DecoratorNode(List<Node> children)
         {
-            foreach(var child in children)
-                AddChild(child);
+            Children.AddRange(children);
         }
     }
 }

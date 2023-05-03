@@ -10,17 +10,16 @@ namespace BehaviorTree.Core
 
         protected Node() : base() {}
         
+        protected Node(List<Node> children)
+        {
+            Children.AddRange(children);
+        }
+
+        public virtual NodeState Evaluate() => NodeState.Failure;
+
         protected void AddChild(Node node)
         {
             Children.Add(node);
         }
-
-        protected Node(List<Node> children)
-        {
-            foreach(var child in children)
-                AddChild(child);
-        }
-
-        public virtual NodeState Evaluate() => NodeState.Failure;
     }
 }

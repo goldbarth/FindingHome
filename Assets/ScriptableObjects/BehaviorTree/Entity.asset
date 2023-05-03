@@ -18,15 +18,15 @@ MonoBehaviour:
   _playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  _gameObject: {fileID: 2060691674138155755, guid: a984ce26536582b45a7f5ad60ea58f26, type: 3}
-  _friendlyAnimController: {fileID: 9100000, guid: 936f8b0343d7dde4da63591f2343bcf9, type: 2}
   _playerTag: player
   _targetTag: target
+  _animatorController: {fileID: 9100000, guid: 936f8b0343d7dde4da63591f2343bcf9, type: 2}
   _detectionRadiusEnemy: 4
-  _detectionRadiusPlayer: 5
+  _detectionRadiusPlayer: 8
   _attackRadius: 2
-  _stopDistancePlayer: 3
   _stopDistancePlayerProtect: 1.8
-  _speedGoToPlayer: 4.5
+  _nearRangeStopDistance: 4
+  _farRangeStopDistance: 1.5
+  _speedGoToPlayer: 6.8
   _speedPlayerFollow: 6.8
   _speedTargetFollow: 5

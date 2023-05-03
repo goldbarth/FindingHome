@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
+  <Class Name="BehaviorTree.Core.Tree">
+    <Position X="15.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAIACAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Core\Tree.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Core.Node">
+    <Position X="29.75" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAEAgAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Core\Node.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Core.ActionNode">
+    <Position X="22.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Core\ActionNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Core.CompositeNode">
+    <Position X="44.75" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Core\CompositeNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Core.ConditionNode">
+    <Position X="41.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Core\ConditionNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Core.DecoratorNode">
+    <Position X="16" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Core\DecoratorNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Core.LeafNode">
+    <Position X="30" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Core\LeafNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Blackboard.Blackboard" BaseTypeListCollapsed="true">
+    <Position X="36.75" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAABFQAEAAAAAAAAAAAAAAAAAAAAAIAAAAIAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Blackboard\Blackboard.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BehaviorTree.Blackboard.BlackboardItem">
+    <Position X="39.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Blackboard\BlackboardItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Entity.SpitterEntity">
+    <Position X="12.75" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAgAAIAYACAAAAAICAABgAAAwAEAAAQAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Entity\SpitterEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.BehaviorTrees.SpitterBehaviorTree">
+    <Position X="17.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\BehaviorTrees\SpitterBehaviorTree.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Actions.ActionAttackTarget">
+    <Position X="12.5" Y="11" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAgAABAAAQIAAgAAQAAAAAAAJIAAAAAACAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Actions\ActionAttackTarget.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Actions.ActionChangeFriendlyNPCSpriteColor">
+    <Position X="18.5" Y="11" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAIAAAAgAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Actions\ActionChangeFriendlyNPCSpriteColor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Actions.ActionConsumeEatable">
+    <Position X="24.25" Y="11.25" Width="2" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Delegate Name="BehaviorTree.Nodes.Actions.ActionConsumeEatable.ConsumeEatable">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\_Scripts\BehaviorTree\Nodes\Actions\ActionConsumeEatable.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAgAAAAAQAAAgAAAAAAAAAAJAAAAAAQCAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Actions\ActionConsumeEatable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Actions.ActionFollowAndBackupToPlayer">
+    <Position X="29.5" Y="11" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAEAAAAAAAAAQAAAgAAAAAAAAAAJAAAAAIACAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Actions\ActionFollowAndBackupToPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Actions.ActionGoToTarget">
+    <Position X="16" Y="11" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAQAAAgAAAAAAAAAAJAAAAAIACAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Actions\ActionGoToTarget.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Actions.ActionIdle">
+    <Position X="22" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Actions\ActionIdle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Actions.ActionProtectPlayer">
+    <Position X="27" Y="11" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAQAAAgAAAAAAAAAAJAAAAAIACAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Actions\ActionProtectPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Actions.ActionTryReachTarget">
+    <Position X="32.75" Y="11" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAEAAAgAAAAAAAAAgAAAAAAAAAAIQAAAAAACAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Actions\ActionTryReachTarget.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Composites.Selector">
+    <Position X="43.5" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Composites\Selector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Composites.Sequence">
+    <Position X="46.25" Y="7.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Composites\Sequence.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Decorator.ForceFailure">
+    <Position X="19.25" Y="8.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Decorator\ForceFailure.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Decorator.ForceSuccess">
+    <Position X="16" Y="8.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Decorator\ForceSuccess.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Decorator.Inverter">
+    <Position X="13.25" Y="8.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Decorator\Inverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Conditions.CheckForObjectInFOVRange">
+    <Position X="35.5" Y="11" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAgAAAAAAAQCAAgAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Conditions\CheckForObjectInFOVRange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Conditions.CheckIfFriendlyNPCHasEaten">
+    <Position X="41.5" Y="11" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAQgAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Conditions\CheckIfFriendlyNPCHasEaten.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Conditions.CheckIfInAttackPhase">
+    <Position X="44.5" Y="11" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Conditions\CheckIfInAttackPhase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Conditions.CheckIfPlayerHasEatable">
+    <Position X="47" Y="11" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAACAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Conditions\CheckIfPlayerHasEatable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BehaviorTree.Nodes.Conditions.CheckIfTargetInAttackRange">
+    <Position X="38.5" Y="11" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAgAAAAAQAAAgAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Nodes\Conditions\CheckIfTargetInAttackRange.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="BehaviorTree.Blackboard.Node">
+    <Position X="34.25" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAABEQAEAAAAAAAAAAAAAAAAAAAAAIAAAAIAAAA=</HashCode>
+      <FileName>Assets\_Scripts\BehaviorTree\Blackboard\IBlackboard.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="NodeState">
+    <Position X="27.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAACIAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\_Scripts\Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

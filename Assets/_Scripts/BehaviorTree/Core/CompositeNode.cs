@@ -8,8 +8,7 @@ namespace BehaviorTree.Core
         
         protected CompositeNode(List<Node> children)
         {
-            foreach(var child in children)
-                AddChild(child);
+            Children.AddRange(children);
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using System;
+﻿using BehaviorTree.Nodes.Actions;
 using System.Collections;
-using BehaviorTree.Nodes.Actions;
-using Collectables;
 using DataPersistence;
+using Collectables;
 using UnityEngine;
 
 namespace Player.PlayerData

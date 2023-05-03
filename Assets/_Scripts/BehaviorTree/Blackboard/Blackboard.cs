@@ -4,17 +4,17 @@ namespace BehaviorTree.Blackboard
 {
     public class Blackboard : IBlackboard
     {
-        private readonly Dictionary<string, Item> _data = new();
+        private readonly Dictionary<string, BlackboardItem> _data = new();
 
         /// <summary>
         /// Stores the data in the blackboard.
         /// </summary>
         /// <param name="key">string</param>
         /// <param name="id">string</param>
-        /// <param name="value">object</param>
+        /// <param name="value">T</param>
         public void SetData<T>(string key, string id, T value)
         {
-            Item item = new(id, value);
+            BlackboardItem item = new(id, value);
             _data[key] = item;
         }
 
@@ -22,7 +22,7 @@ namespace BehaviorTree.Blackboard
         /// Get the data from the blackboard by searching with a key.
         /// </summary>
         /// <param name="key">string</param>
-        /// <param name="defaultValue">default</param>
+        /// <param name="defaultValue">T</param>
         /// <returns>Returns the object(value) of the given key.</returns>
         public T GetData<T>(string key, T defaultValue = default)
         {
@@ -41,7 +41,7 @@ namespace BehaviorTree.Blackboard
         /// <param name="defaultValue">T</param>
         /// <typeparam name="T">generic</typeparam>
         /// <returns>Returns the object(value) of the given key and id.</returns>
-        public T GetData<T>(Dictionary<string, Item> data, string key, string id, T defaultValue = default)
+        public T GetData<T>(Dictionary<string, BlackboardItem> data, string key, string id, T defaultValue = default)
         {
             if (data.TryGetValue(key, out var item) && item.ID == id && item.Value is T result)
             {
@@ -55,7 +55,7 @@ namespace BehaviorTree.Blackboard
         /// Get the id from the blackboard by searching with a key.
         /// </summary>
         /// <param name="key">string</param>
-        /// <returns></returns>
+        /// <returns>Returns the id if the searched key was found.</returns>
         public string GetId(string key)
         {
             if (_data.TryGetValue(key, out var data))
@@ -68,7 +68,6 @@ namespace BehaviorTree.Blackboard
         /// Removes the data from the blackboard.
         /// </summary>
         /// <param name="key">string</param>
-        /// <returns>Returns true if the data is successful removed</returns>
         public void ClearData(string key)
         {
             _data.Remove(key);
@@ -84,6 +83,11 @@ namespace BehaviorTree.Blackboard
             return _data.ContainsKey(key);
         }
         
+        /// <summary>
+        /// Checks if the blackboard contains the given id.
+        /// </summary>
+        /// <param name="id">string</param>
+        /// <returns>Returns true if the searched id was found.</returns>
         public bool ContainsId(string id)
         {
             foreach (var item in _data.Values)
@@ -93,6 +97,12 @@ namespace BehaviorTree.Blackboard
             return false;
         }
         
+        /// <summary>
+        /// Checks if the blackboard contains the given key id in the context of a key.
+        /// </summary>
+        /// <param name="key">string</param>
+        /// <param name="id">string</param>
+        /// <returns>Returns true if the searched id was found.<br/> Returns the searched id as out parameter.</returns>
         public bool TryGetId(string key, out string id)
         {
             if (_data.TryGetValue(key, out var data))

@@ -4,21 +4,24 @@ using UnityEngine;
 
 namespace BehaviorTree.Nodes.Actions
 {
-    public class ActionChangeFriendlyNPCSpriteColor : ActionNode
+    public class ActionChangeSpriteColor : ActionNode
     {
         private readonly AnimatorController _newController;
         private readonly Animator _animator;
+        private readonly bool _isChangingColor;
 
         private bool _hasChanged;
 
-        public ActionChangeFriendlyNPCSpriteColor(Component component, AnimatorController newController)
+        public ActionChangeSpriteColor(Component component, AnimatorController newController, bool isChangingColor = true)
         {
             _animator = component.GetComponentInChildren<Animator>();
+            _isChangingColor = isChangingColor;
             _newController = newController;
         }
 
         public override NodeState Evaluate()
         {
+            if(!_isChangingColor) return State = NodeState.Success;
             if (!_hasChanged)
             {
                 _animator.runtimeAnimatorController = _newController;

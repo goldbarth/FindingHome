@@ -1,4 +1,5 @@
-﻿using BehaviorTree.Blackboard;
+﻿using System;
+using BehaviorTree.Blackboard;
 using BehaviorTree.Core;
 using UnityEngine;
 using Enemies;
@@ -22,7 +23,7 @@ namespace BehaviorTree.Nodes.Actions
         private float _attackCounter;
         
         public ActionAttackTarget() : base() { }
-        public ActionAttackTarget(Transform transform, float speed, IBlackboard blackboard) : base()
+        public ActionAttackTarget(Transform transform, float speed, IBlackboard blackboard)
         {
             _animator = transform.GetComponentInChildren<Animator>();
             _rigid = transform.GetComponent<Rigidbody2D>();
@@ -42,14 +43,12 @@ namespace BehaviorTree.Nodes.Actions
                 }
                 
                 var target = _blackboard.GetData<Transform>("target");
-                
-                // This is to prevent the enemy from switching targets mid-attack
+
                 _lastTarget = target == _target ? _lastTarget : _target;
                 _target = target;
-
-                // Set the target component if it isn´t already set
-                _summoner ??= _target.GetComponent<Summoner>();
                 
+                _summoner = _target.GetComponent<Summoner>();
+
                 var direction = Vec2.Direction(_transform.position, target.position);
                 var step = _speed * Time.deltaTime;
                 Vec2.MoveTo(_transform, target, step);
@@ -62,6 +61,7 @@ namespace BehaviorTree.Nodes.Actions
                     {
                         GameManager.Instance.IsInAttackPhase = false;
                         _blackboard.ClearData("target");
+                        Debug.Log("target id was cleared: " + _blackboard.GetId("target"));
                         _animator.SetBool("IsAttacking", false);
 
                         State = NodeState.Failure;

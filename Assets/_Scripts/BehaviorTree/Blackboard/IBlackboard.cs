@@ -5,7 +5,7 @@ namespace BehaviorTree.Blackboard
     public interface IBlackboard
     {
         public string GetId(string key);
-        T GetData<T>(Dictionary<string, Item> data, string key, string id, T defaultValue = default);
+        T GetData<T>(Dictionary<string, BlackboardItem> data, string key, string id, T defaultValue = default);
         T GetData<T>(string key, T defaultValue = default);
         void SetData<T>(string key, string id, T value);
         void ClearData(string key);

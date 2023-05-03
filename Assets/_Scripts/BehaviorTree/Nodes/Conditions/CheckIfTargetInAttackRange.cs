@@ -22,7 +22,6 @@ namespace BehaviorTree.Nodes.Conditions
         public override NodeState Evaluate()
         {
             var target = _blackboard.GetData<Transform>("target");
-            Debug.Log("Target ID:"+ _blackboard.GetId("target"));
             if (target is null)
             {
                 State = NodeState.Failure;

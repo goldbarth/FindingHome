@@ -123,7 +123,7 @@ namespace Player
         public bool IsRunning { get; private set; }
         public bool IsDashing { get; private set; }
         public bool CanJump { get; private set; }
-        public bool IsInteracting { get; set; }
+        public bool IsInteracting { get; private set; }
         public bool Wallsliding { get; set; }
         public bool CanMultiJump => _multiJump && JumpCounter > 0;
 

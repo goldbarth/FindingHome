@@ -1,11 +1,11 @@
 ﻿namespace BehaviorTree.Blackboard
 {
-    public class Item
+    public class BlackboardItem
     {
         public string ID { get; set; }
         public object Value { get; set; }
         
-        public Item(string id, object value)
+        public BlackboardItem(string id, object value)
         {
             ID = id;
             Value = value;

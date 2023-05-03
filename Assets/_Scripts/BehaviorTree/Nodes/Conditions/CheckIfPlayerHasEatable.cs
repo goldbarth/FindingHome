@@ -13,9 +13,6 @@ namespace BehaviorTree.Nodes.Conditions
             _eatables = eatables;
         }
         
-        
-        
-        
         public override NodeState Evaluate()
         {
             if (HasEatable())

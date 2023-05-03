@@ -17,7 +17,7 @@ namespace BehaviorTree.Nodes.Actions
         public delegate void ConsumeEatable();
         public static event ConsumeEatable OnConsumeEatableEvent;
 
-        public ActionConsumeEatable(float speed, Component component, IBlackboard blackboard) : base()
+        public ActionConsumeEatable(float speed, Component component, IBlackboard blackboard)
         {
             _animator = component.GetComponentInChildren<Animator>();
             _transform = component.GetComponent<Transform>();
@@ -53,11 +53,6 @@ namespace BehaviorTree.Nodes.Actions
 
             State = NodeState.Failure;
             return State;
-        }
-        
-        public Vector2 MoveTo(Transform current, Transform other, float step)
-        {
-            return current.position = Vector2.MoveTowards(current.position, other.position, step);
         }
     }
 }
