@@ -7,23 +7,22 @@ namespace BehaviorTree.Nodes.Actions
 {
     public class ActionFollowAndBackupToPlayer : ActionNode
     {
-        // the distance who the enemy is in idle state
-        private const float BackupDistance = 3f;
-        
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
         private readonly Rigidbody2D _rigid;
         private readonly Animator _animator;
+        private readonly float _backupDistance;
         private readonly float _stopDistance;
         private readonly float _speed;
 
-        public ActionFollowAndBackupToPlayer(float speed, float detectionRadius, float stopDistance, Transform transform, IBlackboard blackboard)
+        public ActionFollowAndBackupToPlayer(float speed, float detectionRadius, float stopDistance, float backupDistance, Transform transform, Animator animator, IBlackboard blackboard)
         {
-            _animator = transform.GetComponentInChildren<Animator>();
-            _rigid = transform.GetComponent<Rigidbody2D>();
+            _animator = transform.parent.GetComponentInChildren<Animator>();
+            _rigid = transform.parent.GetComponent<Rigidbody2D>();
             _stopDistance = detectionRadius - stopDistance;
+            _backupDistance = backupDistance;
             _blackboard = blackboard;
-            _transform = transform;
+            _transform = transform.parent;
             _speed = speed;
         }
         
@@ -39,13 +38,17 @@ namespace BehaviorTree.Nodes.Actions
             var position = _transform.position;
             var distance = Vector2.Distance(position, player.position);
             var direction = Vec2.Direction(position, player.position);
+            
             var reverseDirection = Vec2.Direction(player.position, position);
-            var backup = reverseDirection * BackupDistance;
+            var backup = reverseDirection * _backupDistance;
             var step = _speed * Time.deltaTime;
+            
+            DrawLineSegments(position, player.position, _stopDistance);
 
             // idle phase
-            if (distance < _stopDistance - .01f && distance > _stopDistance - BackupDistance + .01f)
+            if (distance < _stopDistance - .01f && distance > _stopDistance - _backupDistance + .01f)
             {
+                Debug.Log("idle");
                 _animator.SetBool("IsWalking", false);
                 Vec2.LookAt(_rigid, direction);
                 
@@ -64,7 +67,7 @@ namespace BehaviorTree.Nodes.Actions
                 return State;
             }
             // backup phase
-            if (distance < _stopDistance - BackupDistance)
+            if (distance < _stopDistance - _backupDistance)
             {
                 _animator.SetBool("IsWalking", true);
                 Vec2.MoveAway(_transform, position, backup, step);
@@ -73,12 +76,23 @@ namespace BehaviorTree.Nodes.Actions
                 State = NodeState.Success;
                 return State;
             }
-            
-            //_animator.SetBool("IsWalking", false);
-            //_animator.SetBool("IsAttacking", false);
 
             State = NodeState.Failure;
             return State;
+        }
+        
+        private void DrawLineSegments(Vector2 position, Vector2 player, float distance)
+        {
+            var dir = (player - position);
+            var stopDir = dir.magnitude;
+            var shortenedDirection = dir.normalized * (stopDir - distance);
+            var backupShortenedDirection = dir.normalized * (stopDir - distance + _backupDistance);
+            var endPoint = position + shortenedDirection;
+            var backupEndPoint = position + backupShortenedDirection;
+            
+            Debug.DrawLine(position, endPoint, Color.green);
+            Debug.DrawLine(endPoint, backupEndPoint, Color.red);
+            Debug.DrawLine(backupEndPoint, player, Color.magenta);
         }
     }
 }

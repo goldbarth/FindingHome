@@ -15,9 +15,9 @@ namespace BehaviorTree.Nodes.Conditions
 
         public CheckForObjectInFOVRange(string key, float radius, LayerMask layerMask, Transform transform, IBlackboard blackboard)
         {
+            _transform = transform.parent;
             _detectionRadius = radius;
             _blackboard = blackboard;
-            _transform = transform;
             _layerMask = layerMask;
             _key = key;
         }

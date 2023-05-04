@@ -2,11 +2,11 @@
 
 namespace BehaviorTree.Core
 {
-    public abstract class CompositeNode : Node
+    public abstract class CompositeNode : BaseNode
     {
          protected CompositeNode() : base() {}
         
-        protected CompositeNode(List<Node> children)
+        protected CompositeNode(List<BaseNode> children)
         {
             Children.AddRange(children);
         }

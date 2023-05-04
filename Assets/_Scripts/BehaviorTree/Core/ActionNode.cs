@@ -1,5 +1,5 @@
 ﻿namespace BehaviorTree.Core
 {
-    public abstract class ActionNode : LeafNode
+    public abstract class ActionNode : BaseNode
     { }
 }

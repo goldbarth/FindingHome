@@ -11,12 +11,12 @@ namespace BehaviorTree.Nodes.Conditions
         private readonly Animator _animator;
         private readonly float _attackRange;
         
-        public CheckIfTargetInAttackRange(Transform transform, float attackRange, IBlackboard blackboard)
+        public CheckIfTargetInAttackRange(Transform transform, float attackRange, Animator animator, IBlackboard blackboard)
         {
-            _animator = transform.GetComponentInChildren<Animator>();
+            _animator = transform.parent.GetComponentInChildren<Animator>();
+            _transform = transform.parent;
             _attackRange = attackRange;
             _blackboard = blackboard;
-            _transform = transform;
         }
 
         public override NodeState Evaluate()
@@ -32,9 +32,7 @@ namespace BehaviorTree.Nodes.Conditions
             if (distance < _attackRange)
             {
                 GameManager.Instance.IsInAttackPhase = true;
-                Debug.Log("Target in attack range");
-                _animator.SetBool("IsAttacking", true);
-                
+
                 State = NodeState.Success;
                 return State;
             }

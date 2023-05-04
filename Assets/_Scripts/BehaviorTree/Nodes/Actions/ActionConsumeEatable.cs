@@ -13,15 +13,17 @@ namespace BehaviorTree.Nodes.Actions
         private readonly Animator _animator;
         private readonly float _speed;
         private readonly float _timer;
+        private readonly float _stopDistance;
         
         public delegate void ConsumeEatable();
         public static event ConsumeEatable OnConsumeEatableEvent;
 
-        public ActionConsumeEatable(float speed, Component component, IBlackboard blackboard)
+        public ActionConsumeEatable(float speed, float stopDistance, Transform transform, Animator animator, IBlackboard blackboard)
         {
-            _animator = component.GetComponentInChildren<Animator>();
-            _transform = component.GetComponent<Transform>();
-            _rigid = component.GetComponent<Rigidbody2D>();
+            _animator = transform.parent.GetComponentInChildren<Animator>();
+            _transform = transform.parent.GetComponent<Transform>();
+            _rigid = transform.parent.GetComponent<Rigidbody2D>();
+            _stopDistance = stopDistance;
             _blackboard = blackboard;
             _speed = speed;
         }
@@ -40,7 +42,7 @@ namespace BehaviorTree.Nodes.Actions
             var step = _speed * Time.deltaTime;
             Vec2.MoveTo(_transform, player, step);
             Vec2.LookAt(_rigid, direction);
-            if (distance <= 1.2f)
+            if (distance <= _stopDistance)
             {
                 _rigid.velocity = Vector2.zero;
                 Debug.Log("Eating");

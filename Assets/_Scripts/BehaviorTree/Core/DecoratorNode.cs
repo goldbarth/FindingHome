@@ -2,10 +2,10 @@
 
 namespace BehaviorTree.Core
 {
-    public abstract class DecoratorNode : Node
+    public abstract class DecoratorNode : BaseNode
     {
         protected DecoratorNode() : base() {}
-        protected DecoratorNode(List<Node> children)
+        protected DecoratorNode(List<BaseNode> children)
         {
             Children.AddRange(children);
         }

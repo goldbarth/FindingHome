@@ -1,17 +1,15 @@
-﻿using BehaviorTree.Core;
-using Player;
+﻿using UnityEngine.InputSystem;
+using BehaviorTree.Core;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace BehaviorTree.Nodes.Conditions
 {
     public class CheckIfPlayerWasCommanding : ConditionNode
     {
-        private Controls _controls;
-        private InputAction _commandAction;
+        private readonly Controls _controls;
+        private readonly InputAction _commandAction;
         private bool _isFarRange = false;
-        private bool _isCommanding;
-        
+
         public CheckIfPlayerWasCommanding()
         {
             _controls = new Controls();
@@ -20,7 +18,8 @@ namespace BehaviorTree.Nodes.Conditions
 
         public override NodeState Evaluate()
         {
-            if (IsCommanding() && !IsFarRange())
+            Debug.Log("CheckIfPlayerWasCommanding: " + _commandAction.triggered + "Is Far: " + _isFarRange);
+            if (_commandAction.triggered && !_isFarRange)
             {
                 // command
                 _isFarRange = true;
@@ -29,7 +28,7 @@ namespace BehaviorTree.Nodes.Conditions
                 State = NodeState.Success;
                 return State;
             }
-            if (IsCommanding() && IsFarRange())
+            if (_commandAction.triggered && _isFarRange)
             {
                 // backup
                 _isFarRange = false;
@@ -41,16 +40,6 @@ namespace BehaviorTree.Nodes.Conditions
 
             State = NodeState.Failure;
             return State;
-        }
-
-        private bool IsFarRange()
-        {
-            return _isFarRange;
-        }
-        
-        private bool IsCommanding()
-        {
-            return _commandAction.triggered;
         }
     }
 }

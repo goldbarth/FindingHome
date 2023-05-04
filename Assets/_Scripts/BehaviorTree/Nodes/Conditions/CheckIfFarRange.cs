@@ -4,6 +4,7 @@ namespace BehaviorTree.Nodes.Conditions
 {
     public class CheckIfFarRange : ConditionNode
     {
+        private bool _isFarRange = false;
         public CheckIfFarRange()
         {
             
@@ -11,8 +12,11 @@ namespace BehaviorTree.Nodes.Conditions
         
         public override NodeState Evaluate()
         {
-            if (GameManager.Instance.IsFarRange)
+            if (!_isFarRange)
             {
+                _isFarRange = true;
+                //TODO: logic here
+                
                 State = NodeState.Success;
                 return State;
             }

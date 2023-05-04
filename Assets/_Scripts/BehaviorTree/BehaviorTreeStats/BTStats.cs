@@ -2,7 +2,7 @@
 
 namespace BehaviorTree.Entities
 {
-    public class Entity : ScriptableObject
+    public class BTStats : ScriptableObject
     {
         [Header("Layer Masks")]
         public LayerMask _targetLayer;

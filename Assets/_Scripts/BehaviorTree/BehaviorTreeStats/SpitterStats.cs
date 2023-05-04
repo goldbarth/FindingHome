@@ -1,12 +1,11 @@
-﻿using Player;
+﻿using UnityEditor.Animations;
+using BehaviorTree.Entities;
 using UnityEngine;
-using Player.PlayerData;
-using UnityEditor.Animations;
 
-namespace BehaviorTree.Entities
+namespace BehaviorTree.BehaviorTreeStats
 {
-    [CreateAssetMenu(fileName = "Entity", menuName = "ScriptableObjects/BehaviorTree/Entity", order = 1)]
-    public class SpitterEntity : Entity
+    [CreateAssetMenu(fileName = "Stats", menuName = "ScriptableObjects/BehaviorTree/Stats", order = 1)]
+    public class SpitterStats : BTStats
     {
         [Header("Components")] 
         public Animator _animator;
@@ -21,6 +20,8 @@ namespace BehaviorTree.Entities
         public float _attackRadius = 2f;
         [Header("Distances")]
         [Range(.5f, 10f)]
+        public float _stopDistanceEat = 1.2f;
+        [Range(.5f, 10f)]
         public float _stopDistancePlayerProtect = 1.8f;
         [Tooltip("Increase the amount to get a greater distance to the object, and reverse. A good approach is to start with 3.")]
         [Range(.5f, 10f)]
@@ -28,6 +29,10 @@ namespace BehaviorTree.Entities
         [Tooltip("Increase the amount to get a greater distance to the object, and reverse. A good approach is to start with 1.")]
         [Range(.5f, 10f)]
         public float _farRangeStopDistance= 1.5f;
+        [Range(.5f, 10f)]
+        public float _backupDistance = 3f;
+        [Range(.5f, 10f)]
+        public float _targetStopDistance = .5f;
         [Header("Speeds")]
         [Range(.5f, 10f)]
         public float _speedGoToPlayer = 2.5f;
@@ -35,18 +40,10 @@ namespace BehaviorTree.Entities
         public float _speedPlayerFollow = 6.8f;
         [Range(.5f, 10f)]
         public float _speedTargetFollow = 5f;
-        
-        public static PlayerController PlayerController => GetPlayerController();
-        public static EatablesCount Eatables => GetEatablesCount();
-        
-        private static EatablesCount GetEatablesCount()
-        {
-            return GetPlayerController().GetComponent<EatablesCount>();
-        }
-        
-        private static PlayerController GetPlayerController()
-        {
-            return FindObjectOfType<PlayerController>();
-        }
+        [Header("Attack")]
+        [Range(.001f, 3f)]
+        public float _attackTime = .2f;
+        [Range(1, 30)]
+        public int _attackDamage = 10;
     }
 }

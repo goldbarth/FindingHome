@@ -29,17 +29,7 @@ namespace AddIns
         {
             transform.position = Vector2.MoveTowards(a, a + backup, step);
         }
-        
-        /// <summary>
-        /// Rotates a GameObject on the x axis towards an object.
-        /// </summary>
-        /// <param name="rigid">Rigidbody2D</param>
-        /// <param name="direction">Vector2</param>
-        public static void LookAt(Rigidbody2D rigid, Vector2 direction)
-        {
-            rigid.transform.localScale = new Vector2(direction.x > 0 ? 1 : -1, 1);
-        }
-        
+
         /// <summary>
         /// Compact version of Vector2.MoveTowards Method.
         /// </summary>
@@ -49,6 +39,16 @@ namespace AddIns
         public static void MoveTo(Transform current, Transform other, float step)
         {
             current.position = Vector2.MoveTowards(current.position, other.position, step);
+        }
+        
+        /// <summary>
+        /// Rotates a GameObject on the x axis towards an object.
+        /// </summary>
+        /// <param name="rigid">Rigidbody2D</param>
+        /// <param name="direction">Vector2</param>
+        public static void LookAt(Rigidbody2D rigid, Vector2 direction)
+        {
+            rigid.transform.localScale = new Vector2(direction.x > 0 ? 1 : -1, 1);
         }
     }
 }

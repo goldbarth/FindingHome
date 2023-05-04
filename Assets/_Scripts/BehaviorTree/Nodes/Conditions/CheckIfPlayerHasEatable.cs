@@ -1,16 +1,17 @@
 ﻿using Player.PlayerData;
 using BehaviorTree.Core;
+using Player;
 using UnityEngine;
 
 namespace BehaviorTree.Nodes.Conditions
 {
     public class CheckIfPlayerHasEatable : ConditionNode
     {
-        private readonly IEatables _eatables;
-        
-        public CheckIfPlayerHasEatable(IEatables eatables)
+        private readonly PlayerController _player;
+
+        public CheckIfPlayerHasEatable(PlayerController player)
         {
-            _eatables = eatables;
+            _player = player;
         }
         
         public override NodeState Evaluate()
@@ -28,7 +29,7 @@ namespace BehaviorTree.Nodes.Conditions
 
         private bool HasEatable()
         {
-            return _eatables.GetCount() > 0;
+            return _player.GetEatablesCount > 0;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace BehaviorTree.Nodes.Decorator
     public class Inverter : DecoratorNode
     {
         public Inverter() : base() { }
-        public Inverter(List<Node> children) : base(children) { }
+        public Inverter(List<BaseNode> children) : base(children) { }
 
         public override NodeState Evaluate()
         {

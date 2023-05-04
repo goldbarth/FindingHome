@@ -4,6 +4,7 @@ using AnimationHandler;
 using static Controls;
 using UnityEngine;
 using Dialogue;
+using Player.PlayerData;
 
 //-------------------------------------------------------------------------------------------------------------------------
 // Originally, this task comes from SAE Diploma (Games Programming) and is now being further developed.
@@ -22,12 +23,10 @@ namespace Player
         [Header("MULTI-JUMP MODE")] [Space]
         [Tooltip("If the Checkbox is checked Multi-Jump is on. And you can jump (x)times when in the air.")]
         [SerializeField] private bool _multiJump;
-
         [Tooltip("The amount of jumps when in air and Multi-Jump is enabled (2 or 3).")] 
         [Range(2, 3)] [SerializeField] private int _multiJumps;
-    
-        [Space]
-    
+
+
         [Header("WALL-FEATURES MODES")] [Space]
         [Tooltip("If the Checkbox is checked Wall Jump is on. If it�s unchecked it is not possible to jump off a wall.")]
         [SerializeField] private bool _wallJump = true;
@@ -89,16 +88,17 @@ namespace Player
         
         // Components and classes
         private CinemachineShake _cinemachine;
+        private EatablesCount _eatablesCount;
         private Animator _animator;
         private Controls _controls;
         private Collision _coll;
 
         // Variables
         private Vector2[] _dashDirections;
+        private Vector2 _dashDirection;
         private float _jumpBufferCounter;
         private float _coyoteTimeCounter;
         private float _jumpLengthCounter;
-        private Vector2 _dashDirection;
         private float _velocityChange;
         private float _runSpeedValue;
 
@@ -126,6 +126,9 @@ namespace Player
         public bool IsInteracting { get; private set; }
         public bool Wallsliding { get; set; }
         public bool CanMultiJump => _multiJump && JumpCounter > 0;
+        public bool HasEatablesDecreased => _eatablesCount.HasEatableDecreased();
+        public int GetEatablesCount => _eatablesCount.GetCount();
+
 
         #endregion
 
@@ -139,9 +142,11 @@ namespace Player
                 (Vector2.up + Vector2.right).normalized, (Vector2.down + Vector2.left).normalized,
                 (Vector2.down + Vector2.right).normalized
             };
+            _eatablesCount = GetComponent<EatablesCount>();
+            _animator = GetComponentInChildren<Animator>();
             Rigid = GetComponent<Rigidbody2D>();
             _coll = GetComponent<Collision>();
-            _animator = GetComponentInChildren<Animator>();
+            
             _controls = new Controls();
             _controls.Gameplay.SetCallbacks(this);
             JumpAction = _controls.Gameplay.Jump;

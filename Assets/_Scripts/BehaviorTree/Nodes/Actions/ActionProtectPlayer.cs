@@ -14,13 +14,13 @@ namespace BehaviorTree.Nodes.Actions
         private readonly float _stopDistance;
         private readonly float _speed;
         
-        public ActionProtectPlayer(float speed, float stopDistance, Transform transform, IBlackboard blackboard)
+        public ActionProtectPlayer(float speed, float stopDistance, Transform transform, Animator animator, IBlackboard blackboard)
         {
-            _animator = transform.GetComponentInChildren<Animator>();
-            _rigid = transform.GetComponent<Rigidbody2D>();
+            _animator = transform.parent.GetComponentInChildren<Animator>();
+            _rigid = transform.parent.GetComponent<Rigidbody2D>();
+            _transform = transform.parent;
             _stopDistance = stopDistance;
             _blackboard = blackboard;
-            _transform = transform;
             _speed = speed;
         }
         
@@ -38,9 +38,9 @@ namespace BehaviorTree.Nodes.Actions
             var step = _speed * Time.deltaTime;
             if (distance > _stopDistance)
             {
+                _animator.SetBool("IsWalking", true);
                 Vec2.MoveTo(_transform, player, step);
                 Vec2.LookAt(_rigid, direction);
-                _animator.SetBool("IsWalking", true);
             }
             else
             {

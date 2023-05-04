@@ -17,15 +17,15 @@ namespace BehaviorTree.Nodes.Actions
         private readonly float _stopDistance;
         private readonly float _speedGoTo;
         
-        public ActionMoveAwayFromPlayer(float speedGoTo, float speedMoveAway, float detectionRadius, float stopDistance, Transform transform, IBlackboard blackboard)
+        public ActionMoveAwayFromPlayer(float speedGoTo, float speedMoveAway, float detectionRadius, float stopDistance, Transform transform, Animator animator, IBlackboard blackboard)
         {
-            _animator = transform.GetComponentInChildren<Animator>();
             _rigid = transform.GetComponent<Rigidbody2D>();
             _stopDistance = detectionRadius - stopDistance;
             _speedMoveAway = speedMoveAway;
             _blackboard = blackboard;
             _speedGoTo = speedGoTo;
             _transform = transform;
+            _animator = animator;
         }
         
         public override NodeState Evaluate()

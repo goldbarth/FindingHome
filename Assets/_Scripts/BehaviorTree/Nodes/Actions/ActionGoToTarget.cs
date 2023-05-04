@@ -14,13 +14,13 @@ namespace BehaviorTree.Nodes.Actions
         private readonly float _stopDistance;
         private readonly float _speed;
         
-        public ActionGoToTarget(float speed, float stopDistance, Transform transform, IBlackboard blackboard)
+        public ActionGoToTarget(float speed, float stopDistance, Transform transform, Animator animator, IBlackboard blackboard)
         {
-            _animator = transform.GetComponentInChildren<Animator>();
-            _rigid = transform.GetComponent<Rigidbody2D>();
+            _animator = transform.parent.GetComponentInChildren<Animator>();
+            _rigid = transform.parent.GetComponent<Rigidbody2D>();
+            _transform = transform.parent;
             _stopDistance = stopDistance;
             _blackboard = blackboard;
-            _transform = transform;
             _speed = speed;
         }
         

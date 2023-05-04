@@ -6,7 +6,7 @@ namespace BehaviorTree.Core
     // and https://www.behaviortree.dev/docs/intro
     public abstract class Tree : MonoBehaviour
     {
-        private Node _root = null;
+        private BaseNode _root = null;
 
         protected virtual void Start()
         {
@@ -18,6 +18,6 @@ namespace BehaviorTree.Core
             _root?.Evaluate();
         }
 
-        protected abstract Node CreateTree();
+        protected abstract BaseNode CreateTree();
     }
 }

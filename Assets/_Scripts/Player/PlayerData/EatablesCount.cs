@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Player.PlayerData
 {
-    public class EatablesCount : MonoBehaviour, IDataPersistence, IEatables
+    public class EatablesCount : MonoBehaviour, IDataPersistence
     {
         private int _previousEatableCount;
         private bool _hasEatableDecreased = false;
@@ -47,12 +47,7 @@ namespace Player.PlayerData
             _hasEatableDecreased = false;
             return result;
         }
-        
-        public bool HasEatable()
-        {
-            return _eatableCount > 0;
-        }
-        
+
         public int GetCount()
         {
             return _eatableCount;
@@ -61,9 +56,7 @@ namespace Player.PlayerData
         private IEnumerator WaitForData()
         {
             while (!_isDataLoaded)
-            {
                 yield return null;
-            }
 
             _previousEatableCount = _eatableCount;
         }

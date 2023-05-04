@@ -12,11 +12,11 @@ namespace BehaviorTree.Nodes.Actions
 
         private bool _hasChanged;
 
-        public ActionChangeSpriteColor(Component component, AnimatorController newController, bool isChangingColor = true)
+        public ActionChangeSpriteColor(Component component, AnimatorController newController, Animator animator, bool isChangingColor = true)
         {
-            _animator = component.GetComponentInChildren<Animator>();
             _isChangingColor = isChangingColor;
             _newController = newController;
+            _animator = animator;
         }
 
         public override NodeState Evaluate()
@@ -24,8 +24,7 @@ namespace BehaviorTree.Nodes.Actions
             if(!_isChangingColor) return State = NodeState.Success;
             if (!_hasChanged)
             {
-                _animator.runtimeAnimatorController = _newController;
-                _animator.SetTrigger("IsEatingTrigger");
+                //_animator.SetTrigger("IsEatingTrigger");
                 Debug.Log("Change Color");
                 _hasChanged = true;
                 

@@ -6,7 +6,7 @@ namespace BehaviorTree.Nodes.Composites
     public class Sequence : CompositeNode
     {
         public Sequence() : base() { }
-        public Sequence(List<Node> children) : base(children) { }
+        public Sequence(List<BaseNode> children) : base(children) { }
         
         public override NodeState Evaluate()
         {

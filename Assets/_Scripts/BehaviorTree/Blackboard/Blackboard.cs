@@ -35,7 +35,7 @@ namespace BehaviorTree.Blackboard
         /// <summary>
         /// Get the data from the blackboard by searching with a key and id.
         /// </summary>
-        /// <param name="data">Dictionary(string, Item)</param>
+        /// <param name="data">Dictionary(string, BlackboardItem)</param>
         /// <param name="key">string</param>
         /// <param name="id">string</param>
         /// <param name="defaultValue">T</param>

@@ -7,7 +7,7 @@ namespace BehaviorTree.Nodes.Decorator
     {
         public ForceSuccess() : base() { }
 
-        public ForceSuccess(List<Node> children) : base(children) { }
+        public ForceSuccess(List<BaseNode> children) : base(children) { }
 
         public override NodeState Evaluate()
         {

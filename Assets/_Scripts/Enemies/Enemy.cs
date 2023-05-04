@@ -21,6 +21,7 @@ namespace Enemies
         protected internal bool TakeDamage(int damage)
         {
             _health -= damage;
+            Debug.Log("Enemy health: " + _health);
             var isDead = _health <= 0;
             if (isDead) Die();
             return isDead;
