@@ -15,13 +15,13 @@ namespace BehaviorTree.Nodes.Actions
 
         private float _timer;
         
-        public ActionTryReachTarget(float jumpForce, float interval, Component component, IBlackboard blackboard)
+        public ActionTryReachTarget(float jumpForce, float interval,Animator animator, Transform transform, IBlackboard blackboard)
         {
-            _animator = component.GetComponentInChildren<Animator>();
-            _rigid = component.GetComponent<Rigidbody2D>();
+            _rigid = transform.parent.GetComponent<Rigidbody2D>();
             _blackboard = blackboard;
             _jumpForce = jumpForce;
             _interval = interval;
+            _animator = animator;
         }
 
         public override NodeState Evaluate()

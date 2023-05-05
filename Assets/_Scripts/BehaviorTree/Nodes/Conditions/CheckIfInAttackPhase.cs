@@ -1,15 +1,21 @@
 ﻿using BehaviorTree.Core;
+using BehaviorTree.NPCStats;
 using UnityEngine;
 
 namespace BehaviorTree.Nodes.Conditions
 {
     public class CheckIfInAttackPhase : ConditionNode
     {
-        public CheckIfInAttackPhase() : base() { }
+        private readonly SpitterStats _stats;
 
+        public CheckIfInAttackPhase(SpitterStats stats)
+        {
+            _stats = stats;
+        }
+        
         public override NodeState Evaluate()
         {
-            if (GameManager.Instance.IsInAttackPhase)
+            if (_stats._isInAttackPhase)
             {
                 Debug.Log("In attack phase");
                 State = NodeState.Success;

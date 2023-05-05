@@ -6,9 +6,9 @@ namespace BehaviorTree.Core
     {
          protected CompositeNode() : base() {}
         
-        protected CompositeNode(List<BaseNode> children)
-        {
-            Children.AddRange(children);
-        }
+         protected CompositeNode(List<BaseNode> children)
+         {
+             Children.AddRange(children);
+         }
     }
 }

@@ -9239,6 +9239,10 @@ PrefabInstance:
       propertyPath: _id
       value: fcd77785-65d9-4f4e-a26f-16a2db1dcd9f
       objectReference: {fileID: 0}
+    - target: {fileID: 5344248975414694760, guid: 4c2d4cdd980dd3a429061e4fec6594df, type: 3}
+      propertyPath: _health
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 5965219278494422980, guid: 4c2d4cdd980dd3a429061e4fec6594df, type: 3}
       propertyPath: m_Name
       value: SummonerEnemy
@@ -10592,6 +10596,10 @@ PrefabInstance:
       propertyPath: _id
       value: 2e8b6aa1-2155-4107-b718-373e75084aa6
       objectReference: {fileID: 0}
+    - target: {fileID: 5344248975414694760, guid: 4c2d4cdd980dd3a429061e4fec6594df, type: 3}
+      propertyPath: _health
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 5965219278494422980, guid: 4c2d4cdd980dd3a429061e4fec6594df, type: 3}
       propertyPath: m_Name
       value: SummonerEnemy (1)
@@ -10718,10 +10726,18 @@ PrefabInstance:
       propertyPath: _stats
       value: 
       objectReference: {fileID: 11400000, guid: 34e7259d30beace44bbb4b1b1b0c9b79, type: 2}
+    - target: {fileID: 5669545936840945486, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
+      propertyPath: _isChangingColor
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7125533726388465967, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 7624241487542902309, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ef2057da08d97f343b6339b34c2e60c7, type: 2}
     - target: {fileID: 8313058287930400487, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
       propertyPath: m_Size.x
       value: 0.5009155

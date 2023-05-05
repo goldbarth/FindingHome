@@ -1,36 +1,31 @@
-﻿using AddIns;
-using BehaviorTree.Blackboard;
+﻿using BehaviorTree.Blackboard;
+using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
 using UnityEngine;
+using AddIns;
 
 namespace BehaviorTree.Nodes.Actions
 {
     public class ActionMoveAwayFromPlayer : ActionNode
     {
-        private const float BackupDistance = 2f;
-        
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
+        private readonly SpitterStats _stats;
         private readonly Rigidbody2D _rigid;
         private readonly Animator _animator;
-        private readonly float _speedMoveAway;
-        private readonly float _stopDistance;
-        private readonly float _speedGoTo;
-        
-        public ActionMoveAwayFromPlayer(float speedGoTo, float speedMoveAway, float detectionRadius, float stopDistance, Transform transform, Animator animator, IBlackboard blackboard)
+
+        public ActionMoveAwayFromPlayer(SpitterStats stats, Transform transform, Animator animator, IBlackboard blackboard)
         {
             _rigid = transform.GetComponent<Rigidbody2D>();
-            _stopDistance = detectionRadius - stopDistance;
-            _speedMoveAway = speedMoveAway;
             _blackboard = blackboard;
-            _speedGoTo = speedGoTo;
             _transform = transform;
             _animator = animator;
+            _stats = stats;
         }
         
         public override NodeState Evaluate()
         {
-            if (GameManager.Instance.IsInAttackPhase)
+            if (_stats._isInAttackPhase)
             {
                 State = NodeState.Failure;
                 return State;
@@ -41,12 +36,13 @@ namespace BehaviorTree.Nodes.Actions
             var distance = Vector2.Distance(position, player.position);
             var direction = Vec2.Direction(position, player.position);
             var reverseDirection = Vec2.Direction(player.position, position);
-            var backup = reverseDirection * BackupDistance;
+            var stopDistance = _stats._detectionRadiusPlayer - _stats._farRangeStopDistance;
+            var backup = reverseDirection * _stats._backupDistance;
 
             // follow phase
-            if (distance > _stopDistance)
+            if (distance > stopDistance)
             {
-                var step = _speedGoTo * Time.deltaTime;
+                var step = _stats._speedGoToPlayer * Time.deltaTime;
                 _animator.SetBool("IsWalking", true);
                 Vec2.MoveTo(_transform, player, step);
                 Vec2.LookAt(_rigid, direction);
@@ -55,9 +51,9 @@ namespace BehaviorTree.Nodes.Actions
                 return State;
             }
             // backup phase
-            if (distance < _stopDistance - BackupDistance)
+            if (distance < stopDistance - _stats._backupDistance)
             {
-                var step = _speedMoveAway * Time.deltaTime;
+                var step = _stats._speedTargetFollow * Time.deltaTime;
                 _animator.SetBool("IsWalking", true);
                 Vec2.MoveAway(_transform, position, backup, step);
                 Vec2.LookAt(_rigid, reverseDirection);

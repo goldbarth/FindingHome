@@ -5,11 +5,11 @@ namespace Enemies
 {
     public abstract class Enemy : GenerateGuid
     {
-        private int _health;
+        [SerializeField] protected int _health = 30;
 
         protected virtual void Awake()
         {
-            _health = 30;
+            //_health = 30;
         }
         
         /// <summary>

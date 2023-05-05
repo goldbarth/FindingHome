@@ -1,4 +1,5 @@
 ﻿using BehaviorTree.Blackboard;
+using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
 using UnityEngine;
 using AddIns;
@@ -9,19 +10,17 @@ namespace BehaviorTree.Nodes.Actions
     {
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
+        private readonly SpitterStats _stats;
         private readonly Animator _animator;
         private readonly Rigidbody2D _rigid;
-        private readonly float _stopDistance;
-        private readonly float _speed;
-        
-        public ActionGoToTarget(float speed, float stopDistance, Transform transform, Animator animator, IBlackboard blackboard)
+
+        public ActionGoToTarget(SpitterStats stats, Transform transform, Animator animator, IBlackboard blackboard)
         {
-            _animator = transform.parent.GetComponentInChildren<Animator>();
             _rigid = transform.parent.GetComponent<Rigidbody2D>();
             _transform = transform.parent;
-            _stopDistance = stopDistance;
             _blackboard = blackboard;
-            _speed = speed;
+            _animator = animator;
+            _stats = stats;
         }
         
         public override NodeState Evaluate()
@@ -34,15 +33,21 @@ namespace BehaviorTree.Nodes.Actions
             var target = _blackboard.GetData<Transform>("target");
             var direction = Vec2.Direction(_transform.position, target.position);
             var distance = Vector2.Distance(_transform.position, target.position);
-            var step = _speed * Time.deltaTime;
-            if (distance > _stopDistance)
+            var step = _stats._speedTargetFollow * Time.deltaTime;
+            if (distance > _stats._targetStopDistance)
             {
                 _animator.SetBool("IsWalking", true);
                 Vec2.MoveTo(_transform, target, step);
                 Vec2.LookAt(_rigid, direction);
 
-                State = NodeState.Success;
+                State = NodeState.Running;
                 return State; 
+            }
+
+            if (distance < _stats._targetStopDistance)
+            {
+                _animator.SetBool("IsWalking", false);
+                return State = NodeState.Success;
             }
             
             State = NodeState.Failure;

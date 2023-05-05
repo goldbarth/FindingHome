@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BehaviorTree.Entities
+namespace BehaviorTree.NPCStats
 {
     public class BTStats : ScriptableObject
     {

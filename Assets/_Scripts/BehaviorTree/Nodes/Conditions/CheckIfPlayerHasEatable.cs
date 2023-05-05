@@ -1,7 +1,6 @@
-﻿using Player.PlayerData;
-using BehaviorTree.Core;
-using Player;
+﻿using BehaviorTree.Core;
 using UnityEngine;
+using Player;
 
 namespace BehaviorTree.Nodes.Conditions
 {
@@ -18,8 +17,7 @@ namespace BehaviorTree.Nodes.Conditions
         {
             if (HasEatable())
             {
-                Debug.Log("Player has eatable");
-                State = NodeState.Running;
+                State = NodeState.Success;
                 return State;
             }
 

@@ -5,6 +5,12 @@
     Running
 }
 
+public enum SpitterAnimationEvents
+{
+    ChangeController,
+}
+
+
 public enum CollectableType
 {
     Eatable,

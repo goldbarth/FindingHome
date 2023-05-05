@@ -1,4 +1,5 @@
 ﻿using BehaviorTree.Blackboard;
+using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
 using UnityEngine;
 using AddIns;
@@ -9,24 +10,22 @@ namespace BehaviorTree.Nodes.Actions
     {
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
+        private readonly SpitterStats _stats;
         private readonly Animator _animator;
         private readonly Rigidbody2D _rigid;
-        private readonly float _stopDistance;
-        private readonly float _speed;
-        
-        public ActionProtectPlayer(float speed, float stopDistance, Transform transform, Animator animator, IBlackboard blackboard)
+
+        public ActionProtectPlayer(SpitterStats stats, Transform transform, Animator animator, IBlackboard blackboard)
         {
-            _animator = transform.parent.GetComponentInChildren<Animator>();
             _rigid = transform.parent.GetComponent<Rigidbody2D>();
             _transform = transform.parent;
-            _stopDistance = stopDistance;
             _blackboard = blackboard;
-            _speed = speed;
+            _animator = animator;
+            _stats = stats;
         }
         
         public override NodeState Evaluate()
         {
-            if (GameManager.Instance.IsInAttackPhase)
+            if (_stats._isInAttackPhase)
             {
                 State = NodeState.Failure;
                 return State;
@@ -35,8 +34,8 @@ namespace BehaviorTree.Nodes.Actions
             var player = _blackboard.GetData<Transform>("player");
             var distance = Vector2.Distance(_transform.position, player.position);
             var direction = ((Vector2)player.position - (Vector2)_rigid.transform.position).normalized;
-            var step = _speed * Time.deltaTime;
-            if (distance > _stopDistance)
+            var step = _stats._speedPlayerFollow * Time.deltaTime;
+            if (distance > _stats._stopDistancePlayerProtect)
             {
                 _animator.SetBool("IsWalking", true);
                 Vec2.MoveTo(_transform, player, step);

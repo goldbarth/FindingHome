@@ -1,4 +1,5 @@
 ﻿using BehaviorTree.Blackboard;
+using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
 using UnityEngine;
 using AddIns;
@@ -9,26 +10,22 @@ namespace BehaviorTree.Nodes.Actions
     {
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
+        private readonly SpitterStats _stats;
         private readonly Rigidbody2D _rigid;
         private readonly Animator _animator;
-        private readonly float _backupDistance;
-        private readonly float _stopDistance;
-        private readonly float _speed;
 
-        public ActionFollowAndBackupToPlayer(float speed, float detectionRadius, float stopDistance, float backupDistance, Transform transform, Animator animator, IBlackboard blackboard)
+        public ActionFollowAndBackupToPlayer(SpitterStats stats, Transform transform, Animator animator, IBlackboard blackboard)
         {
-            _animator = transform.parent.GetComponentInChildren<Animator>();
             _rigid = transform.parent.GetComponent<Rigidbody2D>();
-            _stopDistance = detectionRadius - stopDistance;
-            _backupDistance = backupDistance;
-            _blackboard = blackboard;
             _transform = transform.parent;
-            _speed = speed;
+            _blackboard = blackboard;
+            _animator = animator;
+            _stats = stats;
         }
         
         public override NodeState Evaluate()
         {
-            if (GameManager.Instance.IsInAttackPhase)
+            if (_stats._isInAttackPhase)
             {
                 State = NodeState.Failure;
                 return State;
@@ -38,15 +35,16 @@ namespace BehaviorTree.Nodes.Actions
             var position = _transform.position;
             var distance = Vector2.Distance(position, player.position);
             var direction = Vec2.Direction(position, player.position);
+            var stopDistance = _stats._detectionRadiusPlayer - _stats._nearRangeStopDistance;
             
             var reverseDirection = Vec2.Direction(player.position, position);
-            var backup = reverseDirection * _backupDistance;
-            var step = _speed * Time.deltaTime;
+            var backup = reverseDirection * _stats._backupDistance;
+            var step = _stats._speedGoToPlayer * Time.deltaTime;
             
-            DrawLineSegments(position, player.position, _stopDistance);
+            DrawLineSegments(position, player.position, stopDistance);
 
             // idle phase
-            if (distance < _stopDistance - .01f && distance > _stopDistance - _backupDistance + .01f)
+            if (distance < stopDistance - .01f && distance > stopDistance - _stats._backupDistance + .01f)
             {
                 Debug.Log("idle");
                 _animator.SetBool("IsWalking", false);
@@ -57,7 +55,7 @@ namespace BehaviorTree.Nodes.Actions
             }
             
             // follow phase
-            if (distance > _stopDistance)
+            if (distance > stopDistance)
             {
                 _animator.SetBool("IsWalking", true);
                 Vec2.MoveTo(_transform, player, step);
@@ -67,7 +65,7 @@ namespace BehaviorTree.Nodes.Actions
                 return State;
             }
             // backup phase
-            if (distance < _stopDistance - _backupDistance)
+            if (distance < stopDistance - _stats._backupDistance)
             {
                 _animator.SetBool("IsWalking", true);
                 Vec2.MoveAway(_transform, position, backup, step);
@@ -86,7 +84,7 @@ namespace BehaviorTree.Nodes.Actions
             var dir = (player - position);
             var stopDir = dir.magnitude;
             var shortenedDirection = dir.normalized * (stopDir - distance);
-            var backupShortenedDirection = dir.normalized * (stopDir - distance + _backupDistance);
+            var backupShortenedDirection = dir.normalized * (stopDir - distance + _stats._backupDistance);
             var endPoint = position + shortenedDirection;
             var backupEndPoint = position + backupShortenedDirection;
             

@@ -1,10 +1,10 @@
-﻿using BehaviorTree.BehaviorTreeStats;
-using Tree = BehaviorTree.Core.Tree;
+﻿using Tree = BehaviorTree.Core.Tree;
 using BehaviorTree.Nodes.Composites;
 using BehaviorTree.Nodes.Conditions;
 using BehaviorTree.Nodes.Decorator;
 using BehaviorTree.Nodes.Actions;
 using System.Collections.Generic;
+using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
 using UnityEngine;
 using Player;
@@ -20,6 +20,16 @@ namespace BehaviorTree.Behaviors
         private Dictionary<SpitterAnimationEvents, Action> _animationEventDictionary;
         private Animator _animator;
 
+        private void OnEnable()
+        {
+            ActionConsumeEatable.OnConsumeEatableEvent += SetFriendly;
+        }
+
+        private void OnDisable()
+        {
+            ActionConsumeEatable.OnConsumeEatableEvent -= SetFriendly;
+        }
+
         private void Awake()
         {
             _animator = transform.parent.GetComponentInChildren<Animator>();
@@ -29,8 +39,8 @@ namespace BehaviorTree.Behaviors
         {
             base.Start();
 
-            _stats._animator = _animator;
-
+            _stats._hasEaten = false;
+            _stats._isInAttackPhase = false;
             _animationEventDictionary = new Dictionary<SpitterAnimationEvents, Action>();
             _animationEventDictionary.Add(SpitterAnimationEvents.ChangeController, ChangeToFriendlyAnimator);
         }
@@ -44,20 +54,20 @@ namespace BehaviorTree.Behaviors
                 {
                     new Sequence(new List<BaseNode>
                         {
-                            new CheckIfFriendlyNPCHasEaten(player),
+                            new CheckIfFriendlyNPCHasEaten(_stats),
                             new Inverter(new List<BaseNode>
                             {
                                 new Sequence(new List<BaseNode>
                                 {
                                     new CheckForObjectInFOVRange(_stats._targetTag, _stats._detectionRadiusEnemy, _stats._targetLayer, transform, blackboard),
-                                    new ActionGoToTarget(_stats._speedTargetFollow, _stats._targetStopDistance, transform, _animator,blackboard),
-                                    new CheckIfTargetInAttackRange(transform, _stats._attackRadius, _animator, blackboard),
-                                    new ActionAttackTarget(transform, _stats._speedTargetFollow, _stats._attackTime, _stats._attackDamage, _animator, blackboard)
+                                    new ActionGoToTarget(_stats, transform, _animator,blackboard),
+                                    new CheckIfTargetInAttackRange(_stats, transform, blackboard),
+                                    new ActionAttackTarget(_stats, transform, _animator, blackboard)
                                 })
                             }),
                             new Inverter(new List<BaseNode>
                             {
-                                new CheckIfInAttackPhase()
+                                new CheckIfInAttackPhase(_stats)
                             }),
                             new CheckForObjectInFOVRange(_stats._playerTag, _stats._detectionRadiusPlayer, _stats._playerLayer, transform, blackboard),
                             //new Inverter(new List<Node>
@@ -67,20 +77,19 @@ namespace BehaviorTree.Behaviors
                             //        new ActionFollowAndBackupToPlayer(_entity._speedGoToPlayer, _entity._detectionRadiusPlayer, _entity._farRangeStopDistance, _transform, blackboard)
                             //    }
                             //    ),
-                            new ActionProtectPlayer(_stats._speedPlayerFollow, _stats._stopDistancePlayerProtect, transform, _animator, blackboard)
+                            new ActionProtectPlayer(_stats, transform, _animator, blackboard)
                         }
                     ),
                     new Sequence(new List<BaseNode>
                     {
                         new Inverter(new List<BaseNode>
                         {
-                            new CheckIfFriendlyNPCHasEaten(player)
+                            new CheckIfFriendlyNPCHasEaten(_stats)
                         }),
                         new CheckForObjectInFOVRange(_stats._playerTag, _stats._detectionRadiusPlayer, _stats._playerLayer, transform, blackboard),
-                        new ActionFollowAndBackupToPlayer(_stats._speedGoToPlayer, _stats._detectionRadiusPlayer, _stats._nearRangeStopDistance, _stats._backupDistance, transform, _animator, blackboard),
+                        new ActionFollowAndBackupToPlayer(_stats, transform, _animator, blackboard),
                         new CheckIfPlayerHasEatable(player),
-                        new ActionConsumeEatable(_stats._speedGoToPlayer, _stats._stopDistanceEat, transform, _animator, blackboard),
-                        new ActionChangeSpriteColor(transform, _stats._animatorController, _animator, _isChangingColor)
+                        new ActionConsumeEatable(_stats, transform, _animator, blackboard),
                     })
                 }
             );
@@ -97,6 +106,11 @@ namespace BehaviorTree.Behaviors
         {
             if (!_isChangingColor) return;
             _animator.runtimeAnimatorController = _stats._animatorController;
+        }
+
+        private void SetFriendly()
+        {
+            _stats._hasEaten = true;
         }
 
 #if UNITY_EDITOR

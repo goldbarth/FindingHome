@@ -2,11 +2,6 @@
 
 namespace BehaviorTree.Behaviors
 {
-    public enum SpitterAnimationEvents
-    {
-        ChangeController,
-    }
-    
     public class SpitterAnimationEventCaller : MonoBehaviour
     {
         private SpitterBehavior _spitterBehavior;
