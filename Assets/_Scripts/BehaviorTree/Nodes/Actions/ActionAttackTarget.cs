@@ -44,8 +44,8 @@ namespace BehaviorTree.Nodes.Actions
             _summoner = target.GetComponent<Summoner>();
 
             var direction = Vec2.Direction(_transform.position, target.position);
-            var step = _stats._speedTargetFollow * Time.deltaTime;
-            Vec2.MoveTo(_transform, target, step);
+            //var step = _stats._speedTargetFollow * Time.deltaTime;
+            //Vec2.MoveTo(_transform, target, step);
             Vec2.LookAt(_rigid, direction);
 
             if (_attackCounter < _stats._attackTime)

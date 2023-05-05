@@ -31,6 +31,8 @@ namespace BehaviorTree.NPCStats
         public float _backupDistance = 3f;
         [Range(.5f, 10f)]
         public float _targetStopDistance = .5f;
+        [Range(.5f, 10f)]
+        public float _distanceBetweenOffset = .5f;
         [Header("Speeds")]
         [Range(.5f, 10f)]
         public float _speedGoToPlayer = 6f;

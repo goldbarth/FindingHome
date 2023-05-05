@@ -21,15 +21,16 @@ MonoBehaviour:
   _playerTag: player
   _targetTag: target
   _animatorController: {fileID: 9100000, guid: 936f8b0343d7dde4da63591f2343bcf9, type: 2}
-  _detectionRadiusEnemy: 4
+  _detectionRadiusEnemy: 5.5
   _detectionRadiusPlayer: 8
   _attackRadius: 2
   _stopDistanceEat: 1.2
   _stopDistancePlayerProtect: 1.8
   _nearRangeStopDistance: 4
   _farRangeStopDistance: 1.5
-  _backupDistance: 3
+  _backupDistance: 2.5
   _targetStopDistance: 0.5
+  _distanceBetweenOffset: 0.5
   _speedGoToPlayer: 6.8
   _speedPlayerFollow: 6.8
   _speedTargetFollow: 5

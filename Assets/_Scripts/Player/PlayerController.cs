@@ -1,10 +1,10 @@
 using UnityEngine.InputSystem;
 using System.Collections;
+using Player.PlayerData;
 using AnimationHandler;
 using static Controls;
 using UnityEngine;
 using Dialogue;
-using Player.PlayerData;
 
 //-------------------------------------------------------------------------------------------------------------------------
 // Originally, this task comes from SAE Diploma (Games Programming) and is now being further developed.
@@ -128,7 +128,6 @@ namespace Player
         public bool CanMultiJump => _multiJump && JumpCounter > 0;
         public bool HasEatablesDecreased => _eatablesCount.HasEatableDecreased();
         public int GetEatablesCount => _eatablesCount.GetCount();
-
 
         #endregion
 

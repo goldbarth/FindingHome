@@ -44,9 +44,8 @@ namespace BehaviorTree.Nodes.Actions
             DrawLineSegments(position, player.position, stopDistance);
 
             // idle phase
-            if (distance < stopDistance - .01f && distance > stopDistance - _stats._backupDistance + .01f)
+            if (Vec2.DistanceBetween(_stats, position, player.position))
             {
-                Debug.Log("idle");
                 _animator.SetBool("IsWalking", false);
                 Vec2.LookAt(_rigid, direction);
                 
@@ -78,7 +77,7 @@ namespace BehaviorTree.Nodes.Actions
             State = NodeState.Failure;
             return State;
         }
-        
+
         private void DrawLineSegments(Vector2 position, Vector2 player, float distance)
         {
             var dir = (player - position);
