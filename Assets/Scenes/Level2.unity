@@ -8332,7 +8332,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.06557492, g: 0.11320752, b: 0.095134094, a: 0}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -10737,7 +10737,7 @@ PrefabInstance:
     - target: {fileID: 7624241487542902309, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: ef2057da08d97f343b6339b34c2e60c7, type: 2}
+      objectReference: {fileID: 9100000, guid: 936f8b0343d7dde4da63591f2343bcf9, type: 2}
     - target: {fileID: 8313058287930400487, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
       propertyPath: m_Size.x
       value: 0.5009155
