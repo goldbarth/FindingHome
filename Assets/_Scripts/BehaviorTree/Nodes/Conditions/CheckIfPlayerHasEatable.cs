@@ -15,14 +15,7 @@ namespace BehaviorTree.Nodes.Conditions
         
         public override NodeState Evaluate()
         {
-            if (HasEatable())
-            {
-                State = NodeState.Success;
-                return State;
-            }
-
-            State = NodeState.Failure;
-            return State;
+            return State = HasEatable() ? NodeState.Success : NodeState.Failure;
         }
 
         private bool HasEatable()

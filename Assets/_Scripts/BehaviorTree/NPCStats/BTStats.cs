@@ -5,10 +5,10 @@ namespace BehaviorTree.NPCStats
     public class BTStats : ScriptableObject
     {
         [Header("Layer Masks")]
-        public LayerMask _targetLayer;
-        public LayerMask _playerLayer;
+        public LayerMask TargetLayer;
+        public LayerMask PlayerLayer;
         [Header("Tags")]
-        public string _playerTag = "player";
-        public string _targetTag = "target";
+        public string PlayerTag = "player";
+        public string TargetTag = "target";
     }
 }

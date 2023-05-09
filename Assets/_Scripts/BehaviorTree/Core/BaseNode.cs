@@ -8,9 +8,9 @@ namespace BehaviorTree.Core
 
         protected NodeState State;
 
-        protected BaseNode() : base() {}
+        protected BaseNode() {}
         
-        protected BaseNode(List<BaseNode> children) : base()
+        protected BaseNode(List<BaseNode> children)
         {
             Children.AddRange(children);
         }

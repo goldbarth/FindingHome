@@ -8,15 +8,13 @@ namespace Player.Audio
         [SerializeField] private AudioSource _stepSound;
         [SerializeField] private AudioSource _jumpSound;
         
-        private CharMemoryManager _memoryManager;
+        private DialogueManager _dialogueManager;
         private PlayerController _player;
-        private NpcManager _npcManager;
         private Collision _coll;
         
         private void Awake()
         {
-            _memoryManager = FindObjectOfType<CharMemoryManager>();
-            _npcManager = FindObjectOfType<NpcManager>();
+            _dialogueManager = FindObjectOfType<DialogueManager>();
             _player = GetComponent<PlayerController>();
             _coll = GetComponent<Collision>();
         }
@@ -29,7 +27,7 @@ namespace Player.Audio
 
         private void JumpSound()
         {
-            if(_memoryManager.IsInDialogue || _npcManager.IsInDialogue)
+            if(_dialogueManager is not null && _dialogueManager.IsInDialogue)
                 return;
             if (_player.JumpAction.ReadValue<float>() > 0 && _coll.IsGround() && _player.CanJump)
                 _jumpSound.Play();

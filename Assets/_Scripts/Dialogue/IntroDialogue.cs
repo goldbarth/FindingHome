@@ -1,22 +1,28 @@
 ﻿using UnityEngine;
-using AddIns;
+using System;
 
 namespace Dialogue
 {
-    public class IntroDialogue : Singleton<IntroDialogue>
+    public class IntroDialogue : MonoBehaviour
     {
         [SerializeField] private GameObject _popup;
         [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private AudioSource _audioSource;
         [SerializeField] private TextAsset _inkJson;
+        [SerializeField] private bool _hasChoices = true;
         
+        private DialogueManager _dialogueManager;
         private Controls _controls;
         private bool _inRange;
+        
+        public static event Action<TextAsset, AudioSource, bool> OnDialogueIntro;
 
-        protected override void Awake()
+        private void Awake()
         {
-            _inRange = false;
-            _popup.SetActive(false);
+            _dialogueManager = FindObjectOfType<DialogueManager>();
             _controls = new Controls();
+            _popup.SetActive(false);
+            _inRange = false;
         }
 
         private void OnEnable()
@@ -32,9 +38,9 @@ namespace Dialogue
         private void Update()
         {
             _popup.SetActive(_inRange);
-            if (_inRange && !DialogueManager.Instance.OnDialogueActive())
+            if (_inRange && !_dialogueManager.IsInDialogue)
                 if (_controls.Gameplay.Interact.triggered)
-                    DialogueManager.Instance.EnterDialogueMode(_inkJson);
+                    OnDialogueIntro?.Invoke(_inkJson, _audioSource, _hasChoices);
         }
 
         private void OnTriggerEnter2D(Collider2D col)

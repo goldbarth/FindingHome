@@ -14,7 +14,7 @@ namespace BehaviorTree.Nodes.Conditions
 
         public override NodeState Evaluate()
         {
-            return State = _stats._hasEaten ? NodeState.Success : NodeState.Failure;
+            return State = _stats.HasEaten ? NodeState.Success : NodeState.Failure;
         }
     }
 }

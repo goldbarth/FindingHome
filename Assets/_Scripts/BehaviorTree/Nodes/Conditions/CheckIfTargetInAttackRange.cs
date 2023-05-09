@@ -14,7 +14,7 @@ namespace BehaviorTree.Nodes.Conditions
         
         public CheckIfTargetInAttackRange(SpitterStats stats, Transform transform, IBlackboard blackboard)
         {
-            _attackRange = stats._attackRadius;
+            _attackRange = stats.AttackRadius;
             _transform = transform.parent;
             _blackboard = blackboard;
             _stats = stats;
@@ -23,22 +23,16 @@ namespace BehaviorTree.Nodes.Conditions
         public override NodeState Evaluate()
         {
             var target = _blackboard.GetData<Transform>("target");
-            if (target is null)
-            {
-                State = NodeState.Failure;
-                return State;
-            }
-
             var distance = Vector2.Distance(_transform.position, target.position);
             if (distance < _attackRange)
             {
-                _stats._isInAttackPhase = true;
+                _stats.IsInAttackPhase = true;
 
                 State = NodeState.Success;
                 return State;
             }
             
-            _stats._isInAttackPhase = false;
+            _stats.IsInAttackPhase = false;
             
             State = NodeState.Failure;
             return State;

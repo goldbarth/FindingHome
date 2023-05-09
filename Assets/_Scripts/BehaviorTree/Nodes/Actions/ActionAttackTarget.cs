@@ -44,11 +44,9 @@ namespace BehaviorTree.Nodes.Actions
             _summoner = target.GetComponent<Summoner>();
 
             var direction = Vec2.Direction(_transform.position, target.position);
-            //var step = _stats._speedTargetFollow * Time.deltaTime;
-            //Vec2.MoveTo(_transform, target, step);
             Vec2.LookAt(_rigid, direction);
 
-            if (_attackCounter < _stats._attackTime)
+            if (_attackCounter < _stats.AttackTime)
             {
                 Debug.Log($"ATTACK TIMER: {_attackCounter}");
                 _attackCounter += Time.deltaTime;
@@ -59,10 +57,10 @@ namespace BehaviorTree.Nodes.Actions
             _attackCounter = 0f;
 
             _animator.SetBool("IsAttacking", true);
-            var enemyIsDead = _summoner.TakeDamage(_stats._attackDamage);
+            var enemyIsDead = _summoner.TakeDamage(_stats.AttackDamage);
             if (enemyIsDead)
             {
-                _stats._isInAttackPhase = false;
+                _stats.IsInAttackPhase = false;
                 _blackboard.ClearData("target");
                 _animator.SetBool("IsAttacking", false);
 

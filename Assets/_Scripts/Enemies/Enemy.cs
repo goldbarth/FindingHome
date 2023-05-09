@@ -1,5 +1,5 @@
-﻿using AddIns;
-using UnityEngine;
+﻿using UnityEngine;
+using AddIns;
 
 namespace Enemies
 {
@@ -7,21 +7,15 @@ namespace Enemies
     {
         [SerializeField] protected int _health = 30;
 
-        protected virtual void Awake()
-        {
-            //_health = 30;
-        }
-        
         /// <summary>
         /// Default health is 30.<br/>
         /// Adjust the damage to get the desired result.
         /// </summary>
         /// <param name="damage">int</param>
-        /// <returns>Returns true if enemy is dead</returns>
+        /// <returns>Returns true if enemy is dead.</returns>
         protected internal bool TakeDamage(int damage)
         {
             _health -= damage;
-            Debug.Log("Enemy health: " + _health);
             var isDead = _health <= 0;
             if (isDead) Die();
             return isDead;

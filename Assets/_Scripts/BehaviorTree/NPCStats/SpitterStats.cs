@@ -8,45 +8,54 @@ namespace BehaviorTree.NPCStats
     {
         [Header("Components")]
         [Tooltip("Get switched when becomes friendly.")]
-        public AnimatorController _animatorController;
+        public AnimatorController AnimatorController;
         [Header("Radii")]
         [Range(.5f, 10f)]
-        public float _detectionRadiusEnemy = 4f;
+        public float DetectionRadiusEnemy = 4f;
         [Range(.5f, 10f)]
-        public float _detectionRadiusPlayer = 8f;
+        public float DetectionRadiusPlayer = 8f;
         [Range(.5f, 10f)]
-        public float _attackRadius = 2f;
+        public float AttackRadius = 2f;
         [Header("Distances")]
         [Range(.5f, 10f)]
-        public float _stopDistanceEat = 1.2f;
+        public float StopDistanceEat = 1.2f;
         [Range(.5f, 10f)]
-        public float _stopDistancePlayerProtect = 1.8f;
+        public float ProtectRangeStopDistance = 6.2f;
         [Tooltip("Increase the amount to get a greater distance to the object, and reverse. A good approach is to start with 3.")]
         [Range(.5f, 10f)]
-        public float _nearRangeStopDistance = 4f;
+        public float NearRangeStopDistance = 4f;
         [Tooltip("Increase the amount to get a greater distance to the object, and reverse. A good approach is to start with 1.")]
         [Range(.5f, 10f)]
-        public float _farRangeStopDistance= 1.5f;
+        public float FarRangeStopDistance= 1.5f;
         [Range(.5f, 10f)]
-        public float _backupDistance = 3f;
+        public float MinBackupDistance = 3f;
         [Range(.5f, 10f)]
-        public float _targetStopDistance = .5f;
+        public float MaxBackupDistance = 3f;
         [Range(.5f, 10f)]
-        public float _distanceBetweenOffset = .5f;
+        public float TargetStopDistance = .5f;
+        [Range(0f, 10f)]
+        public float DistanceBetweenOffset = .5f;
         [Header("Speeds")]
-        [Range(.5f, 10f)]
-        public float _speedGoToPlayer = 6f;
-        [Range(.5f, 10f)]
-        public float _speedPlayerFollow = 6.8f;
-        [Range(.5f, 10f)]
-        public float _speedTargetFollow = 5f;
-        [Header("Attack")]
+        [Range(.5f, 300f)]
+        public float SpeedGoToPlayer = 140f;
+        [Range(.5f, 300f)]
+        public float SpeedPlayerBackup = 180f;
+        [Range(.5f, 300f)]
+        public float SpeedTargetFollow = 5f;
+        [Range(.5f, 300f)]
+        public float SpeedGoToEat = 5f;
+        [Header("Attack Stats")]
         [Range(.001f, 3f)]
-        public float _attackTime = .7f;
+        public float AttackTime = .7f;
         [Range(1, 30)]
-        public int _attackDamage = 10;
-        [Header("Bools")]
-        public bool _hasEaten;
-        public bool _isInAttackPhase;
+        public int AttackDamage = 10;
+        [Header("Transitions")]
+        [Range(.01f, 10f)]
+        public float PositionTransition = .8f;
+        [Range(.01f, 10f)]
+        public float SpeedTransition = .8f;
+        [Header("Flags")]
+        public bool HasEaten;
+        public bool IsInAttackPhase;
     }
 }

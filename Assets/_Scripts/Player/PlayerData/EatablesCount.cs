@@ -16,13 +16,13 @@ namespace Player.PlayerData
         private void OnEnable()
         {
             EatableCounterTrigger.OnEatableCollectEvent += IncrementEatableCount;
-            ActionConsumeEatable.OnConsumeEatableEvent += DecrementEatableCount;
+            ActionConsumeEatable.OnConsumeEatable += DecrementEatableCount;
         }
 
         private void OnDisable()
         {
             EatableCounterTrigger.OnEatableCollectEvent -= IncrementEatableCount;
-            ActionConsumeEatable.OnConsumeEatableEvent -= DecrementEatableCount;
+            ActionConsumeEatable.OnConsumeEatable -= DecrementEatableCount;
         }
 
         private void Start()

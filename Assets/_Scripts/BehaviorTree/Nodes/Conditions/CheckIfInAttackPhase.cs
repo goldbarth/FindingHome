@@ -15,15 +15,7 @@ namespace BehaviorTree.Nodes.Conditions
         
         public override NodeState Evaluate()
         {
-            if (_stats._isInAttackPhase)
-            {
-                Debug.Log("In attack phase");
-                State = NodeState.Success;
-                return State;
-            }
-            
-            State = NodeState.Failure;
-            return State;
+            return State = _stats.IsInAttackPhase ? NodeState.Success : NodeState.Failure;
         }
     }
 }

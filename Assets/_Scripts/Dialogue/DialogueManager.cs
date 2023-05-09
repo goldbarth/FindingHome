@@ -1,33 +1,34 @@
-﻿using System.Collections;
-using AddIns;
+﻿using UnityEngine.EventSystems;
+using System.Collections;
+using UnityEngine;
 using Ink.Runtime;
 using TMPro;
-using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Dialogue
 {
-    public class DialogueManager : Singleton<DialogueManager>
+    public class DialogueManager : MonoBehaviour
     {
+        private const float WaitTillCanMove = .2f;
+        
         [SerializeField] private GameObject _dialoguePanel;
         [SerializeField] private TextMeshProUGUI _dialogueText;
+        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private bool _hasChoices = false;
         [SerializeField] private GameObject[] _choices;
         
         private TextMeshProUGUI[] _choiceTexts;
         private Story _currentStory;
         private Controls _controls;
 
-        private const float WaitTillCanMove = .2f;
-        private bool _onDialogueIsActive = false;
+        public bool IsInDialogue { get; private set; } = false;
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
-            
-            _controls = new Controls();
-            _onDialogueIsActive = false;
-            _dialoguePanel.SetActive(false);
             _choiceTexts = new TextMeshProUGUI[_choices.Length];
+            _dialoguePanel.SetActive(false);
+            _controls = new Controls();
+            IsInDialogue = false;
+            
             var index = 0;
             foreach (var choice in _choices)
             {
@@ -38,27 +39,35 @@ namespace Dialogue
 
         private void OnEnable()
         {
+            IntroDialogue.OnDialogueIntro += EnterDialogueMode;
+            DialogueBoxTrigger.OnDialogueBoxTriggered += EnterDialogueMode;
+            SpitterDialogueTrigger.OnEatDialogueTriggered += EnterDialogueMode;
             _controls.Enable();
         }
         
         private void OnDisable()
         {
+            IntroDialogue.OnDialogueIntro -= EnterDialogueMode;
+            DialogueBoxTrigger.OnDialogueBoxTriggered -= EnterDialogueMode;
+            SpitterDialogueTrigger.OnEatDialogueTriggered -= EnterDialogueMode;
             _controls.Disable();
         }
 
         private void Update()
         {
-            if (!_onDialogueIsActive) return;
-
-            if (_controls.UI.Submit.triggered)
+            if (_controls.UI.Submit.triggered && IsInDialogue)
                 ContinueDialogue();
         }
-        
 
-        public void EnterDialogueMode(TextAsset inkJson)
+
+        private void EnterDialogueMode(TextAsset inkJson, AudioSource audioSource, bool hasChoices = false)
         {
+            _audioSource = audioSource;
+            _hasChoices = hasChoices;
+            IsInDialogue = true;
+            _audioSource.Play();
+            
             _currentStory = new Story(inkJson.text);
-            _onDialogueIsActive = true;
             _dialoguePanel.SetActive(true);
             
             ContinueDialogue();
@@ -69,7 +78,8 @@ namespace Dialogue
             if (_currentStory.canContinue)
             {
                 _dialogueText.text = _currentStory.Continue();
-                DisplayChoices();
+                if(_hasChoices)
+                    DisplayChoices();
             }
             else
                 StartCoroutine(ExitDialogueMode());
@@ -103,11 +113,6 @@ namespace Dialogue
         {
             _currentStory.ChooseChoiceIndex(choiceIndex);
         }
-        
-        public bool OnDialogueActive()
-        {
-            return _onDialogueIsActive;
-        }
 
         private IEnumerator SelectChoice()
         {
@@ -118,10 +123,11 @@ namespace Dialogue
         
         private IEnumerator ExitDialogueMode()
         {
+            _audioSource.Stop();
             yield return new WaitForSeconds(WaitTillCanMove);
-            _onDialogueIsActive = false;
             _dialoguePanel.SetActive(false);
             _dialogueText.text = string.Empty;
+            IsInDialogue = false;
         }
     }
 }

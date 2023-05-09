@@ -1,5 +1,4 @@
-﻿using Tree = BehaviorTree.Core.Tree;
-using BehaviorTree.Nodes.Composites;
+﻿using BehaviorTree.Nodes.Composites;
 using BehaviorTree.Nodes.Conditions;
 using BehaviorTree.Nodes.Decorator;
 using BehaviorTree.Nodes.Actions;
@@ -7,12 +6,12 @@ using System.Collections.Generic;
 using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
 using UnityEngine;
-using Player;
 using System;
+using Player;
 
 namespace BehaviorTree.Behaviors
 {
-    public class SpitterBehavior : Tree
+    public class SpitterBehavior : BaseTree
     {
         [SerializeField] private SpitterStats _stats;
         [SerializeField] private bool _isChangingColor;
@@ -22,12 +21,12 @@ namespace BehaviorTree.Behaviors
 
         private void OnEnable()
         {
-            ActionConsumeEatable.OnConsumeEatableEvent += SetFriendly;
+            ActionConsumeEatable.OnConsumeEatable += SetFriendly;
         }
 
         private void OnDisable()
         {
-            ActionConsumeEatable.OnConsumeEatableEvent -= SetFriendly;
+            ActionConsumeEatable.OnConsumeEatable -= SetFriendly;
         }
 
         private void Awake()
@@ -39,13 +38,13 @@ namespace BehaviorTree.Behaviors
         {
             base.Start();
 
-            _stats._hasEaten = false;
-            _stats._isInAttackPhase = false;
+            _stats.HasEaten = false;
+            _stats.IsInAttackPhase = false;
             _animationEventDictionary = new Dictionary<SpitterAnimationEvents, Action>();
             _animationEventDictionary.Add(SpitterAnimationEvents.ChangeController, ChangeToFriendlyAnimator);
         }
 
-        protected override BaseNode CreateTree()
+        protected override BaseNode SetupTree()
         {
             var blackboard = new Blackboard.Blackboard();
             var player = FindObjectOfType<PlayerController>();
@@ -59,7 +58,7 @@ namespace BehaviorTree.Behaviors
                             {
                                 new Sequence(new List<BaseNode>
                                 {
-                                    new CheckForObjectInFOVRange(_stats._targetTag, _stats._detectionRadiusEnemy, _stats._targetLayer, transform, blackboard),
+                                    new CheckForObjectInFOVRange(FOVType.Target, _stats, transform, blackboard),
                                     new ActionGoToTarget(_stats, transform, _animator,blackboard),
                                     new CheckIfTargetInAttackRange(_stats, transform, blackboard),
                                     new ActionAttackTarget(_stats, transform, _animator, blackboard)
@@ -69,7 +68,9 @@ namespace BehaviorTree.Behaviors
                             {
                                 new CheckIfInAttackPhase(_stats)
                             }),
-                            new CheckForObjectInFOVRange(_stats._playerTag, _stats._detectionRadiusPlayer, _stats._playerLayer, transform, blackboard),
+                            new CheckForObjectInFOVRange(FOVType.Player, _stats, transform, blackboard),
+                            new ActionFollowPlayer(RangeType.Protect, _stats, transform, _animator, blackboard),
+                            new ActionIdle(RangeType.Protect, _stats, transform, _animator, blackboard),
                             //new Inverter(new List<Node>
                             //    {
                             //        new CheckIfPlayerWasCommanding(),
@@ -77,7 +78,6 @@ namespace BehaviorTree.Behaviors
                             //        new ActionFollowAndBackupToPlayer(_entity._speedGoToPlayer, _entity._detectionRadiusPlayer, _entity._farRangeStopDistance, _transform, blackboard)
                             //    }
                             //    ),
-                            new ActionProtectPlayer(_stats, transform, _animator, blackboard)
                         }
                     ),
                     new Sequence(new List<BaseNode>
@@ -86,8 +86,13 @@ namespace BehaviorTree.Behaviors
                         {
                             new CheckIfFriendlyNPCHasEaten(_stats)
                         }),
-                        new CheckForObjectInFOVRange(_stats._playerTag, _stats._detectionRadiusPlayer, _stats._playerLayer, transform, blackboard),
-                        new ActionFollowAndBackupToPlayer(_stats, transform, _animator, blackboard),
+                        new CheckForObjectInFOVRange(FOVType.Player, _stats, transform, blackboard),
+                        new Selector(new List<BaseNode>
+                        {
+                            new ActionFollowPlayer(RangeType.Near, _stats, transform, _animator, blackboard),
+                            new ActionIdle(RangeType.Near, _stats, transform, _animator, blackboard),
+                            new ActionBackupPlayer(_stats, transform, _animator, blackboard),
+                        }),
                         new CheckIfPlayerHasEatable(player),
                         new ActionConsumeEatable(_stats, transform, _animator, blackboard),
                     })
@@ -105,23 +110,23 @@ namespace BehaviorTree.Behaviors
         public void ChangeToFriendlyAnimator()
         {
             if (!_isChangingColor) return;
-            _animator.runtimeAnimatorController = _stats._animatorController;
+            _animator.runtimeAnimatorController = _stats.AnimatorController;
         }
 
         private void SetFriendly()
         {
-            _stats._hasEaten = true;
+            _stats.HasEaten = true;
         }
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, _stats._detectionRadiusEnemy);
+            Gizmos.DrawWireSphere(transform.position, _stats.DetectionRadiusEnemy);
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, _stats._detectionRadiusPlayer);
+            Gizmos.DrawWireSphere(transform.position, _stats.DetectionRadiusPlayer);
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(transform.position, _stats._attackRadius);
+            Gizmos.DrawWireSphere(transform.position, _stats.AttackRadius);
         }
 #endif
     }

@@ -87,6 +87,7 @@ namespace Player
         private const float SpeedThrottle = 0.8f;
         
         // Components and classes
+        private DialogueManager _dialogueManager;
         private CinemachineShake _cinemachine;
         private EatablesCount _eatablesCount;
         private Animator _animator;
@@ -141,6 +142,7 @@ namespace Player
                 (Vector2.up + Vector2.right).normalized, (Vector2.down + Vector2.left).normalized,
                 (Vector2.down + Vector2.right).normalized
             };
+            _dialogueManager = FindObjectOfType<DialogueManager>();
             _eatablesCount = GetComponent<EatablesCount>();
             _animator = GetComponentInChildren<Animator>();
             Rigid = GetComponent<Rigidbody2D>();
@@ -166,8 +168,9 @@ namespace Player
             _coll.FrictionChange(_wallSlide);
             ResetterAndCounter();
             
-            if (CharMemoryManager.Instance.IsInDialogue)
-                _multiJump = true;
+            //TODO: declare a bool on a different place
+            //if (_dialogueManager is not null && !_dialogueManager.IsInDialogue)
+            //    _multiJump = true;
         }
 
         private void FixedUpdate()
@@ -176,14 +179,9 @@ namespace Player
             if (GameManager.Instance.IsRespawning)
                 return;
             
-            //stops the player from moving when in dialogue
-            if (DialogueManager.Instance.OnDialogueActive())
-                 return;
-
-            // stops the player from floating above the ground
-            // /bc the "dialogue trigger" is a trigger collider
-            if (CharMemoryManager.Instance.OnDialogueActive()|| 
-                NpcManager.Instance.OnDialogueActive() && GameManager.Instance.IsGameStarted)
+            //stops the player from floating above the ground or moving when in dialogue
+            if ((_dialogueManager is not null && _dialogueManager.IsInDialogue) && 
+                GameManager.Instance.IsGameStarted)
             {
                 Rigid.velocity = Vector2.zero;
                 _animator.SetBool("IsWalking", false);
@@ -293,7 +291,8 @@ namespace Player
         /// </summary>
         private void MultiJump()
         {
-            if (DialogueManager.Instance.OnDialogueActive()) return;
+            if (_dialogueManager is not null)
+                if (_dialogueManager.IsInDialogue) return;
             if (!_multiJump || JumpCounter <= 0) return;
             Jump();
             JumpCounter--;

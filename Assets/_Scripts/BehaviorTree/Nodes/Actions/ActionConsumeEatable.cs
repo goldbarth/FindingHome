@@ -2,6 +2,7 @@
 using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
 using UnityEngine;
+using System;
 using AddIns;
 
 namespace BehaviorTree.Nodes.Actions
@@ -15,8 +16,7 @@ namespace BehaviorTree.Nodes.Actions
         private readonly Animator _animator;
         private readonly float _timer;
         
-        public delegate void ConsumeEatable();
-        public static event ConsumeEatable OnConsumeEatableEvent;
+        public static event Action OnConsumeEatable;
 
         public ActionConsumeEatable(SpitterStats stats, Transform transform, Animator animator, IBlackboard blackboard)
         {
@@ -29,23 +29,17 @@ namespace BehaviorTree.Nodes.Actions
 
         public override NodeState Evaluate()
         {
-            if(!_blackboard.ContainsKey("player"))
-            {
-                State = NodeState.Failure;
-                return State;
-            }
-                
             var player = _blackboard.GetData<Transform>("player");
             var distance = Vector2.Distance(_transform.position, player.position);
             var direction = Vec2.Direction(_transform.position, player.position);
-            var step = _stats._speedGoToPlayer * Time.deltaTime;
+            var step = _stats.SpeedGoToEat * Time.deltaTime;
             Vec2.MoveTo(_transform, player, step);
             Vec2.LookAt(_rigid, direction);
-            if (distance <= _stats._stopDistanceEat)
+            if (distance <= _stats.StopDistanceEat)
             {
                 _rigid.velocity = Vector2.zero;
                 Debug.Log("Eating");
-                OnConsumeEatableEvent?.Invoke();
+                OnConsumeEatable?.Invoke();
                 _animator.SetTrigger("IsEatingTrigger");
                 
                 State = NodeState.Success;

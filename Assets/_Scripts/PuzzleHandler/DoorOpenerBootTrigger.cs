@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace PuzzleHandler
 {
     public class DoorOpenerBootTrigger : MonoBehaviour
     {
-        public delegate void OnBootCollision();
-        public static event OnBootCollision OnBootCollisionEvent;
+        public static event Action OnBootCollision;
 
         private bool _booted;
         
@@ -13,7 +13,7 @@ namespace PuzzleHandler
         {
             if (col.CompareTag("Player") && !col.isTrigger && !_booted)
             {
-                OnBootCollisionEvent?.Invoke();
+                OnBootCollision?.Invoke();
                 _booted = true;
             }
         }

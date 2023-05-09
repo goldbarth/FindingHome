@@ -10,6 +10,17 @@ public enum SpitterAnimationEvents
     ChangeController,
 }
 
+public enum FOVType
+{
+    Player,
+    Target
+}
+public enum RangeType
+{
+    Near,
+    Far,
+    Protect
+}
 
 public enum CollectableType
 {

@@ -34,22 +34,29 @@ namespace AddIns
         /// The opposite of Vector2.MoveTowards Method.<br/> For the second parameter you need to calculate the reverse direction
         /// <br/> and multiply it by the distance you want to move away.
         /// </summary>
-        /// <param name="transform">Transform</param>
         /// <param name="a">Vector2</param>
         /// <param name="backup">Vector2</param>
         /// <param name="step">float</param>
         /// <returns>Returns a movement away from an object.</returns>
-        public static void MoveAway(Transform transform, Vector2 a, Vector2 backup, float step)
+        public static Vector2 MoveAway(Vector2 a, Vector2 backup, float step)
         {
-            transform.position = Vector2.MoveTowards(a, a + backup, step);
+            return Vector2.MoveTowards(a, a + backup, step);
         }
 
-        public static bool DistanceBetween(SpitterStats stats, Vector2 startPoint, Vector2 endPoint)
+        /// <summary>
+        /// Calculates the distance between two points with an offset. The offset can adjusted in the stats.
+        /// </summary>
+        /// <param name="stats">SpitterStats</param>
+        /// <param name="startPoint">Vector2</param>
+        /// <param name="endPoint">Vector2</param>
+        /// <param name="range">float</param>
+        /// <returns>Returns a distance with an offset.</returns>
+        public static bool DistanceBetween(SpitterStats stats, Vector2 startPoint, Vector2 endPoint, float range)
         {
             var distance = Vector2.Distance(startPoint, endPoint);
-            var stopDistance = stats._detectionRadiusPlayer - stats._nearRangeStopDistance;
-            var stopDistanceWithOffset = stopDistance - stats._distanceBetweenOffset;
-            var backupDistanceWithOffset = (stopDistance - stats._backupDistance) + stats._distanceBetweenOffset;
+            var stopDistance = stats.DetectionRadiusPlayer - range;
+            var stopDistanceWithOffset = stopDistance - stats.DistanceBetweenOffset;
+            var backupDistanceWithOffset = (stopDistance - stats.MaxBackupDistance) + stats.DistanceBetweenOffset;
 
             return (distance < stopDistanceWithOffset && distance > backupDistanceWithOffset);
         }

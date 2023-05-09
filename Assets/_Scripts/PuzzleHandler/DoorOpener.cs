@@ -22,12 +22,12 @@ namespace PuzzleHandler
 
         private void OnEnable()
         {
-            DoorOpenerBootTrigger.OnBootCollisionEvent += StartAnimation;
+            DoorOpenerBootTrigger.OnBootCollision += StartAnimation;
         }
         
         private void OnDisable()
         {
-            DoorOpenerBootTrigger.OnBootCollisionEvent -= StartAnimation;
+            DoorOpenerBootTrigger.OnBootCollision -= StartAnimation;
         }
 
         private void StartAnimation()

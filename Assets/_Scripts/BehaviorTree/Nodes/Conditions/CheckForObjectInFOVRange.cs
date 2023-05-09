@@ -1,7 +1,9 @@
 ﻿using BehaviorTree.Blackboard;
+using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
 using UnityEngine;
 using Enemies;
+using System;
 
 namespace BehaviorTree.Nodes.Conditions
 {
@@ -10,16 +12,29 @@ namespace BehaviorTree.Nodes.Conditions
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
         private readonly LayerMask _layerMask;
+        private readonly SpitterStats _stats;
         private readonly float _detectionRadius;
         private readonly string _key;
 
-        public CheckForObjectInFOVRange(string key, float radius, LayerMask layerMask, Transform transform, IBlackboard blackboard)
+        public CheckForObjectInFOVRange(Enum fovType, SpitterStats stats, Transform transform, IBlackboard blackboard)
         {
+            switch (fovType)
+            {
+                case FOVType.Player:
+                    _key = stats.PlayerTag;
+                    _detectionRadius = stats.DetectionRadiusPlayer;
+                    _layerMask = stats.PlayerLayer;
+                    break;
+                case FOVType.Target:
+                    _key = stats.TargetTag;
+                    _detectionRadius = stats.DetectionRadiusEnemy;
+                    _layerMask = stats.TargetLayer;
+                    break;
+            }
+                
             _transform = transform.parent;
-            _detectionRadius = radius;
             _blackboard = blackboard;
-            _layerMask = layerMask;
-            _key = key;
+            _stats = stats;
         }
 
         public override NodeState Evaluate()
@@ -31,9 +46,9 @@ namespace BehaviorTree.Nodes.Conditions
 
                 if (colliders.Length > 0)
                 {
-                    if(_key == "player")
-                        _blackboard.SetData(_key, "", colliders[0].transform);
-                    if (_key == "target")
+                    if(_key == _stats.PlayerTag)
+                        _blackboard.SetData(_key, string.Empty, colliders[0].transform);
+                    if (_key == _stats.TargetTag)
                     {
                         if(colliders[0].TryGetComponent(out Summoner target))
                             _blackboard.SetData(_key, target._id, colliders[0].transform);

@@ -33,8 +33,8 @@ namespace BehaviorTree.Nodes.Actions
             var target = _blackboard.GetData<Transform>("target");
             var direction = Vec2.Direction(_transform.position, target.position);
             var distance = Vector2.Distance(_transform.position, target.position);
-            var step = _stats._speedTargetFollow * Time.deltaTime;
-            if (distance > _stats._targetStopDistance)
+            var step = _stats.SpeedTargetFollow * Time.deltaTime;
+            if (distance > _stats.TargetStopDistance)
             {
                 _animator.SetBool("IsWalking", true);
                 Vec2.MoveTo(_transform, target, step);
@@ -44,7 +44,7 @@ namespace BehaviorTree.Nodes.Actions
                 return State; 
             }
 
-            if (distance < _stats._targetStopDistance)
+            if (distance < _stats.TargetStopDistance)
             {
                 _animator.SetBool("IsWalking", false);
                 return State = NodeState.Success;
