@@ -19,6 +19,8 @@ namespace BehaviorTree.Nodes.Conditions
         {
             _stats.IsFarRange = _player.IsInteracting && !_stats.IsFarRange ? _stats.IsFarRange = true : _stats.IsFarRange = false;
             return State = _player.IsInteracting ? NodeState.Success : NodeState.Failure;
+            // State = NodeState.Success;
+            // return State;
         }
     }
 }

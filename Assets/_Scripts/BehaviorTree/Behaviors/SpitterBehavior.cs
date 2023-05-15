@@ -70,19 +70,15 @@ namespace BehaviorTree.Behaviors
                         new CheckIfInAttackPhase(_stats)
                     }),
                     new CheckForObjectInFOVRange(FOVType.Player, _stats, transform, blackboard),
-                    new CheckIfPlayerWasCommanding(_stats, player),
-                    new ActionFollowPlayer(RangeType.Protect, _stats, transform, _animator, blackboard),
-                    new ActionIdle(RangeType.Protect, _stats, transform, _animator, blackboard),
-                    //new Inverter(new List<BaseNode>
-                    //{
-                    //    new CheckIfPlayerWasCommanding(_stats, player),
-                    //    new Selector(new List<BaseNode>
-                    //    {
-                    //        new ActionFollowPlayer(RangeType.Protect, _stats, transform, _animator, blackboard),
-                    //        new ActionIdle(RangeType.Protect, _stats, transform, _animator, blackboard),
-                    //        new ActionBackupPlayer(_stats, transform, _animator, blackboard),
-                    //    }),
-                    //}),
+                    new ForceSuccess(new List<BaseNode>
+                    {
+                        new CheckIfPlayerWasCommanding(_stats, player),
+                    }),
+                    new Selector(new List<BaseNode>
+                    {
+                        new ActionFollowPlayer(RangeType.Protect, _stats, transform, _animator, blackboard),
+                        new ActionIdle(RangeType.Protect, _stats, transform, _animator, blackboard),
+                    })
                 }),
                 new Sequence(new List<BaseNode>
                 {

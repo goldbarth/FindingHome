@@ -20,7 +20,6 @@ public enum RangeType
     Near,
     Far,
     Protect,
-    None
 }
 
 public enum CollectableType

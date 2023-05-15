@@ -17,9 +17,9 @@ namespace BehaviorTree.Nodes.Actions
         private readonly SpitterStats _stats;
         private readonly Rigidbody2D _rigid;
         private readonly Animator _animator;
+        private readonly float _smoothTime;
 
         private Vector2 _velocity;
-        private float _currentSpeed;
         private float _range;
 
         public ActionFollowPlayer(Enum rangeType, SpitterStats stats, Transform transform, Animator animator, IBlackboard blackboard)
@@ -28,12 +28,15 @@ namespace BehaviorTree.Nodes.Actions
             {
                 case RangeType.Near:
                     _range = stats.NearRangeStopDistance;
+                    _smoothTime = stats.SmoothTime;
                     break;
                 case RangeType.Far:
                     _range = stats.FarRangeStopDistance;
+                    _smoothTime = stats.SmoothTime;
                     break;
                 case RangeType.Protect:
                     _range = stats.ProtectRangeStopDistance;
+                    _smoothTime = stats.SmoothTimeFast;
                     break;
             }
             _rigid = transform.parent.GetComponent<Rigidbody2D>();
@@ -51,24 +54,20 @@ namespace BehaviorTree.Nodes.Actions
                 return State;
             }
 
-            //_range = _stats.IsFarRange ? _stats.FarRangeStopDistance : _stats.ProtectRangeStopDistance;
+            if(_stats.HasEaten)
+                _range = _stats.IsFarRange ? _stats.FarRangeStopDistance : _stats.ProtectRangeStopDistance;
+            
+            Debug.Log("Range: " + _range);
             
             var player = _blackboard.GetData<Transform>(_stats.PlayerTag);
             var position = _transform.position;
             var distance = Vector2.Distance(position, player.position);
             var direction = Vec2.Direction(position, player.position);
             var stopDistance = _stats.DetectionRadiusPlayer - _range;
-            var percentage = distance / stopDistance;
-            var speed = Mathf.Lerp(_currentSpeed, _stats.SpeedGoToPlayer, percentage);
-            var step = _currentSpeed * Time.deltaTime; 
-            var targetPosition = Vector2.MoveTowards(position, player.position, step);
 
             if (distance > stopDistance)
             {
-                //_currentSpeed = Mathf.Lerp(_currentSpeed, speed, _stats.SpeedTransition * Time.deltaTime);
-                //_transform.position = Vector2.SmoothDamp(position, player.position, ref _velocity, _stats.PositionTransition);
-                _currentSpeed = Mathf.SmoothDamp(_currentSpeed, speed, ref _velocity.x, _stats.SmoothTime);
-                _transform.position = Vector2.Lerp(position, targetPosition, _stats.PositionTransition * Time.deltaTime);
+                _transform.position = Vector2.SmoothDamp(position, player.position, ref _velocity, _smoothTime);
                 Vec2.LookAt(_rigid, direction);
 
                 _animator.SetBool("IsWalking", true);
@@ -78,7 +77,6 @@ namespace BehaviorTree.Nodes.Actions
                 return State;
             }
 
-            _currentSpeed = 0;
             _velocity = Vector2.zero;
 
             State = NodeState.Failure;

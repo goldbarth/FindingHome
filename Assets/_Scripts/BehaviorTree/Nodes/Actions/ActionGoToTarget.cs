@@ -33,18 +33,14 @@ namespace BehaviorTree.Nodes.Actions
                 State = NodeState.Failure;
                 return State;
             }
+            
             var target = _blackboard.GetData<Transform>("target");
             var direction = Vec2.Direction(_transform.position, target.position);
             var distance = Vector2.Distance(_transform.position, target.position);
-            var percentage = distance / _stats.TargetStopDistance;
-            var speed = Mathf.Lerp(_currentSpeed, _stats.SpeedTargetFollow, percentage);
-            var step = _stats.SpeedTargetFollow * Time.deltaTime;
-            var targetPosition = Vector2.MoveTowards(_transform.position, target.position, step);
             
             if (distance > _stats.TargetStopDistance)
             {
-                _currentSpeed = Mathf.SmoothDamp(_currentSpeed, speed, ref _velocity.x, _stats.SmoothTime);
-                _transform.position = Vector2.Lerp(_transform.position, targetPosition, _stats.PositionTransition * Time.deltaTime);
+                _transform.position = Vector2.SmoothDamp(_transform.position, target.position, ref _velocity, _stats.SmoothTimeFast);
                 Vec2.LookAt(_rigid, direction);
 
                 _animator.SetBool("IsWalking", true);

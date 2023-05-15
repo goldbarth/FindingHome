@@ -17,8 +17,7 @@ namespace BehaviorTree.Nodes.Actions
         private readonly float _timer;
         
         private Vector2 _velocity;
-        private float _currentSpeed;
-        
+
         public static event Action OnConsumeEatable;
 
         public ActionConsumeEatable(SpitterStats stats, Transform transform, Animator animator, IBlackboard blackboard)
@@ -32,16 +31,12 @@ namespace BehaviorTree.Nodes.Actions
 
         public override NodeState Evaluate()
         {
+            var position = _transform.position;
             var player = _blackboard.GetData<Transform>("player");
-            var distance = Vector2.Distance(_transform.position, player.position);
-            var direction = Vec2.Direction(_transform.position, player.position);
-            var percentage = distance / _stats.StopDistanceEat;
-            var speed = Mathf.Lerp(_currentSpeed, _stats.SpeedGoToEat, percentage);
-            var step = _stats.SpeedGoToEat * Time.deltaTime;
-            var targetPosition = Vector2.MoveTowards(_transform.position, player.position, step);
-            
-            _currentSpeed = Mathf.SmoothDamp(_currentSpeed, speed, ref _velocity.x, _stats.SmoothTime);
-            _transform.position = Vector2.Lerp(_transform.position, targetPosition, _stats.PositionTransition * Time.deltaTime);
+            var distance = Vector2.Distance(position, player.position);
+            var direction = Vec2.Direction(position, player.position);
+
+            _transform.position = Vector2.SmoothDamp(position, player.position, ref _velocity, _stats.SmoothTimeFast);
             Vec2.LookAt(_rigid, direction);
             
             if (distance <= _stats.StopDistanceEat)

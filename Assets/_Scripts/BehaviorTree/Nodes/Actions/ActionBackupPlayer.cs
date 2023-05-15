@@ -14,7 +14,7 @@ namespace BehaviorTree.Nodes.Actions
         private readonly Rigidbody2D _rigid;
         private readonly Animator _animator;
         
-        private float _currentSpeed;
+        private Vector2 _velocity;
 
         public ActionBackupPlayer(SpitterStats stats, Transform transform, Animator animator, IBlackboard blackboard)
         {
@@ -39,13 +39,10 @@ namespace BehaviorTree.Nodes.Actions
             var stopDistance = _stats.DetectionRadiusPlayer - _stats.NearRangeStopDistance;
             var reverseDirection = Vec2.Direction(player.position, position);
             var backup = reverseDirection * _stats.MaxBackupDistance;
-            _currentSpeed = Mathf.Lerp(_currentSpeed, _stats.SpeedPlayerBackup, _stats.SmoothTime * Time.deltaTime);
-            var step = _currentSpeed * Time.deltaTime;
-            
-            if (distance < stopDistance - _stats.MaxBackupDistance)
+
+            if (distance < stopDistance - _stats.MinBackupDistance && distance < stopDistance - _stats.MaxBackupDistance)
             {
-                var targetBackup = Vec2.MoveAway(position, backup, step);
-                _transform.position = Vector2.Lerp(position, targetBackup, _stats.PositionTransition * Time.deltaTime);
+                _transform.position = Vector2.SmoothDamp(position, position + (Vector3)backup, ref _velocity, _stats.SmoothTimeFast);
                 Vec2.LookAt(_rigid, reverseDirection);
 
                 _animator.SetBool("IsWalking", true);
@@ -54,6 +51,8 @@ namespace BehaviorTree.Nodes.Actions
                 State = NodeState.Running;
                 return State;
             }
+            
+            _velocity = Vector2.zero;
 
             State = NodeState.Failure;
             return State;

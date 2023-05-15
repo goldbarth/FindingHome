@@ -31,6 +31,7 @@ namespace BehaviorTree.Nodes.Actions
             _stats = stats;
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         public override NodeState Evaluate()
         {
             if (!_blackboard.ContainsKey("target"))
@@ -48,7 +49,6 @@ namespace BehaviorTree.Nodes.Actions
 
             if (_attackCounter < _stats.AttackTime)
             {
-                Debug.Log($"ATTACK TIMER: {_attackCounter}");
                 _attackCounter += Time.deltaTime;
                 State = NodeState.Running;
                 return State;
