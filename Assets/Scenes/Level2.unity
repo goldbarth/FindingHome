@@ -7956,6 +7956,44 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5251289045834605008, guid: c5e4a7d60d93eec498dcaaa0ba4da478, type: 3}
+      propertyPath: m_Name
+      value: FrameSprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160126902914526384, guid: c5e4a7d60d93eec498dcaaa0ba4da478, type: 3}
+      propertyPath: m_text
+      value: 'New Text
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160126902914526384, guid: c5e4a7d60d93eec498dcaaa0ba4da478, type: 3}
+      propertyPath: m_lineSpacing
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160126902914526384, guid: c5e4a7d60d93eec498dcaaa0ba4da478, type: 3}
+      propertyPath: m_wordSpacing
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160126902914526384, guid: c5e4a7d60d93eec498dcaaa0ba4da478, type: 3}
+      propertyPath: m_enableKerning
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160126902914526384, guid: c5e4a7d60d93eec498dcaaa0ba4da478, type: 3}
+      propertyPath: m_characterSpacing
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160126902914526384, guid: c5e4a7d60d93eec498dcaaa0ba4da478, type: 3}
+      propertyPath: m_paragraphSpacing
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160126902914526384, guid: c5e4a7d60d93eec498dcaaa0ba4da478, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160126903220254335, guid: c5e4a7d60d93eec498dcaaa0ba4da478, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8160126903905446029, guid: c5e4a7d60d93eec498dcaaa0ba4da478, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -8758,7 +8796,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6256799606026290614, guid: 7896f5946a563ca4ba220739ddffcf2e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6256799606026290615, guid: 7896f5946a563ca4ba220739ddffcf2e, type: 3}
       propertyPath: m_RootOrder

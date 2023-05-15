@@ -1,45 +1,24 @@
-﻿using UnityEngine.InputSystem;
+﻿using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
-using UnityEngine;
+using Player;
 
 namespace BehaviorTree.Nodes.Conditions
 {
     public class CheckIfPlayerWasCommanding : ConditionNode
     {
-        private readonly Controls _controls;
-        private readonly InputAction _commandAction;
-        private bool _isFarRange = false;
+        private readonly PlayerController _player;
+        private readonly SpitterStats _stats;
 
-        public CheckIfPlayerWasCommanding()
+        public CheckIfPlayerWasCommanding(SpitterStats stats, PlayerController player)
         {
-            _controls = new Controls();
-            _commandAction = _controls.Gameplay.Interact;
+            _player = player;
+            _stats = stats;
         }
 
         public override NodeState Evaluate()
         {
-            Debug.Log("CheckIfPlayerWasCommanding: " + _commandAction.triggered + "Is Far: " + _isFarRange);
-            if (_commandAction.triggered && !_isFarRange)
-            {
-                // command
-                _isFarRange = true;
-                Debug.Log("command");
-                
-                State = NodeState.Success;
-                return State;
-            }
-            if (_commandAction.triggered && _isFarRange)
-            {
-                // backup
-                _isFarRange = false;
-                Debug.Log("backup");
-                
-                State = NodeState.Failure;
-                return State;
-            }
-
-            State = NodeState.Failure;
-            return State;
+            _stats.IsFarRange = _player.IsInteracting && !_stats.IsFarRange ? _stats.IsFarRange = true : _stats.IsFarRange = false;
+            return State = _player.IsInteracting ? NodeState.Success : NodeState.Failure;
         }
     }
 }

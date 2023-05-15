@@ -1,8 +1,8 @@
-﻿using System;
-using BehaviorTree.Blackboard;
+﻿using BehaviorTree.Blackboard;
 using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
 using UnityEngine;
+using System;
 using AddIns;
 
 namespace BehaviorTree.Nodes.Actions
@@ -47,12 +47,15 @@ namespace BehaviorTree.Nodes.Actions
                 return State;
             }
             
+            //_range = _stats.IsFarRange ? _stats.FarRangeStopDistance : _stats.ProtectRangeStopDistance;
+            
             var player = _blackboard.GetData<Transform>(_stats.PlayerTag);
             var position = _transform.position;
             var direction = Vec2.Direction(position, player.position);
             
             if (Vec2.DistanceBetween(_stats, position, player.position, _range))
             {
+                //TODO: random idle animations and/or behaviors, like looking around or jumping
                 _animator.SetBool("IsWalking", false);
                 Vec2.LookAt(_rigid, direction);
                 

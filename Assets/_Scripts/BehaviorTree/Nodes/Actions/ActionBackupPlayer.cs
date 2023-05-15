@@ -39,7 +39,7 @@ namespace BehaviorTree.Nodes.Actions
             var stopDistance = _stats.DetectionRadiusPlayer - _stats.NearRangeStopDistance;
             var reverseDirection = Vec2.Direction(player.position, position);
             var backup = reverseDirection * _stats.MaxBackupDistance;
-            _currentSpeed = Mathf.Lerp(_currentSpeed, _stats.SpeedPlayerBackup, _stats.SpeedTransition * Time.deltaTime);
+            _currentSpeed = Mathf.Lerp(_currentSpeed, _stats.SpeedPlayerBackup, _stats.SmoothTime * Time.deltaTime);
             var step = _currentSpeed * Time.deltaTime;
             
             if (distance < stopDistance - _stats.MaxBackupDistance)

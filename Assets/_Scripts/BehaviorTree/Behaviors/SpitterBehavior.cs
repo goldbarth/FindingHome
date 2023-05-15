@@ -15,7 +15,7 @@ namespace BehaviorTree.Behaviors
     {
         [SerializeField] private SpitterStats _stats;
         [SerializeField] private bool _isChangingColor;
-        
+
         private Dictionary<SpitterAnimationEvents, Action> _animationEventDictionary;
         private Animator _animator;
 
@@ -39,6 +39,7 @@ namespace BehaviorTree.Behaviors
             base.Start();
 
             _stats.HasEaten = false;
+            _stats.IsFarRange = false;
             _stats.IsInAttackPhase = false;
             _animationEventDictionary = new Dictionary<SpitterAnimationEvents, Action>();
             _animationEventDictionary.Add(SpitterAnimationEvents.ChangeController, ChangeToFriendlyAnimator);
@@ -50,54 +51,56 @@ namespace BehaviorTree.Behaviors
             var player = FindObjectOfType<PlayerController>();
 
             var root = new Selector(new List<BaseNode>
+            {
+                new Sequence(new List<BaseNode>
                 {
-                    new Sequence(new List<BaseNode>
-                        {
-                            new CheckIfFriendlyNPCHasEaten(_stats),
-                            new Inverter(new List<BaseNode>
-                            {
-                                new Sequence(new List<BaseNode>
-                                {
-                                    new CheckForObjectInFOVRange(FOVType.Target, _stats, transform, blackboard),
-                                    new ActionGoToTarget(_stats, transform, _animator,blackboard),
-                                    new CheckIfTargetInAttackRange(_stats, transform, blackboard),
-                                    new ActionAttackTarget(_stats, transform, _animator, blackboard)
-                                })
-                            }),
-                            new Inverter(new List<BaseNode>
-                            {
-                                new CheckIfInAttackPhase(_stats)
-                            }),
-                            new CheckForObjectInFOVRange(FOVType.Player, _stats, transform, blackboard),
-                            new ActionFollowPlayer(RangeType.Protect, _stats, transform, _animator, blackboard),
-                            new ActionIdle(RangeType.Protect, _stats, transform, _animator, blackboard),
-                            //new Inverter(new List<Node>
-                            //    {
-                            //        new CheckIfPlayerWasCommanding(),
-                            //        new CheckIfFarRange(),
-                            //        new ActionFollowAndBackupToPlayer(_entity._speedGoToPlayer, _entity._detectionRadiusPlayer, _entity._farRangeStopDistance, _transform, blackboard)
-                            //    }
-                            //    ),
-                        }
-                    ),
-                    new Sequence(new List<BaseNode>
+                    new CheckIfFriendlyNPCHasEaten(_stats),
+                    new Inverter(new List<BaseNode>
                     {
-                        new Inverter(new List<BaseNode>
+                        new Sequence(new List<BaseNode>
                         {
-                            new CheckIfFriendlyNPCHasEaten(_stats)
-                        }),
-                        new CheckForObjectInFOVRange(FOVType.Player, _stats, transform, blackboard),
-                        new Selector(new List<BaseNode>
-                        {
-                            new ActionFollowPlayer(RangeType.Near, _stats, transform, _animator, blackboard),
-                            new ActionIdle(RangeType.Near, _stats, transform, _animator, blackboard),
-                            new ActionBackupPlayer(_stats, transform, _animator, blackboard),
-                        }),
-                        new CheckIfPlayerHasEatable(player),
-                        new ActionConsumeEatable(_stats, transform, _animator, blackboard),
-                    })
-                }
-            );
+                            new CheckForObjectInFOVRange(FOVType.Target, _stats, transform, blackboard),
+                            new ActionGoToTarget(_stats, transform, _animator, blackboard),
+                            new CheckIfTargetInAttackRange(_stats, transform, blackboard),
+                            new ActionAttackTarget(_stats, transform, _animator, blackboard)
+                        })
+                    }),
+                    new Inverter(new List<BaseNode>
+                    {
+                        new CheckIfInAttackPhase(_stats)
+                    }),
+                    new CheckForObjectInFOVRange(FOVType.Player, _stats, transform, blackboard),
+                    new CheckIfPlayerWasCommanding(_stats, player),
+                    new ActionFollowPlayer(RangeType.Protect, _stats, transform, _animator, blackboard),
+                    new ActionIdle(RangeType.Protect, _stats, transform, _animator, blackboard),
+                    //new Inverter(new List<BaseNode>
+                    //{
+                    //    new CheckIfPlayerWasCommanding(_stats, player),
+                    //    new Selector(new List<BaseNode>
+                    //    {
+                    //        new ActionFollowPlayer(RangeType.Protect, _stats, transform, _animator, blackboard),
+                    //        new ActionIdle(RangeType.Protect, _stats, transform, _animator, blackboard),
+                    //        new ActionBackupPlayer(_stats, transform, _animator, blackboard),
+                    //    }),
+                    //}),
+                }),
+                new Sequence(new List<BaseNode>
+                {
+                    new Inverter(new List<BaseNode>
+                    {
+                        new CheckIfFriendlyNPCHasEaten(_stats)
+                    }),
+                    new CheckForObjectInFOVRange(FOVType.Player, _stats, transform, blackboard),
+                    new Selector(new List<BaseNode>
+                    {
+                        new ActionFollowPlayer(RangeType.Near, _stats, transform, _animator, blackboard),
+                        new ActionIdle(RangeType.Near, _stats, transform, _animator, blackboard),
+                        new ActionBackupPlayer(_stats, transform, _animator, blackboard),
+                    }),
+                    new CheckIfPlayerHasEatable(player),
+                    new ActionConsumeEatable(_stats, transform, _animator, blackboard),
+                })
+            });
 
             return root;
         }

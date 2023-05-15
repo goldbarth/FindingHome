@@ -53,9 +53,10 @@ namespace BehaviorTree.NPCStats
         [Range(.01f, 10f)]
         public float PositionTransition = .8f;
         [Range(.01f, 10f)]
-        public float SpeedTransition = .8f;
+        public float SmoothTime = .8f;
         [Header("Flags")]
         public bool HasEaten;
+        public bool IsFarRange;
         public bool IsInAttackPhase;
     }
 }
