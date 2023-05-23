@@ -22,18 +22,14 @@ namespace BehaviorTree.Nodes.Conditions
 
         public override NodeState Evaluate()
         {
-            var target = _blackboard.GetData<Transform>("target");
+            var target = _blackboard.GetData<Transform>(_stats.TargetTag);
             var distance = Vector2.Distance(_transform.position, target.position);
             if (distance < _attackRange)
             {
-                _stats.IsInAttackPhase = true;
-
                 State = NodeState.Success;
                 return State;
             }
-            
-            _stats.IsInAttackPhase = false;
-            
+
             State = NodeState.Failure;
             return State;
         }

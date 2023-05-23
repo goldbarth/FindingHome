@@ -1,8 +1,8 @@
 ﻿using BehaviorTree.Blackboard;
 using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
+using Enemies.Summoner;
 using UnityEngine;
-using Enemies;
 using System;
 
 namespace BehaviorTree.Nodes.Conditions
@@ -50,8 +50,9 @@ namespace BehaviorTree.Nodes.Conditions
                         _blackboard.SetData(_key, string.Empty, colliders[0].transform);
                     if (_key == _stats.TargetTag)
                     {
-                        if(colliders[0].TryGetComponent(out Summoner target))
-                            _blackboard.SetData(_key, target._id, colliders[0].transform);
+                        var target = colliders[0].GetComponentInChildren<Summoner>();
+                        if(target is not null)
+                            _blackboard.SetData(_key, target._id, target.transform.parent);
                     }
                     
                     State = NodeState.Success;

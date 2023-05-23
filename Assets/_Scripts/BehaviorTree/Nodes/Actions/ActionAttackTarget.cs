@@ -1,8 +1,8 @@
 ﻿using BehaviorTree.Blackboard;
 using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
+using Enemies.Summoner;
 using UnityEngine;
-using Enemies;
 using AddIns;
 
 namespace BehaviorTree.Nodes.Actions
@@ -30,19 +30,18 @@ namespace BehaviorTree.Nodes.Actions
             _attackCounter = 0f;
             _stats = stats;
         }
-
-        // ReSharper disable Unity.PerformanceAnalysis
+        
         public override NodeState Evaluate()
         {
-            if (!_blackboard.ContainsKey("target"))
+            if (!_blackboard.ContainsKey(_stats.TargetTag))
             {
                 State = NodeState.Failure;
                 return State;
             }
 
-            var target = _blackboard.GetData<Transform>("target");
+            var target = _blackboard.GetData<Transform>(_stats.TargetTag);
 
-            _summoner = target.GetComponent<Summoner>();
+            _summoner = target.GetComponentInChildren<Summoner>();
 
             var direction = Vec2.Direction(_transform.position, target.position);
             Vec2.LookAt(_rigid, direction);
@@ -50,6 +49,8 @@ namespace BehaviorTree.Nodes.Actions
             if (_attackCounter < _stats.AttackTime)
             {
                 _attackCounter += Time.deltaTime;
+                _stats.IsInAttackPhase = true;
+                
                 State = NodeState.Running;
                 return State;
             }
@@ -57,11 +58,12 @@ namespace BehaviorTree.Nodes.Actions
             _attackCounter = 0f;
 
             _animator.SetBool("IsAttacking", true);
+
             var enemyIsDead = _summoner.TakeDamage(_stats.AttackDamage);
             if (enemyIsDead)
             {
                 _stats.IsInAttackPhase = false;
-                _blackboard.ClearData("target");
+                _blackboard.ClearData(_stats.TargetTag);
                 _animator.SetBool("IsAttacking", false);
 
                 State = NodeState.Failure;

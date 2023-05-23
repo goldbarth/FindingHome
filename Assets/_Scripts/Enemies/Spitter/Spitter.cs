@@ -1,4 +1,4 @@
-﻿namespace Enemies
+﻿namespace Enemies.Spitter
 {
     public class Spitter : Enemy
     { }

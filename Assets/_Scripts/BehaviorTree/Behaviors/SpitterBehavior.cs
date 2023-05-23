@@ -70,14 +70,14 @@ namespace BehaviorTree.Behaviors
                         new CheckIfInAttackPhase(_stats)
                     }),
                     new CheckForObjectInFOVRange(FOVType.Player, _stats, transform, blackboard),
-                    new ForceSuccess(new List<BaseNode>
-                    {
-                        new CheckIfPlayerWasCommanding(_stats, player),
-                    }),
+                    //new ForceSuccess(new List<BaseNode>
+                    //{
+                    //    new CheckIfPlayerWasCommanding(_stats, player),
+                    //}),
                     new Selector(new List<BaseNode>
                     {
                         new ActionFollowPlayer(RangeType.Protect, _stats, transform, _animator, blackboard),
-                        new ActionIdle(RangeType.Protect, _stats, transform, _animator, blackboard),
+                        new ActionIdle(RangeType.Protect, _stats, player, transform, _animator, blackboard),
                     })
                 }),
                 new Sequence(new List<BaseNode>
@@ -90,7 +90,7 @@ namespace BehaviorTree.Behaviors
                     new Selector(new List<BaseNode>
                     {
                         new ActionFollowPlayer(RangeType.Near, _stats, transform, _animator, blackboard),
-                        new ActionIdle(RangeType.Near, _stats, transform, _animator, blackboard),
+                        new ActionIdle(RangeType.Near, _stats, player, transform, _animator, blackboard),
                         new ActionBackupPlayer(_stats, transform, _animator, blackboard),
                     }),
                     new CheckIfPlayerHasEatable(player),
@@ -106,7 +106,7 @@ namespace BehaviorTree.Behaviors
             _animationEventDictionary[eventKey].Invoke();
         }
 
-        public void ChangeToFriendlyAnimator()
+        private void ChangeToFriendlyAnimator()
         {
             if (!_isChangingColor) return;
             _animator.runtimeAnimatorController = _stats.AnimatorController;
@@ -120,12 +120,17 @@ namespace BehaviorTree.Behaviors
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, _stats.DetectionRadiusEnemy);
-            Gizmos.color = Color.green;
+            Gizmos.color = _stats.ShowPlayerDetectionRadius ? Color.green : Color.clear;
             Gizmos.DrawWireSphere(transform.position, _stats.DetectionRadiusPlayer);
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(transform.position, _stats.AttackRadius);
+            Gizmos.color = _stats.ShowIdleSpace ? Color.magenta : Color.clear;
+            Gizmos.DrawWireSphere(transform.position, _stats.DetectionRadiusPlayer - _stats.NearRangeStopDistance - _stats.MaxBackupDistance);
+            Gizmos.DrawWireSphere(transform.position, _stats.DetectionRadiusPlayer - _stats.NearRangeStopDistance - _stats.DistanceBetweenOffset);
+            Gizmos.color = _stats.ShowEnemyDetectionRadius ? Color.red : Color.clear;
+            Gizmos.DrawWireSphere(transform.position, _stats.DetectionRadiusEnemy);
+            Gizmos.color = _stats.ShowBackupRadius ? Color.yellow : Color.clear;
+            Gizmos.DrawWireSphere(transform.position, _stats.DetectionRadiusPlayer - _stats.NearRangeStopDistance - _stats.MaxBackupDistance);
+            Gizmos.color = _stats.ShowFollowRadius ? Color.blue : Color.clear;
+            Gizmos.DrawWireSphere(transform.position, _stats.DetectionRadiusPlayer - _stats.NearRangeStopDistance - _stats.DistanceBetweenOffset);
         }
 #endif
     }

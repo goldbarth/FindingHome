@@ -48,12 +48,6 @@ namespace BehaviorTree.Nodes.Actions
         
         public override NodeState Evaluate()
         {
-            if (_stats.IsInAttackPhase)
-            {
-                State = NodeState.Failure;
-                return State;
-            }
-
             if(_stats.HasEaten)
                 _range = _stats.IsFarRange ? _stats.FarRangeStopDistance : _stats.ProtectRangeStopDistance;
             
@@ -71,7 +65,8 @@ namespace BehaviorTree.Nodes.Actions
                 Vec2.LookAt(_rigid, direction);
 
                 _animator.SetBool("IsWalking", true);
-
+                
+                _stats.HasBackedUp = false;
                 Debug.Log("Follow");
                 State = NodeState.Success;
                 return State;

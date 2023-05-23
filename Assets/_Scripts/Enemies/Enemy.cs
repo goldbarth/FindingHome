@@ -13,7 +13,7 @@ namespace Enemies
         /// </summary>
         /// <param name="damage">int</param>
         /// <returns>Returns true if enemy is dead.</returns>
-        protected internal bool TakeDamage(int damage)
+        protected internal virtual bool TakeDamage(int damage)
         {
             _health -= damage;
             var isDead = _health <= 0;
@@ -21,7 +21,7 @@ namespace Enemies
             return isDead;
         }
 
-        private void Die()
+        protected virtual void Die()
         {
             Destroy(gameObject);
         }

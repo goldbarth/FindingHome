@@ -27,38 +27,38 @@ namespace BehaviorTree.NPCStats
         [Tooltip("Increase the amount to get a greater distance to the object, and reverse. A good approach is to start with 1.")]
         [Range(.5f, 10f)]
         public float FarRangeStopDistance= 1.5f;
-        [Range(.5f, 10f)]
+        [Range(- 5f, 10f)]
         public float MinBackupDistance = 3f;
-        [Range(.5f, 10f)]
+        [Range(- 5f, 10f)]
         public float MaxBackupDistance = 3f;
         [Range(.5f, 10f)]
         public float TargetStopDistance = .5f;
         [Range(0f, 10f)]
         public float DistanceBetweenOffset = .5f;
-        [Header("Speeds")]
-        [Range(.5f, 300f)]
-        public float SpeedGoToPlayer = 140f;
-        [Range(.5f, 300f)]
-        public float SpeedPlayerBackup = 180f;
-        [Range(.5f, 300f)]
-        public float SpeedTargetFollow = 5f;
-        [Range(.5f, 300f)]
-        public float SpeedGoToEat = 5f;
         [Header("Attack Stats")]
         [Range(.001f, 3f)]
         public float AttackTime = .7f;
         [Range(1, 30)]
         public int AttackDamage = 10;
-        [Header("Transitions")]
-        [Range(.01f, 10f)]
-        public float PositionTransition = .8f;
+        [Header("Smooth Times, Speeds, Forces")]
         [Range(.01f, 10f)]
         public float SmoothTime = 1.8f;
         [Range(.01f, 10f)]
         public float SmoothTimeFast = .8f;
+        [Range(.01f, 10f)]
+        public float SmoothTimeBackup = .47f;
+        [Range(.01f, 10f)]
+        public float JumpForce = 1.5f;
         [Header("Flags")]
         public bool HasEaten;
         public bool IsFarRange;
         public bool IsInAttackPhase;
+        public bool HasBackedUp;
+        [Header("Gizmos")]
+        public bool ShowEnemyDetectionRadius = true;
+        public bool ShowPlayerDetectionRadius = true;
+        public bool ShowBackupRadius = true;
+        public bool ShowFollowRadius = true;
+        public bool ShowIdleSpace = true;
     }
 }

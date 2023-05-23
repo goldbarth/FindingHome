@@ -4,11 +4,14 @@ using BehaviorTree.Core;
 using UnityEngine;
 using System;
 using AddIns;
+using Player;
+using Random = UnityEngine.Random;
 
 namespace BehaviorTree.Nodes.Actions
 {
     public class ActionIdle : ActionNode
     {
+        private readonly PlayerController _player;
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
         private readonly SpitterStats _stats;
@@ -18,7 +21,7 @@ namespace BehaviorTree.Nodes.Actions
         private Vector2 _previousPosition;
         private float _range;
 
-        public ActionIdle(Enum rangeType, SpitterStats stats, Transform transform, Animator animator, IBlackboard blackboard)
+        public ActionIdle(Enum rangeType, SpitterStats stats, PlayerController player, Transform transform, Animator animator, IBlackboard blackboard)
         {
             switch (rangeType)
             {
@@ -32,33 +35,36 @@ namespace BehaviorTree.Nodes.Actions
                     _range = stats.ProtectRangeStopDistance;
                     break;
             }
+            
             _rigid = transform.parent.GetComponent<Rigidbody2D>();
             _transform = transform.parent;
             _blackboard = blackboard;
             _animator = animator;
+            _player = player;
             _stats = stats;
         }
         
         public override NodeState Evaluate()
         {
-            if (_stats.IsInAttackPhase)
-            {
-                State = NodeState.Failure;
-                return State;
-            }
-            
             //_range = _stats.IsFarRange ? _stats.FarRangeStopDistance : _stats.ProtectRangeStopDistance;
             
             var player = _blackboard.GetData<Transform>(_stats.PlayerTag);
-            var position = _transform.position;
-            var direction = Vec2.Direction(position, player.position);
+            var direction = Vec2.Direction(_transform.position, player.position);
             
-            if (Vec2.DistanceBetween(_stats, position, player.position, _range))
+            if (Vec2.DistanceBetween(_stats, _transform, player, _range))
             {
                 //TODO: random idle animations and/or behaviors, like looking around or jumping
                 _animator.SetBool("IsWalking", false);
                 Vec2.LookAt(_rigid, direction);
-                
+
+                if (_stats.HasBackedUp && !HasEatable())
+                {
+                    _rigid.velocity = new Vector2(_rigid.velocity.x, 0);
+                    _rigid.velocity += (-direction + Vector2.up) * _stats.JumpForce;
+                    
+                    _stats.HasBackedUp = false;
+                }
+
                 Debug.Log("Idle");
                 State = NodeState.Running;
                 return State;
@@ -66,6 +72,11 @@ namespace BehaviorTree.Nodes.Actions
 
             State = NodeState.Failure;
             return State;
+        }
+        
+        private bool HasEatable()
+        {
+            return _player.GetEatablesCount > 0;
         }
     }
 }

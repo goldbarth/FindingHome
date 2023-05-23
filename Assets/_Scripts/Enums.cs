@@ -10,6 +10,11 @@ public enum SpitterAnimationEvents
     ChangeController,
 }
 
+public enum SummonerAnimationEvents
+{
+    DestroyGameObject,
+}
+
 public enum FOVType
 {
     Player,

@@ -27,26 +27,19 @@ namespace BehaviorTree.Nodes.Actions
         
         public override NodeState Evaluate()
         {
-            if (_stats.IsInAttackPhase)
-            {
-                State = NodeState.Failure;
-                return State;
-            }
-            
             var player = _blackboard.GetData<Transform>(_stats.PlayerTag);
             var position = _transform.position;
-            var distance = Vector2.Distance(position, player.position);
-            var stopDistance = _stats.DetectionRadiusPlayer - _stats.NearRangeStopDistance;
             var reverseDirection = Vec2.Direction(player.position, position);
             var backup = reverseDirection * _stats.MaxBackupDistance;
 
-            if (distance < stopDistance - _stats.MinBackupDistance && distance < stopDistance - _stats.MaxBackupDistance)
+            if (Vec2.BackupDistance(_stats, _transform, player))
             {
-                _transform.position = Vector2.SmoothDamp(position, position + (Vector3)backup, ref _velocity, _stats.SmoothTimeFast);
+                _transform.position = Vector2.SmoothDamp(position, position + (Vector3)backup, ref _velocity, _stats.SmoothTimeBackup);
                 Vec2.LookAt(_rigid, reverseDirection);
 
                 _animator.SetBool("IsWalking", true);
                 
+                _stats.HasBackedUp = true;
                 Debug.Log("Backup");
                 State = NodeState.Running;
                 return State;

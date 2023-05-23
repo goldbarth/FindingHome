@@ -51,14 +51,25 @@ namespace AddIns
         /// <param name="endPoint">Vector2</param>
         /// <param name="range">float</param>
         /// <returns>Returns a distance with an offset.</returns>
-        public static bool DistanceBetween(SpitterStats stats, Vector2 startPoint, Vector2 endPoint, float range)
+        public static bool DistanceBetween(SpitterStats stats, Transform startPoint, Transform endPoint, float range)
         {
-            var distance = Vector2.Distance(startPoint, endPoint);
+            var distance = Vector2.Distance(startPoint.position, endPoint.position);
             var stopDistance = stats.DetectionRadiusPlayer - range;
             var stopDistanceWithOffset = stopDistance - stats.DistanceBetweenOffset;
             var backupDistanceWithOffset = (stopDistance - stats.MaxBackupDistance) + stats.DistanceBetweenOffset;
+            
+            
 
             return (distance < stopDistanceWithOffset && distance > backupDistanceWithOffset);
+        }
+        
+        public static bool BackupDistance(SpitterStats stats, Transform startPoint, Transform endPoint)
+        {
+            var distance = Vector2.Distance(startPoint.position, endPoint.position);
+            var stopDistance = stats.DetectionRadiusPlayer - stats.NearRangeStopDistance;
+
+            return (distance < stopDistance - stats.MinBackupDistance && 
+                   distance < stopDistance - stats.MaxBackupDistance);
         }
         
         /// <summary>
