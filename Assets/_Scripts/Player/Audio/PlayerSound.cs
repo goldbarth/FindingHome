@@ -35,8 +35,6 @@ namespace Player.Audio
                 _jumpSound.Play();
             if (_player.JumpAction.ReadValue<float>() > 0 && _coll.IsWall())
                 _jumpSound.Play();
-            Debug.Log("WasPerformedThisFrame: " + _player.JumpAction.WasPerformedThisFrame());
-            Debug.Log("Can Multi Jump: " + _player.CanMultiJump);
         }
 
         private void Footsteps()

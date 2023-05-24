@@ -40,7 +40,6 @@ namespace BehaviorTree.Nodes.Actions
                 _animator.SetBool("IsWalking", true);
                 
                 _stats.HasBackedUp = true;
-                Debug.Log("Backup");
                 State = NodeState.Running;
                 return State;
             }

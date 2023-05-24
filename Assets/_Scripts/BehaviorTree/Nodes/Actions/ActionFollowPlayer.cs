@@ -50,9 +50,7 @@ namespace BehaviorTree.Nodes.Actions
         {
             if(_stats.HasEaten)
                 _range = _stats.IsFarRange ? _stats.FarRangeStopDistance : _stats.ProtectRangeStopDistance;
-            
-            Debug.Log("Range: " + _range);
-            
+
             var player = _blackboard.GetData<Transform>(_stats.PlayerTag);
             var position = _transform.position;
             var distance = Vector2.Distance(position, player.position);
@@ -67,7 +65,6 @@ namespace BehaviorTree.Nodes.Actions
                 _animator.SetBool("IsWalking", true);
                 
                 _stats.HasBackedUp = false;
-                Debug.Log("Follow");
                 State = NodeState.Success;
                 return State;
             }

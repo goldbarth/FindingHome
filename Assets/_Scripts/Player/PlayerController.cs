@@ -167,9 +167,7 @@ namespace Player
         {
             _coll.FrictionChange(_wallSlide);
             ResetterAndCounter();
-            
-            Debug.Log("Is interacting: " + IsInteracting);
-            
+
             //TODO: declare a bool on a different place
             //if (_dialogueManager is not null && !_dialogueManager.IsInDialogue)
             //    _multiJump = true;

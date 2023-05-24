@@ -40,7 +40,7 @@ MonoBehaviour:
   JumpForce: 1.5
   HasEaten: 1
   IsFarRange: 0
-  IsInAttackPhase: 0
+  IsInAttackPhase: 1
   HasBackedUp: 0
   ShowEnemyDetectionRadius: 0
   ShowPlayerDetectionRadius: 1

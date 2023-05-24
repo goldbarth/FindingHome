@@ -64,8 +64,7 @@ namespace BehaviorTree.Nodes.Actions
                     
                     _stats.HasBackedUp = false;
                 }
-
-                Debug.Log("Idle");
+                
                 State = NodeState.Running;
                 return State;
             }
