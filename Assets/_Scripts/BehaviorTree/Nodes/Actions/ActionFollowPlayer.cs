@@ -10,8 +10,7 @@ namespace BehaviorTree.Nodes.Actions
 {
     public class ActionFollowPlayer : ActionNode
     {
-        private readonly CheckIfPlayerWasCommanding _checkIfPlayerWasCommanding;
-        private readonly ActionBackupPlayer _backup;
+        private readonly AudioSource _audioSource;
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
         private readonly SpitterStats _stats;
@@ -22,7 +21,7 @@ namespace BehaviorTree.Nodes.Actions
         private Vector2 _velocity;
         private float _range;
 
-        public ActionFollowPlayer(Enum rangeType, SpitterStats stats, Transform transform, Animator animator, IBlackboard blackboard)
+        public ActionFollowPlayer(Enum rangeType, SpitterStats stats, Transform transform, Animator animator, AudioSource audioSource, IBlackboard blackboard)
         {
             switch (rangeType)
             {
@@ -41,6 +40,7 @@ namespace BehaviorTree.Nodes.Actions
             }
             _rigid = transform.parent.GetComponent<Rigidbody2D>();
             _transform = transform.parent;
+            _audioSource = audioSource;
             _blackboard = blackboard;
             _animator = animator;
             _stats = stats;
@@ -63,6 +63,7 @@ namespace BehaviorTree.Nodes.Actions
                 Vec2.LookAt(_rigid, direction);
 
                 _animator.SetBool("IsWalking", true);
+                _audioSource.Play();
                 
                 _stats.HasBackedUp = false;
                 State = NodeState.Success;

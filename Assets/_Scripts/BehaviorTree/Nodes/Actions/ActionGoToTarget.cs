@@ -8,6 +8,7 @@ namespace BehaviorTree.Nodes.Actions
 {
     public class ActionGoToTarget : ActionNode
     {
+        private readonly AudioSource _audioSource;
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
         private readonly SpitterStats _stats;
@@ -17,10 +18,11 @@ namespace BehaviorTree.Nodes.Actions
         private Vector2 _velocity;
         private float _currentSpeed;
 
-        public ActionGoToTarget(SpitterStats stats, Transform transform, Animator animator, IBlackboard blackboard)
+        public ActionGoToTarget(SpitterStats stats, Transform transform, Animator animator, AudioSource audioSource, IBlackboard blackboard)
         {
             _rigid = transform.parent.GetComponent<Rigidbody2D>();
             _transform = transform.parent;
+            _audioSource = audioSource;
             _blackboard = blackboard;
             _animator = animator;
             _stats = stats;
@@ -44,6 +46,7 @@ namespace BehaviorTree.Nodes.Actions
                 Vec2.LookAt(_rigid, direction);
 
                 _animator.SetBool("IsWalking", true);
+                _audioSource.Play();
                 
                 State = NodeState.Running;
                 return State; 
@@ -52,6 +55,7 @@ namespace BehaviorTree.Nodes.Actions
             if (distance < _stats.TargetStopDistance)
             {
                 _animator.SetBool("IsWalking", false);
+                _audioSource.Stop();
                 return State = NodeState.Success;
             }
             

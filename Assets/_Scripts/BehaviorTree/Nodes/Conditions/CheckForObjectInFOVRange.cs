@@ -13,6 +13,7 @@ namespace BehaviorTree.Nodes.Conditions
         private readonly Transform _transform;
         private readonly LayerMask _layerMask;
         private readonly SpitterStats _stats;
+        private readonly string _playerID = string.Empty;
         private readonly float _detectionRadius;
         private readonly string _key;
 
@@ -47,7 +48,7 @@ namespace BehaviorTree.Nodes.Conditions
                 if (colliders.Length > 0)
                 {
                     if(_key == _stats.PlayerTag)
-                        _blackboard.SetData(_key, string.Empty, colliders[0].transform);
+                        _blackboard.SetData(_key, _playerID, colliders[0].transform);
                     if (_key == _stats.TargetTag)
                     {
                         var target = colliders[0].GetComponentInChildren<Summoner>();

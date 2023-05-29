@@ -8,11 +8,15 @@
 public enum SpitterAnimationEvents
 {
     ChangeController,
+    PlayAttackSound,
 }
 
 public enum SummonerAnimationEvents
 {
     DestroyGameObject,
+    FinishAnimation,
+    PlayDeathSound,
+    PlaySummonSound,
 }
 
 public enum FOVType

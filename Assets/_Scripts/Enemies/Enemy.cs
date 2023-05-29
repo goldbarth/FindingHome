@@ -5,6 +5,7 @@ namespace Enemies
 {
     public abstract class Enemy : GenerateGuid
     {
+        [Header("Stats")]
         [SerializeField] protected int _health = 30;
 
         /// <summary>

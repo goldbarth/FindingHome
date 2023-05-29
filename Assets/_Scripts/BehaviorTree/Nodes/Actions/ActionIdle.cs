@@ -12,6 +12,7 @@ namespace BehaviorTree.Nodes.Actions
     public class ActionIdle : ActionNode
     {
         private readonly PlayerController _player;
+        private readonly AudioSource _audioSource;
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
         private readonly SpitterStats _stats;
@@ -21,7 +22,7 @@ namespace BehaviorTree.Nodes.Actions
         private Vector2 _previousPosition;
         private float _range;
 
-        public ActionIdle(Enum rangeType, SpitterStats stats, PlayerController player, Transform transform, Animator animator, IBlackboard blackboard)
+        public ActionIdle(Enum rangeType, SpitterStats stats, PlayerController player, Transform transform, Animator animator, AudioSource audioSource, IBlackboard blackboard)
         {
             switch (rangeType)
             {
@@ -38,6 +39,7 @@ namespace BehaviorTree.Nodes.Actions
             
             _rigid = transform.parent.GetComponent<Rigidbody2D>();
             _transform = transform.parent;
+            _audioSource = audioSource;
             _blackboard = blackboard;
             _animator = animator;
             _player = player;
@@ -55,6 +57,7 @@ namespace BehaviorTree.Nodes.Actions
             {
                 //TODO: random idle animations and/or behaviors, like looking around or jumping
                 _animator.SetBool("IsWalking", false);
+                _audioSource.Stop();
                 Vec2.LookAt(_rigid, direction);
 
                 if (_stats.HasBackedUp && !HasEatable())

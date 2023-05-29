@@ -42,18 +42,8 @@ namespace BehaviorTree.Nodes.Actions
             }
 
             var target = _blackboard.GetData<Transform>(_stats.TargetTag);
-
             _enemy = target.GetComponentInChildren<Summoner>();
-            
-            if (_enemy == null)
-            {
-                
-                _stats.IsInAttackPhase = false;
-                
-                State = NodeState.Failure;
-                return State;
-            }
-            
+
             var direction = Vec2.Direction(_transform.position, target.position);
             Vec2.LookAt(_rigid, direction);
 
@@ -61,21 +51,17 @@ namespace BehaviorTree.Nodes.Actions
             {
                 _attackCounter += Time.deltaTime;
                 _stats.IsInAttackPhase = true;
-                Debug.Log("Is Attacking");
-                
+
                 State = NodeState.Running;
                 return State;
             }
 
             _attackCounter = 0f;
-
             _animator.SetBool("IsAttacking", true);
 
             var enemyIsDead = _enemy.TakeDamage(_stats.AttackDamage);
             if (enemyIsDead)
             {
-                _stats.IsInAttackPhase = false;
-                Debug.Log("Is Dead");
                 _blackboard.ClearData(_stats.TargetTag);
                 _animator.SetBool("IsAttacking", false);
 

@@ -345,7 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 271e67945f0f4ada8ec8d8b548303054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstSelected: {fileID: 1733040540}
+  _firstSelected: {fileID: 0}
 --- !u!1 &807184674
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,9 +404,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "penusbmic @itch.io\n\nKenny.nl \nGoose Ninja  @itch.io\nfreesound.org\n\nChristoph
-    Graf\nGerald Montufar\n\nFelix Wahl\n\nAll fellow students and people around
-    who feels addressed"
+  m_text: "penusbmic @itch.io\n\nKenny.nl \nGoose Ninja  @itch.io\nsonniss.com/gameaudiogdc\nfreesound.org\n\nChristoph
+    Graf\nGerald Montufar\nPascal Mennerich\n\nFelix Wahl\n\nAll fellow students
+    and people around who feels addressed"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a56fad3920c3c74498c4760be6a7ac6f, type: 2}
   m_sharedMaterial: {fileID: -7532717427867486110, guid: a56fad3920c3c74498c4760be6a7ac6f, type: 2}
@@ -469,7 +469,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -0.00297832, y: 0, z: 0, w: 0}
+  m_margin: {x: -0.00297832, y: 0, z: -0.6569681, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -930,14 +930,17 @@ MonoBehaviour:
 
 
 
+
     Lecturers
+
 
 
 
     Creator
 
 
-    Special Thanks'
+    Special
+    Thanks'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9fcd5ec3742a5a34fb34efbc1ccf1ca4, type: 2}
   m_sharedMaterial: {fileID: 3087349824124607792, guid: 9fcd5ec3742a5a34fb34efbc1ccf1ca4, type: 2}
@@ -1584,17 +1587,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8858956922989983375, guid: 0b8a12abf94fa5a4ca6d5ee8808c392c, type: 3}
   m_PrefabInstance: {fileID: 1733040538}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1733040540 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8858956922989983372, guid: 0b8a12abf94fa5a4ca6d5ee8808c392c, type: 3}
-  m_PrefabInstance: {fileID: 1733040538}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1875225592
 GameObject:
   m_ObjectHideFlags: 0

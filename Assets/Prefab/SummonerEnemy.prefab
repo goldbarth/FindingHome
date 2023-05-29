@@ -164,6 +164,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 82f46968-90f6-4160-beb9-900dc62e8218
   _health: 30
+  _stats: {fileID: 11400000, guid: 34e7259d30beace44bbb4b1b1b0c9b79, type: 2}
+  _deathSound: {fileID: 0}
+  _summonSound: {fileID: 0}
+  _minDelay: 3
+  _maxDelay: 7
+  _waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &5965219278494422980
 GameObject:
   m_ObjectHideFlags: 0

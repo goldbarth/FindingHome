@@ -13,8 +13,11 @@ namespace BehaviorTree.Behaviors
 {
     public class SpitterBehavior : BaseTree
     {
+        [Header("Stats and References")]
         [SerializeField] private SpitterStats _stats;
-        [SerializeField] private bool _isChangingColor;
+        [Header("Audio")]
+        [SerializeField] private AudioSource _attackSound;
+        [SerializeField] private AudioSource _footstepSound;
 
         private Dictionary<SpitterAnimationEvents, Action> _animationEventDictionary;
         private Animator _animator;
@@ -41,8 +44,11 @@ namespace BehaviorTree.Behaviors
             _stats.HasEaten = false;
             _stats.IsFarRange = false;
             _stats.IsInAttackPhase = false;
-            _animationEventDictionary = new Dictionary<SpitterAnimationEvents, Action>();
-            _animationEventDictionary.Add(SpitterAnimationEvents.ChangeController, ChangeToFriendlyAnimator);
+            _animationEventDictionary = new Dictionary<SpitterAnimationEvents, Action>
+            {
+                { SpitterAnimationEvents.ChangeController, ChangeToFriendlyAnimator },
+                { SpitterAnimationEvents.PlayAttackSound, PlayAttackSound }
+            };
         }
 
         protected override BaseNode SetupTree()
@@ -60,7 +66,7 @@ namespace BehaviorTree.Behaviors
                         new Sequence(new List<BaseNode>
                         {
                             new CheckForObjectInFOVRange(FOVType.Target, _stats, transform, blackboard),
-                            new ActionGoToTarget(_stats, transform, _animator, blackboard),
+                            new ActionGoToTarget(_stats, transform, _animator, _footstepSound, blackboard),
                             new CheckIfTargetInAttackRange(_stats, transform, blackboard),
                             new ActionAttackTarget(_stats, transform, _animator, blackboard)
                         })
@@ -70,14 +76,10 @@ namespace BehaviorTree.Behaviors
                         new CheckIfInAttackPhase(_stats)
                     }),
                     new CheckForObjectInFOVRange(FOVType.Player, _stats, transform, blackboard),
-                    //new ForceSuccess(new List<BaseNode>
-                    //{
-                    //    new CheckIfPlayerWasCommanding(_stats, player),
-                    //}),
                     new Selector(new List<BaseNode>
                     {
-                        new ActionFollowPlayer(RangeType.Protect, _stats, transform, _animator, blackboard),
-                        new ActionIdle(RangeType.Protect, _stats, player, transform, _animator, blackboard),
+                        new ActionFollowPlayer(RangeType.Protect, _stats, transform, _animator, _footstepSound, blackboard),
+                        new ActionIdle(RangeType.Protect, _stats, player, transform, _animator, _footstepSound, blackboard),
                     })
                 }),
                 new Sequence(new List<BaseNode>
@@ -89,9 +91,9 @@ namespace BehaviorTree.Behaviors
                     new CheckForObjectInFOVRange(FOVType.Player, _stats, transform, blackboard),
                     new Selector(new List<BaseNode>
                     {
-                        new ActionFollowPlayer(RangeType.Near, _stats, transform, _animator, blackboard),
-                        new ActionIdle(RangeType.Near, _stats, player, transform, _animator, blackboard),
-                        new ActionBackupPlayer(_stats, transform, _animator, blackboard),
+                        new ActionFollowPlayer(RangeType.Near, _stats, transform, _animator, _footstepSound, blackboard),
+                        new ActionIdle(RangeType.Near, _stats, player, transform, _animator, _footstepSound, blackboard),
+                        new ActionBackupPlayer(_stats, transform, _animator, _footstepSound, blackboard),
                     }),
                     new CheckIfPlayerHasEatable(player),
                     new ActionConsumeEatable(_stats, transform, _animator, blackboard),
@@ -108,8 +110,12 @@ namespace BehaviorTree.Behaviors
 
         private void ChangeToFriendlyAnimator()
         {
-            if (!_isChangingColor) return;
             _animator.runtimeAnimatorController = _stats.AnimatorController;
+        }
+        
+        private void PlayAttackSound()
+        {
+            _attackSound.Play();
         }
 
         private void SetFriendly()
