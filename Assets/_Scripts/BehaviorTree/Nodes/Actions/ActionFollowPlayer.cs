@@ -1,5 +1,4 @@
-﻿using BehaviorTree.Nodes.Conditions;
-using BehaviorTree.Blackboard;
+﻿using BehaviorTree.Blackboard;
 using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
 using UnityEngine;
@@ -48,24 +47,12 @@ namespace BehaviorTree.Nodes.Actions
         
         public override NodeState Evaluate()
         {
-            if(_stats.HasEaten)
-                _range = _stats.IsFarRange ? _stats.FarRangeStopDistance : _stats.ProtectRangeStopDistance;
-
-            var player = _blackboard.GetData<Transform>(_stats.PlayerTag);
-            var position = _transform.position;
-            var distance = Vector2.Distance(position, player.position);
-            var direction = Vec2.Direction(position, player.position);
-            var stopDistance = _stats.DetectionRadiusPlayer - _range;
-
-            if (distance > stopDistance)
+            ChangeDistanceWhenHasEaten();
+            var player = SetPlayerData();
+            if (IsDistanceGreaterThanStopDistance(player, _transform.position))
             {
-                _transform.position = Vector2.SmoothDamp(position, player.position, ref _velocity, _smoothTime);
-                Vec2.LookAt(_rigid, direction);
-
-                _animator.SetBool("IsWalking", true);
-                _audioSource.Play();
+                MoveToPlayer(player);
                 
-                _stats.HasBackedUp = false;
                 State = NodeState.Success;
                 return State;
             }
@@ -74,6 +61,38 @@ namespace BehaviorTree.Nodes.Actions
 
             State = NodeState.Failure;
             return State;
+        }
+
+        private void MoveToPlayer(Transform player)
+        {
+            var position = _transform.position;
+            var direction = Vec2.Direction(position, player.position);
+            
+            _transform.position = Vector2.SmoothDamp(position, player.position, ref _velocity, _smoothTime);
+            Vec2.LookAt(_rigid, direction);
+
+            _animator.SetBool("IsWalking", true);
+            _audioSource.PlayOneShot(_audioSource.clip);
+
+            _stats.HasBackedUp = false;
+        }
+
+        private void ChangeDistanceWhenHasEaten()
+        {
+            if (_stats.HasEaten)
+                _range = _stats.IsFarRange ? _stats.FarRangeStopDistance : _stats.ProtectRangeStopDistance;
+        }
+
+        private Transform SetPlayerData()
+        {
+            return _blackboard.GetData<Transform>(_stats.PlayerTag);
+        }
+        
+        private bool IsDistanceGreaterThanStopDistance(Transform player, Vector2 position)
+        {
+            var distance = Vector2.Distance(position, player.position);
+            var stopDistance = _stats.DetectionRadiusPlayer - _range;
+            return distance > stopDistance;
         }
     }
 }

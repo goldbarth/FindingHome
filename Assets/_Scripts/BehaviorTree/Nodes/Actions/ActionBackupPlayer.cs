@@ -40,7 +40,7 @@ namespace BehaviorTree.Nodes.Actions
                 Vec2.LookAt(_rigid, reverseDirection);
 
                 _animator.SetBool("IsWalking", true);
-                _audioSource.Play();
+                _audioSource.PlayOneShot(_audioSource.clip);
                 
                 _stats.HasBackedUp = true;
                 State = NodeState.Running;

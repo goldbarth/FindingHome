@@ -86,4 +86,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0
+    functionName: CallSpitterEvent
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 7c0b43a1600f42ef908879a48332f86c, type: 3}
+    floatParameter: 0
+    intParameter: 1
+    messageOptions: 0

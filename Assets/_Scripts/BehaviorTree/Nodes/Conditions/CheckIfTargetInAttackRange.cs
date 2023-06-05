@@ -22,9 +22,8 @@ namespace BehaviorTree.Nodes.Conditions
 
         public override NodeState Evaluate()
         {
-            var target = _blackboard.GetData<Transform>(_stats.TargetTag);
-            var distance = Vector2.Distance(_transform.position, target.position);
-            if (distance < _attackRange)
+            var target = SetTarget();
+            if (IsDistanceLessThanAttackRange(target))
             {
                 State = NodeState.Success;
                 return State;
@@ -32,6 +31,18 @@ namespace BehaviorTree.Nodes.Conditions
 
             State = NodeState.Failure;
             return State;
+        }
+
+        private Transform SetTarget()
+        {
+            var target = _blackboard.GetData<Transform>(_stats.TargetTag);
+            return target;
+        }
+        
+        private bool IsDistanceLessThanAttackRange(Transform target)
+        {
+            var distance = Vector2.Distance(_transform.position, target.position);
+            return distance < _attackRange;
         }
     }
 }

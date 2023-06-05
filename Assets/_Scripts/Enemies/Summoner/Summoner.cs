@@ -13,13 +13,14 @@ namespace Enemies.Summoner
         [Header("Audio")]
         [SerializeField] private AudioSource _deathSound;
         [SerializeField] private AudioSource _summonSound;
+
         [Header("Random Animation")]
         [SerializeField] private float _minDelay;
         [SerializeField] private float _maxDelay;
         [Header("Patrol Waypoints")]
         [SerializeField] private Transform[] _waypoints;
         
-        private Dictionary<SummonerAnimationEvents, Action> _animationEventDictionary;
+        private Dictionary<SummonerAnimationEvents, Action>  _animationEventDictionary;
         private Animator _animator;
         private Vector2 _velocity;
         private int _currentWaypointIndex;
@@ -89,14 +90,6 @@ namespace Enemies.Summoner
         {
             _animator.SetTrigger("IsSummoning");
             _isAnimating = true;
-            
-            //var randomAnimation = UnityEngine.Random.Range(0, 2);
-            //_animator.SetInteger("RandomAnimation", randomAnimation);
-        }
-
-        private void Sounds()
-        {
-            
         }
 
         public void CallAnimationEvent(SummonerAnimationEvents eventKey)
@@ -117,12 +110,14 @@ namespace Enemies.Summoner
         
         private void PlaySummonSound()
         {
-            _summonSound.Play();
+            Debug.Log("Summon sound");
+            _summonSound.PlayOneShot(_summonSound.clip);
         }
         
         private void PlayDeathSound()
         {
-            _deathSound.Play();
+            Debug.Log("Death sound");
+            _deathSound.PlayOneShot(_deathSound.clip);
         }
 
         private IEnumerator WaitTillGetHit()

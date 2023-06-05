@@ -10,11 +10,23 @@ namespace BehaviorTree.Nodes.Decorator
 
         public override NodeState Evaluate()
         {
-            var state = Children[0].Evaluate();
-            if (state == NodeState.Running)
+            foreach (var child in Children)
             {
-                State = NodeState.Running;
-                return State;
+                switch (child.Evaluate())
+                {
+                    case NodeState.Success:
+                        State = NodeState.Failure;
+                        return State;
+                    case NodeState.Failure:
+                        State = NodeState.Failure;
+                        return State;
+                    case NodeState.Running:
+                        State = NodeState.Running;
+                        return State;
+                    default:
+                        State = NodeState.Failure;
+                        return State;
+                }
             }
             
             State = NodeState.Failure;

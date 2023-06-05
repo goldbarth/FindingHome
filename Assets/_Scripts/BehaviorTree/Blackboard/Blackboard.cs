@@ -89,8 +89,7 @@ namespace BehaviorTree.Blackboard
         public bool ContainsId(string id)
         {
             foreach (var item in _data.Values)
-                if (item.ID == id)
-                    return true;
+                if (item.ID == id) return true;
 
             return false;
         }
@@ -105,7 +104,7 @@ namespace BehaviorTree.Blackboard
         {
             if (_data.TryGetValue(key, out var data))
             {
-                id = data.ID;
+                id = data.ID; 
                 return true;
             }
 

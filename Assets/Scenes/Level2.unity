@@ -370,6 +370,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 211963748315358802, guid: fd13cdfb2a73eb64bb7281b4e5f34223, type: 3}
+      propertyPath: m_Volume
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2530523104131042384, guid: fd13cdfb2a73eb64bb7281b4e5f34223, type: 3}
+      propertyPath: m_Pitch
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 2530523104131042384, guid: fd13cdfb2a73eb64bb7281b4e5f34223, type: 3}
+      propertyPath: m_Volume
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 2530523104131042384, guid: fd13cdfb2a73eb64bb7281b4e5f34223, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2892330536481365074, guid: fd13cdfb2a73eb64bb7281b4e5f34223, type: 3}
       propertyPath: Loop
       value: 0
@@ -379,8 +395,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5537822162396002400, guid: fd13cdfb2a73eb64bb7281b4e5f34223, type: 3}
+      propertyPath: Pan2D
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537822162396002400, guid: fd13cdfb2a73eb64bb7281b4e5f34223, type: 3}
+      propertyPath: m_Volume
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537822162396002400, guid: fd13cdfb2a73eb64bb7281b4e5f34223, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894115177898917545, guid: fd13cdfb2a73eb64bb7281b4e5f34223, type: 3}
+      propertyPath: m_Volume
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 7142616128569723343, guid: fd13cdfb2a73eb64bb7281b4e5f34223, type: 3}
       propertyPath: m_Volume
@@ -8614,7 +8642,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6485689903279152367, guid: 0094219d2263f6a42b394821a5e7f07e, type: 3}
       propertyPath: _moveSpeed
-      value: 10
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 6485689903279152367, guid: 0094219d2263f6a42b394821a5e7f07e, type: 3}
       propertyPath: _multiJump
@@ -9724,5 +9752,9 @@ PrefabInstance:
       propertyPath: _footstepSound
       value: 
       objectReference: {fileID: 885011558}
+    - target: {fileID: 7624241487542902309, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ef2057da08d97f343b6339b34c2e60c7, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}

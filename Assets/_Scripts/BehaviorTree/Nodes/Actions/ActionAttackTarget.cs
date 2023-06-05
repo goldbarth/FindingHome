@@ -35,42 +35,66 @@ namespace BehaviorTree.Nodes.Actions
         {
             if (!_blackboard.ContainsKey(_stats.TargetTag))
             {
-                _stats.IsInAttackPhase = false;
-                
                 State = NodeState.Failure;
                 return State;
             }
 
-            var target = _blackboard.GetData<Transform>(_stats.TargetTag);
-            _enemy = target.GetComponentInChildren<Summoner>();
+            var target = SetTarget();
+            SetLookDirection(target);
 
-            var direction = Vec2.Direction(_transform.position, target.position);
-            Vec2.LookAt(_rigid, direction);
-
-            if (_attackCounter < _stats.AttackTime)
+            if (IsInAttackPhase())
             {
-                _attackCounter += Time.deltaTime;
-                _stats.IsInAttackPhase = true;
-
-                State = NodeState.Running;
+                State = NodeState.Success;
                 return State;
             }
 
-            _attackCounter = 0f;
-            _animator.SetBool("IsAttacking", true);
-
-            var enemyIsDead = _enemy.TakeDamage(_stats.AttackDamage);
-            if (enemyIsDead)
+            if (IsEnemyDead())
             {
-                _blackboard.ClearData(_stats.TargetTag);
-                _animator.SetBool("IsAttacking", false);
-
                 State = NodeState.Failure;
                 return State;
             }
 
             State = NodeState.Running;
             return State;
+        }
+
+        private bool IsEnemyDead()
+        {
+            if (_enemy.TakeDamage(_stats.AttackDamage))
+            {
+                _blackboard.ClearData(_stats.TargetTag);
+                _animator.SetBool("IsAttacking", false);
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool IsInAttackPhase()
+        {
+            if (_attackCounter < _stats.AttackTime)
+            {
+                _attackCounter += Time.deltaTime;
+                _stats.IsInAttackPhase = true;
+                return true;
+            }
+
+            _attackCounter = 0f;
+            _animator.SetBool("IsAttacking", true);
+            return false;
+        }
+
+        private void SetLookDirection(Transform target)
+        {
+            var direction = Vec2.Direction(_transform.position, target.position);
+            Vec2.LookAt(_rigid, direction);
+        }
+
+        private Transform SetTarget()
+        {
+            var target = _blackboard.GetData<Transform>(_stats.TargetTag);
+            _enemy = target.GetComponentInChildren<Summoner>();
+            return target;
         }
     }
 }

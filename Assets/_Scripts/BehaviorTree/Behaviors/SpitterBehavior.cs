@@ -115,7 +115,8 @@ namespace BehaviorTree.Behaviors
         
         private void PlayAttackSound()
         {
-            _attackSound.Play();
+            Debug.Log("Play Attack Sound");
+            _attackSound.PlayOneShot(_attackSound.clip);
         }
 
         private void SetFriendly()

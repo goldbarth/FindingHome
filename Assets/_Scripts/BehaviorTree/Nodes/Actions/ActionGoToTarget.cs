@@ -30,13 +30,19 @@ namespace BehaviorTree.Nodes.Actions
         
         public override NodeState Evaluate()
         {
-            if(!_blackboard.ContainsKey("target"))
+            if(!_blackboard.ContainsKey(_stats.TargetTag))
             {
                 State = NodeState.Failure;
                 return State;
             }
             
-            var target = _blackboard.GetData<Transform>("target");
+            var target = _blackboard.GetData<Transform>(_stats.TargetTag);
+            if(target == null)
+            {
+                State = NodeState.Failure;
+                return State;
+            }
+            
             var direction = Vec2.Direction(_transform.position, target.position);
             var distance = Vector2.Distance(_transform.position, target.position);
             
@@ -46,7 +52,7 @@ namespace BehaviorTree.Nodes.Actions
                 Vec2.LookAt(_rigid, direction);
 
                 _animator.SetBool("IsWalking", true);
-                _audioSource.Play();
+                _audioSource.PlayOneShot(_audioSource.clip);
                 
                 State = NodeState.Running;
                 return State; 
@@ -56,7 +62,9 @@ namespace BehaviorTree.Nodes.Actions
             {
                 _animator.SetBool("IsWalking", false);
                 _audioSource.Stop();
-                return State = NodeState.Success;
+                
+                State = NodeState.Success;
+                return State;
             }
             
             State = NodeState.Failure;

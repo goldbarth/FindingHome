@@ -44,18 +44,10 @@ namespace BehaviorTree.Nodes.Conditions
             if (obj is null)
             {
                 var colliders = Physics2D.OverlapCircleAll(_transform.position, _detectionRadius, _layerMask);
-
                 if (colliders.Length > 0)
                 {
-                    if(_key == _stats.PlayerTag)
-                        _blackboard.SetData(_key, _playerID, colliders[0].transform);
-                    if (_key == _stats.TargetTag)
-                    {
-                        var target = colliders[0].GetComponentInChildren<Summoner>();
-                        if(target is not null)
-                            _blackboard.SetData(_key, target._id, target.transform.parent);
-                    }
-                    
+                    SetTargetObject(colliders);
+
                     State = NodeState.Success;
                     return State;
                 }
@@ -76,6 +68,18 @@ namespace BehaviorTree.Nodes.Conditions
 
                 State = NodeState.Success;
                 return State;
+            }
+        }
+
+        private void SetTargetObject(Collider2D[] colliders)
+        {
+            if (_key == _stats.PlayerTag)
+                _blackboard.SetData(_key, _playerID, colliders[0].transform);
+            if (_key == _stats.TargetTag)
+            {
+                var enemy = colliders[0].GetComponentInChildren<Summoner>();
+                if (enemy is not null)
+                    _blackboard.SetData(_key, enemy._id, enemy.transform.parent);
             }
         }
     }
