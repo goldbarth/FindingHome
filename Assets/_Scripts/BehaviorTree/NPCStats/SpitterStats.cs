@@ -36,8 +36,12 @@ namespace BehaviorTree.NPCStats
         [Range(0f, 10f)]
         public float DistanceBetweenOffset = .5f;
         [Header("Attack Stats")]
+        [Range(.001f, 10f)]
+        public float AttackTimeTest = .7f;
         [Range(.001f, 3f)]
         public float AttackTime = .7f;
+        [Range(0.1f, 3f)]
+        public float HitDelay = .7f;
         [Range(1, 30)]
         public int AttackDamage = 10;
         [Header("Smooth Times, Speeds, Forces")]
@@ -49,6 +53,8 @@ namespace BehaviorTree.NPCStats
         public float SmoothTimeBackup = .47f;
         [Range(.01f, 10f)]
         public float JumpForce = 1.5f;
+        [Range(.01f, 10f)]
+        public float Speed = 6.8f;
         [Header("Flags")]
         public bool HasEaten;
         public bool IsFarRange;

@@ -19,10 +19,10 @@ public enum SummonerAnimationEvents
     PlaySummonSound,
 }
 
-public enum FOVType
+public enum TargetType
 {
     Player,
-    Target
+    Enemy
 }
 public enum RangeType
 {

@@ -92,6 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8710367967057074713}
   - component: {fileID: 5669545936840945486}
+  - component: {fileID: 6603232251885958679}
   m_Layer: 12
   m_Name: SpitterLogic
   m_TagString: Spitter
@@ -127,7 +128,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stats: {fileID: 11400000, guid: 34e7259d30beace44bbb4b1b1b0c9b79, type: 2}
-  _isChangingColor: 1
+  _stateController: {fileID: 6603232251885958679}
+  _attackSound: {fileID: 0}
+  _footstepSound: {fileID: 0}
+--- !u!114 &6603232251885958679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7125533726388465967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcef45fba049f4745948ffa15517f2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stats: {fileID: 11400000, guid: 34e7259d30beace44bbb4b1b1b0c9b79, type: 2}
+  _audioSource: {fileID: 0}
 --- !u!1 &8139972153422777172
 GameObject:
   m_ObjectHideFlags: 0

@@ -57,6 +57,12 @@ TagManager:
   - name: Wall
     uniqueID: 929986009
     locked: 0
+  - name: Target
+    uniqueID: 496002661
+    locked: 0
+  - name: Spitter
+    uniqueID: 2333346433
+    locked: 0
   - name: Player
     uniqueID: 3937157211
     locked: 0

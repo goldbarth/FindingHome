@@ -2,7 +2,8 @@
 
 namespace BehaviorTree.Core
 {
-    // Sources: Christoph Graf´s KI Basics(Chapter Two), https://github.com/MinaPecheux/UnityTutorials-BehaviourTrees
+    // Sources: Christoph Graf @ KI Basics(Chapter Two).
+    // I found almost the same logic also here: https://github.com/MinaPecheux/UnityTutorials-BehaviourTrees
     // and https://www.behaviortree.dev/docs/intro
     public abstract class BaseTree : MonoBehaviour
     {

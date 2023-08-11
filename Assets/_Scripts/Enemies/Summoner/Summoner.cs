@@ -110,7 +110,7 @@ namespace Enemies.Summoner
         
         private void PlaySummonSound()
         {
-            Debug.Log("Summon sound");
+            //Debug.Log("Summon sound");
             _summonSound.PlayOneShot(_summonSound.clip);
         }
         
@@ -122,7 +122,7 @@ namespace Enemies.Summoner
 
         private IEnumerator WaitTillGetHit()
         {
-            yield return new WaitForSeconds(0.33f);
+            yield return new WaitForSeconds(_stats.HitDelay); //.33f
             _animator.SetTrigger("GetHit");
         }
     }

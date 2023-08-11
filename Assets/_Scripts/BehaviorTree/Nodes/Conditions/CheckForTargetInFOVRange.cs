@@ -7,7 +7,7 @@ using System;
 
 namespace BehaviorTree.Nodes.Conditions
 {
-    public class CheckForObjectInFOVRange : ConditionNode
+    public class CheckForTargetInFOVRange : ConditionNode
     {
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
@@ -17,16 +17,16 @@ namespace BehaviorTree.Nodes.Conditions
         private readonly float _detectionRadius;
         private readonly string _key;
 
-        public CheckForObjectInFOVRange(Enum fovType, SpitterStats stats, Transform transform, IBlackboard blackboard)
+        public CheckForTargetInFOVRange(Enum targetType, SpitterStats stats, Transform transform, IBlackboard blackboard)
         {
-            switch (fovType)
+            switch (targetType)
             {
-                case FOVType.Player:
+                case TargetType.Player:
                     _key = stats.PlayerTag;
                     _detectionRadius = stats.DetectionRadiusPlayer;
                     _layerMask = stats.PlayerLayer;
                     break;
-                case FOVType.Target:
+                case TargetType.Enemy:
                     _key = stats.TargetTag;
                     _detectionRadius = stats.DetectionRadiusEnemy;
                     _layerMask = stats.TargetLayer;

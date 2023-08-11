@@ -6,7 +6,7 @@ using AddIns;
 
 namespace BehaviorTree.Nodes.Actions
 {
-    public class ActionGoToTarget : ActionNode
+    public class ActionChaseTarget : ActionNode
     {
         private readonly AudioSource _audioSource;
         private readonly IBlackboard _blackboard;
@@ -18,7 +18,7 @@ namespace BehaviorTree.Nodes.Actions
         private Vector2 _velocity;
         private float _currentSpeed;
 
-        public ActionGoToTarget(SpitterStats stats, Transform transform, Animator animator, AudioSource audioSource, IBlackboard blackboard)
+        public ActionChaseTarget(SpitterStats stats, Transform transform, Animator animator, IBlackboard blackboard, AudioSource audioSource)
         {
             _rigid = transform.parent.GetComponent<Rigidbody2D>();
             _transform = transform.parent;

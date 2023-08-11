@@ -35,8 +35,7 @@ namespace BehaviorTree.Nodes.Conditions
 
         private Transform SetTarget()
         {
-            var target = _blackboard.GetData<Transform>(_stats.TargetTag);
-            return target;
+            return _blackboard.GetData<Transform>(_stats.TargetTag);
         }
         
         private bool IsDistanceLessThanAttackRange(Transform target)

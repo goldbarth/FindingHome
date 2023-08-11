@@ -1,8 +1,10 @@
-﻿using BehaviorTree.Nodes.Composites;
+﻿using FiniteStateMachine.SearchAndDestroy.Controller;
+using System.Collections.Generic;
+using BehaviorTree.Nodes.Composites;
 using BehaviorTree.Nodes.Conditions;
 using BehaviorTree.Nodes.Decorator;
 using BehaviorTree.Nodes.Actions;
-using System.Collections.Generic;
+using BehaviorTree.Nodes.Custom;
 using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
 using UnityEngine;
@@ -11,10 +13,11 @@ using Player;
 
 namespace BehaviorTree.Behaviors
 {
-    public class SpitterBehavior : BaseTree
+    public class FriendlyNpcBehavior : BaseTree
     {
         [Header("Stats and References")]
         [SerializeField] private SpitterStats _stats;
+        [SerializeField] private StateController _stateController;
         [Header("Audio")]
         [SerializeField] private AudioSource _attackSound;
         [SerializeField] private AudioSource _footstepSound;
@@ -55,6 +58,7 @@ namespace BehaviorTree.Behaviors
         {
             var blackboard = new Blackboard.Blackboard();
             var player = FindObjectOfType<PlayerController>();
+            
 
             var root = new Selector(new List<BaseNode>
             {
@@ -65,17 +69,15 @@ namespace BehaviorTree.Behaviors
                     {
                         new Sequence(new List<BaseNode>
                         {
-                            new CheckForObjectInFOVRange(FOVType.Target, _stats, transform, blackboard),
-                            new ActionGoToTarget(_stats, transform, _animator, _footstepSound, blackboard),
-                            new CheckIfTargetInAttackRange(_stats, transform, blackboard),
-                            new ActionAttackTarget(_stats, transform, _animator, blackboard)
+                            new StateMachineNode(_stateController),
+                            // ATTACK STATE MACHINE HERE!!!
                         })
                     }),
                     new Inverter(new List<BaseNode>
                     {
                         new CheckIfInAttackPhase(_stats)
                     }),
-                    new CheckForObjectInFOVRange(FOVType.Player, _stats, transform, blackboard),
+                    new CheckForTargetInFOVRange(TargetType.Player, _stats, transform, blackboard),
                     new Selector(new List<BaseNode>
                     {
                         new ActionFollowPlayer(RangeType.Protect, _stats, transform, _animator, _footstepSound, blackboard),
@@ -88,7 +90,7 @@ namespace BehaviorTree.Behaviors
                     {
                         new CheckIfFriendlyNPCHasEaten(_stats)
                     }),
-                    new CheckForObjectInFOVRange(FOVType.Player, _stats, transform, blackboard),
+                    new CheckForTargetInFOVRange(TargetType.Player, _stats, transform, blackboard),
                     new Selector(new List<BaseNode>
                     {
                         new ActionFollowPlayer(RangeType.Near, _stats, transform, _animator, _footstepSound, blackboard),
@@ -142,3 +144,8 @@ namespace BehaviorTree.Behaviors
 #endif
     }
 }
+
+// new CheckForTargetInFOVRange(FOVType.Target, _stats, transform, blackboard),
+// new ActionChaseTarget(_stats, transform, _animator, blackboard, _footstepSound),
+// new CheckIfTargetInAttackRange(_stats, transform, blackboard),
+// new ActionAttackTarget(_stats, transform, _animator, blackboard)
