@@ -1,5 +1,4 @@
 ﻿using BehaviorTree.Core;
-using UnityEngine;
 using Player;
 
 namespace BehaviorTree.Nodes.Conditions

@@ -1,4 +1,6 @@
-public class GameManager : AddIns.Singleton<GameManager>
+using HelpersAndExtensions;
+
+public class GameManager : Singleton<GameManager>
 {
     public bool IsGamePaused { get; set; }
     public bool OnRoomReset { get; set; }

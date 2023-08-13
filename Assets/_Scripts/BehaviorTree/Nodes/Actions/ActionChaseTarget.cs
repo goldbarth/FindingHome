@@ -1,8 +1,8 @@
 ﻿using BehaviorTree.Blackboard;
-using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
+using HelpersAndExtensions;
+using NpcSettings;
 using UnityEngine;
-using AddIns;
 
 namespace BehaviorTree.Nodes.Actions
 {
@@ -11,14 +11,14 @@ namespace BehaviorTree.Nodes.Actions
         private readonly AudioSource _audioSource;
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
-        private readonly SpitterStats _stats;
+        private readonly NpcData _stats;
         private readonly Animator _animator;
         private readonly Rigidbody2D _rigid;
         
         private Vector2 _velocity;
         private float _currentSpeed;
 
-        public ActionChaseTarget(SpitterStats stats, Transform transform, Animator animator, IBlackboard blackboard, AudioSource audioSource)
+        public ActionChaseTarget(NpcData stats, Transform transform, Animator animator, IBlackboard blackboard, AudioSource audioSource)
         {
             _rigid = transform.parent.GetComponent<Rigidbody2D>();
             _transform = transform.parent;

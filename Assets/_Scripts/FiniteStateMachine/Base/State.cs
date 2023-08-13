@@ -1,6 +1,6 @@
-﻿using FiniteStateMachine.SearchAndDestroy.Controller;
+﻿using FiniteStateMachine.Controller;
 
-namespace FiniteStateMachine.SearchAndDestroy.Base
+namespace FiniteStateMachine.Base
 {
     public abstract class State
     {
@@ -23,16 +23,6 @@ namespace FiniteStateMachine.SearchAndDestroy.Base
         
         protected virtual void OnUpdate()
         {
-        }
-
-        protected bool OnStateCanTransitionTo()
-        {
-            return OnCanTransitionTo();
-        }
-        
-        protected virtual bool OnCanTransitionTo()
-        {
-            return false;
         }
         
         public void OnStateExit()

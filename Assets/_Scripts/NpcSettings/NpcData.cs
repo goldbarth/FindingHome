@@ -1,11 +1,17 @@
 ﻿using UnityEditor.Animations;
 using UnityEngine;
 
-namespace BehaviorTree.NPCStats
+namespace NpcSettings
 {
-    [CreateAssetMenu(fileName = "Stats", menuName = "ScriptableObjects/BehaviorTree/Stats", order = 1)]
-    public class SpitterStats : BTStats
+    [CreateAssetMenu(fileName = "NpcData", menuName = "ScriptableObjects/BehaviorTree/NPC", order = 1)]
+    public class NpcData : ScriptableObject
     {
+        [Header("Layer Masks")]
+        public LayerMask TargetLayer;
+        public LayerMask PlayerLayer;
+        [Header("Tags")]
+        public string PlayerTag = "player";
+        public string TargetTag = "target";
         [Header("Components")]
         [Tooltip("Get switched when becomes friendly.")]
         public AnimatorController AnimatorController;
@@ -34,14 +40,14 @@ namespace BehaviorTree.NPCStats
         [Range(.5f, 10f)]
         public float TargetStopDistance = .5f;
         [Range(0f, 10f)]
-        public float DistanceBetweenOffset = .5f;
+        public float DistanceBetweenOffset = 0.0001f;
         [Header("Attack Stats")]
         [Range(.001f, 10f)]
-        public float AttackTimeTest = .7f;
+        public float AttackTimeFSM = .7f;
         [Range(.001f, 3f)]
         public float AttackTime = .7f;
         [Range(0.1f, 3f)]
-        public float HitDelay = .7f;
+        public float EnemyAnimationHitDelay = .33f;
         [Range(1, 30)]
         public int AttackDamage = 10;
         [Header("Smooth Times, Speeds, Forces")]
@@ -54,7 +60,6 @@ namespace BehaviorTree.NPCStats
         [Range(.01f, 10f)]
         public float JumpForce = 1.5f;
         [Range(.01f, 10f)]
-        public float Speed = 6.8f;
         [Header("Flags")]
         public bool HasEaten;
         public bool IsFarRange;

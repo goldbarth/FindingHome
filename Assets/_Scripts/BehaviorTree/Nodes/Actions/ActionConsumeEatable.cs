@@ -1,9 +1,9 @@
 ﻿using BehaviorTree.Blackboard;
-using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
+using NpcSettings;
 using UnityEngine;
 using System;
-using AddIns;
+using HelpersAndExtensions;
 
 namespace BehaviorTree.Nodes.Actions
 {
@@ -11,7 +11,7 @@ namespace BehaviorTree.Nodes.Actions
     {
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
-        private readonly SpitterStats _stats;
+        private readonly NpcData _stats;
         private readonly Rigidbody2D _rigid;
         private readonly Animator _animator;
         private readonly float _timer;
@@ -20,7 +20,7 @@ namespace BehaviorTree.Nodes.Actions
 
         public static event Action OnConsumeEatable;
 
-        public ActionConsumeEatable(SpitterStats stats, Transform transform, Animator animator, IBlackboard blackboard)
+        public ActionConsumeEatable(NpcData stats, Transform transform, Animator animator, IBlackboard blackboard)
         {
             _transform = transform.parent.GetComponent<Transform>();
             _rigid = transform.parent.GetComponent<Rigidbody2D>();

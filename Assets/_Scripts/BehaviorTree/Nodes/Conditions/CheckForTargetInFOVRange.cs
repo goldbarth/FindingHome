@@ -1,7 +1,7 @@
 ﻿using BehaviorTree.Blackboard;
-using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
 using Enemies.Summoner;
+using NpcSettings;
 using UnityEngine;
 using System;
 
@@ -12,12 +12,13 @@ namespace BehaviorTree.Nodes.Conditions
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
         private readonly LayerMask _layerMask;
-        private readonly SpitterStats _stats;
+        private readonly NpcData _stats;
+        
         private readonly string _playerID = string.Empty;
         private readonly float _detectionRadius;
         private readonly string _key;
 
-        public CheckForTargetInFOVRange(Enum targetType, SpitterStats stats, Transform transform, IBlackboard blackboard)
+        public CheckForTargetInFOVRange(Enum targetType, NpcData stats, Transform transform, IBlackboard blackboard)
         {
             switch (targetType)
             {

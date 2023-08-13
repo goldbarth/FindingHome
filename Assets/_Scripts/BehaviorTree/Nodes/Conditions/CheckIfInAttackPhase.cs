@@ -1,14 +1,13 @@
 ﻿using BehaviorTree.Core;
-using BehaviorTree.NPCStats;
-using UnityEngine;
+using NpcSettings;
 
 namespace BehaviorTree.Nodes.Conditions
 {
     public class CheckIfInAttackPhase : ConditionNode
     {
-        private readonly SpitterStats _stats;
+        private readonly NpcData _stats;
 
-        public CheckIfInAttackPhase(SpitterStats stats)
+        public CheckIfInAttackPhase(NpcData stats)
         {
             _stats = stats;
         }

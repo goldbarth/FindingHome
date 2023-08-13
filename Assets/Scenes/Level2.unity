@@ -7699,10 +7699,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 17746050238547498, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 158020995712012467, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
       propertyPath: m_RootOrder
       value: 22
@@ -7747,17 +7743,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4420803059202658978, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
-      propertyPath: AudioSource
-      value: 
-      objectReference: {fileID: 774069238}
     - target: {fileID: 5342598000466281194, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
       propertyPath: m_Name
       value: SpitterFriend (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 5669545936840945486, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
-      propertyPath: m_Enabled
-      value: 1
+    - target: {fileID: 5342598000466281194, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5669545936840945486, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
       propertyPath: _attackSound
@@ -7771,9 +7763,7 @@ PrefabInstance:
       propertyPath: _audioSource
       value: 
       objectReference: {fileID: 885011558}
-    m_RemovedComponents:
-    - {fileID: 4420803059202658978, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
-    - {fileID: 2724188342180329188, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
 --- !u!1 &1137236955
 GameObject:
@@ -9833,8 +9823,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5342598000466281194, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5669545936840945486, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
+      propertyPath: Stats
+      value: 
+      objectReference: {fileID: 11400000, guid: 34e7259d30beace44bbb4b1b1b0c9b79, type: 2}
     - target: {fileID: 5669545936840945486, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -9844,11 +9838,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 774069238}
     - target: {fileID: 5669545936840945486, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
+      propertyPath: FootstepSound
+      value: 
+      objectReference: {fileID: 885011558}
+    - target: {fileID: 5669545936840945486, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
       propertyPath: _footstepSound
       value: 
       objectReference: {fileID: 885011558}
     - target: {fileID: 6603232251885958679, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
       propertyPath: _audioSource
+      value: 
+      objectReference: {fileID: 885011558}
+    - target: {fileID: 6603232251885958679, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
+      propertyPath: _footStepAudio
+      value: 
+      objectReference: {fileID: 885011558}
+    - target: {fileID: 6603232251885958679, guid: 4b5f4281ac4d0b548838f67ea0e1784c, type: 3}
+      propertyPath: _footstepSound
       value: 
       objectReference: {fileID: 885011558}
     m_RemovedComponents:

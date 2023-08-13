@@ -32,20 +32,19 @@ MonoBehaviour:
   MaxBackupDistance: 1.5
   TargetStopDistance: 0.6
   DistanceBetweenOffset: 0.0001
-  AttackTimeTest: 1.2
+  AttackTimeFSM: 0.7
   AttackTime: 3
-  HitDelay: 0.2
+  EnemyAnimationHitDelay: 0.33
   AttackDamage: 10
   SmoothTime: 1.8
   SmoothTimeFast: 0.75
   SmoothTimeBackup: 0.47
   JumpForce: 1.5
-  Speed: 6.8
   HasEaten: 0
   IsFarRange: 0
   IsInAttackPhase: 0
   HasBackedUp: 0
-  ShowEnemyDetectionRadius: 1
+  ShowEnemyDetectionRadius: 0
   ShowPlayerDetectionRadius: 0
   ShowBackupRadius: 0
   ShowFollowRadius: 0

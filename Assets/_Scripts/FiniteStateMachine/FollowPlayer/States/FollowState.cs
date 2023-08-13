@@ -1,26 +1,28 @@
 ﻿using BehaviorTree.Blackboard;
-using BehaviorTree.Core;
+using FiniteStateMachine.Base;
+using HelpersAndExtensions;
 using NpcSettings;
 using UnityEngine;
 using System;
-using HelpersAndExtensions;
 
-namespace BehaviorTree.Nodes.Actions
+namespace FiniteStateMachine.FollowPlayer.States
 {
-    public class ActionFollowPlayer : ActionNode
+    public class FollowState : State
     {
         private readonly AudioSource _audioSource;
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
+        private readonly RangeType _rangeType;
         private readonly Rigidbody2D _rigid;
         private readonly Animator _animator;
-        private readonly float _smoothTime;
-        private readonly NpcData _stats;    
+        private readonly NpcData _stats;
 
+        private readonly float _smoothTime;
+        
         private Vector2 _velocity;
         private float _range;
 
-        public ActionFollowPlayer(Enum rangeType, NpcData stats, Transform transform, Animator animator, AudioSource audioSource, IBlackboard blackboard)
+        public FollowState(RangeType rangeType, NpcData stats, Transform transform, Animator animator, AudioSource audioSource, IBlackboard blackboard)
         {
             switch (rangeType)
             {
@@ -37,30 +39,42 @@ namespace BehaviorTree.Nodes.Actions
                     _smoothTime = stats.SmoothTimeFast;
                     break;
             }
+            
             _rigid = transform.parent.GetComponent<Rigidbody2D>();
             _transform = transform.parent;
             _audioSource = audioSource;
             _blackboard = blackboard;
+            _rangeType = rangeType;
             _animator = animator;
             _stats = stats;
         }
         
-        public override NodeState Evaluate()
+        protected override void OnUpdate()
         {
+            base.OnUpdate();
+            FollowPhase();
+        }
+        
+        private void FollowPhase()
+        {
+            if (!_blackboard.ContainsKey(_stats.PlayerTag))
+                return;
+            
             ChangeDistanceWhenHasEaten();
+            
             var player = SetPlayerData();
+            if (player == null) return;
+            
+            
             if (IsDistanceGreaterThanStopDistance(player, _transform.position))
-            {
                 MoveToPlayer(player);
-                
-                State = NodeState.Success;
-                return State;
+            else
+            {
+                _velocity = Vector2.zero;
+                StateController.ChangeState(_rangeType == RangeType.Protect
+                    ? StateController.FriendlyIdleState
+                    : StateController.SuspiciousIdleState);
             }
-
-            _velocity = Vector2.zero;
-
-            State = NodeState.Failure;
-            return State;
         }
 
         private void MoveToPlayer(Transform player)

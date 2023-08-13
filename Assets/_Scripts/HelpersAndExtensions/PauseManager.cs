@@ -1,9 +1,9 @@
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 using SceneHandler;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
-namespace AddIns
+namespace HelpersAndExtensions
 {
     public class PauseManager : Singleton<PauseManager>, Controls.IUIActions
     {

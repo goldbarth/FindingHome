@@ -1,13 +1,13 @@
 ﻿using BehaviorTree.Core;
-using BehaviorTree.NPCStats;
+using NpcSettings;
 
 namespace BehaviorTree.Nodes.Conditions
 {
     public class CheckIfFriendlyNPCHasEaten : ConditionNode
     {
-        private readonly SpitterStats _stats;
+        private readonly NpcData _stats;
 
-        public CheckIfFriendlyNPCHasEaten(SpitterStats stats)
+        public CheckIfFriendlyNPCHasEaten(NpcData stats)
         {
             _stats = stats;
         }

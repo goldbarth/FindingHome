@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AddIns
+namespace HelpersAndExtensions
 {
     /// <summary>
     /// Creating an instance of the class who inherits from Singleton.

@@ -1,29 +1,31 @@
-﻿using FiniteStateMachine.SearchAndDestroy.Controller;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BehaviorTree.Nodes.Composites;
 using BehaviorTree.Nodes.Conditions;
 using BehaviorTree.Nodes.Decorator;
 using BehaviorTree.Nodes.Actions;
-using BehaviorTree.Nodes.Custom;
-using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
+using NpcSettings;
 using UnityEngine;
 using System;
+using BehaviorTree.Nodes.StateMachine;
+using FiniteStateMachine.Controller;
 using Player;
 
 namespace BehaviorTree.Behaviors
 {
     public class FriendlyNpcBehavior : BaseTree
     {
-        [Header("Stats and References")]
-        [SerializeField] private SpitterStats _stats;
-        [SerializeField] private StateController _stateController;
+        [Header("Settings")]
+        [field:SerializeField] public NpcData Stats;
         [Header("Audio")]
         [SerializeField] private AudioSource _attackSound;
-        [SerializeField] private AudioSource _footstepSound;
+        [field:SerializeField] public AudioSource FootstepSound;
 
         private Dictionary<SpitterAnimationEvents, Action> _animationEventDictionary;
+        private StateController _stateController;
         private Animator _animator;
+        
+        private MulticastDelegate _animationEvent;
 
         private void OnEnable()
         {
@@ -38,15 +40,16 @@ namespace BehaviorTree.Behaviors
         private void Awake()
         {
             _animator = transform.parent.GetComponentInChildren<Animator>();
+            _stateController = GetComponent<StateController>();
         }
 
         protected override void Start()
         {
             base.Start();
 
-            _stats.HasEaten = false;
-            _stats.IsFarRange = false;
-            _stats.IsInAttackPhase = false;
+            Stats.HasEaten = false;
+            Stats.IsFarRange = false;
+            Stats.IsInAttackPhase = false;
             _animationEventDictionary = new Dictionary<SpitterAnimationEvents, Action>
             {
                 { SpitterAnimationEvents.ChangeController, ChangeToFriendlyAnimator },
@@ -64,41 +67,30 @@ namespace BehaviorTree.Behaviors
             {
                 new Sequence(new List<BaseNode>
                 {
-                    new CheckIfFriendlyNPCHasEaten(_stats),
+                    new CheckIfFriendlyNPCHasEaten(Stats),
+                    new ChaseAndAttackFsm(_stateController),
                     new Inverter(new List<BaseNode>
                     {
-                        new Sequence(new List<BaseNode>
-                        {
-                            new StateMachineNode(_stateController),
-                            // ATTACK STATE MACHINE HERE!!!
-                        })
+                        new CheckIfInAttackPhase(Stats)
                     }),
-                    new Inverter(new List<BaseNode>
-                    {
-                        new CheckIfInAttackPhase(_stats)
-                    }),
-                    new CheckForTargetInFOVRange(TargetType.Player, _stats, transform, blackboard),
-                    new Selector(new List<BaseNode>
-                    {
-                        new ActionFollowPlayer(RangeType.Protect, _stats, transform, _animator, _footstepSound, blackboard),
-                        new ActionIdle(RangeType.Protect, _stats, player, transform, _animator, _footstepSound, blackboard),
-                    })
+                    new FollowPlayerFsm(_stateController, RangeType.Protect),
                 }),
                 new Sequence(new List<BaseNode>
                 {
                     new Inverter(new List<BaseNode>
                     {
-                        new CheckIfFriendlyNPCHasEaten(_stats)
+                        new CheckIfFriendlyNPCHasEaten(Stats)
                     }),
-                    new CheckForTargetInFOVRange(TargetType.Player, _stats, transform, blackboard),
-                    new Selector(new List<BaseNode>
-                    {
-                        new ActionFollowPlayer(RangeType.Near, _stats, transform, _animator, _footstepSound, blackboard),
-                        new ActionIdle(RangeType.Near, _stats, player, transform, _animator, _footstepSound, blackboard),
-                        new ActionBackupPlayer(_stats, transform, _animator, _footstepSound, blackboard),
-                    }),
+                    // new CheckForTargetInFOVRange(TargetType.Player, Stats, transform, blackboard),
+                    // new Selector(new List<BaseNode>
+                    // {
+                    //     new ActionFollowPlayer(RangeType.Near, Stats, transform, _animator, FootstepSound, blackboard),
+                    //     new ActionIdle(RangeType.Near, Stats, player, transform, _animator, FootstepSound, blackboard),
+                    //     new ActionBackupPlayer(Stats, transform, _animator, FootstepSound, blackboard),
+                    // }),
+                    new FollowPlayerFsm(_stateController, RangeType.Near),
                     new CheckIfPlayerHasEatable(player),
-                    new ActionConsumeEatable(_stats, transform, _animator, blackboard),
+                    new ActionConsumeEatable(Stats, transform, _animator, blackboard),
                 })
             });
 
@@ -112,7 +104,7 @@ namespace BehaviorTree.Behaviors
 
         private void ChangeToFriendlyAnimator()
         {
-            _animator.runtimeAnimatorController = _stats.AnimatorController;
+            _animator.runtimeAnimatorController = Stats.AnimatorController;
         }
         
         private void PlayAttackSound()
@@ -123,23 +115,23 @@ namespace BehaviorTree.Behaviors
 
         private void SetFriendly()
         {
-            _stats.HasEaten = true;
+            Stats.HasEaten = true;
         }
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            Gizmos.color = _stats.ShowPlayerDetectionRadius ? Color.green : Color.clear;
-            Gizmos.DrawWireSphere(transform.position, _stats.DetectionRadiusPlayer);
-            Gizmos.color = _stats.ShowIdleSpace ? Color.magenta : Color.clear;
-            Gizmos.DrawWireSphere(transform.position, _stats.DetectionRadiusPlayer - _stats.NearRangeStopDistance - _stats.MaxBackupDistance);
-            Gizmos.DrawWireSphere(transform.position, _stats.DetectionRadiusPlayer - _stats.NearRangeStopDistance - _stats.DistanceBetweenOffset);
-            Gizmos.color = _stats.ShowEnemyDetectionRadius ? Color.red : Color.clear;
-            Gizmos.DrawWireSphere(transform.position, _stats.DetectionRadiusEnemy);
-            Gizmos.color = _stats.ShowBackupRadius ? Color.yellow : Color.clear;
-            Gizmos.DrawWireSphere(transform.position, _stats.DetectionRadiusPlayer - _stats.NearRangeStopDistance - _stats.MaxBackupDistance);
-            Gizmos.color = _stats.ShowFollowRadius ? Color.blue : Color.clear;
-            Gizmos.DrawWireSphere(transform.position, _stats.DetectionRadiusPlayer - _stats.NearRangeStopDistance - _stats.DistanceBetweenOffset);
+            Gizmos.color = Stats.ShowPlayerDetectionRadius ? Color.green : Color.clear;
+            Gizmos.DrawWireSphere(transform.position, Stats.DetectionRadiusPlayer);
+            Gizmos.color = Stats.ShowIdleSpace ? Color.magenta : Color.clear;
+            Gizmos.DrawWireSphere(transform.position, Stats.DetectionRadiusPlayer - Stats.NearRangeStopDistance - Stats.MaxBackupDistance);
+            Gizmos.DrawWireSphere(transform.position, Stats.DetectionRadiusPlayer - Stats.NearRangeStopDistance - Stats.DistanceBetweenOffset);
+            Gizmos.color = Stats.ShowEnemyDetectionRadius ? Color.red : Color.clear;
+            Gizmos.DrawWireSphere(transform.position, Stats.DetectionRadiusEnemy);
+            Gizmos.color = Stats.ShowBackupRadius ? Color.yellow : Color.clear;
+            Gizmos.DrawWireSphere(transform.position, Stats.DetectionRadiusPlayer - Stats.NearRangeStopDistance - Stats.MaxBackupDistance);
+            Gizmos.color = Stats.ShowFollowRadius ? Color.blue : Color.clear;
+            Gizmos.DrawWireSphere(transform.position, Stats.DetectionRadiusPlayer - Stats.NearRangeStopDistance - Stats.DistanceBetweenOffset);
         }
 #endif
     }

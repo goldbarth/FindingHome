@@ -1,12 +1,12 @@
-﻿using BehaviorTree.NPCStats;
+﻿using NpcSettings;
 using UnityEngine;
 
-namespace AddIns
+namespace HelpersAndExtensions
 {
     // Mini custom Vector2 library
     public struct Vec2
     {
-        private SpitterStats _stats;
+        private NpcData _stats;
 
         /// <summary>
         /// Calculates the direction from a to b with a ref. magnitude 1.
@@ -51,7 +51,7 @@ namespace AddIns
         /// <param name="endPoint">Vector2</param>
         /// <param name="range">float</param>
         /// <returns>Returns a distance with an offset.</returns>
-        public static bool DistanceBetween(SpitterStats stats, Transform startPoint, Transform endPoint, float range)
+        public static bool DistanceBetween(NpcData stats, Transform startPoint, Transform endPoint, float range)
         {
             var distance = Vector2.Distance(startPoint.position, endPoint.position);
             var stopDistance = stats.DetectionRadiusPlayer - range;
@@ -63,7 +63,7 @@ namespace AddIns
             return (distance < stopDistanceWithOffset && distance > backupDistanceWithOffset);
         }
         
-        public static bool BackupDistance(SpitterStats stats, Transform startPoint, Transform endPoint)
+        public static bool BackupDistance(NpcData stats, Transform startPoint, Transform endPoint)
         {
             var distance = Vector2.Distance(startPoint.position, endPoint.position);
             var stopDistance = stats.DetectionRadiusPlayer - stats.NearRangeStopDistance;

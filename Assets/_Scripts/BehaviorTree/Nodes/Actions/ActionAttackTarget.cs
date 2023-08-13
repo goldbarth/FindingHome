@@ -1,9 +1,9 @@
 ﻿using BehaviorTree.Blackboard;
-using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
 using Enemies.Summoner;
+using HelpersAndExtensions;
+using NpcSettings;
 using UnityEngine;
-using AddIns;
 
 namespace BehaviorTree.Nodes.Actions
 {
@@ -11,7 +11,7 @@ namespace BehaviorTree.Nodes.Actions
     {
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
-        private readonly SpitterStats _stats;
+        private readonly NpcData _stats;
         private readonly Rigidbody2D _rigid;
         private readonly Animator _animator;
         private readonly int _attackDamage;
@@ -21,7 +21,7 @@ namespace BehaviorTree.Nodes.Actions
         private Summoner _enemy;
         private float _attackCounter;
         
-        public ActionAttackTarget(SpitterStats stats, Transform transform, Animator animator, IBlackboard blackboard)
+        public ActionAttackTarget(NpcData stats, Transform transform, Animator animator, IBlackboard blackboard)
         {
             _rigid = transform.parent.GetComponent<Rigidbody2D>();
             _transform = transform.parent;

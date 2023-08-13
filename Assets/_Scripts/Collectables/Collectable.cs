@@ -1,6 +1,6 @@
 using DataPersistence;
 using UnityEngine;
-using AddIns;
+using HelpersAndExtensions;
 
 namespace Collectables
 {

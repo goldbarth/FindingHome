@@ -1,7 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using System;
 
-namespace AddIns
+namespace HelpersAndExtensions
 {
     /// <summary>
     /// Generates a guid for the id of the item.<br/>

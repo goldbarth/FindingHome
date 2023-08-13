@@ -1,5 +1,5 @@
-﻿using BehaviorTree.NPCStats;
-using BehaviorTree.Core;
+﻿using BehaviorTree.Core;
+using NpcSettings;
 using Player;
 
 namespace BehaviorTree.Nodes.Conditions
@@ -7,9 +7,9 @@ namespace BehaviorTree.Nodes.Conditions
     public class CheckIfPlayerWasCommanding : ConditionNode
     {
         private readonly PlayerController _player;
-        private readonly SpitterStats _stats;
+        private readonly NpcData _stats;
 
-        public CheckIfPlayerWasCommanding(SpitterStats stats, PlayerController player)
+        public CheckIfPlayerWasCommanding(NpcData stats, PlayerController player)
         {
             _player = player;
             _stats = stats;

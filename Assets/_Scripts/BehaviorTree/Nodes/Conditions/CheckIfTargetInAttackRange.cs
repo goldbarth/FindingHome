@@ -1,6 +1,6 @@
 ﻿using BehaviorTree.Blackboard;
-using BehaviorTree.NPCStats;
 using BehaviorTree.Core;
+using NpcSettings;
 using UnityEngine;
 
 namespace BehaviorTree.Nodes.Conditions
@@ -9,10 +9,10 @@ namespace BehaviorTree.Nodes.Conditions
     {
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
-        private readonly SpitterStats _stats;
+        private readonly NpcData _stats;
         private readonly float _attackRange;
         
-        public CheckIfTargetInAttackRange(SpitterStats stats, Transform transform, IBlackboard blackboard)
+        public CheckIfTargetInAttackRange(NpcData stats, Transform transform, IBlackboard blackboard)
         {
             _attackRange = stats.AttackRadius;
             _transform = transform.parent;

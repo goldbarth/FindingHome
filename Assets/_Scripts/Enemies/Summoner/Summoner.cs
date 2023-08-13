@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using BehaviorTree.NPCStats;
 using System.Collections;
+using NpcSettings;
 using UnityEngine;
 using System;
 
@@ -9,7 +9,7 @@ namespace Enemies.Summoner
     public class Summoner : Enemy
     {
         [Header("Spitter References")]
-        [SerializeField] private SpitterStats _stats;
+        [SerializeField] private NpcData _stats;
         [Header("Audio")]
         [SerializeField] private AudioSource _deathSound;
         [SerializeField] private AudioSource _summonSound;
@@ -122,7 +122,7 @@ namespace Enemies.Summoner
 
         private IEnumerator WaitTillGetHit()
         {
-            yield return new WaitForSeconds(_stats.HitDelay); //.33f
+            yield return new WaitForSeconds(_stats.EnemyAnimationHitDelay); //.33f
             _animator.SetTrigger("GetHit");
         }
     }

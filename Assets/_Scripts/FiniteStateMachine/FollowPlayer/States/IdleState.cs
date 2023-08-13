@@ -1,27 +1,27 @@
 ﻿using BehaviorTree.Blackboard;
+using FiniteStateMachine.Base;
 using HelpersAndExtensions;
-using BehaviorTree.Core;
 using NpcSettings;
 using UnityEngine;
-using System;
 using Player;
 
-namespace BehaviorTree.Nodes.Actions
+namespace FiniteStateMachine.FollowPlayer.States
 {
-    public class ActionIdle : ActionNode
+    public class IdleState : State
     {
         private readonly PlayerController _player;
         private readonly AudioSource _audioSource;
         private readonly IBlackboard _blackboard;
+        private readonly RangeType _rangeType;
         private readonly Transform _transform;
-        private readonly NpcData _stats;
         private readonly Rigidbody2D _rigid;
         private readonly Animator _animator;
-        
-        private Vector2 _previousPosition;
+        private readonly NpcData _stats;
+
         private readonly float _range;
 
-        public ActionIdle(Enum rangeType, NpcData stats, PlayerController player, Transform transform, Animator animator, AudioSource audioSource, IBlackboard blackboard)
+        public IdleState(RangeType rangeType, NpcData stats, PlayerController player, Transform transform,
+            Animator animator, AudioSource audioSource, IBlackboard blackboard)
         {
             switch (rangeType)
             {
@@ -35,46 +35,45 @@ namespace BehaviorTree.Nodes.Actions
                     _range = stats.ProtectRangeStopDistance;
                     break;
             }
-            
+
             _rigid = transform.parent.GetComponent<Rigidbody2D>();
             _transform = transform.parent;
             _audioSource = audioSource;
             _blackboard = blackboard;
+            _rangeType = rangeType;
             _animator = animator;
             _player = player;
             _stats = stats;
         }
-        
-        public override NodeState Evaluate()
+
+        protected override void OnUpdate()
         {
-            //_range = _stats.IsFarRange ? _stats.FarRangeStopDistance : _stats.ProtectRangeStopDistance;
-            
+            base.OnUpdate();
+            IdlePhase();
+        }
+
+        private void IdlePhase()
+        {
             var player = _blackboard.GetData<Transform>(_stats.PlayerTag);
             var direction = Vec2.Direction(_transform.position, player.position);
-            
-            if (Vec2.DistanceBetween(_stats, _transform, player, _range))
-            {
-                //TODO: random idle animations and/or behaviors, like looking around or jumping
-                _animator.SetBool("IsWalking", false);
-                _audioSource.Stop();
-                Vec2.LookAt(_rigid, direction);
 
-                if (_stats.HasBackedUp && !HasEatable())
-                {
-                    _rigid.velocity = new Vector2(_rigid.velocity.x, 0);
-                    _rigid.velocity += (-direction + Vector2.up) * _stats.JumpForce;
-                    
-                    _stats.HasBackedUp = false;
-                }
-                
-                State = NodeState.Running;
-                return State;
+            _animator.SetBool("IsWalking", false);
+            _audioSource.Stop();
+            Vec2.LookAt(_rigid, direction);
+
+            if (_stats.HasBackedUp && !HasEatable())
+            {
+                _rigid.velocity = new Vector2(_rigid.velocity.x, 0);
+                _rigid.velocity += (-direction + Vector2.up) * _stats.JumpForce;
+
+                _stats.HasBackedUp = false;
             }
 
-            State = NodeState.Failure;
-            return State;
+            StateController.ChangeState(_rangeType == RangeType.Protect
+                ? StateController.FriendlyFollowState
+                : StateController.SuspiciousFollowState);
         }
-        
+
         private bool HasEatable()
         {
             return _player.GetEatablesCount > 0;

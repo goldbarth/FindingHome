@@ -1,27 +1,26 @@
-﻿using FiniteStateMachine.SearchAndDestroy.Base;
-using BehaviorTree.Blackboard;
-using BehaviorTree.NPCStats;
+﻿using BehaviorTree.Blackboard;
+using HelpersAndExtensions;
 using Enemies.Summoner;
+using FiniteStateMachine.Base;
+using NpcSettings;
 using UnityEngine;
-using AddIns;
 
-namespace FiniteStateMachine.SearchAndDestroy.States
+namespace FiniteStateMachine.ChaseAndAttack.States
 {
     public class AttackState : State
     {
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
-        private readonly SpitterStats _stats;
         private readonly Animator _animator;
         private readonly Rigidbody2D _rigid;
+        private readonly NpcData _stats;
         
         private Vector2 _velocity;
         private Summoner _enemy;
         
         private float _attackCounter;
-        private bool _isAttacking;
 
-        public AttackState(SpitterStats stats, Transform transform, Blackboard blackboard)
+        public AttackState(NpcData stats, Transform transform, IBlackboard blackboard)
         {
             _transform = transform.parent;
             _rigid = _transform.GetComponentInChildren<Rigidbody2D>();
@@ -34,36 +33,31 @@ namespace FiniteStateMachine.SearchAndDestroy.States
         protected override void OnEnter()
         {
             base.OnEnter();
-            Debug.Log("AttackState OnEnter");
         }
 
         protected override void OnUpdate()
         {
             base.OnUpdate();
-            if (!_isAttacking && OnCanTransitionTo())
-                AttackPhase();
-            if (_isAttacking)
-                AttackPhase();
+            
+            if (_stats.IsInAttackPhase)
+                Attack();
+            
+            if (!_stats.IsInAttackPhase && StateController.IsInAttackRange.OnCanTransitionTo())
+                Attack();
         }
 
         protected override void OnExit()
         {
             base.OnExit();
-            Debug.Log("AttackState OnExit");
         }
         
-        #region Attack related methods
-        
-        private void AttackPhase()
+        private void Attack()
         {
             if (!_blackboard.ContainsKey(_stats.TargetTag))
-            {
-                Debug.Log("No target found");
                 return;
-            }
 
-            var target = SetEnemy();
-            if (!IsDistanceLessThanAttackRange(target))
+            var target = GetTarget();
+            if (!IsDistanceLessThanAttackRange(target) && !IsDistanceLessThanStopRange(target))
                 _transform.position = Vector2.SmoothDamp(_transform.position, target.position, ref _velocity,
                     _stats.SmoothTimeFast);
             
@@ -71,16 +65,17 @@ namespace FiniteStateMachine.SearchAndDestroy.States
 
             if (!IsInAttackPhase()) return;
             
+            _enemy = GetEnemy();
             if (_enemy.TakeDamage(_stats.AttackDamage))
                 EnemyIsDead();
         }
         
         private bool IsInAttackPhase()
         {
-            if (_attackCounter < _stats.AttackTimeTest)
+            if (_attackCounter < _stats.AttackTimeFSM)
             {
                 _attackCounter += Time.deltaTime;
-                _isAttacking = true;
+                _stats.IsInAttackPhase = true;
                 return false;
             }
 
@@ -94,7 +89,7 @@ namespace FiniteStateMachine.SearchAndDestroy.States
             _blackboard.ClearData(_stats.TargetTag);
             _animator.SetBool("IsAttacking", false);
             
-            _isAttacking = false;
+            _stats.IsInAttackPhase = false;
             
             StateController.AttackState.OnStateExit();
         }
@@ -104,41 +99,30 @@ namespace FiniteStateMachine.SearchAndDestroy.States
             var direction = Vec2.Direction(_transform.position, target.position);
             Vec2.LookAt(_rigid, direction);
         }
-
-        #endregion
         
-        #region Transition related methods
-        
-        protected override bool OnCanTransitionTo()
+        private bool IsDistanceLessThanStopRange(Transform target)
         {
-            var target = SetTarget();
-            if (target != null && IsDistanceLessThanAttackRange(target))
-            {
-                _isAttacking = true;
-                return true;
-            }
-            
-            return false;
+            var distance = Vector2.Distance(_transform.position, target.position);
+            return distance < _stats.TargetStopDistance;
         }
 
         private bool IsDistanceLessThanAttackRange(Transform target)
         {
             var distance = Vector2.Distance(_transform.position, target.position);
-            return distance < _stats.AttackRadius;
-        }
-        
-        #endregion
-        
-        private Transform SetTarget()
-        {
-            return _blackboard.GetData<Transform>(_stats.TargetTag);
+            if (!(distance < _stats.AttackRadius)) return false;
+            
+            _stats.IsInAttackPhase = true;
+            return true;
         }
 
-        private Transform SetEnemy()
+        private Summoner GetEnemy()
+        { 
+            return GetTarget().GetComponentInChildren<Summoner>();
+        }
+        
+        private Transform GetTarget()
         {
-            var target = _blackboard.GetData<Transform>(_stats.TargetTag);
-            _enemy = target.GetComponentInChildren<Summoner>();
-            return target;
+            return _blackboard.GetData<Transform>(_stats.TargetTag);
         }
     }
 }
