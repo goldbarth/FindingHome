@@ -3,7 +3,6 @@ using FiniteStateMachine.Base;
 using HelpersAndExtensions;
 using NpcSettings;
 using UnityEngine;
-using System;
 
 namespace FiniteStateMachine.FollowPlayer.States
 {
@@ -19,6 +18,8 @@ namespace FiniteStateMachine.FollowPlayer.States
 
         private readonly float _smoothTime;
         
+        private Transform _target;
+        private Vector3 _position;
         private Vector2 _velocity;
         private float _range;
 
@@ -54,20 +55,19 @@ namespace FiniteStateMachine.FollowPlayer.States
             base.OnUpdate();
             FollowPhase();
         }
-        
+
         private void FollowPhase()
         {
-            if (!_blackboard.ContainsKey(_stats.PlayerTag))
+            if (!IsPlayerKeyInBlackboard())
                 return;
             
             ChangeDistanceWhenHasEaten();
             
-            var player = SetPlayerData();
-            if (player == null) return;
+            _target = SetTarget();
+            if (_target == null) return;
             
-            
-            if (IsDistanceGreaterThanStopDistance(player, _transform.position))
-                MoveToPlayer(player);
+            if (IsDistanceGreaterThanStopDistance())
+                MoveToPlayer();
             else
             {
                 _velocity = Vector2.zero;
@@ -76,13 +76,14 @@ namespace FiniteStateMachine.FollowPlayer.States
                     : StateController.SuspiciousIdleState);
             }
         }
-
-        private void MoveToPlayer(Transform player)
+        
+        private void MoveToPlayer()
         {
-            var position = _transform.position;
-            var direction = Vec2.Direction(position, player.position);
+            _position = _transform.position;
             
-            _transform.position = Vector2.SmoothDamp(position, player.position, ref _velocity, _smoothTime);
+            _transform.position = CalculateSmoothDamp();
+            
+            var direction = GetDirection();
             Vec2.LookAt(_rigid, direction);
 
             _animator.SetBool("IsWalking", true);
@@ -91,20 +92,36 @@ namespace FiniteStateMachine.FollowPlayer.States
             _stats.HasBackedUp = false;
         }
 
+        private Vector2 CalculateSmoothDamp()
+        {
+            return Vector2.SmoothDamp(_position, _target.position, ref _velocity, _smoothTime);
+        }
+
+        private Vector2 GetDirection()
+        {
+            return Vec2.Direction(_position, _target.position);
+        }
+
         private void ChangeDistanceWhenHasEaten()
         {
             if (_stats.HasEaten)
                 _range = _stats.IsFarRange ? _stats.FarRangeStopDistance : _stats.ProtectRangeStopDistance;
         }
 
-        private Transform SetPlayerData()
+        private Transform SetTarget()
         {
             return _blackboard.GetData<Transform>(_stats.PlayerTag);
         }
         
-        private bool IsDistanceGreaterThanStopDistance(Transform player, Vector2 position)
+        private bool IsPlayerKeyInBlackboard()
         {
-            var distance = Vector2.Distance(position, player.position);
+            return _blackboard.ContainsKey(_stats.PlayerTag);
+        }
+
+        
+        private bool IsDistanceGreaterThanStopDistance()
+        {
+            var distance = Vector2.Distance(_position, _target.position);
             var stopDistance = _stats.DetectionRadiusPlayer - _range;
             return distance > stopDistance;
         }

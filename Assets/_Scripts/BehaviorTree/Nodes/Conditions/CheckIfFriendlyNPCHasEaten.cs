@@ -3,11 +3,11 @@ using NpcSettings;
 
 namespace BehaviorTree.Nodes.Conditions
 {
-    public class CheckIfFriendlyNPCHasEaten : ConditionNode
+    public class CheckIfFriendlyNpcHasEaten : ConditionNode
     {
         private readonly NpcData _stats;
 
-        public CheckIfFriendlyNPCHasEaten(NpcData stats)
+        public CheckIfFriendlyNpcHasEaten(NpcData stats)
         {
             _stats = stats;
         }

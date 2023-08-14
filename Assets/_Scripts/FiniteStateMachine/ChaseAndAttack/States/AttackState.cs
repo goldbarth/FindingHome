@@ -15,6 +15,7 @@ namespace FiniteStateMachine.ChaseAndAttack.States
         private readonly Rigidbody2D _rigid;
         private readonly NpcData _stats;
         
+        private Transform _target;
         private Vector2 _velocity;
         private Summoner _enemy;
         
@@ -29,26 +30,11 @@ namespace FiniteStateMachine.ChaseAndAttack.States
             _attackCounter = 0f;
             _stats = stats;
         }
-        
-        protected override void OnEnter()
-        {
-            base.OnEnter();
-        }
 
         protected override void OnUpdate()
         {
             base.OnUpdate();
-            
-            if (_stats.IsInAttackPhase)
-                Attack();
-            
-            if (!_stats.IsInAttackPhase && StateController.IsInAttackRange.OnCanTransitionTo())
-                Attack();
-        }
-
-        protected override void OnExit()
-        {
-            base.OnExit();
+            Attack();
         }
         
         private void Attack()
@@ -56,12 +42,14 @@ namespace FiniteStateMachine.ChaseAndAttack.States
             if (!_blackboard.ContainsKey(_stats.TargetTag))
                 return;
 
-            var target = GetTarget();
-            if (!IsDistanceLessThanAttackRange(target) && !IsDistanceLessThanStopRange(target))
-                _transform.position = Vector2.SmoothDamp(_transform.position, target.position, ref _velocity,
+            _target = GetTarget();
+            if (_target == null) return;
+            
+            if (!IsDistanceLessThanAttackRange() && !IsDistanceLessThanStopRange())
+                _transform.position = Vector2.SmoothDamp(_transform.position, _target.position, ref _velocity,
                     _stats.SmoothTimeFast);
             
-            SetLookDirection(target);
+            SetLookDirection();
 
             if (!IsInAttackPhase()) return;
             
@@ -94,21 +82,21 @@ namespace FiniteStateMachine.ChaseAndAttack.States
             StateController.AttackState.OnStateExit();
         }
         
-        private void SetLookDirection(Transform target)
+        private void SetLookDirection()
         {
-            var direction = Vec2.Direction(_transform.position, target.position);
+            var direction = Vec2.Direction(_transform.position, _target.position);
             Vec2.LookAt(_rigid, direction);
         }
         
-        private bool IsDistanceLessThanStopRange(Transform target)
+        private bool IsDistanceLessThanStopRange()
         {
-            var distance = Vector2.Distance(_transform.position, target.position);
+            var distance = Vector2.Distance(_transform.position, _target.position);
             return distance < _stats.TargetStopDistance;
         }
 
-        private bool IsDistanceLessThanAttackRange(Transform target)
+        private bool IsDistanceLessThanAttackRange()
         {
-            var distance = Vector2.Distance(_transform.position, target.position);
+            var distance = Vector2.Distance(_transform.position, _target.position);
             if (!(distance < _stats.AttackRadius)) return false;
             
             _stats.IsInAttackPhase = true;

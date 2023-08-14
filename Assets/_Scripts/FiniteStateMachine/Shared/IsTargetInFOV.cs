@@ -18,7 +18,7 @@ namespace FiniteStateMachine.Shared
             private readonly float _detectionRadius;
             private readonly string _key;
             
-            public IsTargetInFOV(Enum targetType, NpcData stats, Transform transform, IBlackboard blackboard) : base(stats, transform)
+            public IsTargetInFOV(Enum targetType, NpcData stats, Transform transform, IBlackboard blackboard)
             {
                 switch (targetType)
                 {
@@ -41,12 +41,12 @@ namespace FiniteStateMachine.Shared
 
             public override bool OnCanTransitionTo()
             {
-                var targetObject = _blackboard.GetData<object>(_key);
-                if (targetObject == null)
+                var target = GetTarget();
+                if (target == null)
                 {
                     // ReSharper disable once Unity.PreferNonAllocApi
                     var colliders = Physics2D.OverlapCircleAll(_transform.position, _detectionRadius, _layerMask);
-                    if (colliders.Length > 0)
+                    if (IsColliderDetected(colliders))
                     {
                         SetTargetObject(colliders);
                         return true;
@@ -56,14 +56,29 @@ namespace FiniteStateMachine.Shared
                 {
                     // ReSharper disable once Unity.PreferNonAllocApi
                     var colliders = Physics2D.OverlapCircleAll(_transform.position, _detectionRadius, _layerMask);
-                    if (colliders.Length == 0)
+                    if (IsNoColliderDetected(colliders))
                     {
                         _blackboard.ClearData(_key);
                         return false;
                     }
                 }
 
-                return false;
+                return true;
+            }
+
+            private object GetTarget()
+            {
+                return _blackboard.GetData<object>(_key);
+            }
+
+            private static bool IsNoColliderDetected(Collider2D[] colliders)
+            {
+                return colliders.Length == 0;
+            }
+
+            private static bool IsColliderDetected(Collider2D[] colliders)
+            {
+                return colliders.Length > 0;
             }
 
             private void SetTargetObject(Collider2D[] colliders)

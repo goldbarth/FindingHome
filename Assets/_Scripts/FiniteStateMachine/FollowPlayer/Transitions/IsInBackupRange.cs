@@ -14,7 +14,7 @@ namespace FiniteStateMachine.FollowPlayer.Transitions
 
         private Vector2 _velocity;
 
-        public IsInBackupRange(NpcData stats, Transform transform, IBlackboard blackboard) : base(stats, transform)
+        public IsInBackupRange(NpcData stats, Transform transform, IBlackboard blackboard)
         {
             _transform = transform.parent;
             _blackboard = blackboard;
@@ -23,9 +23,14 @@ namespace FiniteStateMachine.FollowPlayer.Transitions
 
         public override bool OnCanTransitionTo()
         {
-            var player = _blackboard.GetData<Transform>(_stats.PlayerTag);
+            var player = GetTarget();
             if(player == null) return false;
             return Vec2.BackupDistance(_stats, _transform, player);
+        }
+
+        private Transform GetTarget()
+        {
+            return _blackboard.GetData<Transform>(_stats.PlayerTag);
         }
     }
 }

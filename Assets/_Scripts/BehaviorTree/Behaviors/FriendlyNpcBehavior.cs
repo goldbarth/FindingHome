@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
+using FiniteStateMachine.FollowPlayer.States;
+using FiniteStateMachine.Controller;
 using BehaviorTree.Nodes.Composites;
 using BehaviorTree.Nodes.Conditions;
+using BehaviorTree.Nodes.FsmFusion;
 using BehaviorTree.Nodes.Decorator;
-using BehaviorTree.Nodes.Actions;
 using BehaviorTree.Core;
 using NpcSettings;
 using UnityEngine;
 using System;
-using BehaviorTree.Nodes.StateMachine;
-using FiniteStateMachine.Controller;
-using Player;
 
 namespace BehaviorTree.Behaviors
 {
@@ -18,29 +17,27 @@ namespace BehaviorTree.Behaviors
         [Header("Settings")]
         [field:SerializeField] public NpcData Stats;
         [Header("Audio")]
-        [SerializeField] private AudioSource _attackSound;
         [field:SerializeField] public AudioSource FootstepSound;
+        [SerializeField] private AudioSource _attackSound;
 
         private Dictionary<SpitterAnimationEvents, Action> _animationEventDictionary;
-        private StateController _stateController;
         private Animator _animator;
         
         private MulticastDelegate _animationEvent;
 
         private void OnEnable()
         {
-            ActionConsumeEatable.OnConsumeEatable += SetFriendly;
+            EatEdibleState.OnConsumeEdible += SetFriendly;
         }
 
         private void OnDisable()
         {
-            ActionConsumeEatable.OnConsumeEatable -= SetFriendly;
+            EatEdibleState.OnConsumeEdible -= SetFriendly;
         }
 
         private void Awake()
         {
             _animator = transform.parent.GetComponentInChildren<Animator>();
-            _stateController = GetComponent<StateController>();
         }
 
         protected override void Start()
@@ -59,38 +56,26 @@ namespace BehaviorTree.Behaviors
 
         protected override BaseNode SetupTree()
         {
-            var blackboard = new Blackboard.Blackboard();
-            var player = FindObjectOfType<PlayerController>();
-            
-
+            var stateController = GetComponent<StateController>();
             var root = new Selector(new List<BaseNode>
             {
                 new Sequence(new List<BaseNode>
                 {
-                    new CheckIfFriendlyNPCHasEaten(Stats),
-                    new ChaseAndAttackFsm(_stateController),
+                    new CheckIfFriendlyNpcHasEaten(Stats),
+                    new ChaseAndAttackFsm(stateController),
                     new Inverter(new List<BaseNode>
                     {
                         new CheckIfInAttackPhase(Stats)
                     }),
-                    new FollowPlayerFsm(_stateController, RangeType.Protect),
+                    new FollowPlayerFsm(stateController, RangeType.Protect),
                 }),
                 new Sequence(new List<BaseNode>
                 {
                     new Inverter(new List<BaseNode>
                     {
-                        new CheckIfFriendlyNPCHasEaten(Stats)
+                        new CheckIfFriendlyNpcHasEaten(Stats)
                     }),
-                    // new CheckForTargetInFOVRange(TargetType.Player, Stats, transform, blackboard),
-                    // new Selector(new List<BaseNode>
-                    // {
-                    //     new ActionFollowPlayer(RangeType.Near, Stats, transform, _animator, FootstepSound, blackboard),
-                    //     new ActionIdle(RangeType.Near, Stats, player, transform, _animator, FootstepSound, blackboard),
-                    //     new ActionBackupPlayer(Stats, transform, _animator, FootstepSound, blackboard),
-                    // }),
-                    new FollowPlayerFsm(_stateController, RangeType.Near),
-                    new CheckIfPlayerHasEatable(player),
-                    new ActionConsumeEatable(Stats, transform, _animator, blackboard),
+                    new FollowPlayerFsm(stateController, RangeType.Near),
                 })
             });
 
@@ -109,7 +94,6 @@ namespace BehaviorTree.Behaviors
         
         private void PlayAttackSound()
         {
-            Debug.Log("Play Attack Sound");
             _attackSound.PlayOneShot(_attackSound.clip);
         }
 
@@ -136,8 +120,3 @@ namespace BehaviorTree.Behaviors
 #endif
     }
 }
-
-// new CheckForTargetInFOVRange(FOVType.Target, _stats, transform, blackboard),
-// new ActionChaseTarget(_stats, transform, _animator, blackboard, _footstepSound),
-// new CheckIfTargetInAttackRange(_stats, transform, blackboard),
-// new ActionAttackTarget(_stats, transform, _animator, blackboard)

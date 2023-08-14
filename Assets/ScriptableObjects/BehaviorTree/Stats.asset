@@ -36,15 +36,16 @@ MonoBehaviour:
   AttackTime: 3
   EnemyAnimationHitDelay: 0.33
   AttackDamage: 10
-  SmoothTime: 1.8
+  SmoothTime: 1.2
   SmoothTimeFast: 0.75
-  SmoothTimeBackup: 0.47
+  SmoothTimeBackup: 0.3
   JumpForce: 1.5
-  HasEaten: 0
+  HasEaten: 1
   IsFarRange: 0
   IsInAttackPhase: 0
+  IsInChasePhase: 0
   HasBackedUp: 0
-  ShowEnemyDetectionRadius: 0
+  ShowEnemyDetectionRadius: 1
   ShowPlayerDetectionRadius: 0
   ShowBackupRadius: 0
   ShowFollowRadius: 0

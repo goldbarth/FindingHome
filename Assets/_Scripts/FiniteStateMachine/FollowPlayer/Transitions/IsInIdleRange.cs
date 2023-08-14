@@ -20,7 +20,7 @@ namespace FiniteStateMachine.FollowPlayer.Transitions
         
         private readonly float _range;
 
-        public IsInIdleRange(RangeType rangeType, NpcData stats, Transform transform,   IBlackboard blackboard) : base(stats, transform)
+        public IsInIdleRange(RangeType rangeType, NpcData stats, Transform transform,   IBlackboard blackboard)
         {
             switch (rangeType)
             {
@@ -42,9 +42,14 @@ namespace FiniteStateMachine.FollowPlayer.Transitions
 
         public override bool OnCanTransitionTo()
         {
-            var player = _blackboard.GetData<Transform>(_stats.PlayerTag);
+            var player = GetTarget();
             if(player == null) return false;
             return Vec2.DistanceBetween(_stats, _transform, player, _range);
+        }
+
+        private Transform GetTarget()
+        {
+            return _blackboard.GetData<Transform>(_stats.PlayerTag);
         }
     }
 }

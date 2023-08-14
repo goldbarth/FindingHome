@@ -15,7 +15,10 @@ namespace FiniteStateMachine.FollowPlayer.States
         private readonly Animator _animator;
         private readonly NpcData _stats;
 
+        private Vector2 _direction;
+        private Vector3 _position;
         private Vector2 _velocity;
+        private Transform _target;
 
         public BackupState(NpcData stats, Transform transform, Animator animator, AudioSource audioSource,
             IBlackboard blackboard)
@@ -36,19 +39,39 @@ namespace FiniteStateMachine.FollowPlayer.States
 
         private void BackupPhase()
         {
-            var player = _blackboard.GetData<Transform>(_stats.PlayerTag);
-            var position = _transform.position;
-            var reverseDirection = Vec2.Direction(player.position, position);
-            var backup = reverseDirection * _stats.MaxBackupDistance;
-
-            _transform.position = Vector2.SmoothDamp(position, position + (Vector3)backup, ref _velocity,
-                _stats.SmoothTimeBackup);
-            Vec2.LookAt(_rigid, reverseDirection);
+            _target = GetTarget();
+            _position = _transform.position;
+            _direction = GetDirection();
+            
+            var backupDistance = CalculateBackupDistance();
+            _transform.position = CalculateSmoothDamp(backupDistance);
+            
+            Vec2.LookAt(_rigid, _direction);
 
             _animator.SetBool("IsWalking", true);
             _audioSource.PlayOneShot(_audioSource.clip);
 
             _stats.HasBackedUp = true;
+        }
+
+        private Vector2 GetDirection()
+        {
+            return Vec2.Direction(_target.position, _position);
+        }
+
+        private Vector2 CalculateSmoothDamp(Vector2 backup)
+        {
+            return Vector2.SmoothDamp(_position, _position + (Vector3)backup, ref _velocity,_stats.SmoothTimeBackup);
+        }
+
+        private Vector2 CalculateBackupDistance()
+        {
+            return _direction * _stats.MaxBackupDistance;
+        }
+
+        private Transform GetTarget()
+        {
+            return _blackboard.GetData<Transform>(_stats.PlayerTag);
         }
     }
 }

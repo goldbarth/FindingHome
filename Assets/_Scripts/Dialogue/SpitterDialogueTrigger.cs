@@ -1,4 +1,4 @@
-using BehaviorTree.Nodes.Actions;
+using FiniteStateMachine.FollowPlayer.States;
 using UnityEngine;
 using System;
 
@@ -14,12 +14,12 @@ namespace Dialogue
 
         private void OnEnable()
         {
-            ActionConsumeEatable.OnConsumeEatable += TriggerSpitterDialogue;
+            EatEdibleState.OnConsumeEdible += TriggerSpitterDialogue;
         }
 
         private void OnDisable()
         {
-            ActionConsumeEatable.OnConsumeEatable -= TriggerSpitterDialogue;
+            EatEdibleState.OnConsumeEdible -= TriggerSpitterDialogue;
         }
 
         private void TriggerSpitterDialogue()

@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace FiniteStateMachine.ChaseAndAttack.States
 {
-    //TODO: Extract transition logic to a separate class
     public class ChaseState : State
     {
         private readonly AudioSource _audioSource;
@@ -31,16 +30,17 @@ namespace FiniteStateMachine.ChaseAndAttack.States
             _animator = animator;
             _stats = stats;
         }
-
+        
         protected override void OnEnter()
         {
             base.OnEnter();
+            ChasePhase();
         }
 
         protected override void OnUpdate()
         {
             base.OnUpdate();
-            
+
             ChasePhase();
         }
 
@@ -53,28 +53,30 @@ namespace FiniteStateMachine.ChaseAndAttack.States
 
         private void ChasePhase()
         {
-            if (!_blackboard.ContainsKey(_stats.TargetTag))
+            if (!IsTargetKeyInBlackboard())
                 return;
 
             var target = GetTarget();
             if (target == null) return;
 
             var direction = Vec2.Direction(_transform.position, target.position);
-            var distance = Vector2.Distance(_transform.position, target.position);
+            
+            _transform.position = Vector2.SmoothDamp(_transform.position, target.position, ref _velocity,
+                _stats.SmoothTimeFast);
+            Vec2.LookAt(_rigid, direction);
 
-            if (distance > _stats.TargetStopDistance)
-            {
-                _transform.position = Vector2.SmoothDamp(_transform.position, target.position, ref _velocity,
-                    _stats.SmoothTimeFast);
-                Vec2.LookAt(_rigid, direction);
+            _animator.SetBool("IsWalking", true);
+            _audioSource.PlayOneShot(_audioSource.clip);
+            _stats.IsInAttackPhase = true;
+        }
 
-                _animator.SetBool("IsWalking", true);
-                _audioSource.PlayOneShot(_audioSource.clip);
-            }
+        private bool IsTargetKeyInBlackboard()
+        {
+            return _blackboard.ContainsKey(_stats.TargetTag);
         }
 
         private Transform GetTarget()
-        {   
+        {
             return _blackboard.GetData<Transform>(_stats.TargetTag);
         }
     }

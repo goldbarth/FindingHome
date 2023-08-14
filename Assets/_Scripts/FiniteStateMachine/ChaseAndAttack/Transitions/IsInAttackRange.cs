@@ -11,8 +11,7 @@ namespace FiniteStateMachine.ChaseAndAttack.Transitions
         private readonly Transform _transform;
         private readonly NpcData _stats;
         
-        
-        public IsInAttackRange(NpcData stats, Transform transform, IBlackboard blackboard) : base(stats, transform)
+        public IsInAttackRange(NpcData stats, Transform transform, IBlackboard blackboard)
         {
             _transform = transform.parent;
             _blackboard = blackboard;

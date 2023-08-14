@@ -1,26 +1,26 @@
 ﻿using BehaviorTree.Blackboard;
+using HelpersAndExtensions;
 using BehaviorTree.Core;
 using NpcSettings;
 using UnityEngine;
 using System;
-using HelpersAndExtensions;
 
 namespace BehaviorTree.Nodes.Actions
 {
-    public class ActionConsumeEatable : ActionNode
+    public class ActionConsumeEdible : ActionNode
     {
         private readonly IBlackboard _blackboard;
         private readonly Transform _transform;
-        private readonly NpcData _stats;
         private readonly Rigidbody2D _rigid;
         private readonly Animator _animator;
+        private readonly NpcData _stats;
         private readonly float _timer;
         
         private Vector2 _velocity;
 
-        public static event Action OnConsumeEatable;
+        public static event Action OnConsumeEdible;
 
-        public ActionConsumeEatable(NpcData stats, Transform transform, Animator animator, IBlackboard blackboard)
+        public ActionConsumeEdible(NpcData stats, Transform transform, Animator animator, IBlackboard blackboard)
         {
             _transform = transform.parent.GetComponent<Transform>();
             _rigid = transform.parent.GetComponent<Rigidbody2D>();
@@ -42,7 +42,7 @@ namespace BehaviorTree.Nodes.Actions
             if (distance <= _stats.StopDistanceEat)
             {
                 _rigid.velocity = Vector2.zero;
-                OnConsumeEatable?.Invoke();
+                OnConsumeEdible?.Invoke();
                 _animator.SetTrigger("IsEatingTrigger");
                 
                 State = NodeState.Success;

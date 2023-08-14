@@ -59,11 +59,11 @@ namespace NpcSettings
         public float SmoothTimeBackup = .47f;
         [Range(.01f, 10f)]
         public float JumpForce = 1.5f;
-        [Range(.01f, 10f)]
         [Header("Flags")]
         public bool HasEaten;
         public bool IsFarRange;
         public bool IsInAttackPhase;
+        public bool IsInChasePhase;
         public bool HasBackedUp;
         [Header("Gizmos")]
         public bool ShowEnemyDetectionRadius = true;

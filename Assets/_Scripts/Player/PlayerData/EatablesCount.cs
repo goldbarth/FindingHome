@@ -1,4 +1,4 @@
-﻿using BehaviorTree.Nodes.Actions;
+﻿using FiniteStateMachine.FollowPlayer.States;
 using System.Collections;
 using DataPersistence;
 using Collectables;
@@ -16,13 +16,13 @@ namespace Player.PlayerData
         private void OnEnable()
         {
             EatableCounterTrigger.OnEatableCollectEvent += IncrementEatableCount;
-            ActionConsumeEatable.OnConsumeEatable += DecrementEatableCount;
+            EatEdibleState.OnConsumeEdible += DecrementEdibleCount;
         }
 
         private void OnDisable()
         {
             EatableCounterTrigger.OnEatableCollectEvent -= IncrementEatableCount;
-            ActionConsumeEatable.OnConsumeEatable -= DecrementEatableCount;
+            EatEdibleState.OnConsumeEdible -= DecrementEdibleCount;
         }
 
         private void Start()
@@ -66,7 +66,7 @@ namespace Player.PlayerData
             _eatableCount++;
         }
         
-        private void DecrementEatableCount()
+        private void DecrementEdibleCount()
         {
             _eatableCount--;
         }

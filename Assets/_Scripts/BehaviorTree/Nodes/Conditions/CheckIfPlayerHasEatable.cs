@@ -14,10 +14,10 @@ namespace BehaviorTree.Nodes.Conditions
         
         public override NodeState Evaluate()
         {
-            return State = HasEatable() ? NodeState.Success : NodeState.Failure;
+            return State = HasEdible() ? NodeState.Success : NodeState.Failure;
         }
 
-        private bool HasEatable()
+        private bool HasEdible()
         {
             return _player.GetEatablesCount > 0;
         }

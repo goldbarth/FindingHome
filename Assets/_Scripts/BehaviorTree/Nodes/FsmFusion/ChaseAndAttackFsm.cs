@@ -1,7 +1,7 @@
 ﻿using FiniteStateMachine.Controller;
 using BehaviorTree.Core;
 
-namespace BehaviorTree.Nodes.StateMachine
+namespace BehaviorTree.Nodes.FsmFusion
 {
     public class ChaseAndAttackFsm : StateMachineNode
     {

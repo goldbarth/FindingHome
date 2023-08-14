@@ -10,52 +10,61 @@ using UnityEngine;
 using Player;
 
 // Source of inspiration: https://gamedevbeginner.com/state-machines-in-unity-how-and-when-to-use-them/
+// https://medium.com/@abdullahahmetaskin/finite-state-machine-and-behavior-tree-fusion-3fcce33566
+// Not used the second link, but it's a good read and was letting me do my own implementation.
 namespace FiniteStateMachine.Controller
 {
     public class StateController : MonoBehaviour
     {
-        public IsInBackupRange IsInBackupRange;
-        public IsInAttackRange IsInAttackRange;
+        // Transitions:
         public IsInIdleRange IsInSuspiciousIdleRange;
         public IsInIdleRange IsInFriendlyIdleRange;
+        public HasPlayerEdible HasPlayerEdible;
+        public IsInAttackRange IsInAttackRange;
+        public IsInBackupRange IsInBackupRange;
         public IsTargetInFOV IsPlayerInFOV;
         public IsTargetInFOV IsEnemyInFOV;
 
+        // States:
         public FollowState SuspiciousFollowState;
         public FollowState FriendlyFollowState;
+        public EatEdibleState EatEdibleState;
         public IdleState SuspiciousIdleState;
         public IdleState FriendlyIdleState;
         public BackupState BackupState;
         public AttackState AttackState;
         public ChaseState ChaseState;
         
+        [HideInInspector] public FriendlyNpcBehavior NpcBehavior;
         private State _currentState;
-        private Animator _animator;
         
         private void Awake()
         {
-            _animator = transform.parent.GetComponentInChildren<Animator>();
-            var npcBehavior = GetComponent<FriendlyNpcBehavior>();
+            var transform = this.transform;
+            var animator = transform.parent.GetComponentInChildren<Animator>();
+            NpcBehavior = GetComponent<FriendlyNpcBehavior>();
             var player = FindObjectOfType<PlayerController>();
             var blackboard = new Blackboard();
             
-            ChaseState = new ChaseState(npcBehavior.Stats, transform, blackboard, _animator, npcBehavior.FootstepSound);
-            AttackState = new AttackState(npcBehavior.Stats, transform, blackboard);
+            ChaseState = new ChaseState(NpcBehavior.Stats, transform, blackboard, animator, NpcBehavior.FootstepSound);
+            AttackState = new AttackState(NpcBehavior.Stats, transform, blackboard);
             
-            BackupState = new BackupState(npcBehavior.Stats, transform, _animator, npcBehavior.FootstepSound, blackboard);
-            SuspiciousFollowState = new FollowState(RangeType.Near, npcBehavior.Stats, transform, _animator, npcBehavior.FootstepSound, blackboard);
-            FriendlyFollowState = new FollowState(RangeType.Protect, npcBehavior.Stats, transform, _animator, npcBehavior.FootstepSound, blackboard);
-            SuspiciousIdleState = new IdleState(RangeType.Near, npcBehavior.Stats, player, transform, _animator, npcBehavior.FootstepSound, blackboard);
-            FriendlyIdleState = new IdleState(RangeType.Protect, npcBehavior.Stats, player, transform, _animator, npcBehavior.FootstepSound, blackboard);
+            EatEdibleState = new EatEdibleState(NpcBehavior.Stats, transform, animator, blackboard);
+            BackupState = new BackupState(NpcBehavior.Stats, transform, animator, NpcBehavior.FootstepSound, blackboard);
+            SuspiciousFollowState = new FollowState(RangeType.Near, NpcBehavior.Stats, transform, animator, NpcBehavior.FootstepSound, blackboard);
+            FriendlyFollowState = new FollowState(RangeType.Protect, NpcBehavior.Stats, transform, animator, NpcBehavior.FootstepSound, blackboard);
+            SuspiciousIdleState = new IdleState(RangeType.Near, NpcBehavior.Stats, player, transform, animator, NpcBehavior.FootstepSound, blackboard);
+            FriendlyIdleState = new IdleState(RangeType.Protect, NpcBehavior.Stats, player, transform, animator, NpcBehavior.FootstepSound, blackboard);
             
-            IsPlayerInFOV = new IsTargetInFOV(TargetType.Player, npcBehavior.Stats, transform, blackboard);
-            IsEnemyInFOV = new IsTargetInFOV(TargetType.Enemy, npcBehavior.Stats, transform, blackboard);
-            IsInBackupRange = new IsInBackupRange(npcBehavior.Stats, transform, blackboard);
-            IsInAttackRange = new IsInAttackRange(npcBehavior.Stats, transform, blackboard);
-            IsInFriendlyIdleRange = new IsInIdleRange(RangeType.Protect, npcBehavior.Stats, transform, blackboard);
-            IsInSuspiciousIdleRange = new IsInIdleRange(RangeType.Near, npcBehavior.Stats, transform, blackboard);
+            HasPlayerEdible = new HasPlayerEdible(player);
+            IsInBackupRange = new IsInBackupRange(NpcBehavior.Stats, transform, blackboard);
+            IsPlayerInFOV = new IsTargetInFOV(TargetType.Player, NpcBehavior.Stats, transform, blackboard);
+            IsInFriendlyIdleRange = new IsInIdleRange(RangeType.Protect, NpcBehavior.Stats, transform, blackboard);
+            IsInSuspiciousIdleRange = new IsInIdleRange(RangeType.Near, NpcBehavior.Stats, transform, blackboard);
+            
+            IsEnemyInFOV = new IsTargetInFOV(TargetType.Enemy, NpcBehavior.Stats, transform, blackboard);
+            IsInAttackRange = new IsInAttackRange(NpcBehavior.Stats, transform, blackboard);
         }
-
 
         private void Update()
         {

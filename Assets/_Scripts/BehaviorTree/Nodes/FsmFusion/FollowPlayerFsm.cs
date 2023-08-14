@@ -2,7 +2,7 @@
 using FiniteStateMachine.Base;
 using BehaviorTree.Core;
 
-namespace BehaviorTree.Nodes.StateMachine
+namespace BehaviorTree.Nodes.FsmFusion
 {
     public class FollowPlayerFsm : StateMachineNode
     {
@@ -40,6 +40,8 @@ namespace BehaviorTree.Nodes.StateMachine
                 _stateController.ChangeState(_stateController.BackupState);
             if(_isInIdleRange.OnCanTransitionTo())
                 _stateController.ChangeState(_idleState);
+            if(_stateController.HasPlayerEdible.OnCanTransitionTo())
+                _stateController.ChangeState(_stateController.EatEdibleState);
             
             return NodeState.Failure;
         }
