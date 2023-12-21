@@ -131,6 +131,9 @@ namespace Player
         public int GetEatablesCount => _eatablesCount.GetCount();
 
         #endregion
+        
+        // Setters
+        public void ActivateMultiJump() => _multiJump = true;
 
         #region Events
 

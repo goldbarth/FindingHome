@@ -14,13 +14,9 @@ namespace HelpersAndExtensions
         
         protected virtual void Awake() 
         {
-            if (Instance == null)
-                Instance = (T)this;
-            else 
-            {
-                Destroy(gameObject);
-            }
-        
+            if (Instance == null) Instance = (T)this;
+            else Destroy(gameObject);
+            
             if(_dontDestroyOnLoad)
                 DontDestroyOnLoad(gameObject);
         }

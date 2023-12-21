@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using Player;
 
 namespace Dialogue
 {
@@ -8,6 +9,7 @@ namespace Dialogue
         [SerializeField] private TextAsset _inkJson;
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private bool _hasChoices = false;
+        [SerializeField] private bool _activatesMultiJump = false;
 
         private DialogueManager _dialogueManager;
         
@@ -24,6 +26,8 @@ namespace Dialogue
             if (col.CompareTag("Player") && !col.isTrigger)
             {
                 OnDialogueBoxTriggered?.Invoke(_inkJson, _audioSource, _hasChoices);
+                if (_activatesMultiJump)
+                    col.GetComponent<PlayerController>().ActivateMultiJump();
                 Destroy(gameObject);
             }
         }
