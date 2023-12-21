@@ -1,3 +1,5 @@
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using UnityEngine;
 
 namespace Audio
@@ -8,7 +10,14 @@ namespace Audio
 
         public void ButtonHoverSound()
         {
-            _audioSource.Play();
+            if (IsButtonInteractable())
+                _audioSource.Play();
+        }
+        
+        private bool IsButtonInteractable()
+        {
+            var currentButton = EventSystem.current.currentSelectedGameObject;
+            return currentButton != null && currentButton.GetComponent<Button>().interactable;
         }
     }
 }

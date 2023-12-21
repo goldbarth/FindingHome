@@ -454,6 +454,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3087349824124607792, guid: 9fcd5ec3742a5a34fb34efbc1ccf1ca4, type: 2}
     - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1823968682}
@@ -476,6 +484,14 @@ PrefabInstance:
     - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ButtonHoverSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2454034406004167327, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
       propertyPath: m_fontSize
@@ -855,6 +871,14 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1823968682}
@@ -877,6 +901,14 @@ PrefabInstance:
     - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ButtonHoverSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
@@ -1388,6 +1420,14 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1823968682}
@@ -1410,6 +1450,14 @@ PrefabInstance:
     - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ButtonHoverSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
@@ -1569,6 +1617,14 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1823968682}
@@ -1591,6 +1647,14 @@ PrefabInstance:
     - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ButtonHoverSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
@@ -2283,6 +2347,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3087349824124607792, guid: 9fcd5ec3742a5a34fb34efbc1ccf1ca4, type: 2}
     - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1823968682}
@@ -2305,6 +2377,14 @@ PrefabInstance:
     - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ButtonHoverSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2454034406004167327, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
       propertyPath: m_fontSize
@@ -2723,6 +2803,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3087349824124607792, guid: 9fcd5ec3742a5a34fb34efbc1ccf1ca4, type: 2}
     - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1823968682}
@@ -2745,6 +2833,14 @@ PrefabInstance:
     - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ButtonHoverSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2454034406004167327, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
       propertyPath: m_fontSize
@@ -2996,6 +3092,14 @@ PrefabInstance:
       value: SaveSlot
       objectReference: {fileID: 0}
     - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454034405946649826, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1823968682}
@@ -3139,6 +3243,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1823968682}
@@ -3150,6 +3262,14 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 55935508}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380303867039110129, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c044d0b8a01de3c4097cb74693924c9e, type: 3}
 --- !u!224 &8380303867039110124 stripped
@@ -3258,6 +3378,14 @@ PrefabInstance:
     - target: {fileID: 8858956921611562692, guid: 0b8a12abf94fa5a4ca6d5ee8808c392c, type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Audio.ButtonSounds, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8858956921611562692, guid: 0b8a12abf94fa5a4ca6d5ee8808c392c, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8858956921611562692, guid: 0b8a12abf94fa5a4ca6d5ee8808c392c, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8858956921611562692, guid: 0b8a12abf94fa5a4ca6d5ee8808c392c, type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
