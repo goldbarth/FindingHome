@@ -7,34 +7,19 @@ namespace DataPersistence
     [Serializable]
     public class GameData
     {
-        public Vector2 playerPosition;
-        public float masterVolume;
-        public float sfxVolume;
-        public float musicVolume;
-        public int eatableCount;
-        public int deathCount;
-        public int level;
+        public Vector2 playerPosition = Vector3.zero;
+        public float masterVolume = 0.8f;
+        public float sfxVolume = 0.8f;
+        public float musicVolume = 0.8f;
+        public int eatableCount = 0;
+        public int deathCount = 0;
+        public int level = 1;
         
         public long lastUpdated;
         
         // key = id of collectable, value = collected or not
-        public SerializableDictionary<string, bool> collectables;
-        public SerializableDictionary<string, bool> eatables;
-        
-        public GameData()
-        {
-            playerPosition = Vector3.zero;
-            eatableCount = 0;
-            deathCount = 0;
-            level = 1;
-            
-            masterVolume = 0.8f;
-            musicVolume = 0.8f;
-            sfxVolume = 0.8f;
-            
-            collectables = new SerializableDictionary<string, bool>();
-            eatables = new SerializableDictionary<string, bool>();
-        }
+        public SerializableDictionary<string, bool> collectables = new();
+        public SerializableDictionary<string, bool> eatables = new();
 
         // TODO: expand the range with (sub)goals for completion
         public int GetPercentageComplete()

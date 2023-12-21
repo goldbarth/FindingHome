@@ -8,7 +8,7 @@ namespace UI
     public class SaveSlot : MonoBehaviour
     {
         [Header("PROFILE")]
-        [SerializeField] private string _profileId = "save1";
+        [SerializeField] private string _profileId;
         
         [Space][Header("OBJECTS")]
         [SerializeField] private GameObject _noDataContent;
@@ -19,6 +19,7 @@ namespace UI
         [Space][Header("DELETE BUTTON")]
         [SerializeField] private Button _deleteButton;
         
+        public Button DeleteButton => _deleteButton;
         public bool HasData { get; private set; }
         
         private Button _saveSlotButton;

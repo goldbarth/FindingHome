@@ -281,8 +281,10 @@ namespace Player
         // (Base-)Jump with parameters
         private void Jump(Vector2 dir)
         {
-            Rigid.velocity = new Vector2(Rigid.velocity.x, 0);
-            Rigid.velocity += dir * _jumpForce;
+            var velocity = Rigid.velocity;
+            velocity = new Vector2(velocity.x, 0);
+            velocity += dir * _jumpForce;
+            Rigid.velocity = velocity;
             CanJump = false;
         }
 
@@ -291,7 +293,7 @@ namespace Player
         /// </summary>
         private void MultiJump()
         {
-            if (_dialogueManager is not null)
+            if (_dialogueManager != null)
                 if (_dialogueManager.IsInDialogue) return;
             if (!_multiJump || JumpCounter <= 0) return;
             Jump();

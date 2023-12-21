@@ -23,7 +23,7 @@ namespace UI
         
         private readonly string _overrideConfirmText = "Starting a new Game will override your current progress. Are you sure you want to continue?";
         private readonly string _deleteConfirmText = "Are you sure you want to delete your current progress?";
-        private bool _isLoadingGame;
+        private bool _isLoadGame;
         private bool _isNewGame;
 
         private void Awake()
@@ -45,16 +45,15 @@ namespace UI
         private void Update()
         {
             _background.SetActive(!GameManager.Instance.IsGamePaused);
-            foreach (var deleteButton in _deleteButtons)
-                deleteButton.gameObject.SetActive(!GameManager.Instance.IsGamePaused);
-            
+            // foreach (var deleteButton in _deleteButtons)
+            //     deleteButton.gameObject.SetActive(!GameManager.Instance.IsGamePaused);
         }
 
         public void OnSaveSlotClicked(SaveSlot saveSlot)
         {
             DisableSaveSlotsWhenEmpty();
 
-            if (_isLoadingGame)
+            if (_isLoadGame)
             {
                 // update the selected profile id to be used for data persistence
                 DataPersistenceManager.Instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
@@ -70,7 +69,7 @@ namespace UI
                     LoadSceneSaveGame();
                 }, () =>
                 { //cancel button callback "no"
-                    ActivateSaveSlots(_isLoadingGame);
+                    ActivateSaveSlots(_isLoadGame);
                 });
             }
             else // case new game - save slot is empty
@@ -95,10 +94,10 @@ namespace UI
                 _deleteConfirmText, () =>
                 { //confirm button callback "yes"
                     DataPersistenceManager.Instance.DeleteProfileData(saveSlot.GetProfileId());
-                    ActivateSaveSlots(_isLoadingGame);
+                    ActivateSaveSlots(_isLoadGame);
                 }, () =>
                 { //cancel button callback "no"
-                    ActivateSaveSlots(_isLoadingGame);
+                    ActivateSaveSlots(_isLoadGame);
                 });
         }
 
@@ -119,10 +118,10 @@ namespace UI
             
         }
 
-        private void ActivateSaveSlots(bool isLoadingGame)
+        private void ActivateSaveSlots(bool isLoadGame)
         {
-            // set the flag to indicate if a game is loading or starting a new one
-            _isLoadingGame = isLoadingGame;
+            // set the flag to indicate if a game will be loaded or starting a new one
+            _isLoadGame = isLoadGame;
             
             // load all of the profiles that exist
             var profilesGameData = DataPersistenceManager.Instance.GetAllProfilesGameData();
@@ -136,8 +135,11 @@ namespace UI
 
                 saveSlot.SetData(profileData);
 
-                if (profileData == null && isLoadingGame)
+                if (profileData == null && isLoadGame)
+                {
                     saveSlot.SetInteractable(false);
+                    Debug.Log("Skipping directory, all files are loaded or there are no existing file.");
+                }
                 else
                 {
                     saveSlot.SetInteractable(true);

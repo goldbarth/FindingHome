@@ -2515,6 +2515,34 @@ PrefabInstance:
       propertyPath: _audioSource
       value: 
       objectReference: {fileID: 9096829829756759473}
+    - target: {fileID: 9096829828874581847, guid: 17075b18722f4f448ad63d52dd3fc258, type: 3}
+      propertyPath: _buttons.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9096829828874581847, guid: 17075b18722f4f448ad63d52dd3fc258, type: 3}
+      propertyPath: _buttons.Array.data[0]
+      value: 
+      objectReference: {fileID: 920938595}
+    - target: {fileID: 9096829828874581847, guid: 17075b18722f4f448ad63d52dd3fc258, type: 3}
+      propertyPath: _buttons.Array.data[1]
+      value: 
+      objectReference: {fileID: 925198872}
+    - target: {fileID: 9096829828874581847, guid: 17075b18722f4f448ad63d52dd3fc258, type: 3}
+      propertyPath: _buttons.Array.data[2]
+      value: 
+      objectReference: {fileID: 74031188}
+    - target: {fileID: 9096829828874581847, guid: 17075b18722f4f448ad63d52dd3fc258, type: 3}
+      propertyPath: _buttons.Array.data[3]
+      value: 
+      objectReference: {fileID: 1989030721}
+    - target: {fileID: 9096829828874581847, guid: 17075b18722f4f448ad63d52dd3fc258, type: 3}
+      propertyPath: _buttons.Array.data[4]
+      value: 
+      objectReference: {fileID: 420378189}
+    - target: {fileID: 9096829828874581847, guid: 17075b18722f4f448ad63d52dd3fc258, type: 3}
+      propertyPath: _buttons.Array.data[5]
+      value: 
+      objectReference: {fileID: 9116364225014372615}
     - target: {fileID: 9096829828874581849, guid: 17075b18722f4f448ad63d52dd3fc258, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -2753,3 +2781,14 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &9116364225014372615 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9116364224619309583, guid: f969a814e297dbd44aa0352874118268, type: 3}
+  m_PrefabInstance: {fileID: 9116364225014372612}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9116364225014372613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
