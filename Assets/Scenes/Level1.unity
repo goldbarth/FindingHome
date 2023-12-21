@@ -12682,7 +12682,7 @@ Tilemap:
       - {fileID: 419398074, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
       - {fileID: -118794990, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
       - {fileID: -1491263886, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
-      m_AnimationSpeed: 10.15215
+      m_AnimationSpeed: 13.069532
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:
@@ -14858,6 +14858,10 @@ PrefabInstance:
     - target: {fileID: 7866204345927499767, guid: 37c0f09ba3f98224ba604bf82e7c0ffc, type: 3}
       propertyPath: m_Name
       value: SisterDialogueCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7866204345927499767, guid: 37c0f09ba3f98224ba604bf82e7c0ffc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37c0f09ba3f98224ba604bf82e7c0ffc, type: 3}

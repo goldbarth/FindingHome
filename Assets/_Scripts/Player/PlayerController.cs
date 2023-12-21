@@ -25,6 +25,9 @@ namespace Player
         [SerializeField] private bool _multiJump;
         [Tooltip("The amount of jumps when in air and Multi-Jump is enabled (2 or 3).")] 
         [Range(2, 3)] [SerializeField] private int _multiJumps;
+        
+        [Tooltip("If the Checkbox is checked Dashing is on.")]
+        [SerializeField] private bool _dashEnabled = true;
 
 
         [Header("WALL-FEATURES MODES")] [Space]
@@ -104,7 +107,6 @@ namespace Player
         private float _runSpeedValue;
 
         // Bools
-        private bool  _dashFeatureEnabled = false;
         private bool _facingRight = true;
         private bool _canDash = true;
         private bool _canMultiJump;
@@ -224,7 +226,7 @@ namespace Player
         
         public void OnDash(InputAction.CallbackContext context)
         {
-            if(!_dashFeatureEnabled) return;
+            if(!_dashEnabled) return;
             _dashStarted = context.performed;
             
             var dir = new Vector2(InputX, InputY);

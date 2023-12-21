@@ -19,6 +19,7 @@ namespace AnimationHandler
 
         private void Awake()
         {
+            _virtualCamera = GetComponent<CinemachineVirtualCamera>();
             Instance = this;
         }
 
