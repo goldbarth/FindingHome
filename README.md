@@ -22,5 +22,5 @@ The purpose is to develop this class as a 2D-Controller Prototype with different
 - Mono-/(NPC)Dialogue 
 - Mini Puzzle
 - Obstacles/Traps
-- Collectable (Coins)
+- Collectible (Coins)
 - Szene Animation

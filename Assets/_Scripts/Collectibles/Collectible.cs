@@ -1,10 +1,10 @@
 using DataPersistence;
-using UnityEngine;
 using HelpersAndExtensions;
+using UnityEngine;
 
-namespace Collectables
+namespace Collectibles
 {
-    public class Collectable : GenerateGuid, IDataPersistence
+    public class Collectible : GenerateGuid, IDataPersistence
     {
         [Header("Collectable Type")] 
         [SerializeField] private CollectableType _type;
@@ -26,9 +26,9 @@ namespace Collectables
         public void LoadData(GameData data)
         {
             if (_type == CollectableType.Eatable)
-                data.eatables.TryGetValue(_id, out _isCollected);
+                data.edibles.TryGetValue(_id, out _isCollected);
             else if (_type == CollectableType.Can) 
-                data.collectables.TryGetValue(_id, out _isCollected);
+                data.collectibles.TryGetValue(_id, out _isCollected);
 
             if (_isCollected)
                 _visual.gameObject.SetActive(false);
@@ -39,17 +39,17 @@ namespace Collectables
             if (_type == CollectableType.Eatable)
             {
                 // if the id is already in the dictionary, it is updated
-                if (data.eatables.ContainsKey(_id))
-                    data.collectables[_id] = _isCollected;
+                if (data.edibles.ContainsKey(_id))
+                    data.collectibles[_id] = _isCollected;
                 else // if the id is not in the dictionary, it is added
-                    data.eatables.Add(_id, _isCollected);
+                    data.edibles.Add(_id, _isCollected);
             }
             else if (_type == CollectableType.Can)
             {
-                if (data.collectables.ContainsKey(_id))
-                    data.collectables[_id] = _isCollected;
+                if (data.collectibles.ContainsKey(_id))
+                    data.collectibles[_id] = _isCollected;
                 else
-                    data.collectables.Add(_id, _isCollected);
+                    data.collectibles.Add(_id, _isCollected);
             }
         }
     }

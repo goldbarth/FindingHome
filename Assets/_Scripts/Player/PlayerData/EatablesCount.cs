@@ -1,7 +1,7 @@
 ﻿using FiniteStateMachine.FollowPlayer.States;
 using System.Collections;
+using Collectibles;
 using DataPersistence;
-using Collectables;
 using UnityEngine;
 
 namespace Player.PlayerData
@@ -15,13 +15,13 @@ namespace Player.PlayerData
 
         private void OnEnable()
         {
-            EatableCounterTrigger.OnEatableCollectEvent += IncrementEatableCount;
+            EdibleCounterTrigger.OnEdibleCollectEvent += IncrementEdibleCount;
             EatEdibleState.OnConsumeEdible += DecrementEdibleCount;
         }
 
         private void OnDisable()
         {
-            EatableCounterTrigger.OnEatableCollectEvent -= IncrementEatableCount;
+            EdibleCounterTrigger.OnEdibleCollectEvent -= IncrementEdibleCount;
             EatEdibleState.OnConsumeEdible -= DecrementEdibleCount;
         }
 
@@ -61,7 +61,7 @@ namespace Player.PlayerData
             _previousEatableCount = _eatableCount;
         }
 
-        private void IncrementEatableCount()
+        private void IncrementEdibleCount()
         {
             _eatableCount++;
         }
@@ -73,13 +73,13 @@ namespace Player.PlayerData
 
         public void LoadData(GameData data)
         {
-           _eatableCount = data.eatableCount;
+           _eatableCount = data.edibleCount;
            _isDataLoaded = true;
         }
 
         public void SaveData(GameData data)
         {
-            data.eatableCount = _eatableCount;
+            data.edibleCount = _eatableCount;
         }
     }
 }

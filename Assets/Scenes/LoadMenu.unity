@@ -2996,6 +2996,10 @@ PrefabInstance:
       value: UI.SaveSlotMenu, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2454034405539189017, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
+      propertyPath: _profileId
+      value: save1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2454034405539189017, guid: 665bd4836b5e7f740ae2f45787446f9e, type: 3}
       propertyPath: deleteButton
       value: 
       objectReference: {fileID: 8380303867039110125}

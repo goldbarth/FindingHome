@@ -10,10 +10,10 @@ using System;
 // Es ist recht umfangreich und ich habe es so gut es ging kommentiert. Ich hoffe, es ist verständlich genug.
 // Erstellen von Savegames mit ScriptableObjects sieht interessant aus, da hatte ich mich aber schon zu lange mit dem
 // Thema beschäftigt und wollte es nicht mehr ändern.
-// Pro´s:
+// Pros:
 // - PlayerPrefs ist nicht für die Speicherung von größeren Datenmengen geeignet und/oder
 // - BinaryFormatter wird nicht mehr unterstützt und sollte aus Sicherheitsgründen nicht mehr verwendet werden.
-// Con´s:
+// Cons:
 // - Es ist aufwendiger und komplexer.
 // - Für kleinere Projekte ist es nicht zwingend notwendig.
 // 
