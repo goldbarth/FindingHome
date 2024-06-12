@@ -1,3 +1,4 @@
+using DataPersistence;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using SceneHandler;
@@ -47,11 +48,12 @@ namespace HelpersAndExtensions
 
         public void OnPause(InputAction.CallbackContext context)
         {
-            Debug.Log("Is Paused: " + GameManager.Instance.IsGamePaused);
-            Debug.Log("Is Game Started: " + GameManager.Instance.IsGameStarted);
-            if (context.started && !GameManager.Instance.IsGamePaused && GameManager.Instance.IsGameStarted && 
-                                    !GameManager.Instance.IsMenuActive && !GameManager.Instance.IsSaveSlotMenuActive)
+            if (context.started && !GameManager.Instance.IsGamePaused && GameManager.Instance.IsGameStarted &&
+                !GameManager.Instance.IsMenuActive && !GameManager.Instance.IsSaveSlotMenuActive)
+            {
                 SceneLoader.Instance.LoadSceneAsync(_pauseMenuScene, _loadSceneMode);
+                DataPersistenceManager.Instance.SaveGame();
+            }
         }
     }
 }

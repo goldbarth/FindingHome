@@ -54,8 +54,6 @@ namespace DataPersistence
         // called after OnEnable and Awake but before Start
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            Debug.Log($"Scene Loaded: {scene.name}");
-
             // if the application has started, the menu audio profile is always selected
             if (GameManager.Instance.OnApplicationStart)
                 _selectedProfileId = MenuAudioProfileId;

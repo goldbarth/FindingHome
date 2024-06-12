@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System;
+using DataPersistence;
 using Player;
 
 namespace Dialogue
 {
-    public class DialogueBoxTrigger : MonoBehaviour
+    public class DialogueBoxTrigger : MonoBehaviour, IDataPersistence
     {
         [SerializeField] private TextAsset _inkJson;
         [SerializeField] private AudioSource _audioSource;
@@ -12,6 +13,7 @@ namespace Dialogue
         [SerializeField] private bool _activatesMultiJump = false;
 
         private DialogueManager _dialogueManager;
+        private bool _isDoorOpen;
         
         public static event Action<TextAsset ,AudioSource, bool> OnDialogueBoxTriggered;
 
@@ -22,7 +24,7 @@ namespace Dialogue
 
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (_dialogueManager.IsInDialogue) return;
+            if (_dialogueManager.IsInDialogue || _isDoorOpen) return;
             if (col.CompareTag("Player") && !col.isTrigger)
             {
                 OnDialogueBoxTriggered?.Invoke(_inkJson, _audioSource, _hasChoices);
@@ -31,5 +33,13 @@ namespace Dialogue
                 Destroy(gameObject);
             }
         }
+
+        public void LoadData(GameData data)
+        {
+            _isDoorOpen = data.isDoorOpen;
+        }
+
+        public void SaveData(GameData data)
+        { }
     }
 }

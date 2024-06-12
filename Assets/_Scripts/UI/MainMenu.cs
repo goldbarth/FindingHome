@@ -78,6 +78,7 @@ namespace UI
         {
             GameManager.Instance.IsGameStarted = true;
             DataPersistenceManager.Instance.ChangeSelectedProfileId(DataPersistenceManager.Instance.GetLatestProfileId());
+            DataPersistenceManager.Instance.SaveGame();
             SceneLoader.Instance.LoadSceneAsync(_continueCurrentGameScene, showProgress: true);
         }
         

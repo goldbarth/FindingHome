@@ -9,6 +9,7 @@ namespace DataPersistence
     {
         public Vector2 playerPosition = Vector3.zero;
         public bool isMultiJumpActive = false;
+        public bool isDoorOpen = false;
         public float masterVolume = 0.8f;
         public float sfxVolume = 0.8f;
         public float musicVolume = 0.8f;

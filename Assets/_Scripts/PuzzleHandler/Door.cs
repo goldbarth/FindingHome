@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using DataPersistence;
+using UnityEngine;
 
 namespace PuzzleHandler
 {
@@ -24,13 +26,15 @@ namespace PuzzleHandler
         {
             DoorOpener.OnDoorOpenEvent -= Open;
         }
-
-        private void Open()
+        
+        private void Open(bool isOpen)
         {
-            _openSound.Play();
+            if (!isOpen)
+                _openSound.Play();
+            
             _collider.enabled = false;
             _animator.Play("door_open");
-            Debug.Log("Door opened");
+            
         }
     }
 }

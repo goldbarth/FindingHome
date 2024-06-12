@@ -558,6 +558,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4157970296974458886, guid: 17b31d2da1383ed48af5580f19cb2a24, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17b31d2da1383ed48af5580f19cb2a24, type: 3}
 --- !u!1 &59116103
@@ -12690,7 +12694,7 @@ Tilemap:
       - {fileID: 419398074, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
       - {fileID: -118794990, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
       - {fileID: -1491263886, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
-      m_AnimationSpeed: 10.61492
+      m_AnimationSpeed: 12.6166725
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:
