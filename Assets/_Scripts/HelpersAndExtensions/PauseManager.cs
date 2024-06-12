@@ -49,7 +49,8 @@ namespace HelpersAndExtensions
         {
             Debug.Log("Is Paused: " + GameManager.Instance.IsGamePaused);
             Debug.Log("Is Game Started: " + GameManager.Instance.IsGameStarted);
-            if (context.started && !GameManager.Instance.IsGamePaused && GameManager.Instance.IsGameStarted)
+            if (context.started && !GameManager.Instance.IsGamePaused && GameManager.Instance.IsGameStarted && 
+                                    !GameManager.Instance.IsMenuActive && !GameManager.Instance.IsSaveSlotMenuActive)
                 SceneLoader.Instance.LoadSceneAsync(_pauseMenuScene, _loadSceneMode);
         }
     }

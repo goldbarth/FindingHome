@@ -6,6 +6,8 @@ public class GameManager : Singleton<GameManager>
     public bool OnRoomReset { get; set; }
     public bool IsNewGame { get; set; }
     public bool IsMenuActive { get; set; }
+    public bool IsOptionsMenuActive { get; set; }
+    public bool IsSaveSlotMenuActive { get; set; }
     public bool IsPauseMenuActive { get; set; }
     public bool OnApplicationStart { get; set; }
     public bool IsSelected { get; set; }

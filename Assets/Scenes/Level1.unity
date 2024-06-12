@@ -10930,6 +10930,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7146040938080208633, guid: ae9567524a8956e40b08d81a3fcc4d2b, type: 3}
+      propertyPath: _initializeDataIfNull
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146040938080208633, guid: ae9567524a8956e40b08d81a3fcc4d2b, type: 3}
+      propertyPath: _disableDataPersistence
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7146040938080208635, guid: ae9567524a8956e40b08d81a3fcc4d2b, type: 3}
       propertyPath: m_Name
       value: DataPersistanceManager
@@ -12682,7 +12690,7 @@ Tilemap:
       - {fileID: 419398074, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
       - {fileID: -118794990, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
       - {fileID: -1491263886, guid: 6761b3d15f91d3a469c0df1417b5e974, type: 3}
-      m_AnimationSpeed: 13.069532
+      m_AnimationSpeed: 10.61492
       m_AnimationTimeOffset: 0
       m_IsLooping: 1
   m_TileAssetArray:
@@ -14669,6 +14677,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6485689903279152359, guid: 0094219d2263f6a42b394821a5e7f07e, type: 3}
+      propertyPath: _dontDestroyOnLoad
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6485689903279152366, guid: 0094219d2263f6a42b394821a5e7f07e, type: 3}
       propertyPath: m_Name
       value: Player
@@ -14676,6 +14688,10 @@ PrefabInstance:
     - target: {fileID: 6485689903279152367, guid: 0094219d2263f6a42b394821a5e7f07e, type: 3}
       propertyPath: _wallSlide
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6485689903279152367, guid: 0094219d2263f6a42b394821a5e7f07e, type: 3}
+      propertyPath: _dashEnabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8661996951960408167, guid: 0094219d2263f6a42b394821a5e7f07e, type: 3}
       propertyPath: _audioSource

@@ -28,6 +28,7 @@ namespace UI
 
         private void Awake()
         {
+            GameManager.Instance.IsSaveSlotMenuActive = true;
             _saveSlots = GetComponentsInChildren<SaveSlot>();
             _mainMenu = FindObjectOfType<MainMenu>();
             
@@ -78,10 +79,13 @@ namespace UI
                 DataPersistenceManager.Instance.NewGame();
                 LoadSceneSaveGame();
             }
+            
+            GameManager.Instance.IsSaveSlotMenuActive = false;
         }
         
         private void LoadSceneSaveGame()
         {
+            GameManager.Instance.IsSaveSlotMenuActive = false;
             GameManager.Instance.IsGameStarted = true;
             DataPersistenceManager.Instance.SaveGame();
             SceneLoader.Instance.LoadSceneAsync(_sceneToLoad, showProgress: true);
@@ -93,6 +97,7 @@ namespace UI
             _confirmationPopupMenu.ActivateMenu(
                 _deleteConfirmText, () =>
                 { //confirm button callback "yes"
+                    GameManager.Instance.IsSaveSlotMenuActive = false;
                     DataPersistenceManager.Instance.DeleteProfileData(saveSlot.GetProfileId());
                     ActivateSaveSlots(_isLoadGame);
                 }, () =>
@@ -103,12 +108,14 @@ namespace UI
 
         public void OnBackButtonClicked()
         {
+            GameManager.Instance.IsSaveSlotMenuActive = false;
             if (_mainMenu != null) _mainMenu.DisableButtonsDependingOnData();
             SceneLoader.Instance.UnloadSceneAsync();
         }
 
         private void OnDestroy()
         {
+            GameManager.Instance.IsSaveSlotMenuActive = false;
             if (!GameManager.Instance.IsGamePaused)
                 GameManager.Instance.IsMenuActive = true;
             

@@ -41,15 +41,21 @@ namespace Player
 
         private IEnumerator RespawnPositionCoroutine(Transform closestRespawnPoint)
         {
-            DataPersistenceManager.Instance.LoadGame();
-            transform.position = closestRespawnPoint.position;
             GameManager.Instance.IsRespawning = true;
+            
+            DataPersistenceManager.Instance.SaveGame();
+            DataPersistenceManager.Instance.LoadGame();
+            
+            transform.position = closestRespawnPoint.position;
+            
+            GameManager.Instance.IsRespawning = false;
+            
+            // Respawn animation
             _animator.Play("player_appear_teleport");
             _rigidBody.constraints = RigidbodyConstraints2D.FreezePosition;
             yield return new WaitForSeconds(_respawnTime);
             _rigidBody.constraints = RigidbodyConstraints2D.None;
             _rigidBody.constraints = RigidbodyConstraints2D.FreezeRotation;
-            GameManager.Instance.IsRespawning = false;
         }
     }
 }

@@ -10,12 +10,12 @@ namespace UI
     {
         [Space][Header("MENU BUTTONS")]
         [Space][SerializeField] private Button _resumeGameButton;
-        [Space][SerializeField] private Button _loadGameButton;
+        // [Space][SerializeField] private Button _loadGameButton;
         [Space][Header("BUTTON LAYOUT")]
         [Space][SerializeField] private GameObject _buttonLayout;
         [Space][Header("SCENES TO LOAD")]
         [Space][SerializeField] private SceneIndices _optionsMenuScene;
-        [Space][SerializeField] private SceneIndices _loadMenuScene;
+        // [Space][SerializeField] private SceneIndices _loadMenuScene;
         [Space][SerializeField] private SceneIndices _mainMenuScene;
         [Space][Header("SCENE MODE")]
         [Space][SerializeField] private LoadSceneMode _loadSceneMode = LoadSceneMode.Additive;
@@ -25,7 +25,7 @@ namespace UI
             Time.timeScale = 0f;
             GameManager.Instance.IsPauseMenuActive = true;
             GameManager.Instance.IsGamePaused = true;
-            DisableButtonDependingOnData();
+            // DisableButtonDependingOnData();
         }
 
         private void Update()
@@ -43,12 +43,12 @@ namespace UI
             Time.timeScale = 1f;
         }
 
-        private void DisableButtonDependingOnData()
-        {
-            // Check if there is a save file and enable the continue button if there is
-            if (DataPersistenceManager.Instance.HasGameData()) return;
-            _loadGameButton.interactable = false;
-        }
+        // private void DisableButtonDependingOnData()
+        // {
+        //     // Check if there is a save file and enable the continue button if there is
+        //     if (DataPersistenceManager.Instance.HasGameData()) return;
+        //     _loadGameButton.interactable = false;
+        // }
 
         #region Button Clicks
         
@@ -69,10 +69,10 @@ namespace UI
             DataPersistenceManager.Instance.SaveGame();
         }
         
-        public void OnLoadMenuClicked()
-        {
-            SceneLoader.Instance.LoadSceneAsync(_loadMenuScene, _loadSceneMode);
-        }
+        // public void OnLoadMenuClicked()
+        // {
+        //     SceneLoader.Instance.LoadSceneAsync(_loadMenuScene, _loadSceneMode);
+        // }
         
         public void OnMainMenuClicked()
         {

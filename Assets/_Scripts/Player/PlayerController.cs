@@ -27,7 +27,7 @@ namespace Player
         [Range(2, 3)] [SerializeField] private int _multiJumps;
         
         [Tooltip("If the Checkbox is checked Dashing is on.")]
-        [SerializeField] private bool _dashEnabled = true;
+        [SerializeField] private bool _dashEnabled;
 
 
         [Header("WALL-FEATURES MODES")] [Space]
@@ -134,6 +134,9 @@ namespace Player
 
         #endregion
         
+        // Getters
+        public bool IsMultiJumpActive() => _multiJump;
+        
         // Setters
         public void ActivateMultiJump() => _multiJump = true;
 
@@ -156,6 +159,8 @@ namespace Player
             _controls = new Controls();
             _controls.Gameplay.SetCallbacks(this);
             JumpAction = _controls.Gameplay.Jump;
+            
+            GameManager.Instance.IsMenuActive = false;
         }
 
         private void OnEnable()
@@ -215,8 +220,8 @@ namespace Player
 
         public void OnRun(InputAction.CallbackContext context)
         {
-            //if (InputX != 0)
-            //    IsRunning = context.action.IsPressed();
+            if (InputX != 0)
+                IsRunning = context.action.IsPressed();
         }
 
         public void OnJump(InputAction.CallbackContext context)

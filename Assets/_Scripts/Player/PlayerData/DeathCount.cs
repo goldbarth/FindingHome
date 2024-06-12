@@ -1,10 +1,11 @@
 using DataPersistence;
 using HelpersAndExtensions;
 using ObstacleHandler;
+using UnityEngine;
 
 namespace Player.PlayerData
 {
-    public class DeathCount : Singleton<DeathCount>, IDataPersistence
+    public class DeathCount : MonoBehaviour, IDataPersistence
     {
         private int _deathCount;
         
@@ -21,6 +22,7 @@ namespace Player.PlayerData
         private void OnPlayerDeath()
         {
             _deathCount++;
+            Debug.Log("Death Count: " + _deathCount);
         }
 
         public void LoadData(GameData data)
@@ -31,6 +33,7 @@ namespace Player.PlayerData
         public void SaveData(GameData data)
         {
             data.deathCount = _deathCount;
+            Debug.Log("Death Count (data): " + data.deathCount);
         }
     }
 }

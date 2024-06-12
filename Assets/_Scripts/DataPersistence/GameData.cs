@@ -8,6 +8,7 @@ namespace DataPersistence
     public class GameData
     {
         public Vector2 playerPosition = Vector3.zero;
+        public bool isMultiJumpActive = false;
         public float masterVolume = 0.8f;
         public float sfxVolume = 0.8f;
         public float musicVolume = 0.8f;
