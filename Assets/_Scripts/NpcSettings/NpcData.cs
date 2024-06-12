@@ -1,5 +1,4 @@
-﻿using UnityEditor.Animations;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace NpcSettings
 {
@@ -14,7 +13,7 @@ namespace NpcSettings
         public string TargetTag = "target";
         [Header("Components")]
         [Tooltip("Get switched when becomes friendly.")]
-        public AnimatorController AnimatorController;
+        public RuntimeAnimatorController AnimatorController;
         [Header("Radii")]
         [Range(.5f, 10f)]
         public float DetectionRadiusEnemy = 4f;

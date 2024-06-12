@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.InputSystem;
 using System.Collections;
 using Player.PlayerData;
@@ -159,7 +160,10 @@ namespace Player
             _controls = new Controls();
             _controls.Gameplay.SetCallbacks(this);
             JumpAction = _controls.Gameplay.Jump;
-            
+        }
+
+        private void Start()
+        {
             GameManager.Instance.IsMenuActive = false;
         }
 
